@@ -1979,7 +1979,7 @@ def create_feedback(request):
 		# s.set_debuglevel(1)
 		# do the smtp auth; sends ehlo if it hasn't been sent already
 		
-		email = EmailMessage(title+' from: '+from_email, message to=['jackdonmclovin@gmail.com'])
+		email = EmailMessage(title+' from: '+from_email, message + "BablyonPolice.com", to=['jackdonmclovin@gmail.com'])
 		email.send()
 		return redirect('Bable:thanks')
 	registerform = UserCreationForm()
