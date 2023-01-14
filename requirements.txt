@@ -3,7 +3,7 @@ whitenoise==5.3.0
 drf-writable-nested==0.6.3
 django-paypal==1.1.2
 django-mptt==0.13.4
-Pillow==9.2.0
+Pillow==9.3.0
 numpy==1.22.2
 psycopg2==2.9.3
 psycopg2-binary==2.9.3
@@ -21,7 +21,7 @@ Automat==0.8.0
 beautifulsoup4==4.7.1
 boto==2.49.0
 cachetools==3.0.0
-certifi==2018.11.29
+certifi==2022.12.07
 chardet==3.0.4
 constantly==15.1.0
 cryptography==36.0.1
