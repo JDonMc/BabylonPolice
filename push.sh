@@ -12,7 +12,7 @@ git add .
 sleep 1
 git commit -m "auto"
 sleep 1
-git push origin
+git push --set-upstream origin main
 sleep 1
 git push heroku main:main --force
 sleep 1
