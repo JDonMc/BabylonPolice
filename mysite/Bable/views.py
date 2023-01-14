@@ -1967,7 +1967,6 @@ def feedback(request):
 
 	return render(request, 'feedback.html', {'contact_form':contact_form, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
 
-import smtplib
 
 def create_feedback(request):
 	contactform = ContactForm(request.POST)
@@ -1975,16 +1974,13 @@ def create_feedback(request):
 		from_email = contactform.cleaned_data['from_email']
 		title = contactform.cleaned_data['title']
 		message = contactform.cleaned_data['message']
-		s = smtplib.SMTP_SSL('smtp.gmail.com')
+		
 		# uncomment if interested in the actual smtp conversation
 		# s.set_debuglevel(1)
 		# do the smtp auth; sends ehlo if it hasn't been sent already
-		s.login('kranked354@gmail.com', 'clnvaqfrlrhtfmpb')
-
-		s.sendmail(from_email, 'kranked354@gmail.com', "Subject: {}\n\n{}".format(title+' from: '+from_email, message))
-		s.quit()
-		#email = EmailMessage(title, message, from_email=from_email, to=['jackdonmclovin@gmail.com'])
-		#email.send()
+		
+		email = EmailMessage(title+' from: '+from_email, message to=['jackdonmclovin@gmail.com'])
+		email.send()
 		return redirect('Bable:thanks')
 	registerform = UserCreationForm()
 	
