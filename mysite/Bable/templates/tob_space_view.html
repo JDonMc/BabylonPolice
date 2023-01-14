@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+
+{% block title %}
+Space: {{ users_space.the_space_itself.the_word_itself }} - Dream Cloud Middle Men
+{% endblock %}
+
+{% block wordsearch %}
+	<form action="{% url 'Bable:apply_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles1"/>
+		<datalist id=saved_votestyles1>
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Apply</button>
+	</form>
+	<form action="{% url 'Bable:exclude_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles2" />
+		<datalist id=saved_votestyles2>
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Exclude</button>
+	</form>
+
+{% endblock %}
+
+{% block authenticatedposts %}
+	<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view' user_anon.username.username %}">User: {{ user_anon.username.username }}</a>; <a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}">Space: {{ users_space.the_space_itself.the_word_itself }}</a>
+		</h2>
+		{% if users_space.author.username == request.user.username %}
+		<div class=space_edit>
+			<form action="{% url 'Bable:users_space_edit' users_space.id %}">
+				{% csrf_token %}
+				{{ spaceform }}
+				<button type=submit>Apply</button>
+			</form>
+		</div>
+		<div class=space_delete>
+			<a href="{% url 'Bable:delete_own_spac' request.user.username users_space.to_source.dictionary.the_dictionary_itself users_space.the_space_itself.the_word_itself users_space.id %}">X</a>
+		</div>
+		{% endif %}
+		<div class=space_sponsor>
+			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.author.username users_space.id 0 %}" method=post>
+				{% csrf_token %}
+				{{ sponsorform }}
+				<button type=submit>Sponsor</button>
+			</form>
+		</div>
+	</div>
+	<div class=space>
+		<div class=space_itself>
+			<a href="{% url 'Bable:tob_users_space' users_space.author.username users_space.id 0 %}">{{ users_space.the_space_itself.the_word_itself }}</a>
+		</div>
+		<div class=space_author style="padding-left: 2px; border-left: solid 1px;">
+			Author: <a href="{% url 'Bable:tob_user_view_count' users_space.author.username 0 %}">{{ users_space.author.username }}</a>
+		</div>
+		<div class=space_viewcount style="padding-left: 2px; border-left: solid 1px;">
+			Views: {{ users_space.viewcount }}
+		</div>
+		<div class=space_latest style="padding-left: 2px; border-left: solid 1px;">
+			Changed: {{ users_space.latest_change_date|naturaltime }}
+		</div>
+		<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+			Posts: {{ users_space.posts.count }}
+		</div>
+		<div class=space_votes style="padding-left: 2px; border-left: solid 1px;">
+			Votes: {{ users_space.votes.count }}
+		</div>
+		<div class=space_sponsors style="padding-left: 2px; border-left: solid 1px;">
+			Sponsors: {{ users_space.sponsors.count }}
+		</div>
+		<div class=space_voters style="padding-left: 2px; border-left: solid 1px;">
+			Approved Voters: {{ users_space.latest_change_date|naturaltime }}
+		</div>
+		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
+			Intro: {{ users_space.sidebar|urlize }}
+		</div>
+		<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
+			{% if users_space.for_sale %}
+			Price: {{ users_space.entry_fee }} Entry Fee + {{ users_space.continuation_fee }} Subscription Fee + {{ users_space.the_space_itself.home_dictionary.entry_fee }}  Dictionary Entry Fee + {{ users_space.the_space_itself.home_dictionary.continuation_fee }} Dictionary Subscription Fee
+			{% else %}
+			Not for sale
+			{% endif %}
+		</div>
+		<div class=space_source style="padding-left: 2px; border-left: solid 1px;">
+			<a href="{% url 'Bable:tob_users_dic' users_space.the_space_itself.home_dictionary.author.username users_space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ users_space.the_space_itself.dictionary.the_dictionary_itself }}</a>
+		</div>
+		<div class=space_save style="padding-left: 2px; border-left: solid 1px;">
+			{% if space in loggedinanon.purchased_spaces %}
+			<a style="background-color: grey;" href="{% url 'Bable:tob_remove_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Remove</a>
+			{% else %}
+			<form action="{% url 'Bable:submit_buy_space_form' users_space.id %}" method=post>
+				{% csrf_token %}
+				<button type=submit>Buy</button>
+			</form>
+			{% endif %}
+			{% if space in loggedinanon.saved_spaces %}
+			<a style="background-color: grey;" href="{% url 'Bable:tob_unsave_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Unsave</a>
+			{% else %}
+			<a style="background-color: grey;" href="{% url 'Bable:tob_save_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Save</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class=spacesposts>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_space' user_anon.username.username users_space.id 0 %}"><h3>Posts:</h3></a>
+		</div>
+		<div class=possectionsort>
+			<div id=possortnav>
+				Sort: {{ user_anon.get_post_sort_display }}
+			</div>
+			<div class=dropdown-content-pos-sort>
+				<div class=popular>
+					<div class=viral>
+						<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
+					</div>
+					<div class="early">
+						<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
+					</div>
+					<div class="freshest">
+						<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
+					</div>
+					<div class="eldest">
+						<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
+					</div>
+					<div class="uniques">
+						<a href="{% url 'Bable:change_post_sort' 'uniques' %}">Uniques</a>
+					</div>
+					<div class="voters">
+						<a href="{% url 'Bable:change_post_sort' 'voters' %}">Voters</a>
+					</div>
+				</div>
+				<div class=stats>
+					<div class=starter>
+						<a href="{% url 'Bable:change_post_sort' 'broadness' %}">Broadness</a>
+					</div>
+					<div class=useful>
+						<a href="{% url 'Bable:change_post_sort' 'intricacy' %}">Intricacy</a>
+					</div>
+					<div class=encourage>
+						<a href="{% url 'Bable:change_post_sort' 'talkative' %}">Talkative</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'homes' %}">Homes</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'encouraged' %}">Encouraged</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class=posts>
+		{% if space_viewable %} 
+			{% for post in spaces_posts.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.url %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+						{% else %}
+							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+						{% endif %}
+					</div>
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% if post.author.username == user_anon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+					<div class=postsponsors>
+						{% if users_space.sponsors.count %}
+							<a href="{% url 'Bable:clickthrough' post.author.username users_space.max_sponsor.id %}"><img src="{{ users_space.max_sponsor.img }}" style="height: 6em; width: 6em;"></a>
+						{% else %}
+							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+						{% endif %}
+					</div>
+				</div>
+				<div class=postbody style="margin-right: 8em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postwords>
+					Words:
+					{% for word in post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+						{{ word.the_word_itself }}
+					</a>
+					{% endfor %}
+				</div>
+				<div class=postvotes>
+					Votes:
+					{% for vote in post.votes.all %}
+					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_word_itself %}">{{ vote.the_vote_style.the_word_itself }}</a>
+					{% endfor %}
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				This user either has not marked their post, or you can't smell what's under your nose, iykwim.
+			</div>
+		{% endif %}
+		</div>
+		<div class=sponsor>
+			{% for spon in users_sponsors %}
+			<div class=spaces_sponsor>
+				<div class=the_sponsorship_phrase>
+					Phrase: <a href="{% url 'Bable:clickthrough' spon.author.username spon.id %}">{{ spon.the_sponsorship_phrase }}</a>
+				</div>
+				<div class=spon-id>
+					ID: {{ spon.id }}
+				</div>
+				<div class=spon_latest>
+					Latest: {{ spon.latest_change_date }}
+				</div>
+				{% if spon.author.username == request.user.username %}
+				<div class=spon-delete>
+					<a href="{% url 'Bable:delete_own_spons' spon.id %}"><h4>X</h4></a>
+				</div>
+				{% endif %}
+				{% if spon.img %}<img src='{{ spon.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+				<div class=spon_price_limit>
+					Price: {{ spon.price_limit }}
+				</div>
+				<div class=spon_allowable>
+					Allowable: {{ spon.allowable_expenditure }}
+				</div>
+				<div class=spon_author>
+					<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">/u/{{ spon.author.username }}</a>
+				</div>
+				<div class=spon_votecount>
+					<a href="{% url 'Bable:votewvotestyle' 'spon' spon.id %}">Votes: {{ spon.votes.count }}</a>
+				</div>
+				<div class=spon_votes>
+					<a href=>Votes:</a> 
+					{% for vote in spon.votes.all %}
+						{% if vote in loggedinanon.applied_votestyles.to_source %}
+						<div class=votess>
+							<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+						</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class=spon_price_limit>
+					Views: {{ spon.allowable_expenditure }}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=usersusername>
+	<h2>
+	<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>
+	</h2>
+</div>
+<div class=usersspaces>
+	<div class=sectiontitle>
+		<a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}"><h3>Spaces:</h3></a>
+	</div>
+	<div class="spaces">
+	{% if space_viewable %} 
+		<div class=space>
+		<div class=space_itself>
+			<a href="{% url 'Bable:tob_users_space' users_space.author.username users_space.id 0 %}">{{ users_space.the_space_itself.the_word_itself }}</a>
+		</div>
+		<div class=space_author style="padding-left: 2px; border-left: solid 1px;">
+			Author: <a href="{% url 'Bable:tob_user_view_count' users_space.author.username 0 %}">{{ users_space.author.username }}</a>
+		</div>
+		<div class=space_viewcount style="padding-left: 2px; border-left: solid 1px;">
+			Views: {{ users_space.viewcount }}
+		</div>
+		<div class=space_latest style="padding-left: 2px; border-left: solid 1px;">
+			Changed: {{ users_space.latest_change_date|naturaltime }}
+		</div>
+		<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+			Posts: {{ users_space.posts.count }}
+		</div>
+		<div class=space_votes style="padding-left: 2px; border-left: solid 1px;">
+			Votes: {{ users_space.votes.count }}
+		</div>
+		<div class=space_sponsors style="padding-left: 2px; border-left: solid 1px;">
+			Sponsors: {{ users_space.sponsors.count }}
+		</div>
+		<div class=space_voters style="padding-left: 2px; border-left: solid 1px;">
+			Approved Voters: {{ users_space.latest_change_date|naturaltime }}
+		</div>
+		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
+			Intro: {{ users_space.sidebar|urlize }}
+		</div>
+		<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
+			{% if users_space.for_sale %}
+			Price: {{ users_space.entry_fee }} Entry Fee + {{ users_space.continuation_fee }} Subscription Fee + {{ users_space.the_space_itself.home_dictionary.entry_fee }}  Dictionary Entry Fee + {{ users_space.the_space_itself.home_dictionary.continuation_fee }} Dictionary Subscription Fee
+			{% else %}
+			Not for sale
+			{% endif %}
+		</div>
+		<div class=space_source style="padding-left: 2px; border-left: solid 1px;">
+			<a href="{% url 'Bable:tob_users_dic' users_space.the_space_itself.home_dictionary.author.username users_space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ users_space.the_space_itself.dictionary.the_dictionary_itself }}</a>
+		</div>
+		<div class=space_save style="padding-left: 2px; border-left: solid 1px;" onclick="showregister()" style="cursor:pointer;">
+			Buy
+		</div>
+	</div>
+	{% else %}
+		<div class="space">
+			This user has no space.
+		</div>
+	{% endif %}
+	</div>
+</div>
+
+{% endblock %}

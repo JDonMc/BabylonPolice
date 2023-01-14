@@ -1,0 +1,628 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+{{ user_anon.username.username }}'s dic's word: {{ dics.word.the_word_itself }} - Dream Cloud Middle Men
+{% endblock %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block authenticatedposts %}
+<div class=word style="">
+	<div class=worditself>
+	<a href="{% url 'Bable:tob_word' word.id %}"><h4>Word: {{ word.the_word_itself }}; ID: {{ word.id }}</h4></a>
+	</div>
+	<div class=wordpronunciation>
+	<div class=pronunciationtitle>
+		Pronunciations: {{ word.pronunciations.count }}
+	</div>
+	<div class=dicwordpronunciations>
+		{% if word.pronunciations.all %}
+			{% for pron in word.pronunciations.all %}
+				<div class=dicwordpronunciation>
+					IPA: {{ pron.the_IPA_itself }}
+					{{ pron.homophones }}<!-- Needs url for word in words.-->
+					{{ pron.views }}
+					{{ pron.latest_change_date }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordpronunciation>
+				This word has no specified way to pronounce it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordattribute>
+	<div class=attributetitle>
+		Attributes: {{ word.attributes.count }}
+	</div>
+	<div class=dicwordattributes>
+		{% if word.attributes.all %}
+			{% for attr in word.attributes.all %}
+				<div class=dicwordattribute>
+					{{ attr.the_attribute_itself }}
+					{{ attr.latest_change_date }}
+					{% for def in attr.definitions.all %}
+						{{ def.the_definition_itself }}
+						{{ def.votes_count }}
+						<!-- Needs threaded comments -->
+						{% for com in def.comment_sources.all %}
+							{{ com.body }}
+						{% endfor %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordattribute>
+				This word has nothing attributed to it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordexample>
+	<div class=exampletitle>
+		Examples: {{ word.examples.count }}
+	</div>
+	<div class=dicwordexamples>
+		{% if word.examples.all %}
+			{% for examp in word.examples.all %}
+				<div class=dicwordexample>
+					{{ examp.the_example_itself }}
+					{{ examp.latest_change_date }}
+					{{ examp.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in examp.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordexample>
+				This word has no examples of it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordsimilarity>
+	<div class=similaritytitle>
+		Attributes: {{ word.similarities.count }}
+	</div>
+	<div class=dicwordsimilarities>
+		{% if word.similarities.all %}
+			{% for simi in word.similarities.all %}
+				<div class=dicwordsimilarity>
+					{{ simi.the_simulacrum_itself }}
+					{{ simi.latest_change_date }}
+					{% for conn in simi.connexia.all %}
+						{{ conn.the_connexion_itself }}
+						{{ conn.votes_count }}
+						<!-- Needs threaded comments -->
+						{% for com in conn.comment_sources.all %}
+							{{ com.body }}
+						{% endfor %}
+					{% endfor %}
+					{% for com in simi.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordsimilarity>
+				This word has no similar phrases or sub-connections to it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordtranslations>
+	<div class=translationtitle>
+		Translations: {{ word.translations.count }}
+	</div>
+	<div class=dicwordtranlations>
+		{% if word.translations.all %}
+			{% for tran in word.translations.all %}
+				<div class=dicwordtranslation>
+					B: {{ tran.the_translation_before }} A: {{ tran.the_translation_after }}
+					{{ tran.latest_change_date }}
+					{{ tran.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in tran.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordtranslation>
+				This word has no un-hinged translations from or to it.
+			</div>
+		{% endif %}
+	</div>
+	<div class=translationformopen onclick="openTranslation()">
+		+ Add New
+	</div>
+	<form action="{% url 'Bable:tob_word' word.id %}" style="display:block;" method=post>
+		{% csrf_token %}
+		<div id=translationform>
+			{{ words_translations.as_p }}
+		<button type=submit>Submit All</button>
+		</div>
+		
+	</form>
+	</div>
+	<div class=wordstory>
+	<div class=storytitle>
+		Stories: {{ word.stories.count }}
+	</div>
+	<div class=dicwordstories>
+		{% if word.stories.all %}
+			{% for stor in word.stories.all %}
+				<div class=dicwordstory>
+					{{ stor.the_story_itself }}
+					{{ stor.latest_change_date }}
+					{{ def.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in def.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordstory>
+				This word has no story going for it.
+			</div>
+		{% endif %}
+	</div>
+	<div class=storyformopen onclick="openStory()">
+		+ Add New
+	</div>
+	<form action="{% url 'Bable:tob_word_story' word.id story_id %}" style="display:block;" method=post>
+		{% csrf_token %}
+		<div id=storyform>
+			{{ words_stories.as_p }}
+			<button type=submit>Submit</button>
+		</div>
+	</form>
+	</div>
+	<div class=wordrelation>
+	<div class=relationtitle>
+		Relations: {{ word.relations.count }}
+	</div>
+	<div class=dicwordrelations>
+		{% if word.relations.all %}
+			{% for rela in word.relations.all %}
+				<div class=dicwordrelation>
+					{{ rela.the_relation_itself }}
+					{{ rela.latest_change_date }}
+					{{ def.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in def.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordrelation>
+				This word has nothing related to it made aware of.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordspaces>
+	<div class=spacetitle>
+		Spaces: {{ word.spaces.count }}
+	</div>
+	<div class=dicwordspaces>
+		{% if word.spaces.count %}
+			{% for spac in word.spaces.all %}
+				<div class=dicwordspace>
+					{ spac.the_space_itself.the_word_itself }}
+					Allowees: {{ spac.allowed_to_view_authors.count }}
+					{{ spac.votes_count }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordspace>
+				This word has no space to talk about.
+			</div>
+		{% endif %}
+	</div>
+
+	</div>
+	<div class=wordsponsors>
+	<div class=sponsortitle>
+		Sponsors: {{ word.sponsors.count }}
+	</div>
+	<div class=dicwordsponsors>
+		{% if word.sponsors.all %}
+			{% for spon in word.sponsors.all %}
+				<div class=dicwordsponsor>
+					<div id=collapse onclick="nodeCollapse('spon{{spon.id}}')">
+						-:
+					</div>
+					<div id=spon{{spon.id}} style="display: inline-block;">
+						<div class=sponspon>
+							Phrase: {{ spon.the_sponsorship_phrase }}
+						</div>
+						<div class=sponchange>
+							Latest Change: {{ spon.latest_change_date }}
+						</div>
+						<div class=sponimg>
+							<a href='{{ spon.url }}'>{% if spon.img %}<img class=sponimgsrc alt=n.f. src='{{ spon.img }}'/>{% endif %}</a>
+						</div>
+						<div class=sponviews>
+							Views: {{ spon.views }}
+						</div>
+						<div class=sponprice>
+							Price: {{ spon.price_limit }}
+						</div>
+						<div class=sponauth>
+							<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">{{ spon.author.username }}</a>
+						</div>
+						<div class=sponvotes>Votess:
+							{% for vote in spon.votes.all %}
+								{% if vote in loggedinanon.applied_votestyle.to_source %}
+									<div class=sponvotess>
+										<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordsponsor>
+				This word has no one up standing posed on safety of reuse.
+			</div>
+		{% endif %}
+	</div>
+	<div class=sponsorformopen onclick="openSponsors()">
+		+ Add New
+	</div>
+	<form action="{% url 'Bable:tob_word' word.id %}" style="display:block;" method=post>
+		{% csrf_token %}
+		<div id=sponsorform>
+			{{ words_sponsor.as_p }}
+			<button type=submit>Sponsor</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=word>
+	<div class=worditself>
+	<a href="{% url 'Bable:tob_word' word.id %}"><h4>Word: {{ word.the_word_itself }}; ID: {{ word.id }}</h4></a>
+	</div>
+	<div class=wordpronunciation>
+	<div class=pronunciationtitle>
+		Pronunciations: {{ word.pronunciations.count }}
+	</div>
+	<div class=dicwordpronunciations>
+		{% if word.pronunciations.all %}
+			{% for pron in word.pronunciations.all %}
+				<div class=dicwordpronunciation>
+					IPA: {{ pron.the_IPA_itself }}
+					{{ pron.homophones }}<!-- Needs url for word in words.-->
+					{{ pron.views }}
+					{{ pron.latest_change_date }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordpronunciation>
+				This word has no specified way to pronounce it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordattribute>
+	<div class=attributetitle>
+		Attributes: {{ word.attributes.count }}
+	</div>
+	<div class=dicwordattributes>
+		{% if word.attributes.all %}
+			{% for attr in word.attributes.all %}
+				<div class=dicwordattribute>
+					{{ attr.the_attribute_itself }}
+					{{ attr.latest_change_date }}
+					{% for def in attr.definitions.all %}
+						{{ def.the_definition_itself }}
+						{{ def.votes_count }}
+						<!-- Needs threaded comments -->
+						{% for com in def.comment_sources.all %}
+							{{ com.body }}
+						{% endfor %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordattribute>
+				This word has nothing attributed to it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordexample>
+	<div class=exampletitle>
+		Examples: {{ word.examples.count }}
+	</div>
+	<div class=dicwordexamples>
+		{% if word.examples.all %}
+			{% for examp in word.examples.all %}
+				<div class=dicwordexample>
+					{{ examp.the_example_itself }}
+					{{ examp.latest_change_date }}
+					{{ examp.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in examp.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordexample>
+				This word has no examples of it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordsimilarity>
+	<div class=similaritytitle>
+		Attributes: {{ word.similarities.count }}
+	</div>
+	<div class=dicwordsimilarities>
+		{% if word.similarities.all %}
+			{% for simi in word.similarities.all %}
+				<div class=dicwordsimilarity>
+					{{ simi.the_simulacrum_itself }}
+					{{ simi.latest_change_date }}
+					{% for conn in simi.connexia.all %}
+						{{ conn.the_connexion_itself }}
+						{{ conn.votes_count }}
+						<!-- Needs threaded comments -->
+						{% for com in conn.comment_sources.all %}
+							{{ com.body }}
+						{% endfor %}
+					{% endfor %}
+					{% for com in simi.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordsimilarity>
+				This word has no similar phrases or sub-connections to it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordtranslations>
+	<div class=translationtitle>
+		Translations: {{ word.translations.count }}
+	</div>
+	<div class=dicwordtranlations>
+		{% if word.translations.all %}
+			{% for tran in word.translations.all %}
+				<div class=dicwordtranslation>
+					B: {{ tran.the_translation_before }} A: {{ tran.the_translation_after }}
+					{{ tran.latest_change_date }}
+					{{ tran.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in tran.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordtranslation>
+				This word has no un-hinged translations from or to it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordstory>
+	<div class=storytitle>
+		Stories: {{ word.stories.count }}
+	</div>
+	<div class=dicwordstories>
+		{% if word.stories.all %}
+			{% for stor in word.stories.all %}
+				<div class=dicwordstory>
+					{{ stor.the_story_itself }}
+					{{ stor.latest_change_date }}
+					{{ def.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in def.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordstory>
+				This word has no story going for it.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordrelation>
+	<div class=relationtitle>
+		Relations: {{ word.relations.count }}
+	</div>
+	<div class=dicwordrelations>
+		{% if word.relations.all %}
+			{% for rela in word.relations.all %}
+				<div class=dicwordrelation>
+					{{ rela.the_relation_itself }}
+					{{ rela.latest_change_date }}
+					{{ def.votes_count }}
+					<!-- Needs threaded comments -->
+					{% for com in def.comment_sources.all %}
+						{{ com.body }}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordrelation>
+				This word has nothing related to it made aware of.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordspaces>
+	<div class=spacetitle>
+		Spaces: {{ word.spaces.count }}
+	</div>
+	<div class=dicwordspaces>
+		{% if word.spaces.count %}
+			{% for spac in word.spaces.all %}
+				<div class=dicwordspace>
+					{ spac.the_space_itself.the_word_itself }}
+					Allowees: {{ spac.allowed_to_view_authors.count }}
+					{{ spac.votes_count }}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordspace>
+				This word has no space to talk about.
+			</div>
+		{% endif %}
+	</div>
+	</div>
+	<div class=wordsponsors>
+	<div class=sponsortitle>
+		Sponsors: {{ word.sponsors.count }}
+	</div>
+	<div class=dicwordsponsors>
+		{% if word.sponsors.all %}
+			{% for spon in word.sponsors.all %}
+				<div class=dicwordsponsor>
+					<div id=collapse onclick="nodeCollapse('spon{{spon.id}}')">
+						-:
+					</div>
+					<div id=spon{{spon.id}} style="display: inline-block;">
+						<div class=sponspon>
+							Phrase: {{ spon.the_sponsorship_phrase }}
+						</div>
+						<div class=sponchange>
+							Latest Change: {{ spon.latest_change_date }}
+						</div>
+						<div class=sponimg>
+							<a href='{{ spon.url }}'>{% if spon.img %}<img class=sponimgsrc alt=n.f. src='{{ spon.img }}'/>{% endif %}</a>
+						</div>
+						<div class=sponviews>
+							Views: {{ spon.views }}
+						</div>
+						<div class=sponprice>
+							Price: {{ spon.price_limit }}
+						</div>
+						<div class=sponauth>
+							<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">{{ spon.author.username }}</a>
+						</div>
+						<div class=sponvotes>Votess:
+							{% for vote in spon.votes.all %}
+								{% if vote in loggedinanon.applied_votestyle.to_source %}
+									<div class=sponvotess>
+										<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=dicwordsponsor>
+				This word has no one up standing posed on safety of reuse.
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		function openStory() {
+			var element = document.getElementById("storyform");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+		function openTranslation() {
+			var element = document.getElementById("translationform");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+		function openSponsors() {
+			var element = document.getElementById("sponsorform");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

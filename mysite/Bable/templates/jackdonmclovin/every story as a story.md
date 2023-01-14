@@ -1,0 +1,3 @@
+What if every story were a story in a building, another level on top of what was there before. The stories we encounter within our lives could be stories in the building in order creating the characterisation of the external world. The stories we encounter about our days could be stories in the building in order creating the characterisation of the days. The stories we encounter from our mind could be stories in the building in order creating the characterisation of the mind. The stories we encounter from our peers could be stories in the building in order creating the characterisation of their peering.
+
+Perhaps the stories make up only a wing of a building.

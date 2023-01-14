@@ -1,0 +1,157 @@
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load markdownify %}
+
+<div class=usersusername>
+	<h2>
+	<a href="{% url 'Bable:tob_user_view' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>
+	</h2>
+</div>
+<div class=userspost>
+	{% if users_post %}
+		<div class=posttitle>
+			<h3>
+				<a href="{{ users_post.url }}">Title: {{ users_post.title }}</a>
+			</h3>
+		</div>
+		{% if post.author.username == user_anon.username.username %}
+		<div class=postdel>
+			<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+		</div>
+		{% endif %}
+		<div class=postbody>
+			{{ users_post.body|word_up:users_post.dictionaries.all|safe|markdownify|linebreaks }}
+		</div>
+		<div class=postsponsors>
+			{% if users_post.sponsors.count %}
+				<a href="{% url 'Bable:clickthrough' users_post.author.username users_post.max_sponsor.id %}"><img src="{{ users_post.max_sponsor.img }}" style="height: 8em; width: 8em;"></a>
+			{% else %}
+				<img src="{% static 'growadic.png' %}" style="height: 8em; width: 8em;">
+			{% endif %}
+		</div>
+		<div class=postviewers>
+			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
+		</div>
+		<div class=postvoters>
+			Unique Voters: {{ users_post.has_voted.count }}
+		</div>
+		<div class=postvotes>
+			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+				Votes: {{ users_post.votes.count }}
+			</a>
+		</div>
+		<div class=postchange>
+			Latest Change: {{ users_post.latest_change_date }}
+			Changes: {{ users_post.changes }}
+		</div>
+		<div class=postdictionaries>
+			Dictionaries: 
+			{% if users_post.dictionaries.count %}
+				{% for dic in users_post.dictionaries.all %}
+					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postwords>
+			Words: 
+			{% if users_post.words.count %}
+				{% for word in users_post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postspaces>
+			Spaces:
+			{% if users_post.spaces.count %}
+				{% for space in users_post.spaces.all %}
+					<a href="{% url 'Bable:tob_users_space' space.author.username space.the_space_itself.the_word_itself 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postcomments>
+			Comments:
+			<div class=comsubmit>
+				<div id=postcomlist onclick="openComment('postcomlist')">
+					Newcom
+				</div>
+				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
+					{% csrf_token %}
+					{{ comment_form }}
+					<button type=submit>what've I got to lose?</button>
+				</form>
+			</div>
+			{% if users_post.comments.count %}
+				{% recursetree users_post.comments.all %}
+				<div class=postcoms>
+					<div class=comclose onclick="comCollapse('{{node.id}}')">
+						-:
+					</div>
+					<div id={{node.id}}>
+						<div class=postcomsbody>
+							{% if not node.votes.all.count %}
+								{{ node.body }}
+							{% elif node.votes.all|subset:loggedinanon.applied_votestyles.to_source %}
+								{{ node.body }}
+							{% else %}
+								<p style="color: red;">Remains a secret until you apply the right votestyles</p>
+							{% endif %}
+						</div>
+						<div class=postcomsvotes>
+							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+						</div>
+						<div class=postcomsvotess>Votess:
+							{% for vote in node.votes.all %}
+								{% if vote in loggedinanon.applied_votestyles.to_source %}
+								<div class=postcomsvotesss>
+									<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+								</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+						{% if request.user.username == user_anon.username.username or request.user.username == node.author.username %}
+						<div class=comdelete>
+							<a href="{% url 'Bable:delete_own_com' node.id 'full' %}">X</a>
+						</div>
+						{% endif %}
+						<div class=postcomsdics>Dics:
+								{% for dic in node.dictionaries.all %}
+									{% if dic in loggedinanon.applied_dictionaries.all %}
+										<div class=postcomsdicss>
+											<a href="{% url 'Bable:tob_user_view' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<div class=postcomswords>Words:
+								{% for word in node.words.all|slice:"10" %}
+									<a href="{% url 'Bable:tob_users_dic_word' word.author.username word.home_dictionary word.the_word_itself %}">{{ word.the_word_itself }}</a>
+								{% endfor %}
+							</div>
+						<div class=postcomsauthor>
+							<a href="{% url 'Bable:tob_user_view' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+						</div>
+						<div class=comsubmit>
+							<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
+								Reply
+							</div>
+							<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+								{% csrf_token %}
+								{{ comment_form }}
+								<button type=submit>what've I got to lose?</button>
+							</form>
+						</div>
+						{% if not node.is_leaf_node %}
+							{{ children }}
+						{% endif %}
+					</div>
+				</div>
+				{% endrecursetree %}
+			{% endif %}
+		</div>
+	{% else %}
+		This post is concealed by private dictionaries.
+	{% endif %}
+</div>

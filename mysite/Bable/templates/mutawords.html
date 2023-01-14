@@ -1,0 +1,969 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+Mutawords
+{% endblock %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block authenticatedposts %}
+"null" means that selector is not included, and "_" is like the blank tile in scrabble.
+<br/>
+So this is a scrabble solver that will be built to automatically link to a search page.
+<br/>
+The search page will search if this site has that word present.
+<br/>
+Eventually we want to update the word list to contain all words created on the site.
+<br/>
+Currently there are 466,551 words in the word list.
+<br/>
+Currently it takes 30ms-45ms to read the word list
+<br/>
+And 360ms to check for a 3 letter word.
+<br/>
+Filing the rest up with blanks increases this to 670ms.
+<br/>
+We will add word-list grouping, so you can export/search a group of specific dictionary's wordlists.
+<form id="searchform" action="{% url 'Bable:mutawords' %}" method="get" style="margin-top: 100px;">
+	<select name="q_1" id="q_1">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_2" id="q_2">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_3" id="q_3">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_4" id="q_4">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_5" id="q_5">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_6" id="q_6">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_7" id="q_7">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_8" id="q_8">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_9" id="q_9">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_10" id="q_10">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_11" id="q_11">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_12" id="q_12">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_13" id="q_13">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_14" id="q_14">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	
+	<input id="search_submit" type="submit" value="Search">
+</form>
+Querystring: {{ querystring }}
+<div>
+	<div>
+		<h3>
+			Possible Words:
+		</h3>
+	</div>
+	<div>
+		{% for word in possible_words %}
+		<div>
+			{{ word }}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+
+<form id="searchform" action="{% url 'Bable:mutawords' %}" method="get" style="margin-top: 100px;">
+	<select name="q_1" id="q_1">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_2" id="q_2">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_3" id="q_3">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_4" id="q_4">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_5" id="q_5">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_6" id="q_6">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_7" id="q_7">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_8" id="q_8">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_9" id="q_9">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_10" id="q_10">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_11" id="q_11">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_12" id="q_12">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_13" id="q_13">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	<select name="q_14" id="q_14">
+	  <option value="null">null</option>
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="C">C</option>
+	  <option value="D">D</option>
+	  <option value="E">E</option>
+	  <option value="F">F</option>
+	  <option value="G">G</option>
+	  <option value="H">H</option>
+	  <option value="I">I</option>
+	  <option value="J">J</option>
+	  <option value="K">K</option>
+	  <option value="L">L</option>
+	  <option value="M">M</option>
+	  <option value="N">N</option>
+	  <option value="O">O</option>
+	  <option value="P">P</option>
+	  <option value="Q">Q</option>
+	  <option value="R">R</option>
+	  <option value="S">S</option>
+	  <option value="T">T</option>
+	  <option value="U">U</option>
+	  <option value="V">V</option>
+	  <option value="W">W</option>
+	  <option value="X">X</option>
+	  <option value="Y">Y</option>
+	  <option value="Z">Z</option>
+	  <option value="_">_</option>
+	</select>
+	
+	<input id="search_submit" type="submit" value="Search">
+</form>
+Querystring: {{ querystring }}
+
+<div>
+	<div>
+		<h3>
+			Possible Words:
+		</h3>
+	</div>
+	<div>
+		{% for word in possible_words %}
+		<div>
+			{{ word }}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+
+{% endblock %}

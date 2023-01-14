@@ -1,0 +1,10 @@
+You’re Not Going To Notice It
+I heard a friend say, but less specifically than I’m quoting:  “I’m going to change one thing about someone else’s background scene by one imperceptible difference at a time. One small difference every week and eventually the whole scene will be different, but they will have slowly gotten used to it in the rush of each day. They’re Not Going To Notice It.”
+
+Perhaps this can be taken partially out of context and a ‘week’ become a ‘microsecond’. Physical Laws have the potential to change every moment of every day. In fact, given that all Physical Laws are finite approximation theories over a shifting interval, essentially even the Physical Laws that we do use can be said to, by definition, change imperceptibly in a continual fashion. And yet, You’re Not Going To Notice It.
+
+As long as each individual change is imperceptible and there is enough time for the viewer’s default setting to reset its baseline there will be the possibility for being able to group up these imperceptible changes with enough time between each change for it go by unnoticed. Perhaps the whole infinity of my (our) experiences before the present moment have been lost through this simple rule; during the experience perhaps we only built up an iota of “maybe something’s happening”; not enough to know for certain “THIS IS IT” and solidify a singular memory throughout all of time and space. Perhaps this is why everything seems forgiven and forgotten in the Here and Now.
+
+Then again, perhaps this is why we can also have the exact opposite experience of knowing all that has happened and will happen, because in each of those moments “everything changed” in such a short duration that during all presence we knew “THIS IS IT.”
+
+Or maybe these two possibilities are inconsequential, either way, You’re Not Going To Notice It.

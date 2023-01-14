@@ -1,0 +1,130 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+
+{% block wordsearch %}
+	<form action="{% url 'apply_votestyle' %}" method="post">
+		<input class="awesomplete" list="saved_votestyles1"/>
+		<datalist id="saved_votestyles1">
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Apply</button>
+	</form>
+	<form action="{% url 'exclude_votestyle' %}" method="post">
+		<input class="awesomplete" list="saved_votestyles2" />
+		<datalist id="saved_votestyles2">
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Exclude</button>
+	</form>
+
+{% endblock %}
+
+{% block authenticatedposts %}
+	<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>
+		</h2>
+	</div>
+	<div class=usersvotes>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_votes' user_anon.username.username 0 %}"><h3>Votestyles:</h3></a>
+		</div>
+		<div class=users_votes>
+			<div class=votestyles>
+				{% if user_anon.created_votestyles.count %}
+					{% for vote in user_anon.created_votestyles.all %}
+					<div class=votestyle>
+						<div class=votename>
+							<a href="{% url 'Bable:tob_users_votes' user_anon.username.username vote.id %}">Name: {{ vote.the_vote_name }}; ID: {{ vote.id }}</a>
+						</div>
+						{% if vote.author.username == request.user.username %}
+						<div class=votedel>
+							<a href="{% url 'Bable:delete_own_votestyle' vote.id %}">X</a>
+						</div>
+						{% endif %}
+						<div class=votestyles>
+							{% for space in vote.the_vote_style.all %}
+								<div class=votesspace>
+									<div class=spaceitself>
+										<a href="{% url 'Bable:tob_users_dic_word' space.author.username space.dictionary.the_dictionary_itself space.the_space_itself.the_word_itself 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+									</div>
+									<div class=spaceauthor>
+										<a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">/u/{{space.author.username}}</a>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						<div class=voteauthor>
+							<a href="{% url 'Bable:tob_user_view' vote.author.username ">/u/{{ vote.author.username }}</a>
+						</div>
+						<div class=votevotes>
+							Votes: {{ vote.votes }}
+						</div>
+					</div>
+					{% endfor %}
+				{% else %}
+					<div class=vote>
+						This user has no created votestyles.
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>
+		</h2>
+	</div>
+	<div class=usersvotestyles>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_votes' user_anon.username.username 0 %}"><h3>Votestyles:</h3></a>
+		</div>
+		<div class=users_votes>
+			<div class=votestyles>
+				{% if user_anon.created_votestyles.count %}
+					{% for vote in user_anon.created_votestyles.all %}
+					<div class=votestyle>
+						<div class=votename>
+							<a href="{% url 'Bable:tob_users_votes' user_anon.username.username vote.id %}">Name: {{ vote.the_vote_name }}; ID: {{ vote.id }}</a>
+						</div>
+						<div class=votestyles>
+							{% for space in vote.the_vote_style.all %}
+								<div class=votesspace>
+									<div class=spaceitself>
+										<a href="{% url 'Bable:tob_users_dic_word' space.author.username space.dictionary.the_dictionary_itself space.the_space_itself.the_word_itself 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+									</div>
+									<div class=spaceauthor>
+										<a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">/u/{{space.author.username}}</a>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						<div class=voteauthor>
+							<a href="{% url 'Bable:tob_user_view' vote.author.username ">/u/{{ vote.author.username }}</a>
+						</div>
+						<div class=votevotes>
+							Votes: {{ vote.votes }}
+						</div>
+					</div>
+					{% endfor %}
+				{% else %}
+					<div class=vote>
+						This user has no created votestyles.
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

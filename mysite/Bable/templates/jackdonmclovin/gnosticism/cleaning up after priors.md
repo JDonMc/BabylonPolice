@@ -1,0 +1,15 @@
+C.G. Jung did a lot of work that I admire, but feel the need to correct. Similarly, Samael Aun Weor did a lot of work I admire, but will also need to go through and re-do a lot. I basically won't take anything from theirs without making it entirely my own. For example, synchronicities are very powerful, but any concept they try to instill into you need be paid normal logical attention. Take it as a fractal (self-similar) perceptual overlapping that has potential matchups, but not all of it can be taken for granted.
+
+For example, in Jung's work The Psychology of Dementia Praecox it reads: 
+
+"As is well known he [Kraepelin] has brought together mania and melancholia as a single disorder under the title manic-depressive insanity. This conception, vigorously attacked at first, has probably come to stay."
+
+Now, that it has come to stay, I would like to say that these two disorders are firstly not disorders and secondly not the same, and thirdly not insanity. It is a simple situation every time, when someone has great emotional woes they go through depression, or as I prefer recovery from realization of loss, and similarly, a flight of ideas is mania, or as I prefer, a flow state. These alternate states are simply alternate mind states, and one can alternate through them very quickly or very slowly or not at all. The thing is, that it takes careful attention and insight to be able to channel oneself into those states. It takes very little attention to go through it uncontrollably.
+
+Now, the West has very little conception of attention, because we have no meditation practice. But essentially what it is, is working on hyper-hyper-multi-tasked noticing. Noticing colour, noticing sound, noticing peripheral vision, direct vision, noticing the touch of your body and the characteristic of the breath. To actually go through every part of each sense and to actually notice the information going in, only once all senses are fully aware of can one actually have any sense control by building up the power, or, intuitiveness, over the body and how to work it for relaxing certain tense muscles in the forehead and neck and so forth, and so the mind will relax into a more fluid state.
+
+So, these seperate states are often flown through by people habituating consequential thoughts. If they identify with "I am lonely" and "I am a free citizen", they can associate a lot of other concepts alike each as categories, and have phases between the 'truth', or at least they feel to be true.
+
+And because they feel it, and dwell on the same truths, they can cycle up and down, by reacting to pain with sadness and to sadness with pain, cycling over and intensifying the negativity.
+
+But because people in the West don't have a baseline of meditation practice, they don't know that these states are entirely controllable and can be entered into with acute practice of identifying with associations and traversing through the felt experience of emotive thought.

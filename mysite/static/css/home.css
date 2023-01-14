@@ -1,0 +1,120 @@
+body {
+    text-align: center;
+    text-shadow:    1px 0px 1px #ccc, 0px 1px 1px #eee,
+                    2px 1px 1px #ccc, 1px 2px 1px #eee,
+                    3px 2px 1px #ccc, 2px 3px 1px #eee,
+                    4px 3px 1px #ccc, 3px 4px 1px #eee,
+                    5px 4px 1px #ccc, 4px 5px 1px #eee,
+                    6px 5px 1px #ccc, 5px 6px 1px #eee,
+                    7px 6px 1px #ccc;
+    border-radius: 2px;
+    width: 800px;
+    margin: 0 auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#page {
+    display:table;
+    overflow:hidden;
+    margin:0px auto;
+}
+
+*:first-child+html #page {
+    position:relative;
+}/*ie7*/
+
+#content_container{
+    display:table-cell;
+    vertical-align: middle;
+}
+
+*:first-child+html #content_container{
+    position:absolute;
+    top:50%;
+}/*ie7*/
+
+*:first-child+html #content{
+    position:relative;
+    top:-50%;
+}/*ie7*/
+
+html,body {
+    height:100%;
+}
+
+#page {
+    height:100%;
+    width:465px;
+    text-align: left;
+    margin: 10px auto 20px auto;
+    background-color: #0c0c0c;
+}
+
+.posts {
+    width: 160 px;
+    text-align: left;
+    margin: 0;
+    border: none;
+    background-color: #0000FF;
+    position: relative;
+    min-height: 72 px;
+    padding: 5px 0 5px 3px;
+    grid-template-columns: 30px 30px auto 120px;
+    grid-template-rows: 30px 30px 30px;
+}
+
+.url-enabled-title {
+    grid-column-start: 1;
+    grid-column-end: span col4-start;
+    grid-row-start: 2
+    grid-row-end:
+}
+
+.post-description {
+    grid-column-start: 1;
+    grid-column-end: span col4-start;
+    grid-row-start: 2
+    grid-row-end:
+}
+
+.post-author {
+    grid-column-start: 1;
+    grid-column-end: span col4-start;
+    grid-row-start: 2
+    grid-row-end:
+}
+
+.associations {
+    grid-column-start: 1;
+    grid-column-end: span col4-start;
+    grid-row-start: 2
+    grid-row-end:
+}
+
+.post-top-comment {
+    width: 160 px;
+    text-align: left;
+    margin: 10px auto;
+    background-color: #0000FF;
+}
+
+.interpretation-cycler {
+    cursor: vertical-text;
+    &:hover {
+
+    }
+}
+
+.type-viewer {
+    display: none;
+}
+
+.js .type-viewer {
+    width: 200 px;
+    align: right;
+    height: 100%;
+}

@@ -1,0 +1,298 @@
+{% load staticfiles %}
+{% load user_referencing %}
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+    <title>
+        Tower of Bable
+    </title>
+    <link rel="stylesheet" href="{% static 'css/default.css' %}">
+    <link rel="icon" href="{% static 'towerofbable.png' %}">
+    <link rel="stylesheet" href="{% static 'awesomplete-gh-pages/awesomplete.css' %}">
+    
+</head>
+<body id="body">
+	<div id="siteWrapper">
+		<header id="header" class="show-on-scroll" role="banner">
+			<div class="header-inner">
+				<div id="siteTitleWrapper">
+					<h1 id="siteTitle" class="site-title" width=20%>
+						<a href="/B/index/"><img src="{% static 'towerofbable.png' %}" style="height: 1em; width: 1em">&nbsp; Tower of Bable</a>
+					</h1>
+					<!--
+					
+					-->
+				</div>
+				<div class="bar">
+					<div class="login-bar" onclick="showhidelogin()">
+						<img src="{% static 'key.png' %}" style="height: 1em; width: 1em">
+					</div>
+					<div class="search-bar" onclick="showhidesearch()">
+						<img src="{% static 'search.png' %}" style="height: 1em; width: 1em">
+					</div>
+					{% if user.is_authenticated %}
+					<div class="account">
+						<a href="/B/user/{{ user.get_username }}">/u/</a>
+					</div>
+					<div id="headerNav2">
+						<div id="top"></div>
+						<div id="middle"></div>
+						<div id="bottom"></div>
+						<div class="dropdown-content2">
+							<div class="create_dic" onclick="showhidedic()">
+								<p> Grow A Dic </p>
+							</div>
+							<div class="word-bar" onclick="showhideword()">
+								<p> Define A Word </p>
+							</div>
+							<div class="space-bar" onclick="showhidespace()">
+								<p> Make Space </p>
+							</div>
+							<div class="post-bar" onclick="showhidesubmit()">
+								<p> Mark Post </p>
+							</div>
+							<div class="task-bar" onclick="showhidetask()">
+								<p> Set Task </p>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				<div id="headerNav1">
+					<div id="top"></div>
+					<div id="middle"></div>
+					<div id="bottom"></div>
+					<div class="dropdown-content1">
+						{% if user.is_authenticated %}
+						<div class="space">
+							<a href="/B/space/">Space</a>
+						</div>
+						<div class="user">
+							<a href="/B/user/">User</a>
+						</div>
+						<div class="word_attributes">
+							<a href="/B/word_attributes/">Word Attributes</a>
+						</div>
+						<div class="universal_pronunciation">
+							<a href="/B/universal_pronunciation/">Universal Pronunciation</a>
+						</div>
+						<div class="mutawords">
+							<a href="/B/mutawords/">Mutawords</a>
+						</div>
+						<div class="complementary">
+							<a href="/B/complementary_scholar/">Complementary Scholar</a>
+						</div>
+						<div class="dictionaries">
+							<a href="/B/dictionary/">Dictionary</a>
+						</div>
+						{% else %}
+						<div class="space">
+							<a href="/B/index/">Space</a>
+						</div>
+						<div class="user">
+							<a href="/B/index/">User</a>
+						</div>
+						<div class="word_attributes">
+							<a href="/B/index/">Word Attributes</a>
+						</div>
+						<div class="universal_pronunciation">
+							<a href="/B/index/">Universal Pronunciation</a>
+						</div>
+						<div class="mutawords">
+							<a href="/B/index/">Mutawords</a>
+						</div>
+						<div class="complementary">
+							<a href="/B/index/">Complementary Scholar</a>
+						</div>
+						<div class="dictionaries">
+							<a href="/B/index/">Dictionary</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="forum">
+			<div id="sidenav" class="sidenav">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div id="logs">
+					{% if user.is_authenticated %}
+					<b>Logout</b>
+					<div class="logout-form">
+						<form action="{% url 'Bable:logout_user' %}" method="post">
+							{% csrf_token %}
+							{{ logoutform.as_p }}
+							<button type="submit">Logout</button>
+						</form>
+					</div>
+					{% else %}
+					<b>Register</b><br>
+					<p class="error">{{ register_error }}</p>
+					<div class="register-form">
+						<form action="{% url 'Bable:register_view' %}" method="post">
+							{% csrf_token %}
+							{{ registerform.as_table }}
+							<button type="submit">Register</button>
+						</form>
+					</div>
+					<b>Login</b><br>
+					<p class="error">{{ login_error }}</p>
+					<div class="login-form">
+						<form action="{% url 'Bable:login_view' %}" method="post">
+							{% csrf_token %}
+							{{ loginform.as_p }}
+							<button type="submit">Login</button>
+						</form>
+					</div>
+					{% endif %}
+				</div>
+				<div id="searchindex">
+					<input id="search" type="text" placeholder="search here, ya cunt">
+					<input id="search_submit" type="submit" value="Submit">
+				</div>
+				<div id="dicform">
+					<form action="{% url 'Bable:create_dic' %}" method="post">
+						<b>Grow A Dic</b><br>
+						{% csrf_token %}
+						{{ dic_form }}
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+				<div id="wordform">
+					<form action="{% url 'Bable:create_word' %}" method="post">
+						<b>Define A Word</b><br>
+						{% csrf_token %}
+						{{ word_form }}
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+				<div id="spaceform">
+					<form action="{% url 'Bable:create_space' %}" method="post">
+						<b>Make Space</b><br>
+						{% csrf_token %}
+						{{ space_form }}
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+				<div id="taskform">
+					<form action="{% url 'Bable:create_task' %}" method="post">
+						<b>Set Task</b><br>
+						{% csrf_token %}
+						{{ task_form }}
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+				<div id="submitindex">
+					<form action="{% url 'Bable:create_post' %}" method="post">
+						<b>Mark Post</b><br>
+						{% csrf_token %}
+						{{ post_form }}
+						<button type="submit">Submit</button>
+					</form>
+				</div>
+			</div>
+			<div id="post-index">
+				{% block index %}
+				{% endblock %}
+			</div>
+		</div>
+		<footer id="footer">
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="creator">
+						<a href="{% url 'Bable:owner' %}">Creator / Owner: JD Mac</a>
+					</div>
+					<div class="feedback">
+						<a href="{% url 'Bable:feedback' %}">Feedback</a>
+					</div>
+					<div class="support">
+						<a href="{% url 'Bable:support' %}">Support</a>
+					</div>
+					<div class="contact">
+						<a href="{% url 'Bable:contact' %}">Contact</a>
+					</div>
+					<div class="about">
+						<a href="{% url 'Bable:about' %}">About</a>
+					</div>
+				</div>
+				<div class="advert">
+				</div>
+			</div>
+		</footer>
+	</div>
+	<script>
+		function showhidelogin() { 
+		    openNav();
+		    var element = document.getElementById("logs");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidesearch() { 
+		    openNav();
+		    var element = document.getElementById("searchindex");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidesubmit() { 
+		    openNav();
+		    var element = document.getElementById("submitindex");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidespace() { 
+		    openNav();
+		    var element = document.getElementById("spaceform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideword() {
+			openNav(); 
+		    var element = document.getElementById("wordform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidedic() { 
+			openNav();
+		    var element = document.getElementById("dicform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidetask() { 
+			openNav();
+		    var element = document.getElementById("taskform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function openNav() {
+		    document.getElementById("sidenav").style.width = "250px";
+		}
+
+		/* Set the width of the side navigation to 0 */
+		function closeNav() {
+		    document.getElementById("sidenav").style.width = "0";
+		}
+	</script>
+	<script src="{% static 'awesomplete-gh-pages/awesomplete.js' %}" async></script>
+
+</body>

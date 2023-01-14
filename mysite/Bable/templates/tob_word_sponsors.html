@@ -1,0 +1,193 @@
+
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block title %}
+{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }} - Dream Cloud Middle Men
+{% endblock %}
+
+{% block authenticatedposts %}
+		
+<div class=word>
+	<div class=worditself>
+		<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ word.the_word_itself }}</h4></a>
+	</div>
+	<div class=wordsponsors>
+		<div class=sponsortitle>
+			<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Sponsors: {{ word.sponsors.count }}</a>
+		</div>
+		<div class=dicwordsponsors>
+			{% if word.sponsors.count %}
+				{% for spon in word.sponsors.all %}
+					<div class=dicwordsponsor>
+						<div id=collapse onclick="nodeCollapse('spon{{spon.id}}')">
+							-:
+						</div>
+						<div id=spon{{spon.id}} style="display: none;">
+							<div class=sponspon>
+								<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself spon.id %}">Phrase: {{ spon.the_sponsorship_phrase }}</a>
+							</div>
+							<div class=sponchange>
+								Latest Change: {{ spon.latest_change_date }}
+							</div>
+							<div class=sponimg>
+								<a href='{{ spon.url }}'>{% if spon.img %}<img class=sponimgsrc alt=n.f. src='{{ spon.img }}' style="width: 8em; height: 8em;"/>{% endif %}</a>
+							</div>
+							<div class=sponviews>
+								Views: {{ spon.views }}
+							</div>
+							<div class=sponprice>
+								Price: {{ spon.price_limit }}
+							</div>
+							<div class=sponallowable>
+								Allowable: {{ spon.allowable_expenditure }}
+							</div>
+							<div class=sponauth>
+								<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">{{ spon.author.username }}</a>
+							</div>
+							<div class=sponvotes>Votess:
+								{% for vote in spon.votes.all %}
+									{% if vote in loggedinanon.applied_votestyle.to_source %}
+										<div class=sponvotess>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class=dicwordsponsor>
+					This word has no one up standing posed on safety of reuse.
+				</div>
+			{% endif %}
+		</div>
+		<div class=sponsorformopen onclick="openSponsors()">
+			{% if sponsor_id == 0 %}
+			+ Add New
+			{% else %}
+			Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Add New</a>
+			{% endif %}
+		</div>
+		<form action="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself sponsor_id %}" method=post>
+			{% csrf_token %}
+			<div id=sponsorform>
+				{{ sponsor_form.as_p }}
+				<button type=submit>Sponsor</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=word>
+	<div class=worditself>
+		<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ word.the_word_itself }}</h4></a>
+	</div>
+	<div class=wordsponsors>
+		<div class=sponsortitle>
+			<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Sponsors: {{ word.sponsors.count }}</a>
+		</div>
+		<div class=dicwordsponsors>
+			{% if word.sponsors.count %}
+				{% for spon in word.sponsors.all %}
+					<div class=dicwordsponsor>
+						<div id=collapse onclick="nodeCollapse('spon{{spon.id}}')">
+							-:
+						</div>
+						<div id=spon{{spon.id}} style="display: none;">
+							<div class=sponspon>
+								<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself spon.id %}">Phrase: {{ spon.the_sponsorship_phrase }}</a>
+							</div>
+							<div class=sponchange>
+								Latest Change: {{ spon.latest_change_date }}
+							</div>
+							<div class=sponimg>
+								<a href='{{ spon.url }}'>{% if spon.img %}<img class=sponimgsrc alt=n.f. src='{{ spon.img }}' style="width: 8em; height: 8em;"/>{% endif %}</a>
+							</div>
+							<div class=sponviews>
+								Views: {{ spon.views }}
+							</div>
+							<div class=sponprice>
+								Price: {{ spon.price_limit }}
+							</div>
+							<div class=sponallowable>
+								Allowable: {{ spon.allowable_expenditure }}
+							</div>
+							<div class=sponauth>
+								<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">{{ spon.author.username }}</a>
+							</div>
+							<div class=sponvotes>Votess:
+								{% for vote in spon.votes.all %}
+									{% if vote in loggedinanon.applied_votestyle.to_source %}
+										<div class=sponvotess>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class=dicwordsponsor>
+					This word has no one up standing posed on safety of reuse.
+				</div>
+			{% endif %}
+		</div>
+		<div class=sponsorformopen onclick="openSponsors()">
+			{% if sponsor_id == 0 %}
+			+ Add New
+			{% else %}
+			Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Add New</a>
+			{% endif %}
+		</div>
+		<form action="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself sponsor_id %}" method=post>
+			{% csrf_token %}
+			<div id=sponsorform>
+				{{ sponsor_form.as_p }}
+				<button type=submit>Sponsor</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+		function openSponsors() {
+			var element = document.getElementById("sponsorform");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

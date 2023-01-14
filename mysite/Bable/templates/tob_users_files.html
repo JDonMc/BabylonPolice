@@ -1,0 +1,816 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% block title %}
+User: {{ loggedinanon.username.username }} - Babylon Police
+{% endblock %}
+{% block wordsearch %}
+	<form action="{% url 'Bable:apply_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles1"/>
+		<datalist id=saved_votestyles1>
+			{% for word in loggedinanon.saved_votestyles.all %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Apply</button>
+	</form>
+	<form action="{% url 'Bable:exclude_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles2" />
+		<datalist id=saved_votestyles2>
+			{% for word in loggedinanon.saved_votestyles.all %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Exclude</button>
+	</form>
+
+{% endblock %}
+
+<!-- There's a fail point here for ads needing to be forms, this model will get bot-rigged, sell, fork, re-do -->
+
+
+{% block authenticatedposts %}
+	<div class=monerowallet>
+		<div class=monerowalletform>
+			Save your monero wallet to enable CPU mining (get paid to buy credits)
+			<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
+		</div>
+
+	</div>
+	<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' loggedinanon.username.username 0 %}">User: {{ loggedinanon.username.username }}; ID: {{ loggedinanon.id }}</a>
+		</h2>
+	</div>
+	{% if loggedinanon.username.username == request.user.username %}
+		<div class=userself>
+			<div class=userbalance>
+				Balance: {{ loggedinanon.false_wallet }} purchase more (1000 = $1): <form action="{% url 'Bable:buy_bread' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It</button></form>
+			</div>
+			<div class=votes_heading>
+			<a href="{% url 'Bable:tob_users_votes' loggedinanon.username.username 0 %}"><h3>Saved Votestyles: {{ loggedinanon.saved_votestyles.count }}</h3></a>
+		</div>
+		<div class=votes>
+			{% if loggedinanon.saved_votestyles.count %}
+				{% for vote in loggedinanon.saved_votestyles.all %}
+				<div class=vote>
+					<div class=votename>
+						Name: {{ vote.the_vote_name }}; ID: {{ vote.id }}
+					</div>
+					{% if vote.author.username == request.user.username %}
+					<div class=votedel>
+						<a href="{% url 'Bable:delete_own_votestyle' vote.id %}">X</a>
+					</div>
+					{% endif %}
+					<div class=votestyles>
+						Spaces:
+						{% for space in vote.the_vote_style.all %}
+							<div class=votespace>
+								<div class=spaceitself>
+									<a href="{% url 'Bable:tob_users_dic_word_count' space.author.username space.dictionary.the_dictionary_itself space.the_space_itself.the_word_itself 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+								</div>
+								<div class=spaceauthor>
+									<a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">/u/{{ space.author.username }}</a>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class=voteauthor>
+						<a href="{% url 'Bable:tob_user_view_count' vote.author.username 0 %}">/u/{{ vote.author.username }}</a>
+					</div>
+					<div class=votevotes>
+						Votes: {{ vote.votes }}
+					</div>
+					<div class=votesave>
+						{% if vote in loggedinanon.saved_votes.all %}
+						<a href="{% url 'Bable:tob_save_votestyle' vote.author.username vote.id %}">Save</a>
+						{% else %}
+						<a href="{% url 'Bable:tob_save_votestyle' vote.author.username vote.id %}">Unsave</a>
+						{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+			<div class=titlesentmessages>
+				<h3>Sent Messages:</h3>
+			</div>
+			{% if loggedinanon.sent_messages.count %}
+				<div class=usermsgs>
+				{% for msg in loggedinanon.sent_messages.all %}
+					<div class=sentmessages>
+						<div class=comclose onclick="comCollapse('{{msg.id}}')">
+							-:
+						</div>
+						<div id={{msg.id}}>
+							<div class=defcomsbody>
+								{{ msg.body }}
+							</div>
+							<div class=defcomsvotes>
+								<a href="{% url 'Bable:votewvotestyle' 'com' msg.id %}">Votes: {{ msg.votes_count }}</a>
+							</div>
+							<div class=defcomsvotess>Votess:
+								{% for vote in msg.votes.all %}
+									{% if vote in loggedinanon.applied_votesstyles.all.to_source %}
+									<div class=defcomsvotesss>
+										<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_itself }}</a>
+									</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+							{% if request.user.username == loggedinanon.username.username or request.user.username == node.author.username %}
+							<div class=comdelete>
+								<a href="{% url 'Bable:delete_own_com' msg.id 'source' %}">X</a>
+							</div>
+							{% endif %}
+							<div class=defcomsdics>Dics:
+								{% if msg.dictionaries.count %}
+									{% for dic in msg.dictionaries.all %}
+										{% if dic in loggedinanon.applied_dictionaries.all %}
+											<div class=defcomsdicss>
+												<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+											</div>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+								</div>
+								<div class=comswords>Words:
+									{% if msg.words.count %}
+										{% for word in msg.words.all|slice:"10" %}
+											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+										{% endfor %}
+									{% endif %}
+								</div>
+							<div class=comsauthor>
+								<a href="{% url 'Bable:tob_user_view_count' msg.author.username 0 %}">/u/{{ msg.author.username }}</a>
+							</div>
+							<div class=comssave>
+								{% if msg in loggedinanon.saved_comments.all %}
+									<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">unsave</a>
+								{% else %}
+									<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">save</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+			{% endif %}
+			<div class=titlereceivedmessages>
+				<h3>Received Messages:</h3>
+			</div>
+			{% if loggedinanon.received_messages.count %}
+				<div class=usermsgr>
+					{% for msg in loggedinanon.received_messages.all %}
+						<div class=recmessages>
+							<div class=comclose onclick="comCollapse('{{msg.id}}')">
+								-:
+							</div>
+							<div id={{msg.id}}>
+								<div class=defcomsbody>
+									{{ msg.body }}
+								</div>
+								<div class=defcomsvotes>
+									<a href="{% url 'Bable:votewvotestyle' 'com' msg.id %}">Votes: {{ msg.votes_count }}</a>
+								</div>
+								<div class=defcomsvotess>Votess:
+									{% for vote in msg.votes.all %}
+										{% if vote in loggedinanon.applied_votesstyles.all.to_source %}
+										<div class=defcomsvotesss>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_itself }}</a>
+										</div>
+										{% endif %}
+									{% endfor %}
+								</div>
+								{% if request.user.username == loggedinanon.username.username or request.user.username == node.author.username %}
+								<div class=comdelete>
+									<a href="{% url 'Bable:delete_own_com' msg.id 'source' %}">X</a>
+								</div>
+								{% endif %}
+								<div class=defcomsdics>Dics:
+									{% if msg.dictionaries %}
+										{% for dic in msg.dictionaries.all %}
+											{% if dic in loggedinanon.applied_dictionaries.all %}
+												<div class=defcomsdicss>
+													<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+												</div>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									</div>
+									<div class=defcomswords>Words:
+										{% for word in msg.words.all|slice:"10" %}
+											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+										{% endfor %}
+									</div>
+								<div class=defcomsauthor>
+									<a href="{% url 'Bable:tob_user_view_count' msg.author.username 0 %}">/u/{{ msg.author.username }}</a>
+								</div>
+								<div class=comssave>
+									{% if msg in loggedinanon.saved_comments.all %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">unsave</a>
+									{% else %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">save</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+			<div class=titlepostedcomments>
+				<h3>Posted Comments:</h3>
+			</div>
+			{% if loggedinanon.post_comments.count %}
+				<div class=usercom>
+					{% for msg in loggedinanon.posted_comments.all %}
+						<div class=postedcoms>
+							<div class=comclose onclick="comCollapse('{{msg.id}}')">
+								-:
+							</div>
+							<div id={{msg.id}}>
+								<div class=defcomsbody>
+									{{ msg.body }}
+								</div>
+								<div class=defcomsvotes>
+									<a href="{% url 'Bable:votewvotestyle' 'com' msg.id %}">Votes: {{ msg.votes_count }}</a>
+								</div>
+								<div class=defcomsvotess>Votess:
+									{% for vote in msg.votes.all %}
+										{% if vote in loggedinanon.applied_votesstyles.to_source %}
+										<div class=defcomsvotesss>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_itself }}</a>
+										</div>
+										{% endif %}
+									{% endfor %}
+								</div>
+								{% if request.user.username == loggedinanon.username.username or request.user.username == node.author.username %}
+								<div class=comdelete>
+									<a href="{% url 'Bable:delete_own_com' msg.id 'source' %}">X</a>
+								</div>
+								{% endif %}
+								<div class=defcomsdics>Dics:
+									{% if msg.dictionaries %}
+										{% for dic in msg.dictionaries.all %}
+											{% if dic in loggedinanon.applied_dictionaries.all %}
+												<div class=defcomsdicss>
+													<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+												</div>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									</div>
+									<div class=defcomswords>Words:
+										{% for word in msg.words.all|slice:"10" %}
+											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+										{% endfor %}
+									</div>
+								<div class=defcomsauthor>
+									<a href="{% url 'Bable:tob_user_view_count' msg.author.username 0 %}">/u/{{ msg.author.username }}</a>
+								</div>
+								<div class=comssave>
+									{% if msg in loggedinanon.saved_comments.all %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">unsave</a>
+									{% else %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">save</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+			<div class=titlesavedcomments>
+				<h3>Saved Comments:</h3>
+			</div>
+			{% if loggedinanon.saved_comments %}
+				<div class=usersavedcom>
+					{% for msg in loggedinanon.saved_comments.all %}
+						<div class=savedcoms>
+							<div class=comclose onclick="comCollapse('{{msg.id}}')">
+								-:
+							</div>
+							<div id={{msg.id}}>
+								<div class=defcomsbody>
+									{{ msg.body }}
+								</div>
+								<div class=defcomsvotes>
+									<a href="{% url 'Bable:votewvotestyle' 'com' msg.id %}">Votes: {{ msg.votes_count }}</a>
+								</div>
+								<div class=defcomsvotess>Votess:
+									{% for vote in msg.votes.all %}
+										{% if vote in loggedinanon.applied_votesstyles.all.to_source %}
+										<div class=defcomsvotesss>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_itself }}</a>
+										</div>
+										{% endif %}
+									{% endfor %}
+								</div>
+								{% if request.user.username == loggedinanon.username.username or request.user.username == node.author.username %}
+								<div class=comdelete>
+									<a href="{% url 'Bable:delete_own_com' msg.id 'source' %}">X</a>
+								</div>
+								{% endif %}
+								<div class=defcomsdics>Dics:
+									{% if msg.dictionaries %}
+										{% for dic in msg.dictionaries.all %}
+											{% if dic in loggedinanon.applied_dictionaries.all %}
+												<div class=defcomsdicss>
+													<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+												</div>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									</div>
+									<div class=defcomswords>Words:
+										{% for word in msg.words.all|slice:"10" %}
+											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+										{% endfor %}
+									</div>
+								<div class=defcomsauthor>
+									<a href="{% url 'Bable:tob_user_view_count' msg.author.username 0 %}">/u/{{ msg.author.username }}</a>
+								</div>
+								<div class=comssave>
+									{% if msg in loggedinanon.saved_comments.all %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">unsave</a>
+									{% else %}
+										<a href="{% url 'Bable:tob_save_com' loggedinanon.username.username msg.id %}">save</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+			<div class=titlesavedspaces>
+				<h3>Saved Spaces:</h3>
+			</div>
+			{% if loggedinanon.saved_spaces.count %}
+				<div class=usersavedspace>
+					{% for space in loggedinanon.saved_spaces.all %}
+						<div class=savedspaces>
+							<div class=space_itself>
+								<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+							</div>
+							<div class=space_author>
+								Author: <a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">{{ space.author.username }}</a>
+							</div>
+							<div class=space_viewcount>
+								Views: {{ space.viewcount }}
+							</div>
+							<div class=space_latest>
+								Changed: {{ space.latest_change_date|naturaltime }}
+							</div>
+							<div class=space_posts>
+								Posts: {{ space.posts.count }}
+							</div>
+							<div class=space_votes>
+								Votes: {{ space.votes.count }}
+							</div>
+							<div class=space_sponsors>
+								Sponsors: {{ space.sponsors.count }}
+							</div>
+							<div class=space_voters>
+								Approved Voters: {{ space.approved_voters.count }}
+							</div>
+							<div class=space_intro>
+								Intro: {{ space.sidebar|urlize }}
+							</div>
+							<div class=space_price>
+								{% if space.public %}
+									Price: se{{ space.entry_fee }} + sc{{ space.continuation_fee }}/mth + de{{ space.the_space_itself.dictionary.entry_fee }} + dc{{ space.the_space_itself.dictionary.continuation_fee }}/mth
+								{% else %}
+									{% if space.for_sale %}
+										Price: se{{ space.entry_fee }} + sc{{ space.continuation_fee }}/mth + de{{ space.the_space_itself.dictionary.entry_fee }} + dc{{ space.the_space_itself.dictionary.continuation_fee }}/mth (invite only)
+									{% else %}
+										Not for sale.
+									{% endif %}
+								{% endif %}
+							</div>
+							<div class=space_source>
+								<a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.home_dictionary.the_dictionary_itself }}</a>
+							</div>
+							<div class=space_save>
+								<!-- if user isn't authenticated, open signup/login button -->
+								{% if space in loggedinanon.purchased_spaces.all %}
+									<a href="{% url 'Bable:tob_buy_space' space.author.username space.the_space_itself.the_word_itself %}">unsave</a>
+								{% else %}
+									<a href="{% url 'Bable:tob_buy_space' space.author.username space.the_space_itself.the_word_itself %}">save</a>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+
+		</div>
+	{% else %}
+		<div class=userother>
+			<div class=sendmessage>
+				Send Message:
+				<form id=sendmessage action="{% url 'Bable:create_comment' 'msg' loggedinanon.id 0 %}" method=post>
+					{% csrf_token %}
+					{{ comment_form }}
+					<button type=submit>Send Message</button>
+				</form>
+			</div>
+		</div>
+	{% endif %}
+	<div class=usersfiles>
+		<h2>{{ request.user.username }}'s files</h2>
+		<div class=files>
+			{% if request.user.username == viewing_anon.username.username %}
+				<h2>Private Files:</h2>
+				{% for file in loggedinanon.all_files.all %}
+					<div class=file>
+						<a href="{{ file.url }}">
+							{{ file.id }}
+						</a>
+					</div>
+				{% endfor %}
+				<h2>Public Files:</h2>
+				{% for file in loggedinanon.public_files.all %}
+					<div class=file>
+						<a href="{{ file.url }}">
+							{{ file.id }}
+						</a>
+					</div>
+				{% endfor %}
+			{% else %}
+				{% for file in loggedinanon.public_files.all %}
+					<div class=file>
+						<a href="{{ file.url }}">
+							{{ file.id }}
+						</a>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=usersusername>
+	<h2>
+	<a href="{% url 'Bable:tob_user_view_count' loggedinanon.username.username 0 %}">User: {{ loggedinanon.username.username }}</a>
+	</h2>
+</div>
+<div class=usersspaces>
+	<div class=sectiontitle>
+		<a href="{% url 'Bable:tob_users_spaces' loggedinanon.username.username 0 %}"><h3>Spaces:</h3></a>
+	</div>
+	<div class=spasectionsort>
+		<div id=spasortnav>
+			Sort: Need Login
+		</div>
+	</div>
+	<div class=spaces>
+	{% if users_spaces.count %} 
+		{% for space in users_spaces.all %}
+		<div class=space>
+			<div class=space_itself>
+				<h4><a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a></h4>
+			</div>
+			<div class=spacesponsors>
+				{% if space.sponsors.count or space.max_sponsor %}
+					<a href="{% url 'Bable:clickthrough' space.author.username space.max_sponsor.id %}"><img src="{{ space.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+				{% else %}
+					<img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;">
+				{% endif %}
+			</div>
+			<div class=space_left>
+				<div class=space_author>
+					Author: <a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">{{ space.author.username }}</a>
+				</div>
+				<div class=space_viewcount>
+					Views: {{ space.viewcount }}
+				</div>
+				<div class=space_latest>
+					Changed: {{ space.latest_change_date|naturaltime }}
+				</div>
+				<div class=space_posts>
+					Posts: {{ space.posts.count }}
+				</div>
+				<div class=space_votes>
+					Votes: {{ space.votes.count }}
+				</div>
+				<div class=space_sponsors>
+					Sponsors: {{ space.sponsors.count }}
+				</div>
+				<div class=space_voters>
+					Approved Voters: {{ space.latest_change_date|naturaltime }}
+				</div>
+				<div class=space_intro>
+					Intro: {{ space.sidebar|urlize }}
+				</div>
+				<div class=space_price>
+					{% if space.public %}
+						Price: se{{ space.entry_fee }} + sc{{ space.continuation_fee }}/mth + de{{ space.the_space_itself.dictionary.entry_fee }} + dc{{ space.the_space_itself.dictionary.continuation_fee }}/mth
+					{% else %}
+						{% if space.for_sale %}
+							Price: se{{ space.entry_fee }} + sc{{ space.continuation_fee }}/mth + de{{ space.the_space_itself.dictionary.entry_fee }} + dc{{ space.the_space_itself.dictionary.continuation_fee }}/mth (invite only)
+						{% else %}
+							Not for sale.
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class=space_source>
+					<a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.home_dictionary.the_dictionary_itself }}</a>
+				</div>
+				<div class=space_save>
+					<!-- if user isn't authenticated, open signup/login button -->
+					<a href="{% url 'Bable:tob_buy_space' space.author.username space.the_space_itself.the_word_itself %}">save</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=space>
+			This user has no space.
+		</div>
+	{% endif %}
+	</div>
+</div>
+<div class=usersdictionaries>
+	<div class=sectiontitle>
+		<a href="{% url 'Bable:tob_users_dics' loggedinanon.username.username 0 %}"><h3>Dictionaries:</h3></a>
+	</div>
+	<div class=dicsectionsort>
+		<div id=dicsortnav>
+			Sort: Need Login
+		</div>
+	</div> 
+	{% if users_dictionaries.count %}
+		{% for dictionary in users_dictionaries.all %}
+		<div class=dictionary>
+			<div class=dictionary_itself>
+				<a href="{% url 'Bable:tob_users_dic' loggedinanon.username.username dictionary.the_dictionary_itself 0 %}"><h4>
+					{{ dictionary.the_dictionary_itself }}
+				</h4></a>
+			</div>
+			<div class=dictionarysponsors>
+				{% if dictionary.sponsors_count or dictionary.max_sponsor %}
+					<a href="{% url 'Bable:clickthrough' dictionary.author.username dictionary.max_sponsor.id %}"><img src="{{ dictionary.max_sponsor.img }}" style="height: 6em; width: 6em;"></a>
+				{% else %}
+					<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+				{% endif %}
+			</div>
+			<div class=dictionary_left>
+				<div class=dictionary-top>
+					<div class=dictionary_votes>
+						Votes: {{ dictionary.votes.count }}
+					</div>
+					<div class=dictionary_uniques>
+						Uniques: {{ dictionary.votes_uniques }}
+					</div>
+					<div class=dictionary_views>
+						Views: {{ dictionary.views }}
+					</div>
+					<div class=dictionary_change>
+						Changed: {{ dictionary.latest_change_date|naturaltime }}
+					</div>
+					<div class=dictionary_pub>
+						Created: {{ dictionary.creation_date|naturaltime }}
+					</div>
+					<div class=dictionary_traded>
+						Traded: {{ dictionary.traded_date|naturaltime }}
+					</div>
+				</div>
+				<div class=dictionary-bottom>
+					<div class=dictionary_words>
+						Words: {{ dictionary.words.count }}
+					</div>
+					<div class=dictionary_translations>
+						Translations: {{ dictionary.true_translations.count }}
+					</div>
+					<div class=dictionary_sentences>
+						Sentences: {{ dictionary.sentences.count }}
+					</div>
+					<div class=dictionary_renditions>
+						Renditions: {{ dictionary.renditions.count }}
+					</div>
+					<div class=dictionary_analyses>
+						Analyses: {{ dictionary.analyses.count }}
+					</div>
+					<div class=dictionary_price>
+						{% if dictionary.public %}
+							<a href="{% url 'Bable:want_to_purchase_dic' dictionary.id 0 %}">Price: e{{ dictionary.entry_fee }} + c{{ dictionary.continuation_fee }}</a>
+						{% else %}
+							{% if dictionary.for_sale %}
+								<a href="{% url 'Bable:want_to_purchase_dic' dictionary.id 0 %}">Price: e{{ dictionary.entry_fee }} + c{{ dictionary.continuation_fee }} (Invite Only)</a>
+							{% else %}
+								Price: Not For Sale
+							{% endif %}
+						{% endif %}
+					</div>
+					{% if dictionary.for_sale %}
+					<div class=buy>
+						<a href="{% url 'Bable:buy_users_dic' loggedinanon.username.username dictionary.the_dictionary_itself %}">Buy</a>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=dictionary>
+			This user has no dictionary.
+		</div>
+	{% endif %}
+</div>
+<div class=usersexamples>
+	<div class=sectiontitle>
+		<a href="{% url 'Bable:tob_users_examples' loggedinanon.username.username 0 %}"><h3>Examples:</h3></a> 
+	</div>
+	<div class=exasectionsort>
+		<div id=exasortnav>
+			Sort: Need Login
+		</div>
+	</div>
+	<div class=viewexamples>
+		{% if users_examples.count %}
+			{% for exa in users_examples.all %}
+				<div class=viewexample>
+					<div id=exa{{exa.id}}>
+						<div class=exaword style="margin-right: 8em;">
+							{% for dic in exa.dics.all %}
+							<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">
+							Dic: {{ dic.the_dictionary_itself }}</a>
+							{% endfor %}
+							{% for word in exa.words.all %}
+							<a href="{% url 'Bable:tob_users_dic_word_count' word.home_dictionary.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself %}">
+							Word: {{ word.the_word_itself }}</a>
+							{% endfor %}
+						</div>
+						<div class=exaexa style="margin-right: 8em;">
+							{{ exa.the_example_itself }}
+						</div>
+						<div class=exasponsors>
+							{% if exa.max_sponsor %}
+								<a href="{% url 'Bable:clickthrough' exa.author.username exa.max_sponsor.id %}"><img src="{{ exa.max_sponsor.img }}" style="height: 6em; width: 6em;"></a>
+							{% else %}
+								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+							{% endif %}
+						</div>
+						<div class=exacha>
+							Latest Change: {{ exa.latest_change_date }}
+						</div>
+						<div class=exaviews>
+							Views: {{ exa.views }}
+						</div>
+						<div class=exacount>
+							<a href="{% url 'Bable:votewvotestyle' 'exa' exa.id %}">
+								Votes: {{ exa.votes.count }}
+							</a>
+						</div>
+						<div class=exavotess>Votess:
+							{% for vote in exa.votes.all|slice:"10" %}
+								<div class=exavote>
+									<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_itself }}</a>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class=example>
+				There are no examples for this user.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div class=usersposts>
+	<div class=sectiontitle>
+		<a href="{% url 'Bable:tob_users_posts' loggedinanon.username.username 0 %}"><h3>
+			Posts:
+		</h3></a>
+	</div>
+	<div class=possectionsort>
+		<div id=possortnav>
+			Sort: Need Login
+		</div>
+	</div>
+	<div class=posts>
+		{% if users_posts.count %}
+			{% for post in users_posts.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					<div class=postsponsors>
+						{% if post.sponsors.count or post.max_sponsor %}
+							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;">
+						{% endif %}
+					</div>
+				</div>
+				<div class=postbody style="margin-right: 8em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postwords>
+					Words:
+					{% for word in post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+						{{ word.the_word_itself }}
+					</a>
+					{% endfor %}
+				</div>
+				<div class=postvotes>
+					Votes:
+					{% for vote in post.votes.all|slice:"10" %}
+					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_style.the_word_itself }}</a>
+					{% endfor %}
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 ">/u/{{ post.author.username }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				This user has not marked their post.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div class=users_sponsors>
+	<div class=sponsorsheading>
+		<a href="{% url 'Bable:tob_users_sponsor' loggedinanon.username.username 0 %}"><h3>Sponsors: {{ users_sponsors.count }}</h3></a>
+	</div>
+	{% for spon in users_sponsors.all %}
+		<div class=spaces_sponsor>
+			<div class=the_sponsorship_phrase>
+				Phrase: <a href="{% url 'Bable:clickthrough' spon.author.username spon.id %}">{{ spon.the_sponsorship_phrase }}</a>
+			</div>
+			<div class=spon-id>
+				ID: {{ spon.id }}
+			</div>
+			<div class=spon_latest>
+				Latest: {{ spon.latest_change_date }}
+			</div>
+			{% if spon.img %}<img src='{{ spon.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+			<div class=spon_price_limit>
+				Price: {{ spon.price_limit }}
+			</div>
+			<div class=spon_allowable>
+				Allowable: {{ spon.allowable_expenditure }}
+			</div>
+			<div class=spon_author>
+				<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">/u/{{ spon.author.username }}</a>
+			</div>
+			<div class=spon_votecount>
+				<a href="{% url 'Bable:votewvotestyle' 'spon' spon.id %}">Votes: {{ spon.votes.count }}</a>
+			</div>
+			<div class=spon_price_limit>
+				Views: {{ spon.allowable_expenditure }}
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+	<script>
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+	</script>
+{% endblock %}

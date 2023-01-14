@@ -1,0 +1,12 @@
+My First Trip: Amsterdam
+I had done my reading. Erowid, Wikipedia, PubMed and more. Everything I could find, trip reports, receptor affinities (I was studying Biotechnology and Medical Research at the time so I knew what the science was talking about), ancient history and anecdotes. I learnt about many traditions from Amazonian tribes to Aztecs and Mayans and, of course, the Eleusinian Mysteries and the Essenes. I was excited and after smoking weed for almost 2 years, ready to partake; I was ready to taste eternal life.
+
+I was with J on a Cannabis Cup, complete with the Coffee-shop-Crawl. We smoked 67 strains of Cannabis in 1 week and settled comfortably on the opinion that Dr. Grinspoon was hands down the best strain of Cannabis in the world. Nothing else even came close to the high that gave us. J had tripped before, and so we agreed to stay within the bounds of our accomodation for the trip on 15g of truffles each, only going outside to smoke joints.
+
+The trip kicked in and J said we should go outside for a bong. I said that we couldn’t just smoke a bong in the street, I was only comfortable with doing that in a Coffee Shop, but we agreed not to leave. He didn’t even have to say anything to convince me that it was a good idea to head down to our favourite of the few, Homegrown Fantasy. On the walk there, which was only literally around the corner, I saw a train coming towards us on the tracks, luckily we were on the sidewalk. My perception was so distorted that I saw a mirror image of the train coming the other way and collide head-on with the other train. They both zoomed into that point and disappeared. I told J and he laughed. I laughed, but said with cautiousness: “maybe you should lead the way, I don’t know what the fuck is happening, I don’t want to get run-over.”
+
+We made it to Homegrown Fantasy and smoked bong after bong and joint after joint in the coffee shop. The table we were sitting at had tribal patterns, like Kiwi swirls all over the surface and dragons swimming around the edge. I looked up at the wall and there was a big picture of Bob Marley in Jamaican colours (Red, Green and Yellow). Not much else happened other than good weed, good music and good calm quiet company.
+
+Moral:
+1. Perception can be wildly distorted.
+2. Psychedelics can be awesome.

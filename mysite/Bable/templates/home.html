@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'forum/static/css/home.css' %}" />
+    <title>Tower Of Bable - Home</title>
+    <form name="searchform" id="post-search-form">
+        <div>
+            <b>Search</b>
+            <input type="text" name="txtInput" title="Enter the search terms" />
+            <input type="submit" value="GO!" class="submit" style="cursor: pointer;" />
+        </div>
+    </form>
+    <form name="searchform" id="view-search-form">
+        <div>
+            <b>Search</b>
+            <input type="text" name="txtInput" title="Enter the view terms" />
+            <input type="submit" value="GO!" class="submit" style="cursor: pointer;" />
+        </div>
+    </form>
+    <div class="card w-25">
+        <div class="card-body">
+          <h5 class="card-title">{{ charge.name }}</h5>
+          <p class="card-text">
+            <span>{{ charge.description }}</span>
+            <br>
+            <span>${{ charge.pricing.local.amount }} {{ charge.pricing.local.currency }}</span>
+          </p>
+          <div>
+            <a class="btn btn-primary w-100" href="{{ charge.hosted_url }}">Purchase</a>
+          </div>
+        </div>
+    </div>
+</head>
+<body>
+    
+    <!-- Needed static flag for django for src tags
+    <script src="{% static 'forum/js/jquery.min.js' %}"></script>
+    <script src="{% static 'forum/js/jquery.scrollex.min.js' %}"></script>
+    -->
+</body>
+</html>

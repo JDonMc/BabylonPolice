@@ -1,0 +1,6 @@
+Humorism
+Humorism is the concept that all -isms are a line of reasoning made up to humor the bio-psycho-social being. And having a humor comes with having a sense of taste, as well as that line of reasoning. Optimism or Pessimism are merely lines of reasoning. And selecting one from the many lines of reasoning can be done in any way, documented by humorists. Humorists observe lines of reasoning and tastes while tasting only humor, as in 'the sound of one hand clapping'.
+
+Being able to alchemically twist any situation at any moment to always be the funniest thing you've ever seen is an example of the power a placebo can have. And if set is setting, that is, your environment interplays with your biology, then perhaps even mere words or symbols on a page could remind you of whichever you desire as if they were a drug.
+
+So, being a humorist is a practice of both power, alchemical power, and as an example of a Atman becoming Brahman becoming Atman as is the my vision of a many-faced-god, becoming all and able to become any by first becoming nothing.

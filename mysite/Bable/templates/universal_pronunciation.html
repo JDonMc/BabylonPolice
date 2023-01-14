@@ -1,0 +1,116 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block authenticatedposts %}
+	<div class=single_dictionarys_words style="margin-top: 4em;">
+		<div class=pronunciationtitle>
+			Pronunciations: {{ pronunciations.count }} 
+		</div>
+		<div class=dicwordpronunciations>
+			{% if pronunciations.all %}
+				{% for pron in pronunciations.all %}
+					<div class=dicwordpronunciation>
+						<a href="{% url 'tob_pronunciation' pron.id %}">IPA: {{ pron.the_IPA_itself }}</a>
+						{{ pron.homophones }}<!-- Needs url for word in words.-->
+						{{ pron.views }}
+						{{ pron.latest_change_date }}
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class=dicwordpronunciation>
+					This word has no specified way to pronounce it.
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+	
+	<div class=single_dictionarys_words>
+		<div class=pronunciationtitle>
+			Pronunciations: {{ pronunciations.count }}
+		</div>
+		<div class=dicwordpronunciations>
+			{% if pronunciations.all %}
+				{% for pron in pronunciations.all %}
+					<div class=dicwordpronunciation>
+						<a href="{% url 'tob_pronunciation' pron.id %}">IPA: {{ pron.the_IPA_itself }}</a>
+						{{ pron.homophones }}<!-- Needs url for word in words.-->
+						{{ pron.views }}
+						{{ pron.latest_change_date }}
+					</div>
+				{% endfor %}
+			{% else %}
+				<div class=dicwordpronunciation>
+					This word has no specified way to pronounce it.
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

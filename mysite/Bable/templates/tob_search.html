@@ -1,0 +1,304 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block title %}
+BabylonPolice.com - Search - {{ query_string }}
+{% endblock %}
+
+{% block authenticatedposts %}
+
+<div class=displaybanner>
+	<h3>
+		Posts:
+	</h3>
+</div>
+<div class=possectionsort>
+	<div id=possortnav>
+		Sort: {{ loggedinanon.get_post_sort_display }}
+	</div>
+	<div class=dropdown-content-pos-sort>
+		<div class=popular>
+			<div class=viral>
+				<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
+			</div>
+			<div class=early>
+				<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
+			</div>
+			<div class=freshest>
+				<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
+			</div>
+			<div class=eldest>
+				<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
+			</div>
+			<div class=votes>
+				<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
+			</div>
+			<div class=votes>
+				<a href="{% url 'Bable:change_post_sort' 'unvoted' %}">Unvoted</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class=posts>
+	{% if posts.count %}
+		{% for post in posts.all %}
+		<div class=post>
+			<div class=posttop>
+				<div class=postpreview>
+					{% if post.img %}
+						<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% else %}
+						<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% endif %}
+				</div>
+				{% if post.author %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4 style="text-align: center;">{{ post.title }}</h4></a>
+				</div>
+				{% else %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_post' post.id %}"><h4 style="text-align: center;">{{ post.title }}</h4></a>
+				</div>
+				{% endif %}
+				{% if post.author.username == loggedinanon.username.username %}
+				<div class=postdel>
+					<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+				</div>
+				{% endif %}
+			</div>
+			<div class=postbody style="margin-right: 0.5em">
+				{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:144 }}
+			</div>
+			{% if post.author %}
+			<div class=postwords>
+				Words:
+				{% for word in post.words.all %}
+				<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+					{{ word.the_word_itself }}
+				</a>
+				{% endfor %}
+			</div>
+			{% endif %}
+			<div class=postcount>
+				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Votes: {{ post.votes_uniques }}</a>
+			</div>
+			<div class=postviews>
+				Views: {{ post.viewcount }}
+			</div>
+			<div class=postlatest>
+				Latest: {{ post.latest_change_date }}
+			</div>
+			{% if post.author %}
+			<div class=postauthor>
+				<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor>
+				/u/anonymous
+			</div>
+			{% endif %}
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=post>
+			There are no posts.
+		</div>
+	{% endif %}
+</div>
+
+<div class=spaces>
+		<div class=spaces>
+			{% if spaces %} 
+				{% for space in spaces %}
+				<div class=space>
+					<div class=space_itself>
+						<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+					</div>
+					<div class=space_author style="padding-left: 2px; border-left: solid 1px;">
+						Author: <a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">{{ space.author.username }}</a>
+					</div>
+					<div class=space_viewcount style="padding-left: 2px; border-left: solid 1px;">
+						Views: {{ space.viewcount }}
+					</div>
+					<div class=space_latest style="padding-left: 2px; border-left: solid 1px;">
+						Changed: {{ space.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+						Posts: {{ space.posts.count }}
+					</div>
+					<div class=space_votes style="padding-left: 2px; border-left: solid 1px;">
+						Votes: {{ space.votes.count }}
+					</div>
+					<div class=space_sponsors style="padding-left: 2px; border-left: solid 1px;">
+						Sponsors: {{ space.sponsors.count }}
+					</div>
+					<div class=space_voters style="padding-left: 2px; border-left: solid 1px;">
+						Approved Voters: {{ space.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
+						Intro: {{ space.sidebar|urlize }}
+					</div>
+					<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
+						{% if space.public %}
+						Price: Free
+						{% else %}
+						Price: {{ space.entry_fee }} + {{ space.the_space_itself.home_dictionary.price }}
+						{% endif %}
+					</div>
+					<div class=space_source style="padding-left: 2px; border-left: solid 1px;">
+						<a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.dictionary.the_dictionary_itself }}</a>
+					</div>
+					<div class=space_save style="padding-left: 2px; border-left: solid 1px;">
+						<!-- if user isn't authenticated, open signup/login button -->
+						<a href="{% url 'Bable:tob_buy_space' space.author.username space.the_space_itself.the_word_itself %}">save</a>
+					</div>
+				</div>
+				{% endfor %}
+			{% else %}
+			<div class=space>
+				This user has no space.
+			</div>
+			{% endif %}
+		</div>
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
+</div>
+
+
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<div class=displaybanner>
+	<h3>
+		Posts:
+	</h3>
+</div>
+<div class=posts>
+	{% if posts.count %}
+		{% for post in posts.all %}
+		<div class=post>
+			<div class=posttop>
+				<div class=postpreview>
+					{% if post.img %}
+						<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% else %}
+						<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% endif %}
+				</div>
+				{% if post.author %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4 style="text-align: center;">{{ post.title }}</h4></a>
+				</div>
+				{% else %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_post' post.id %}"><h4 style="text-align: center;">{{ post.title }}</h4></a>
+				</div>
+				{% endif %}
+			</div>
+			<div class=postbody style="margin-right: 0.5em">
+				{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:144 }}
+			</div>
+			{% if post.author %}
+			<div class=postwords>
+				Words:
+				{% for word in post.words.all %}
+				<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+					{{ word.the_word_itself }}
+				</a>
+				{% endfor %}
+			</div>
+			{% endif %}
+			<div class=postviews>
+				Views: {{ post.viewcount }}
+			</div>
+			<div class=postlatest>
+				Latest: {{ post.latest_change_date }}
+			</div>
+			{% if post.author %}
+			<div class=postauthor>
+				<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor>
+				/u/anonymous
+			</div>
+			{% endif %}
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=post>
+			There are no posts.
+		</div>
+	{% endif %}
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

@@ -1,0 +1,458 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% if count %}
+BabylonPolice.com - incentivised-ascento-secrecy {{ count }}
+{% else %}
+BabylonPolice.com - incentivised-ascento-secrecy
+{% endif %}
+{% endblock %}
+
+{% block inserts %}
+	<meta name="viewport" content="width=1024">
+	<meta property="og:description" content="BabylonPolice - Incentivised-Ascento-Secrecy - Police yourself to police others AKA please yourself to please others. User-Choice Definitions. Create your own code words, or buy them and gain access to income that you can spend on deeper secrets granting you deeper income.">
+	<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+
+{% block authenticatedposts %}
+
+<div class=displaybanner>
+	<p>Total post views: {{ total }}</p>
+</div>
+<div class=possectionsort>
+	<div id=possortnav>
+		Sort: {{ loggedinanon.get_post_sort_display }}
+	</div>
+	<div class=dropdown-content-pos-sort>
+		<div class=popular>
+			<div class=viral>
+				<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
+			</div>
+			<div class=early>
+				<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
+			</div>
+			<div class=freshest>
+				<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
+			</div>
+			<div class=eldest>
+				<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
+			</div>
+			<div class=unvoted>
+				<a href="{% url 'Bable:change_post_sort' 'unvoted' %}">Unvoted</a>
+			</div>
+			<div class=the_votes>
+				<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.posttitle h1 {
+		font-size: 12px;
+	}
+
+	.posttitle {
+		margin: auto;
+		text-align: center;
+	}
+
+	.postpreview img, .postssponsors img, .post, .postbody {
+		border-radius: 8px;
+	}
+
+	.dummy {
+		animation-duration: 0.1s;
+		animation-name: changeboxshadow;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
+
+	.post:hover, .post:active {
+		box-shadow: 0 2px 10px black;
+	    transition: box-shadow 0.3s ease-in-out;
+	}
+
+	@keyframes changeboxshadow {
+	  from {
+	    box-shadow: 0 2px 10px black;
+	    transition: box-shadow 0.3s ease-in-out;
+		
+	  }
+
+	  to {
+	    box-shadow: 0 2px 10px white;
+	    transition: box-shadow 0.3s ease-in-out;
+		
+	  }
+	}
+
+	div.postsponsors img:hover, div.postsponsors img:active  {
+		transform: scale(6);
+		position: relative;
+		pointer-events: auto;
+		right: 15em;
+	}
+
+	div.postpreview img:hover, div.postpreview img:active {
+		transform: scale(6);
+		position: relative;
+		pointer-events: auto;
+		left: 15em;
+	}
+	img#viewsponsor:hover, img#viewsponsor:active {
+		transform: scale(6);
+		position: relative;
+		pointer-events: auto;
+		left: 15em;
+		top: 4em;
+	}
+</style>
+<script>
+function viewsponsoronclick() {
+
+  if (document.getElementById("viewsponsorurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("viewsponsorurl").getAttribute("data") = ""	
+  	document.getElementById("viewsponsorurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("viewsponsorurl").getAttribute("data") = "true"	
+  	document.getElementById("viewsponsorurl").onclick = function() { };
+  
+  }
+  
+}
+
+function postsponsoronclick() {
+
+  if (document.getElementById("postsponsorurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("postsponsorurl").getAttribute("data") = ""	
+  	document.getElementById("postsponsorurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("postsponsorurl").getAttribute("data") = "true"	
+  	document.getElementById("postsponsorurl").onclick = function() { };
+  
+  }
+  
+}
+
+function postpreviewonclick() {
+
+  if (document.getElementById("postpreviewurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("postpreviewurl").getAttribute("data") = ""	
+  	document.getElementById("postpreviewurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("postpreviewurl").getAttribute("data") = "true"	
+  	document.getElementById("postpreviewurl").onclick = function() { };
+  
+  }
+  
+}
+</script>
+<div class=posts>
+	{% if postscount %}
+		{% for post in posts %}
+		<div class=post>
+			<div class=posttop>
+				<div class=postpreview>
+					{% if post.img %}
+						<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick()"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% else %}
+						<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick()"><img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+					{% endif %}
+				</div>
+				{% if post.author__username %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+				</div>
+				{% if post.author__username == loggedinanon.username.username %}
+				<div class=postdel>
+					<a href="{% url 'Bable:delete_own_post' post.author__username post.id %}">X</a>
+				</div>
+				{% endif %}
+				{% else %}
+				<div class=posttitle>
+					<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+				</div>
+				{% endif %}
+			</div>
+			<div class=postbody style="margin-right: 0.5em;">
+				{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
+			</div>
+			<div class=postcount style="font-size: 6px;">
+				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+			</div>
+			<div class=postvotes style="font-size: 6px;">
+				Votes: {{ post.votes_count }}
+			</div>
+			<div class=postviews style="font-size: 6px;">
+				Views: {{ post.viewcount }}
+			</div>
+			<div class=postlatest style="font-size: 6px;">
+				Latest: {{ post.latest_change_date }}
+			</div>
+			{% if post.author__username %}
+			<div class=postauthor style="font-size: 6px;">
+				<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 6px;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=post>
+			There are no posts.
+		</div>
+	{% endif %}
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
+</div>
+
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<div class=displaybanner>
+	<p>Total post views: {{ total }}</p>
+</div>
+<div class=displaybanner>
+	<h3>
+		Sort: (click the keys to login/signup to enable post sorting)
+	</h3>
+</div>
+<style>
+	.posttitle h1 {
+		font-size: 12px;
+	}
+
+	.posttitle {
+		margin: auto;
+		text-align: center;
+	}
+
+	.postpreview img, .postssponsors img, .post, .postbody {
+		border-radius: 8px;
+	}
+
+	.dummy {
+		animation-duration: 0.1s;
+		animation-name: changeboxshadow;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
+
+	.post:hover {
+		box-shadow: 0 2px 10px black;
+	    transition: box-shadow 0.3s ease-in-out;
+	}
+
+	@keyframes changeboxshadow {
+	  from {
+	    box-shadow: 0 2px 10px black;
+	    transition: box-shadow 0.3s ease-in-out;
+		
+	  }
+
+	  to {
+	    box-shadow: 0 2px 10px white;
+	    transition: box-shadow 0.3s ease-in-out;
+		
+	  }
+	}
+
+	div.postsponsors  {
+		pointer-events: none;
+	}
+
+	div.postpreview {
+		pointer-events: none;
+	}
+	img#viewsponsor {
+		pointer-events: none;
+	}
+	div.postsponsors img:hover {
+		transform: scale(4);
+		position: relative;
+		right: 15em;
+	}
+
+	div.postpreview img:hover {
+		transform: scale(4);
+		position: relative;
+		left: 15em;
+	}
+</style>
+<script>
+function viewsponsoronclick() {
+
+  if (document.getElementById("viewsponsorurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("viewsponsorurl").getAttribute("data") = ""	
+  	document.getElementById("viewsponsorurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("viewsponsorurl").getAttribute("data") = "true"	
+  	document.getElementById("viewsponsorurl").onclick = function() { };
+  
+  }
+  
+}
+
+function postsponsoronclick() {
+
+  if (document.getElementById("postsponsorurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("postsponsorurl").getAttribute("data") = ""	
+  	document.getElementById("postsponsorurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("postsponsorurl").getAttribute("data") = "true"	
+  	document.getElementById("postsponsorurl").onclick = function() { };
+  
+  }
+  
+}
+
+function postpreviewonclick() {
+
+  if (document.getElementById("postpreviewurl").getAttribute("data") = "true" )
+  {
+  	document.getElementById("postpreviewurl").getAttribute("data") = ""	
+  	document.getElementById("postpreviewurl").onclick = function() { return false; }
+  } else {
+  	document.getElementById("postpreviewurl").getAttribute("data") = "true"	
+  	document.getElementById("postpreviewurl").onclick = function() { };
+  
+  }
+  
+}
+</script>
+<div class=posts>
+	{% if postscount %}
+		{% for post in posts %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick();"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick();"><img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author__username %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em;">
+					{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
+				</div>
+				<div class=postcount style="font-size: 6px;" onclick="showregister();">
+					Voters: {{ post.votes_uniques }}
+				</div>
+				<div class=postvotes style="font-size: 6px;">
+					Votes: {{ post.votes_count }}
+				</div>
+				<div class=postviews style="font-size: 6px;">
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest style="font-size: 6px;">
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author__username %}
+				<div class=postauthor style="font-size: 6px;">
+					<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor style="font-size: 6px;">
+					<a href="">/u/anonymous</a>
+				</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+
+	{% else %}
+		<div class=post>
+			There are no posts.
+		</div>
+	{% endif %}
+
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

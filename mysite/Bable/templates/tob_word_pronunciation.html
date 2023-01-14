@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+
+{% block inserts %}
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+{% endblock %}
+
+{% block title %}
+{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }} - Dream Cloud Middle Men
+{% endblock %}
+
+{% block authenticatedposts %}
+	<div class=pronunciation>
+		<div id=collapse onclick="pronCollapse('{{pron.id}}')">
+			-:
+		</div>
+		<div id={{pron.id}}>
+			<div class=pronpron>
+				<a href="{% url 'Bable:tob_pronunciation' pron.id %}">
+				Pronunciation: {{ pron.the_IPA_itself }}</a>
+			</div>
+			{% if user_anon.username.username == request.user.username %}
+				<div class=prondel>
+					<a href="{% url 'Bable:delete_own_pron' pron.id %}"><h4>X</h4></a>
+				</div>
+			{% endif %}
+			<div class=pronhom>
+				Homophones: {{ pron.homophones }}<!-- Needs url for word in words.-->
+			</div>
+			<div class=pronchange>
+				Latest Change; {{ pron.latest_change_date }}
+			</div>
+			<div class=pronvotes>
+				{% for vote in pron.votes.all %}
+					{% if vote in loggedinanon.applied_votestyles.to_source %}
+						<div class=attdefvotess>
+							<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+		</div>
+		<div class=pronunciationformopen onclick="openPronunciation()">
+			{% if pronunciation_inst == 0 %}
+				+ Add New
+			{% else %}
+				Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Add New</a>
+			{% endif %}
+		</div>
+		<form action="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself pronunciation_inst %}" method=post>
+			<div id=pronunciationform>
+				{% csrf_token %}
+				{{ words_pronunciation_form }}
+				<button type=submit>what've I got to lose?</button>
+			</div>
+		</form>
+	</div>
+</div>
+					
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=pronunciation>
+	<div id=collapse onclick="pronCollapse('{{pron.id}}')">
+		-:
+	</div>
+	<div id={{pron.id}}>
+		<div class=pronpron>
+			<a href="{% url 'Bable:tob_pronunciation' pron.id %}">
+			Pronunciation: {{ pron.the_IPA_itself }}</a>
+		</div>
+		{% if user_anon.username.username == request.user.username %}
+			<div class=prondel>
+				<a href="{% url 'Bable:delete_own_pron' pron.id %}"><h4>X</h4></a>
+			</div>
+		{% endif %}
+		<div class=pronhom>
+			Homophones: {{ pron.homophones }}<!-- Needs url for word in words.-->
+		</div>
+		<div class=pronchange>
+			Latest Change; {{ pron.latest_change_date }}
+		</div>
+		<div class=pronvotes>
+			{% for vote in pron.votes.all %}
+				{% if vote in loggedinanon.applied_votestyles.to_source %}
+					<div class=attdefvotess>
+						<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+		<div class=pronunciationformopen onclick="openPronunciation()">
+			{% if pronunciation_inst == 0 %}
+				+ Add New
+			{% else %}
+				Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Add New</a>
+			{% endif %}
+		</div>
+		<form action="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself pronunciation_inst %}" method=post>
+			<div id=pronunciationform>
+				{% csrf_token %}
+				{{ words_pronunciation_form }}
+				<button type=submit>what've I got to lose?</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		function openPronunciation() {
+			var element = document.getElementById("pronunciationform");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function pronCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+	</script>
+{% endblock %}

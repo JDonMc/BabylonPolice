@@ -1,0 +1,10 @@
+Trip 4: Dosing with shrooms is inaccurate
+I went back to the Pine Forest a week after trip 3 and found only 3 baby shrooms. I promptly ate them. I was with my friend, AM, and by the time we got home things were fine. We needed to leave again pretty soon to go out to dinner to JB’s house, as we were walking to the car AM turned into Slenderman and I decided it was best for him to drive, even though he was on his Learners. I said, I won’t do this again, I thought 3 shrooms would be a micro-dose.
+
+He had been driving for a while and it was only a 5 minute drive along back-roads, so it was actually pretty safe. I wasn’t too fucked, had dinner (JB is a chef). Little did I know his Sister and her kids would be there. I felt uncomfortable. JB had tripped 100’s of times and knew what it was like, so he offered me a ride to my mate N’s house. I thanked him about 6 times.
+
+At N’s we were just smoking cones and watching TV. At one stage I was watching it by myself. Time started going backwards and forwards, the guys on the talk show that was on looked like they were tripping too. They seemed to be in an alternate dimension, one in which they could communicate directly to me as though the show was made specifically for me. I remember them telling me I would get married to a girl in economics. I knew a girl I like that I thought was studying econ. (although she had actually changed to business at the time).
+
+I then melted into the couch and my perception was partially outside of my body. I saw a world that looked either 1000 years in the future or a completely different reality merged over the top of the one I was in. There were people there and they were talking, they asked why I was so out of it on the couch, didn’t I know I should be bettering myself, this world is a kind of competition, no time to waste.
+
+I smoked more cones until I passed out.

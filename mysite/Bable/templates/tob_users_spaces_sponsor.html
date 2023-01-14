@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.the_word_itself }}
+{% endblock %}
+
+
+{% block wordsearch %}
+	<form action="{% url 'Bable:apply_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles1"/>
+		<datalist id=saved_votestyles1>
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Apply</button>
+	</form>
+	<form action="{% url 'Bable:exclude_votestyle' %}" method="post">
+		<input class=awesomplete list="saved_votestyles2" />
+		<datalist id=saved_votestyles2>
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Exclude</button>
+	</form>
+
+{% endblock %}
+
+{% block authenticatedposts %}
+
+	<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>; <a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}">Space: {{ users_space.the_space_itself.the_word_itself }}</a>
+		</h2>
+		{% if users_space.author.username == request.user.username %}
+		<div class=space_edit>
+			<form action="{% url 'Bable:users_space_edit' users_space.id %}">
+				{% csrf_token %}
+				{{ space_edit_form }}
+				<button type=submit>Apply</button>
+			</form>
+		</div>
+		<div class=space_delete>
+			<a href="{% url 'Bable:delete_own_spac' request.user.username users_space.to_source.dictionary.the_dictionary_itself users_space.the_space_itself.the_word_itself users_space.id %}">X</a>
+		</div>
+		{% endif %}
+		<div class=space_sponsor>
+			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.author.username users_space.id 0 %}" method=post>
+				{% csrf_token %}
+				{{ sponsor_form }}
+				<button type=submit>Sponsor</button>
+			</form>
+		</div>
+		<div class=insert_sponsor>
+			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.author.username users_space.id 0 %}" method=post>
+				{% csrf_token %}
+				{{ insert_sponsor_form }}
+				<button type=submit>Sponsor</button>
+			</form>
+		</div>
+	</div>
+	{% if space_viewable %}
+	<div class=spacesposts>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_space' user_anon.username.username users_space.the_space_itself.the_word_itself 0 %}"><h3>Posts:</h3></a>
+		</div>
+		<div class=possectionsort>
+			<div id=possortnav>
+				Sort: {{ user_anon.get_post_sort_display }}
+			</div>
+			<div class=dropdown-content-pos-sort>
+				<div class=popular>
+					<div class=viral>
+						<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
+					</div>
+					<div class="early">
+						<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
+					</div>
+					<div class="freshest">
+						<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
+					</div>
+					<div class="eldest">
+						<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
+					</div>
+					<div class="uniques">
+						<a href="{% url 'Bable:change_post_sort' 'uniques' %}">Uniques</a>
+					</div>
+					<div class="voters">
+						<a href="{% url 'Bable:change_post_sort' 'voters' %}">Voters</a>
+					</div>
+				</div>
+				<div class=stats>
+					<div class=starter>
+						<a href="{% url 'Bable:change_post_sort' 'broadness' %}">Broadness</a>
+					</div>
+					<div class=useful>
+						<a href="{% url 'Bable:change_post_sort' 'intricacy' %}">Intricacy</a>
+					</div>
+					<div class=encourage>
+						<a href="{% url 'Bable:change_post_sort' 'talkative' %}">Talkative</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'homes' %}">Homes</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'encouraged' %}">Encouraged</a>
+					</div>
+					<div class=synched>
+						<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class=spaces_sponsor>
+			{% if spaces_sponsor %}
+			<div class=the_sponsorship_phrase>
+				Phrase: <a href="{% url 'Bable:clickthrough' spaces_sponsor.author.username spaces_sponsor.id %}">{{ spaces_sponsor.the_sponsorship_phrase }}</a>
+			</div>
+			<div class=spon_id>
+				ID: {{ spaces_sponsor.id }}
+			</div>
+			{% if spaces_sponsor.author.username == request.user.username %}
+			<div class=spon_delete>
+				<a href="{% url 'Bable:delete_own_spons' spaces_sponsor.id %}"><h4>X</h4></a>
+			</div>
+			{% endif %}
+			<div class=spon_latest>
+				Latest: {{ spaces_sponsor.latest_change_date }}
+			</div>
+			{% if spaces_sponsor.img %}<img src='{{ spaces_sponsor.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+			<div class=spon_price_limit>
+				Price: {{ spaces_sponsor.price_limit }}
+			</div>
+			<div class=spon_allowable>
+				Allowable: {{ spaces_sponsor.allowable_expenditure }}
+			</div>
+			<div class=spon_author>
+				<a href="{% url 'Bable:tob_user_view_count' spaces_sponsor.author.username 0 %}">/u/{{ spaces_sponsor.author.username }}</a>
+			</div>
+			<div class=spon_votecount>
+				<a href="{% url 'Bable:votewvotestyle' 'spon' spaces_sponsor.id %}">Votes: {{ spaces_sponsor.votes.count }}</a>
+			</div>
+			<div class=spon_votes>
+				<a href=>Votes:</a> {% for vote in spaces_sponsor.votes.all %}
+							{% if vote in loggedinanon.applied_votestyles.to_source %}
+							<div class=votess>
+								<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+							</div>
+							{% endif %}
+						{% endfor %}
+			</div>
+			<div class=spon_price_limit>
+				Views: {{ spaces_sponsor.views }}
+			</div>
+			{% endif %}
+		</div>
+		<div class=spaces_sponsors>
+			<div class=sponsorsheading>
+				Sponsors {{ spaces_sponsors.count }}
+			</div>
+			{% for spon in spaces_sponsors.all %}
+				<div class=spaces_sponsor>
+					<div class=the_sponsorship_phrase>
+						Phrase: <a href="{% url 'Bable:clickthrough' spon.author.username spon.id %}">{{ spon.the_sponsorship_phrase }}</a>
+					</div>
+					<div class=spon-id>
+						ID: {{ spon.id }}
+					</div>
+					<div class=spon_latest>
+						Latest: {{ spon.latest_change_date }}
+					</div>
+					{% if spon.author.username == request.user.username %}
+					<div class=spon-delete>
+						<a href="{% url 'Bable:delete_own_spons' spon.id %}"><h4>X</h4></a>
+					</div>
+					{% endif %}
+					{% if spon.img %}<img src='{{ spon.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+					<div class=spon_price_limit>
+						Price: {{ spon.price_limit }}
+					</div>
+					<div class=spon_allowable>
+						Allowable: {{ spon.allowable_expenditure }}
+					</div>
+					<div class=spon_author>
+						<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">/u/{{ spon.author.username }}</a>
+					</div>
+					<div class=spon_votecount>
+						<a href="{% url 'Bable:votewvotestyle' 'spon' spon.id %}">Votes: {{ spon.votes.count }}</a>
+					</div>
+					<div class=spon_votes>
+						<a href=>Votes:</a> 
+						{% for vote in spon.votes.all %}
+							{% if vote in loggedinanon.applied_votestyles.to_source %}
+							<div class=votess>
+								<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+							</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<div class=spon_price_limit>
+						Views: {{ spon.allowable_expenditure }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% else %}
+	Space not viewable.
+	{% endif %}
+{% endblock %}
+
+{% block unauthenticated_posts %}
+
+<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>; <a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}">Space: {{ users_space.the_space_itself.the_word_itself }}</a>
+		</h2>
+	</div>
+	{% if space_viewable %}
+	<div class=spacesposts>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_space' user_anon.username.username users_space.the_space_itself.the_word_itself 0 %}"><h3>Posts:</h3></a>
+		</div>
+		<div class=spaces_sponsor>
+			{% if spaces_sponsor %}
+			<div class=the_sponsorship_phrase>
+				Phrase: <a href="{% url 'Bable:clickthrough' spaces_sponsor.author.username spaces_sponsor.id %}">{{ spaces_sponsor.the_sponsorship_phrase }}</a>
+			</div>
+			<div class=spon_id>
+				ID: {{ spaces_sponsor.id }}
+			</div>
+			<div class=spon_latest>
+				Latest: {{ spaces_sponsor.latest_change_date }}
+			</div>
+			{% if spaces_sponsor.img %}<img src='{{ spaces_sponsor.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+			<div class=spon_price_limit>
+				Price: {{ spaces_sponsor.price_limit }}
+			</div>
+			<div class=spon_allowable>
+				Allowable: {{ spaces_sponsor.allowable_expenditure }}
+			</div>
+			<div class=spon_author>
+				<a href="{% url 'Bable:tob_user_view_count' spaces_sponsor.author.username 0 %}">/u/{{ spaces_sponsor.author.username }}</a>
+			</div>
+			<div class=spon_votecount>
+				<a href="{% url 'Bable:votewvotestyle' 'spon' spaces_sponsor.id %}">Votes: {{ spaces_sponsor.votes.count }}</a>
+			</div>
+			<div class=spon_price_limit>
+				Views: {{ spaces_sponsor.views }}
+			</div>
+			{% endif %}
+		</div>
+		<div class=spaces_sponsors>
+			<div class=sponsorsheading>
+				Sponsors {{ spaces_sponsors.count }}
+			</div>
+			{% for spon in spaces_sponsors.all %}
+				<div class=spaces_sponsor>
+					<div class=the_sponsorship_phrase>
+						Phrase: <a href="{% url 'Bable:clickthrough' spon.author.username spon.id %}">{{ spon.the_sponsorship_phrase }}</a>
+					</div>
+					<div class=spon-id>
+						ID: {{ spon.id }}
+					</div>
+					<div class=spon_latest>
+						Latest: {{ spon.latest_change_date }}
+					</div>
+					{% if spon.img %}<img src='{{ spon.img }}' style="height: 6em; width: 6em;"/>{% endif %}
+					<div class=spon_price_limit>
+						Price: {{ spon.price_limit }}
+					</div>
+					<div class=spon_allowable>
+						Allowable: {{ spon.allowable_expenditure }}
+					</div>
+					<div class=spon_author>
+						<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">/u/{{ spon.author.username }}</a>
+					</div>
+					<div class=spon_votecount>
+						Votes: {{ spon.votes.count }}
+					</div>
+					<div class=spon_price_limit>
+						Views: {{ spon.allowable_expenditure }}
+					</div>
+
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% else %}
+	Space not viewable.
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,4 @@
+Beliefs be leaves on a tree
+If beliefs were the leaves on the tree of our beliefs system, sitting in our front or back yard, regardless, we must rake up the fallen leaves, the parts that no longer receive enough light, the branch to which is now transforming into an energyless support, an ineffable understanding. The parts of our belief system that are found to be now, at this point in growth, poor in positioning and no longer worthwhile to maintain attachment to can be released to feed the earth, the realm from which nutrition is sourced to grow thatwhich produces energy. It leaves space for a new idea to be garnered and an expansion of reach, a development of grasping at the wind, the surrounding flow of particular particulates.
+
+If that belief can be passed onto a bottom feeder, a wriggling worm or fruiting fungus, to be digested before its remaining essence can be reuptaken by the system, then perhaps too further compatible ‘be life’ systems can be sustained.

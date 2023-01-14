@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+BabylonPolice - Submit Feedback
+{% endblock %}
+
+{% block authenticatedposts %}
+<form class=contact action="{% url 'Bable:create_feedback' %}" method="post">
+	{% csrf_token %}
+	{{ contact_form }}
+	<div class="form-actions">
+		<button type="submit">Send</button>
+	</div>
+</form>
+{% endblock %}
+
+{% block unauthenticatedposts %}
+<form class=contact action="{% url 'Bable:create_feedback' %}" method="post">
+	{% csrf_token %}
+	{{ contact_form }}
+	<div class="form-actions">
+		<button type="submit">Send</button>
+	</div>
+</form>
+{% endblock %}

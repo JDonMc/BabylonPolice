@@ -1,0 +1,16 @@
+Trip 3: Magic Mushies at A’s
+I was keen to try and meditate on Mushrooms this time. Have some alone time. I knew that last time all I wanted to do was sit and think to myself. My mind was going too quick to talk, and half the time I didn’t even know what I was thinking about, so I had to pay close attention to my mind to see where I was going with things.
+
+It was University Winter Holidays, a week after the first trip and I took about 5 at A’s and smoked a couple bongs and then told my friends, A, C and N that I was going to meditate for a while down in the Den. I’ll see you boys in a bit. “Sure man, no worries.”
+
+I laid down and closed my eyes. I focussed on my breathing and let my mind whirl around and simply took note of what was happening. POP! I felt like a glow stick cracking, mixed with a balloon popping right in the centre of my mind, right where the pineal gland is. I remember seeing a world where there were only NPC’s (non-player characters), a simulation, and robots created within it a simulation of a universe that harboured life. Within this universe was a small boy who invented a machine that allowed him to code-up his own simulated universe. His universe was black-and-white and contained no emotion. So in the new universe he wanted to create colour and emotion, but within it he included a cheat-code, as God, the Author of the Universe, he included within it Magic Mushrooms, a fungus with spores so small and so strong that they could essentially spread throughout the continents of the Earth and never die out. Taking the substance would allow you to know that in reality there was actually no such thing as emotion. And therefore you could be entirely free from suffering by taking the code, and learn everything about the creation of the universe.
+
+I saw the big-bang as this universe started and an alien came through on a UFO and spread the spores around in the atmosphere (this was before hearing about T. McKenna and Ancient Aliens). Eventually time went forward and civilisations boomed and crashed, and then I saw myself laying down. So I opened my eyes and new I had seen what I was there to see. And went out for another cone.
+
+“How you going, man, how’s the shrooms?” A asked me. “Yeah, man, really good, I heard a loud pop and felt it in the centre of my head, I think my Third Eye opened. I left my body and saw universes being created. It was unreal. You guys should take shrooms again.” “Hahah, cool man. Nice.” I noticed he didn’t respond to my suggestion about shrooms, they didn’t realise how amazing psychedelics are, or they didn’t care what I thought. I was telling them because I cared for them, they needed to experience something beyond the realms of human knowledge. A realisation that started becoming more and more prevalent.
+
+I went back to meditating and a friend came over who was on MDMA. I barely knew him, but A, C and N went to school with him for years. He came into the Den, and I could feel his thoughts. The closest thing to telepathy I had ever felt – an empathy so powerful, it comes complete with language. My mind was empty after my excitement had been killed by the reaction – or lack-thereof from my friends.
+
+Moral:
+1. Psychedelics can take you on a visual-informational journey through the imagination.
+2. People might not care about you as much as you care about them.

@@ -1,0 +1,1044 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load user_referencing %}
+
+{% block title %}
+Complementary Scholar (Multi way searches)
+{% endblock %}
+
+{% block authenticatedposts %}
+<!--
+<div style="width: 600px; height: 600px; margin-top: 50px;">
+{{ graph_div|safe }}
+</div>
+<div style="width: 600px; height: 600px;">
+{{ graph_div_2|safe }}
+</div>
+-->
+<form id="searchform" action="{% url 'Bable:complementary_scholar' %}" method="get" style="margin-top: 100px;">
+	<input id="search_1" name="q_1" type="text" placeholder="Search 1:">
+	<input id="search_2" name="q_2" type="text" placeholder="Search 2:">
+	<!--<input id="search_3" name="q_3" type="text" placeholder="Search 3:">-->
+	<input id="search_submit" type="submit" value="Search">
+</form>
+<!--
+<div>
+	<h2>Search 1:</h2>
+	<div class=posts>
+		{% if search_1.count %}
+			{% for post in search_1.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 2:</h2>
+	<div class=posts>
+		{% if search_2.count %}
+			{% for post in search_2.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 3:</h2>
+	<div class=posts>
+		{% if search_3.count %}
+			{% for post in search_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+-->
+<div>
+	<h2>Search 1 + Search 2:</h2>
+	<div class=posts>
+		{% if search_1_2.count %}
+			{% for post in search_1_2.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<!--
+<div>
+	<h2>Search 1 + Search 3:</h2>
+	<div class=posts>
+		{% if search_1_3.count %}
+			{% for post in search_1_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+<div>
+	<h2>Search 2 + Search 3:</h2>
+	<div class=posts>
+		{% if search_2_3.count %}
+			{% for post in search_2_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 1 + Search 2 + Search 3:</h2>
+	<div class=posts>
+		{% if search_1_2_3.count %}
+			{% for post in search_1_2_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+-->
+<div>
+	<h2>Search 1 concatenated with 2:</h2>
+	<div class=posts>
+		{% if search_1__2.count %}
+			{% for post in search_1__2.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<!--
+<div>
+	<h2>Search 2 concatenated with 3:</h2>
+	<div class=posts>
+		{% if search_2__3.count %}
+			{% for post in search_2__3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+<div>
+	<h2>Search 1 concatenated with 2 concatenated with 3:</h2>
+	<div class=posts>
+		{% if search_1__2__3.count %}
+			{% for post in search_1__2__3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+-->
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<form id="searchform" action="{% url 'Bable:complementary_scholar' %}" method="get" style="margin-top: 100px;">
+	<input id="search_1" name="q_1" type="text" placeholder="Search 1:">
+	<input id="search_2" name="q_2" type="text" placeholder="Search 2:">
+	<!--<input id="search_3" name="q_3" type="text" placeholder="Search 3:">-->
+	<input id="search_submit" type="submit" value="Search">
+</form>
+<!--
+<div>
+	<h2>Search 1:</h2>
+	<div class=posts>
+		{% if search_1.count %}
+			{% for post in search_1.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 2:</h2>
+	<div class=posts>
+		{% if search_2.count %}
+			{% for post in search_2.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 3:</h2>
+	<div class=posts>
+		{% if search_3.count %}
+			{% for post in search_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+-->
+<div>
+	<h2>Search 1 + 2:</h2>
+	<div class=posts>
+		{% if search_1_2.count %}
+			{% for post in search_1_2.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<!--
+<div>
+	<h2>Search 1 + 3:</h2>
+	<div class=posts>
+		{% if search_1_3.count %}
+			{% for post in search_1_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 2 + 3:</h2>
+	<div class=posts>
+		{% if search_2_3.count %}
+			{% for post in search_2_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>Search 1 + 2 + 3:</h2>
+	<div class=posts>
+		{% if search_1_2_3.count %}
+			{% for post in search_1_2_3.all %}
+			<div class=post>
+				<div class=posttop>
+					<div class=postpreview>
+						{% if post.img %}
+							<a href="{{ post.url }}"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% else %}
+							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						{% endif %}
+					</div>
+					{% if post.author %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% else %}
+					<div class=posttitle>
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+					</div>
+					{% endif %}
+					{% if post.author.username == loggedinanon.username.username %}
+					<div class=postdel>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+					</div>
+					{% endif %}
+				</div>
+				<div class=postbody style="margin-right: 0.5em">
+					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
+				</div>
+				<div class=postwords>
+					Words:
+					{% for word in post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+						{{ word.the_word_itself }}
+					</a>
+					{% endfor %}
+				</div>
+				<div class=postcount>
+					<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
+				</div>
+				<div class=postviews>
+					Views: {{ post.viewcount }}
+				</div>
+				<div class=postlatest>
+					Latest: {{ post.latest_change_date }}
+				</div>
+				{% if post.author %}
+				<div class=postauthor>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+				</div>
+				{% else %}
+				<div class=postauthor>
+					/u/anonymous
+				</div>
+				{% endif %}
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class=post>
+				There are no posts.
+			</div>
+		{% endif %}
+	</div>
+</div>
+-->
+{% endblock %}

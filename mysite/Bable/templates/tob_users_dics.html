@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+
+{% block wordsearch %}
+{% if user_anon.saved_votestyles %}
+	<form action="{% url 'Bable:apply_votestyle' %}" method="post">
+		<input class="awesomplete" list="saved_votestyles1"/>
+		<datalist id="saved_votestyles1">
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Apply</button>
+	</form>
+	<form action="{% url 'Bable:exclude_votestyle' %}" method="post">
+		<input class="awesomplete" list="saved_votestyles2" />
+		<datalist id="saved_votestyles2">
+			{% for word in user_anon.saved_votestyles %}
+			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
+			{% endfor %}
+		</datalist>
+		<button type="submit">Exclude</button>
+	</form>
+{% endif %}
+{% endblock %}
+
+{% block authenticatedposts %}
+	<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">
+			User: {{ user_anon.username.username }}
+		</a>
+		</h2>
+	</div>
+	<div class=usersdictionaries>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_dics' user_anon.username.username 0 %}"><h3>
+				Dictionaries: {{ user_anon.dictionaries.count }}
+			</h3></a>
+		</div>
+		<div class=dicsectionsort>
+			<div id=dicsortnav>
+				Sort: {{ user_anon.get_dictionary_sort_display }}
+			</div>
+			<div class=dropdown-content-dic-sort>
+				<div class=popular>
+					<div class=freshest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'freshest' %}">Freshest</a>
+					</div>
+					<div class=stalest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'stalest' %}">Stalest</a>
+					</div>
+					<div class=common>
+						<a href="{% url 'Bable:change_dictionary_sort' 'common' %}">Common</a>
+					</div>
+					<div class=prized>
+						<a href="{% url 'Bable:change_dictionary_sort' 'prized' %}">Prized</a>
+					</div>
+					<div class=oldest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'oldest' %}">Oldest</a>
+					</div>
+				</div>
+				<div class=stats>
+					<div class=newest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'newest' %}">Newest</a>
+					</div>
+					<div class=dispersed>
+						<a href="{% url 'Bable:change_dictionary_sort' 'dispersed' %}">Dispersed</a>
+					</div>
+					<div class=origin>
+						<a href="{% url 'Bable:change_dictionary_sort' 'origin' %}">Origin</a>
+					</div>
+					<div class=words>
+						<a href="{% url 'Bable:change_dictionary_sort' 'words' %}">Words</a>
+					</div>
+					<div class=votes>
+						<a href="{% url 'Bable:change_dictionary_sort' 'votes' %}">Votes</a>
+					</div>
+				</div>
+				<div class=flair>
+					<div class=translations>
+						<a href="{% url 'Bable:change_dictionary_sort' 'translations' %}">Translations</a>
+					</div>
+					<div class=sentences>
+						<a href="{% url 'Bable:change_dictionary_sort' 'sentences' %}">Sentences</a>
+					</div>
+					<div class=renditions>
+						<a href="{% url 'Bable:change_dictionary_sort' 'renditions' %}">Renditions</a>
+					</div>
+					<div class=analyses>
+						<a href="{% url 'Bable:change_dictionary_sort' 'analyses' %}">Analyses</a>
+					</div>
+					<div class=viewcount>
+						<a href="{% url 'Bable:change_dictionary_sort' 'viewcount' %}">Viewcount</a>
+					</div>
+				</div>
+			</div>
+		</div> 
+		{% if users_dictionaries %}
+			{% for dictionary in users_dictionaries %}
+			<div class=dictionary>
+				<div class=dictionary_itself>
+					<a href="{% url 'Bable:tob_users_dic' user_anon.username.username dictionary.the_dictionary_itself 0 %}"><h4>
+						{{ dictionary.the_dictionary_itself }}
+					</h4></a>
+				</div>
+				<div class=dictionary-delete>
+					<a href="{% url 'Bable:delete_own_dic' user_anon.username.username dictionary.the_dictionary_itself %}"><h4>X</h4></a>
+				</div>
+				<div class=dictionary-top>
+					<div class=dictionary_votes>
+						Votes: {{ dictionary.votes.count }}
+					</div>
+					<div class=dictionary_uniques>
+						Uniques: {{ dictionary.votes_uniques }}
+					</div>
+					<div class=dictionary_views>
+						Views: {{ dictionary.views }}
+					</div>
+					<div class=dictionary_change>
+						Changed: {{ dictionary.latest_change_date|naturaltime }}
+					</div>
+					<div class=dictionary_pub>
+						Created: {{ dictionary.creation_date|naturaltime }}
+					</div>
+					<div class=dictionary_traded>
+						Traded: {{ dictionary.traded_date|naturaltime }}
+					</div>
+				</div>
+				<div class=dictionary-bottom>
+					<div class=dictionary_words>
+						Words: {{ dictionary.words.count }}
+					</div>
+					<div class=dictionary_translations>
+						Translations: {{ dictionary.true_translations.count }}
+					</div>
+					<div class=dictionary_sentences>
+						Sentences: {{ dictionary.sentences.count }}
+					</div>
+					<div class=dictionary_renditions>
+						Renditions: {{ dictionary.renditions.count }}
+					</div>
+					<div class=dictionary_analyses>
+						Analyses: {{ dictionary.analyses.count }}
+					</div>
+					<div class=dictionary_price>
+						{% if dictionary.public %}
+						Price: {{ dictionary.entry_fee }}
+						{% else %}
+							{% if dictionary.for_sale %}
+							Price: {{ dictionary.entry_fee }} (Invite Only)
+							{% else %}
+							Price: Not For Sale
+							{% endif %}
+						{% endif %}
+					</div>
+					{% if dictionary.for_sale %}
+					<form action="{% url 'Bable:submit_buy_dic_form' dictionary.id %}" method=post>
+						{% csrf_token %}
+						<button type=submit>Buy</button>
+					</form>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		This user has no dictionaries.
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=usersusername>
+		<h2>
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">
+			User: {{ user_anon.username.username }}
+		</a>
+		</h2>
+	</div>
+	<div class=usersdictionaries>
+		<div class=sectiontitle>
+			<a href="{% url 'Bable:tob_users_dics' user_anon.username.username 0 %}"><h3>
+				Dictionaries: {{ user_anon.dictionaries.count }}
+			</h3></a>
+		</div>
+		<div class=dicsectionsort>
+			<div id=dicsortnav>
+				Sort: {{ user_anon.get_dictionary_sort_display }}
+			</div>
+			<div class=dropdown-content-dic-sort>
+				<div class=popular>
+					<div class=freshest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'freshest' %}">Freshest</a>
+					</div>
+					<div class=stalest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'stalest' %}">Stalest</a>
+					</div>
+					<div class=common>
+						<a href="{% url 'Bable:change_dictionary_sort' 'common' %}">Common</a>
+					</div>
+					<div class=prized>
+						<a href="{% url 'Bable:change_dictionary_sort' 'prized' %}">Prized</a>
+					</div>
+					<div class=oldest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'oldest' %}">Oldest</a>
+					</div>
+				</div>
+				<div class=stats>
+					<div class=newest>
+						<a href="{% url 'Bable:change_dictionary_sort' 'newest' %}">Newest</a>
+					</div>
+					<div class=dispersed>
+						<a href="{% url 'Bable:change_dictionary_sort' 'dispersed' %}">Dispersed</a>
+					</div>
+					<div class=origin>
+						<a href="{% url 'Bable:change_dictionary_sort' 'origin' %}">Origin</a>
+					</div>
+					<div class=words>
+						<a href="{% url 'Bable:change_dictionary_sort' 'words' %}">Words</a>
+					</div>
+					<div class=votes>
+						<a href="{% url 'Bable:change_dictionary_sort' 'votes' %}">Votes</a>
+					</div>
+				</div>
+				<div class=flair>
+					<div class=translations>
+						<a href="{% url 'Bable:change_dictionary_sort' 'translations' %}">Translations</a>
+					</div>
+					<div class=sentences>
+						<a href="{% url 'Bable:change_dictionary_sort' 'sentences' %}">Sentences</a>
+					</div>
+					<div class=renditions>
+						<a href="{% url 'Bable:change_dictionary_sort' 'renditions' %}">Renditions</a>
+					</div>
+					<div class=analyses>
+						<a href="{% url 'Bable:change_dictionary_sort' 'analyses' %}">Analyses</a>
+					</div>
+					<div class=viewcount>
+						<a href="{% url 'Bable:change_dictionary_sort' 'viewcount' %}">Viewcount</a>
+					</div>
+				</div>
+			</div>
+		</div> 
+		{% if users_dictionaries %}
+			{% for dictionary in users_dictionaries %}
+			<div class=dictionary>
+				<div class=dictionary_itself>
+					<a href="{% url 'Bable:tob_users_dic' user_anon.username.username dictionary.the_dictionary_itself 0 %}"><h4>
+						{{ dictionary.the_dictionary_itself }}
+					</h4></a>
+				</div>
+				<div class=dictionary-delete>
+					<a href="{% url 'Bable:delete_own_dic' user_anon.username.username dictionary.the_dictionary_itself %}"><h4>X</h4></a>
+				</div>
+				<div class=dictionary-top>
+					<div class=dictionary_votes>
+						Votes: {{ dictionary.votes.count }}
+					</div>
+					<div class=dictionary_uniques>
+						Uniques: {{ dictionary.votes_uniques }}
+					</div>
+					<div class=dictionary_views>
+						Views: {{ dictionary.views }}
+					</div>
+					<div class=dictionary_change>
+						Changed: {{ dictionary.latest_change_date|naturaltime }}
+					</div>
+					<div class=dictionary_pub>
+						Created: {{ dictionary.creation_date|naturaltime }}
+					</div>
+					<div class=dictionary_traded>
+						Traded: {{ dictionary.traded_date|naturaltime }}
+					</div>
+				</div>
+				<div class=dictionary-bottom>
+					<div class=dictionary_words>
+						Words: {{ dictionary.words.count }}
+					</div>
+					<div class=dictionary_translations>
+						Translations: {{ dictionary.true_translations.count }}
+					</div>
+					<div class=dictionary_sentences>
+						Sentences: {{ dictionary.sentences.count }}
+					</div>
+					<div class=dictionary_renditions>
+						Renditions: {{ dictionary.renditions.count }}
+					</div>
+					<div class=dictionary_analyses>
+						Analyses: {{ dictionary.analyses.count }}
+					</div>
+					<div class=dictionary_price>
+						{% if dictionary.public %}
+						Price: {{ dictionary.entry_fee }}
+						{% else %}
+							{% if dictionary.for_sale %}
+							Price: {{ dictionary.entry_fee }} (Invite Only)
+							{% else %}
+							Price: Not For Sale
+							{% endif %}
+						{% endif %}
+					</div>
+					{% if dictionary.for_sale %}
+					<div class=buy onclick="showregister()" style="cursor: pointer;">
+						Buy
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		This user has no dictionaries
+		{% endif %}
+	</div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+I saw this picture of snowballs all stacked up between two trees and immediately thought "someone should film themselves throwing another snowball and knocking all of them down."
+
+This lead me straight into a remembrance of building sandcastles and after playing in them for less time than it took to build them, I would demolish them. Jump up and down, kick my feet and pour water all over the sandcastles. Gone. Kaput.
+
+That got me thinking about Life, and whether or not is exactly like that. Perhaps Life is God building a sandcastle. The castle seems pretty well built, since the internet. A couple more things, like robots and printable food and it people will be able to retire completely independently. At the present, being independent means working for your independence, soon it may be different.
+
+But perhaps, if that were possible and people were able to retire easily enough that 50% of the population retired. I have a feeling that would be the time where the sandcastles are built. We would play for a while, maybe build a couple more. 'Fill the moat with water' and 'have a splash'. The question then becomes, will we throw an emotionless tantrum and stomp that shit to dust? Or is this one of those sandcastles that we build that is actually a super detailed intricate artwork, a site to behold and be reserved and revered until it weathers naturally?
