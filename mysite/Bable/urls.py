@@ -34,8 +34,8 @@ urlpatterns = [
 	#path('docs/', include_docs_urls(title='Todo Api')),
 	#path('api/v1/todo/', include("todo.urls")),
 
-	path('stream/', views.stream, name='stream'),
-	path('stream_unseen/', views.stream_unseen, name='stream_unseen'),
+	#path('stream/', views.stream, name='stream'),
+	#path('stream_unseen/', views.stream_unseen, name='stream_unseen'),
 	path('api/token', obtain_auth_token, name="auth_token"),
 	path('api/jwt/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/jwt/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),

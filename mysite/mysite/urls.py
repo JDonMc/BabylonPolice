@@ -19,7 +19,6 @@ from django.conf import settings
 from django.urls import re_path as url
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
-from Bable.views import robots_txt, exoclick
 
 from django.contrib.sitemaps.views import sitemap
 

@@ -218,6 +218,14 @@ class AuthorViewSet(viewsets.ModelViewSet):
 from rest_framework.decorators import action
 
 
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Allow: *"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
 
 class PostViewSet(viewsets.ModelViewSet):
     """

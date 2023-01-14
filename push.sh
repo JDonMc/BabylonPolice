@@ -14,7 +14,7 @@ git commit -m "auto"
 sleep 1
 git push origin
 sleep 1
-git push heroku main:main
+git push heroku main:main --force
 sleep 1
 mv mysite/mysite/settings.py mysite/mysite/herokusettings.py
 sleep 1
