@@ -54,7 +54,7 @@ pytz==2018.7
 queuelib==1.5.0
 regex==2017.4.5
 requests==2.26.0
-rsa==4.0
+rsa==4.7
 Scrapy==1.5.1
 service-identity==18.1.0
 six==1.12.0
