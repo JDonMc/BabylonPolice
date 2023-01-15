@@ -760,10 +760,6 @@ select {
 	display: flex;
 }
 
-.posttitle {
-	padding-right: 10em;
-}
-
 .userbalance, .userself, .usermsgs, .words_itself, .words_latest, .words_pronunciations, .words_attributes, .words_similarities, .words_translations, .words_translations, .words_examples, .words_stories, .words_relations, .words_pronunciations, .words_sponsors, .words_price, .words_viewcount, .words_spaces, .words_votes, .dicwordattribute, .attdefs, .attdef, .attdefchange, .attdefviews, .attdefcount, .attdefvotes, .attdefcom, .defcomlist, .defcoms, .syns, .synbody, .syncoms, .ants, .antbody, .antcoms, .homs, .hom, .dicwordpronunciation, .dicwordexample, .dicwordsimilarity, .dicwordtranslation, .dicwordstory, .dicwordrelation, .dicwordspace, .dicwordsponsor  {
 	padding-left: 0.3em;
 	border-left: 1px solid black;
