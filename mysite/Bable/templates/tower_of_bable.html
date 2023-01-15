@@ -57,8 +57,9 @@ BabylonPolice.com - incentivised-ascento-secrecy
 	</div>
 </div>
 <style>
-	.posttitle h1 {
-		font-size: 12px;
+	.posttitle h4 {
+		font-size: 1.5em;
+		margin: 0 auto;
 	}
 
 	.posttitle {
@@ -96,69 +97,18 @@ BabylonPolice.com - incentivised-ascento-secrecy
 	  }
 	}
 
-	div.postsponsors img:hover, div.postsponsors img:active  {
-		transform: scale(6);
+	
+.postpreview img:active {
+		transform: scale(4);
 		position: relative;
 		pointer-events: auto;
-		right: 15em;
-	}
-
-	div.postpreview img:hover, div.postpreview img:active {
-		transform: scale(6);
-		position: relative;
-		pointer-events: auto;
-		left: 15em;
-	}
-	img#viewsponsor:hover, img#viewsponsor:active {
-		transform: scale(6);
-		position: relative;
-		pointer-events: auto;
-		left: 15em;
+		left: 10em;
 		top: 4em;
 	}
+	
 </style>
 <script>
-function viewsponsoronclick() {
 
-  if (document.getElementById("viewsponsorurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("viewsponsorurl").getAttribute("data") = ""	
-  	document.getElementById("viewsponsorurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("viewsponsorurl").getAttribute("data") = "true"	
-  	document.getElementById("viewsponsorurl").onclick = function() { };
-  
-  }
-  
-}
-
-function postsponsoronclick() {
-
-  if (document.getElementById("postsponsorurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("postsponsorurl").getAttribute("data") = ""	
-  	document.getElementById("postsponsorurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("postsponsorurl").getAttribute("data") = "true"	
-  	document.getElementById("postsponsorurl").onclick = function() { };
-  
-  }
-  
-}
-
-function postpreviewonclick() {
-
-  if (document.getElementById("postpreviewurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("postpreviewurl").getAttribute("data") = ""	
-  	document.getElementById("postpreviewurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("postpreviewurl").getAttribute("data") = "true"	
-  	document.getElementById("postpreviewurl").onclick = function() { };
-  
-  }
-  
-}
 </script>
 <div class=posts>
 	{% if postscount %}
@@ -167,9 +117,9 @@ function postpreviewonclick() {
 			<div class=posttop>
 				<div class=postpreview>
 					{% if post.img %}
-						<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick()"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
 					{% else %}
-						<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick()"><img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
 					{% endif %}
 				</div>
 				{% if post.author__username %}
@@ -190,24 +140,24 @@ function postpreviewonclick() {
 			<div class=postbody style="margin-right: 0.5em;">
 				{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
 			</div>
-			<div class=postcount style="font-size: 6px;">
+			<div class=postcount style="font-size: 1em;">
 				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
 			</div>
-			<div class=postvotes style="font-size: 6px;">
+			<div class=postvotes style="font-size: 1em;">
 				Votes: {{ post.votes_count }}
 			</div>
-			<div class=postviews style="font-size: 6px;">
+			<div class=postviews style="font-size: 1em;">
 				Views: {{ post.viewcount }}
 			</div>
-			<div class=postlatest style="font-size: 6px;">
+			<div class=postlatest style="font-size: 1em;">
 				Latest: {{ post.latest_change_date }}
 			</div>
 			{% if post.author__username %}
-			<div class=postauthor style="font-size: 6px;">
+			<div class=postauthor style="font-size: 1em;">
 				<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
 			</div>
 			{% else %}
-			<div class=postauthor style="font-size: 6px;">
+			<div class=postauthor style="font-size: 1em;">
 				<a href="">/u/anonymous</a>
 			</div>
 			{% endif %}
@@ -236,8 +186,9 @@ function postpreviewonclick() {
 	</h3>
 </div>
 <style>
-	.posttitle h1 {
-		font-size: 12px;
+	.posttitle h4 {
+		font-size: 1.5em;
+		margin: 0 auto;
 	}
 
 	.posttitle {
@@ -274,71 +225,16 @@ function postpreviewonclick() {
 		
 	  }
 	}
-
-	div.postsponsors  {
-		pointer-events: none;
-	}
-
-	div.postpreview {
-		pointer-events: none;
-	}
-	img#viewsponsor {
-		pointer-events: none;
-	}
-	div.postsponsors img:hover {
+	.postpreview img:active {
 		transform: scale(4);
 		position: relative;
-		right: 15em;
-	}
-
-	div.postpreview img:hover {
-		transform: scale(4);
-		position: relative;
-		left: 15em;
+		pointer-events: auto;
+		left: 10em;
+		top: 4em
 	}
 </style>
 <script>
-function viewsponsoronclick() {
 
-  if (document.getElementById("viewsponsorurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("viewsponsorurl").getAttribute("data") = ""	
-  	document.getElementById("viewsponsorurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("viewsponsorurl").getAttribute("data") = "true"	
-  	document.getElementById("viewsponsorurl").onclick = function() { };
-  
-  }
-  
-}
-
-function postsponsoronclick() {
-
-  if (document.getElementById("postsponsorurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("postsponsorurl").getAttribute("data") = ""	
-  	document.getElementById("postsponsorurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("postsponsorurl").getAttribute("data") = "true"	
-  	document.getElementById("postsponsorurl").onclick = function() { };
-  
-  }
-  
-}
-
-function postpreviewonclick() {
-
-  if (document.getElementById("postpreviewurl").getAttribute("data") = "true" )
-  {
-  	document.getElementById("postpreviewurl").getAttribute("data") = ""	
-  	document.getElementById("postpreviewurl").onclick = function() { return false; }
-  } else {
-  	document.getElementById("postpreviewurl").getAttribute("data") = "true"	
-  	document.getElementById("postpreviewurl").onclick = function() { };
-  
-  }
-  
-}
 </script>
 <div class=posts>
 	{% if postscount %}
@@ -347,9 +243,9 @@ function postpreviewonclick() {
 				<div class=posttop>
 					<div class=postpreview>
 						{% if post.img %}
-							<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick();"><img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
+							<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
 						{% else %}
-							<a id=postpreviewurl href="{{ post.url }}" onclick="postpreviewonclick();"><img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
 						{% endif %}
 					</div>
 					{% if post.author__username %}
@@ -365,24 +261,24 @@ function postpreviewonclick() {
 				<div class=postbody style="margin-right: 0.5em;">
 					{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
 				</div>
-				<div class=postcount style="font-size: 6px;" onclick="showregister();">
+				<div class=postcount style="font-size: 1em;" onclick="showregister();">
 					Voters: {{ post.votes_uniques }}
 				</div>
-				<div class=postvotes style="font-size: 6px;">
+				<div class=postvotes style="font-size: 1em;">
 					Votes: {{ post.votes_count }}
 				</div>
-				<div class=postviews style="font-size: 6px;">
+				<div class=postviews style="font-size: 1em;">
 					Views: {{ post.viewcount }}
 				</div>
-				<div class=postlatest style="font-size: 6px;">
+				<div class=postlatest style="font-size: 1em;">
 					Latest: {{ post.latest_change_date }}
 				</div>
 				{% if post.author__username %}
-				<div class=postauthor style="font-size: 6px;">
+				<div class=postauthor style="font-size: 1em;">
 					<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
 				</div>
 				{% else %}
-				<div class=postauthor style="font-size: 6px;">
+				<div class=postauthor style="font-size: 1em;">
 					<a href="">/u/anonymous</a>
 				</div>
 				{% endif %}

@@ -38,7 +38,7 @@ div {
 
 .posttitle {
 	display: inline-block;
-	width: 100%;
+	width: auto;
 }
 
 
@@ -926,13 +926,13 @@ select {
 
 .creator, .feedback, .support, .contact, .about {
 	font-family: futura-pt;
-	font-size: 9px;
+	font-size: 0.8em;
 	text-decoration-color: #e3dac9;
     text-transform: uppercase;
     text-decoration-line: none;
     text-decoration-style: initial;
     text-decoration-color: initial;
-    letter-spacing: 2px;
+    letter-spacing: 0.1em;
     font-weight: 500;
     font-style: normal;
     line-height: 1em;
@@ -989,8 +989,8 @@ select {
 		padding: 0;
 		box-sizing: border-box;
 		font-family: silianrail;
-		font-size: 16px;
-		letter-spacing: .5px;
+		font-size: 1.2em;
+		letter-spacing: 0.05em;
 		font-weight: 300;
 		font-style: normal;
 	}

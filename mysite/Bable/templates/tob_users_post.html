@@ -13,8 +13,6 @@
 {% block inserts %}
 	<meta name="description" content="{{ users_post.title }} - Babylon Police">
 	<meta property="og:image" content="{{ users_post.img }}">
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
 {% endblock %}
 
 {% block authenticatedposts %}
@@ -25,9 +23,9 @@
 </div>
 <div class=userspost>
 	{% if users_post %}
-		<div class=posttitle>
-			<h3>
-				<a href="{{ users_post.url }}">{{ users_post.title }}</a>
+		<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		{% if post.author.username == user_author.username %}
@@ -335,9 +333,9 @@
 <div class=userspost>
 	<div class=post>
 		{% if users_post %}
-			<div class=posttitle>
-			<h3>
-				<a href="{{ users_post.url }}">{{ users_post.title }}</a>
+			<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

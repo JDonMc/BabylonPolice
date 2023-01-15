@@ -21,9 +21,9 @@
 {% block authenticatedposts %}
 <div class=userspost>
 	{% if users_post %}
-		<div class=posttitle>
-			<h3>
-				<a href="{{ users_post.url }}">{{ users_post.title }}</a>
+		<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<style>
@@ -315,9 +315,9 @@
 <div class=userspost>
 	<div class=post>
 		{% if users_post %}
-		<div class=posttitle>
-			<h3>
-				<a href="{{ users_post.url }}">{{ users_post.title }}</a>
+		<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

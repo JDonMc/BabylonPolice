@@ -38,7 +38,7 @@ div {
 
 .posttitle {
 	display: inline-block;
-	width: 100%;
+	width: auto;
 }
 
 
@@ -760,10 +760,6 @@ select {
 	display: flex;
 }
 
-.posttitle {
-	padding-right: 10em;
-}
-
 .userbalance, .userself, .usermsgs, .words_itself, .words_latest, .words_pronunciations, .words_attributes, .words_similarities, .words_translations, .words_translations, .words_examples, .words_stories, .words_relations, .words_pronunciations, .words_sponsors, .words_price, .words_viewcount, .words_spaces, .words_votes, .dicwordattribute, .attdefs, .attdef, .attdefchange, .attdefviews, .attdefcount, .attdefvotes, .attdefcom, .defcomlist, .defcoms, .syns, .synbody, .syncoms, .ants, .antbody, .antcoms, .homs, .hom, .dicwordpronunciation, .dicwordexample, .dicwordsimilarity, .dicwordtranslation, .dicwordstory, .dicwordrelation, .dicwordspace, .dicwordsponsor  {
 	padding-left: 0.3em;
 	border-left: 1px solid black;
@@ -926,13 +922,13 @@ select {
 
 .creator, .feedback, .support, .contact, .about {
 	font-family: futura-pt;
-	font-size: 9px;
+	font-size: 0.8em;
 	text-decoration-color: #e3dac9;
     text-transform: uppercase;
     text-decoration-line: none;
     text-decoration-style: initial;
     text-decoration-color: initial;
-    letter-spacing: 2px;
+    letter-spacing: 0.1em;
     font-weight: 500;
     font-style: normal;
     line-height: 1em;
@@ -989,8 +985,8 @@ select {
 		padding: 0;
 		box-sizing: border-box;
 		font-family: silianrail;
-		font-size: 16px;
-		letter-spacing: .5px;
+		font-size: 1.2em;
+		letter-spacing: 0.05em;
 		font-weight: 300;
 		font-style: normal;
 	}
