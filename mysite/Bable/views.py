@@ -7433,7 +7433,7 @@ def tob_users_dic_words(request, user, dictionary, count):
 
 		the_response = render(request, "tob_users_dic_words.html", {"loggedinanon": loggedinanon, "dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, "apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_words.html", {"loggedinanon": loggedinanon, "dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_dic_words.html", {"dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_words')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
