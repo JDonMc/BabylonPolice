@@ -518,7 +518,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 						{% if space in loggedinanon.purchased_spaces %}
 						<a style="background-color: grey;" href="{% url 'Bable:tob_remove_space' space.author.username space.the_space_itself.the_word_itself %}">Remove</a>
 						{% else %}
-						<form action="{% url 'Bable:submit_buy_space_form' users_space.id %}" method=post>
+						<form action="{% url 'Bable:submit_buy_space_form' space.id %}" method=post>
 							{% csrf_token %}
 							<button type=submit>Buy</button>
 						</form>
