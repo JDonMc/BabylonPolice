@@ -19,7 +19,7 @@ BabylonPolice - Submit Feedback
 </form>
 {% endblock %}
 
-{% block unauthenticatedposts %}
+{% block unauthenticated_posts %}
 <form class=contact action="{% url 'Bable:create_feedback' %}" method="post">
 	{% csrf_token %}
 	{{ contact_form }}

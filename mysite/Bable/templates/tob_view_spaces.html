@@ -131,8 +131,8 @@ Spaces {{ count }} - Babylon Police
 	</h3>
 </div>
 <div class=spaces>
-	{% if latest_spaces.count %}
-		{% for space in latest_spaces.all %}
+	{% if spaces.count %}
+		{% for space in spaces.all %}
 		<div class=space style="margin-bottom: 2px; border-bottom: 1px;">
 			<div class=postauthor>
 				<a href="{% url 'Bable:tob_space_view' space.id %}">{{ space.the_space_itself.the_word_itself }}</a>

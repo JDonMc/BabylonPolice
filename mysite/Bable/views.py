@@ -1947,25 +1947,25 @@ def feedback(request):
 	
 	loginform = AuthenticationForm()
 	
-	dic_form = DictionaryForm()
-	post_form = PostForm(request)
-	space_form = SpaceForm(request)
-	task_form = TaskForm()
-	word_form = WordForm(request)
-
+	
 	contact_form = ContactForm()
 
 	if request.user.is_authenticated:
 		loggedinanon = Anon.objects.get(username=User.objects.get(username=request.user.username))
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
 
 		apply_votestyle_form = ApplyVotestyleForm(request)
 		create_votes_form = CreateVotesForm(request)
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
-		return render(request, 'feedback.html', {"loggedinanon": loggedinanon, 'contact_form':contact_form, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+		return render(request, 'feedback.html', {"loggedinanon": loggedinanon, 'contact_form':contact_form, 'loginform': loginform, 'registerform': registerform, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
 
-	return render(request, 'feedback.html', {'contact_form':contact_form, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+	return render(request, 'feedback.html', {'contact_form':contact_form, 'loginform': loginform, 'registerform': registerform})
 
 
 def create_feedback(request):
@@ -1988,13 +1988,17 @@ def create_feedback(request):
 	
 	loginform = AuthenticationForm()
 
-	dic_form = DictionaryForm()
-	post_form = PostForm(request)
-	space_form = SpaceForm(request)
-	task_form = TaskForm()
-	word_form = WordForm(request)
-	
-	return render(request, 'feedback.html', {'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+	if request.user.is_authenticated:
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+		
+		return render(request, 'feedback.html', {'loginform': loginform, 'registerform': registerform, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+	return render(request, 'feedback.html', {'loginform': loginform, 'registerform': registerform})
+
+
 def thanks(request):
 	registerform = UserCreationForm()
 	
@@ -2045,10 +2049,10 @@ def about(request):
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
-		return render(request, 'about.html', {"loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+		return render(request, 'about.html', {"loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
 
 
-	return render(request, 'about.html', {'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms})
+	return render(request, 'about.html', {'loginform': loginform, 'registerform': registerform})
 
 
 @login_required
@@ -3218,8 +3222,7 @@ def tob_view_spaces(request):
 		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon,'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		latest_spaces = sort_spaces(spaces, 0, count, 100)
-		the_response = render(request, 'tob_view_spaces.html', {"latest_spaces": latest_spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
+		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
 	the_response.set_cookie('current', 'tob_view_spaces')
 	return the_response
 
