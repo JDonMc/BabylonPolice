@@ -9,6 +9,13 @@
 BabylonPolice - Submit Feedback
 {% endblock %}
 
+{% block inserts %}
+<meta name="viewport" content="width=1024">
+<meta property="og:description" content="BabylonPolice - Submit Feedback - Police yourself to police others AKA please yourself to please others. User-Choice Definitions. Create your own code words, or buy them and gain access to income that you can spend on deeper secrets granting you deeper income.">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+
 {% block authenticatedposts %}
 <form class=contact action="{% url 'Bable:create_feedback' %}" method="post">
 	{% csrf_token %}

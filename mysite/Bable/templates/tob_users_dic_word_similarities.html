@@ -2,9 +2,10 @@
 {% load user_referencing %}
 {% load humanize %}
 {% load mptt_tags %}
+{% load static %}
 
 {% block inserts %}
-<meta name="viewport" content="width=1024">
+<meta name="viewport" content="width=device-width">
 <meta property="og:description" content="{{ user_anon.username.username }}'s Sic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Similarities - BabylonPolice">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}

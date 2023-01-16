@@ -4,6 +4,17 @@
 {% load user_referencing %}
 {% load humanize %}
 {% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+Dic {{ dic.id }} - Babylon Police
+{% endblock %}
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="Dic {{ dic.id }} - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
 
 {% block authenticatedposts %}
 	<div class=usersusername style="margin-top: 50px;">

@@ -9,7 +9,14 @@
 {% load static %}
 
 {% block title %}
-{{ user_anon.username.username }}\'s Posts - Dream Cloud Middle Men
+User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
+{% endblock %}
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta name="description" content="User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
 {% block authenticatedposts %}

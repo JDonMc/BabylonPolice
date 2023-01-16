@@ -7,12 +7,15 @@
 {% load static %}
 
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=device-width">
+<meta name="description" content="BabylonPolice - View Spaces {{ count }}">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
+
 {% block title %}
 Spaces {{ count }} - Babylon Police
 {% endblock %}
+
 {% block authenticatedposts %}
 
 <div class=sectiontitle>

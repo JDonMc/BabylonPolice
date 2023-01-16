@@ -7,12 +7,13 @@
 {% load static %}
 
 {% block title %}
-Mutaword
+Mutaword - Babylon Police
 {% endblock %}
 
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="Mutaword - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
 {% block authenticatedposts %}

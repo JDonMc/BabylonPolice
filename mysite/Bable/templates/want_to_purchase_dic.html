@@ -3,6 +3,18 @@
 {% load humanize %}
 {% load mptt_tags %}
 
+{% block title %}
+Babylon Police - Want to Purchase a Dic - {{ users_dic.the_dictionary_itself }}: {{ users_dic.id }}
+{% endblock %}
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="BabylonPolice - Want to Purchase a Dic - Police yourself to police others AKA please yourself to please others. User-Choice Definitions. Create your own code words, or buy them and gain access to income that you can spend on deeper secrets granting you deeper income.">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+
 {% block authenticatedposts %}
 	<div class=usersusername>
 		<h2>

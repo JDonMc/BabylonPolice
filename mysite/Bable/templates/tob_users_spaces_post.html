@@ -6,37 +6,15 @@
 {% load staticfiles %}
 
 {% block title %}
-{{ users_post.title }} - Babylon Police
+{{ users_post.title }} - Babylon Police - ID: {{ users_post.id }}
 {% endblock %}
 
 {% block inserts %}
-	<meta name="description" content="{{ users_post.title }} - Babylon Police">
-	<meta property="og:image" content="{{ users_post.img }}">
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=device-width">
+<meta name="description" content="{{ users_post.title }} - Babylon Police - ID: {{ users_post.id }}">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
-{% block wordsearch %}
-	<form action="{% url 'Bable:apply_votestyle' %}" method="post">
-		<input class=awesomplete list="saved_votestyles1"/>
-		<datalist id=saved_votestyles1>
-			{% for word in user_anon.saved_votestyles %}
-			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
-			{% endfor %}
-		</datalist>
-		<button type="submit">Apply</button>
-	</form>
-	<form action="{% url 'Bable:exclude_votestyle' %}" method="post">
-		<input class=awesomplete list="saved_votestyles2" />
-		<datalist id=saved_votestyles2>
-			{% for word in user_anon.saved_votestyles %}
-			<option>{{ word.the_word_itself }}, {{ word.home_dictionary.the_dictionary_itself }}, {{ word.home_dictionary.author.username }}</option>
-			{% endfor %}
-		</datalist>
-		<button type="submit">Exclude</button>
-	</form>
-
-{% endblock %}
 
 {% block authenticatedposts %}
 	<div class=usersusername>

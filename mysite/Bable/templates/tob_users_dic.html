@@ -6,8 +6,16 @@
 {% load mptt_tags %}
 
 {% block title %}
-{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men
+User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men
 {% endblock %}
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
 
 {% block authenticatedposts %}
 	<div class=usersusername>

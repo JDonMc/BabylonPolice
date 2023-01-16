@@ -2,6 +2,18 @@
 {% load user_referencing %}
 {% load humanize %}
 {% load mptt_tags %}
+{% load static %}
+
+
+{% block title %}
+Purchase - Babylon Police
+{% endblock %}
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="Purchase - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
 
 {% block authenticatedposts %}
 <div class=paypal style="margin-top: 50px;">

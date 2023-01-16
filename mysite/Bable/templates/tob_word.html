@@ -7,13 +7,16 @@
 {% load static %}
 
 {% block title %}
-{{ user_anon.username.username }}'s dic's word: {{ dics.word.the_word_itself }} - Dream Cloud Middle Men
+Word: {{ word.the_word_itself }}: {{ word.id }} - Dream Cloud Middle Men
 {% endblock %}
 
+
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="Word: {{ word.the_word_itself }}: {{ word.id }} - Dream Cloud Middle Men">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
+
 
 {% block authenticatedposts %}
 <div class=word style="">

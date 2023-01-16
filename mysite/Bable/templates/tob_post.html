@@ -12,9 +12,11 @@
 
 
 {% block inserts %}
-	<meta name="description" content="{{ users_post.title }} - Babylon Police">
-	<meta property="og:image" content="{{ users_post.img }}">
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="{{ users_post.title }} - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
+
 
 {% block authenticatedposts %}
 <div class=userspost>
