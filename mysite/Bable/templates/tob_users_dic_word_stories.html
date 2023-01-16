@@ -4,11 +4,12 @@
 {% load mptt_tags %}
 
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=1024">
+<meta property="og:description" content="{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Stories - BabylonPolice">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 {% block title %}
-{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }} - Dream Cloud Middle Men
+{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Stories - Dream Cloud Middle Men
 {% endblock %}
 {% block authenticatedposts %}
 	<div class=usersusername>
