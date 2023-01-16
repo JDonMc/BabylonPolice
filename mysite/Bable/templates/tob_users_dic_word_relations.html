@@ -3,14 +3,16 @@
 {% load humanize %}
 {% load mptt_tags %}
 {% load markdownify %}
+{% load static %}
 
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=1024">
+<meta property="og:description" content="{{ user_anon.username.username }}'s Sic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Relations - BabylonPolice">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
 {% block title %}
-{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }} - Dream Cloud Middle Men
+{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Relations - Dream Cloud Middle Men
 {% endblock %}
 
 {% block authenticatedposts %}
@@ -164,7 +166,7 @@
 		{% if users_dic.public or user_anon.username.username == request.user.username %}
 			<div class=word>
 				<div class=worditself>
-					<a href="{% url 'Bable:tob_users_dic_word' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
+					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
 				</div>
 				<div class=wordrelations>
 					{% if dics_word.relations.count %}
@@ -244,7 +246,7 @@
 													</div>
 													<div class=relacomswords>Words:
 														{% for word in node.words.all|slice:"10" %}
-															<a href="{% url 'Bable:tob_users_dic_word' word.author.username word.home_dictionary word.the_word_itself %}">{{ word.the_word_itself }}</a>
+															<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 														{% endfor %}
 													</div>
 												<div class=relacomsauthor>
@@ -290,7 +292,7 @@
 {% block unauthenticated_posts %}
 <div class=usersusername>
 		<h2>
-		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username %}">
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">
 			User: {{ user_anon.username.username }}
 		</a>
 		</h2>

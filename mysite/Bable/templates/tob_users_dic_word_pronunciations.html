@@ -2,14 +2,16 @@
 {% load user_referencing %}
 {% load humanize %}
 {% load mptt_tags %}
+{% load static %}
 
 {% block inserts %}
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery.formset.js"></script>
+<meta name="viewport" content="width=1024">
+<meta property="og:description" content="{{ user_anon.username.username }}'s Sic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Pronunciations - BabylonPolice">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
 {% block title %}
-{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }} - Dream Cloud Middle Men
+{{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }}'s Word: {{ dics_word.the_word_itself }}'s Pronunciations - Dream Cloud Middle Men
 {% endblock %}
 
 {% block authenticatedposts %}
@@ -201,13 +203,6 @@
 						{% endif %}
 					</div>
 					{% if user_anon.username.username == request.user.username %}
-						<div class=pronunciationformopen onclick="openPronunciation()">
-							{% if pronunciation_inst == 0 %}
-								+ Add New
-							{% else %}
-								Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Add New</a>
-							{% endif %}
-						</div>
 						<form action="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself pronunciation_inst %}" method=post>
 							<div id=pronunciationform>
 								{% csrf_token %}

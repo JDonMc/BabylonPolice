@@ -161,14 +161,14 @@
 		{% if users_dic.public or user_anon.username.username == request.user.username %}
 			<div class=word>
 				<div class=worditself>
-					<a href="{% url 'Bable:tob_users_dic_word' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
+					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
 				</div>
 				<div class=wordstory>
 					<div class=storytitle>
 						<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}">Stories: {{ dics_word.stories.count }}</a>
 					</div>
 					<div class=dicwordstories>
-						{% if dics_word.stories.all %}
+						{% if dics_word.stories.count %}
 							{% for stor in dics_word.stories.all %}
 								<div class=dicwordstory>
 									<div id=collapse onclick="nodeCollapse('stor{{stor.id}}')">
@@ -264,7 +264,7 @@
 																</div>
 																<div class=storcomswords>Words:
 																	{% for word in node.words.all|slice:"10" %}
-																		<a href="{% url 'Bable:tob_users_dic_word' word.author.username word.home_dictionary word.the_word_itself %}">{{ word.the_word_itself }}</a>
+																		<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 																	{% endfor %}
 																</div>
 															<div class=storcomsauthor>
@@ -287,14 +287,7 @@
 							</div>
 						{% endif %}
 					</div>
-					<div class=storyformopen onclick="openStory()">
-						{% if story == 0 %}
-						+ Add New
-						{% else %}
-						Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself story %}">Add New</a>
-						{% endif %}
-					</div>
-					<form action="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself story %}" method=post>
+					<form action="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}" method=post>
 						{% csrf_token %}
 						<div id=storyform>
 							{{ story_form.as_p }}
@@ -456,7 +449,7 @@
 		{% if users_dic.public or user_anon.username.username == request.user.username %}
 			<div class=word>
 				<div class=worditself>
-					<a href="{% url 'Bable:tob_users_dic_word' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
+					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
 				</div>
 				<div class=wordstory>
 					<div class=storytitle>
@@ -539,14 +532,7 @@
 							</div>
 						{% endif %}
 					</div>
-					<div class=storyformopen onclick="openStory()">
-						{% if story == 0 %}
-						+ Add New
-						{% else %}
-						Edit / <a class=leave href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself story %}">Add New</a>
-						{% endif %}
-					</div>
-					<form action="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself story %}" method=post>
+					<form action="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}" method=post>
 						{% csrf_token %}
 						<div id=storyform>
 							{{ story_form.as_p }}

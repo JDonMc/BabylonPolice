@@ -2211,6 +2211,14 @@ def create_rendition():
 def create_analysis():
 	return base_redirect(request, 0)
 
+@login_required
+def create_story():
+	return base_redirect(request, 0)
+
+@login_required
+def create_pronunciations():
+	return base_redirect(request, 0)
+
 
 @login_required
 def create_comment(request, source_type, source, com):
@@ -5762,7 +5770,7 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 				dics_word.examples.add(examples_inst)
 
 			if words_stories.is_valid():
-				stories_inst = Simulacrum.objects.create(the_story_itself=words_stories.cleaned_data['the_story_itself'], author=loggedinauthor)
+				stories_inst = Story.objects.create(the_story_itself=words_stories.cleaned_data['the_story_itself'], author=loggedinauthor)
 				dics_word.stories.add(stories_inst)
 
 			if words_relations.is_valid():
@@ -5849,47 +5857,47 @@ def tob_users_dic_word_pronunciations(request, user, dictionary, word, pronuncia
 
 		words_pronunciation_form = IPA_pronunciationForm()
 	
-	pronunciation = int(pronunciation_id)
-	if pronunciation == 0:
-		if request.user.username == user:
-			if request.method == 'POST':
-				words_pronunciations = IPA_pronunciationForm(request.POST)
-				if words_pronunciations.is_valid():
-					pron_inst = IPA_pronunciation.objects.create(the_IPA_itself=words_pronunciations.cleaned_data['the_IPA_itself'], homophones=words_pronunciations.cleaned_data['homophones'], author=loggedinauthor)
-					dics_word.pronunciations.add(pron_inst)
-					dics_word.latest_change_date = timezone.now()
-					dics_word.trickle()
-					dics_word.update_sponsors()
-					
-					users_dic.latest_change_date = timezone.now()
-					users_dic.save()
-	else:
-		if IPA_pronunciation.objects.get(id=pronunciation):
-			pron_inst = IPA_pronunciation.objects.get(id=pronunciation)
-			pron_inst.views += 1
-			pron_inst.save()
+		pronunciation = int(pronunciation_id)
+		if pronunciation == 0:
 			if request.user.username == user:
 				if request.method == 'POST':
-					words_pronunciations = IPA_pronunciationForm(data=request.POST)
+					words_pronunciations = IPA_pronunciationForm(request.POST)
 					if words_pronunciations.is_valid():
-						pron_inst.the_IPA_itself = words_pronunciations.cleaned_data['the_IPA_itself']
-						pron_inst.homophones = words_pronunciations.cleaned_data['homophones']
-						pron_inst.save()
+						pron_inst = IPA_pronunciation.objects.create(the_IPA_itself=words_pronunciations.cleaned_data['the_IPA_itself'], homophones=words_pronunciations.cleaned_data['homophones'], author=loggedinauthor)
+						dics_word.pronunciations.add(pron_inst)
 						dics_word.latest_change_date = timezone.now()
 						dics_word.trickle()
 						dics_word.update_sponsors()
-						dics_word.save()
+						
 						users_dic.latest_change_date = timezone.now()
 						users_dic.save()
-				else:
-					IPA_pronunciationForm(instance=pron_inst)
+		else:
+			if IPA_pronunciation.objects.get(id=pronunciation):
+				pron_inst = IPA_pronunciation.objects.get(id=pronunciation)
+				pron_inst.views += 1
+				pron_inst.save()
+				if request.user.username == user:
+					if request.method == 'POST':
+						words_pronunciations = IPA_pronunciationForm(data=request.POST)
+						if words_pronunciations.is_valid():
+							pron_inst.the_IPA_itself = words_pronunciations.cleaned_data['the_IPA_itself']
+							pron_inst.homophones = words_pronunciations.cleaned_data['homophones']
+							pron_inst.save()
+							dics_word.latest_change_date = timezone.now()
+							dics_word.trickle()
+							dics_word.update_sponsors()
+							dics_word.save()
+							users_dic.latest_change_date = timezone.now()
+							users_dic.save()
+					else:
+						IPA_pronunciationForm(instance=pron_inst)
 
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word_pronunciations.html", {"loggedinanon": loggedinanon, "user_anon": user_anon, "loggedinauthor": loggedinauthor, "dics_word": dics_word, 'words_pronunciation_form': words_pronunciation_form, "pronunciation_inst": pronunciation,
+		the_response = render(request, "tob_users_dic_word_pronunciations.html", {"loggedinanon": loggedinanon, "users_dic": users_dic, "user_anon": user_anon, "loggedinauthor": loggedinauthor, "dics_word": dics_word, 'words_pronunciation_form': words_pronunciation_form, "pronunciation_inst": pronunciation,
 			"users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_pronunciations.html", {"user_anon": user_anon, "dics_word": dics_word, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_dic_word_pronunciations.html", {"user_anon": user_anon, "users_dic": users_dic, "dics_word": dics_word, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_count')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
@@ -6748,7 +6756,7 @@ def tob_users_dic_word_example(request, user, dictionary, word, example):
 			'exa_form': example_form, 'instance_id': example, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_examples.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, 
+		the_response = render(request, "tob_users_dic_word_examples.html", {"user_anon": user_anon, "dics_word": dics_word, 
 			"users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_example')
 	the_response.set_cookie('viewing_user', user)
@@ -6927,10 +6935,10 @@ def tob_users_dic_word_story(request, user, dictionary, word, story):
 					story_form = StoryForm(instance=story_inst)
 	
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, "story": story, "story_inst": story_inst, 'story_form': story_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, "story": story, "story_inst": story_inst, 'story_form': story_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "users_dic": users_dic, "dics_word": dics_word, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_story')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
@@ -7041,56 +7049,55 @@ def tob_users_dic_word_relation(request, user, dictionary, word, relation):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
 
-	dic_form = DictionaryForm()
-	space_form = SpaceForm(request)
-	post_form = PostForm(request)
-	task_form = TaskForm()
-	word_form = WordForm(request)
-	comment_form = Comment_SourceForm(request)
+		dic_form = DictionaryForm()
+		space_form = SpaceForm(request)
+		post_form = PostForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+		comment_form = Comment_SourceForm(request)
 
-	apply_votestyle_form = ApplyVotestyleForm(request)
-	create_votes_form = CreateVotesForm(request)
-	exclude_votes_form = ExcludeVotesForm(request)
-	apply_dic_form = ApplyDictionaryForm(request)
-	exclude_dic_form = ExcludeDictionaryAuthorForm()
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-	relation_form = RelationForm()
-	
-	relation = int(relation)
-	if relation == 0:
-		if request.user.username == user:
-			if request.method == 'POST':
-				relation_form = RelationForm(request.POST)
-				if relation_form.is_valid():
-					relation_inst = Relation.objects.create(the_relation_itself=relation_form.cleaned_data['the_relation_itself'], author=loggedinauthor)
-					dics_word.relations.add(relation_inst)
-					dics_word.latest_change_date = timezone.now()
-					dics_word.trickle()
-					dics_word.update_sponsors()
-					dics_word.save()
-					users_dic.latest_change_date = timezone.now()
-					users_dic.save()
-	else:
-		if Relation.objects.get(id=relation):
-			relation_inst = Relation.objects.get(id=relation)
+		relation_form = RelationForm()
+		
+		relation = int(relation)
+		if relation == 0:
 			if request.user.username == user:
 				if request.method == 'POST':
 					relation_form = RelationForm(request.POST)
 					if relation_form.is_valid():
-						relation_inst.the_relation_itself = relation_form.cleaned_data['the_relation_itself']
+						relation_inst = Relation.objects.create(the_relation_itself=relation_form.cleaned_data['the_relation_itself'], author=loggedinauthor)
+						dics_word.relations.add(relation_inst)
 						dics_word.latest_change_date = timezone.now()
 						dics_word.trickle()
 						dics_word.update_sponsors()
 						dics_word.save()
 						users_dic.latest_change_date = timezone.now()
 						users_dic.save()
-				else:
-					relation_form = RelationForm(instance=relation_inst)
-	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, 'relation_form': relation_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
+		else:
+			if Relation.objects.get(id=relation):
+				relation_inst = Relation.objects.get(id=relation)
+				if request.user.username == user:
+					if request.method == 'POST':
+						relation_form = RelationForm(request.POST)
+						if relation_form.is_valid():
+							relation_inst.the_relation_itself = relation_form.cleaned_data['the_relation_itself']
+							dics_word.latest_change_date = timezone.now()
+							dics_word.trickle()
+							dics_word.update_sponsors()
+							dics_word.save()
+							users_dic.latest_change_date = timezone.now()
+							users_dic.save()
+					else:
+						relation_form = RelationForm(instance=relation_inst)
+		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, 'relation_form': relation_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "users_dic": users_dic, "dics_word": dics_word, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_relation')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
