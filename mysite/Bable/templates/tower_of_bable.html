@@ -115,9 +115,9 @@ BabylonPolice.com - incentivised-ascento-secrecy
 			<div class=posttop>
 				<div class=postpreview>
 					{% if post.img %}
-						<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
+						<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="{{ post.title }}">
 					{% else %}
-						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
 					{% endif %}
 				</div>
 				{% if post.author__username %}
@@ -241,9 +241,9 @@ BabylonPolice.com - incentivised-ascento-secrecy
 				<div class=posttop>
 					<div class=postpreview>
 						{% if post.img %}
-							<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
+							<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="{{ post.title }}">
 						{% else %}
-							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;">
+							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
 						{% endif %}
 					</div>
 					{% if post.author__username %}
