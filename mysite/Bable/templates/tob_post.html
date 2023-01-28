@@ -169,6 +169,17 @@
 			Latest Change: {{ users_post.latest_change_date }}
 			Changes: {{ users_post.changes }}
 		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
+		</div>
 		<div class=postdictionaries>
 			Dictionaries: 
 			{% if users_post.dictionaries.count %}
@@ -195,11 +206,19 @@
 		</div>
 		<div class=postvotes>
 			Votes:
-			{% if users_post.votes.count %}
-				{% for vote in users_post.count_sort_votes %}
-				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">{{ vote.the_vote_style.the_space_itself.the_word_itself }}</a>
-				{% endfor %}
-			{% endif %}
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+			{% endfor %}
 		</div>
 		<div class=postviews>
 				Views: {{ users_post.viewcount }}
@@ -386,6 +405,17 @@
 		<div class=postchange>
 			Latest Change: {{ users_post.latest_change_date }}
 			Changes: {{ users_post.changes }}
+		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
 		</div>
 		<div class=postdictionaries>
 			Dictionaries: 
