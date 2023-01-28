@@ -252,7 +252,7 @@ Babylon Police - Police yourself to police others
 
 	<div style="background-color: lightgreen; border-top: 5px black solid; border-bottom: 5px black solid;">
 		<h2>Buy Advertising</h2>
-		<p>Follow the form on the landing page to bid<br/> for an uncensored self-regulated ad position. <br/>Each word included bears the same ad</p>
+		<p>Follow the form on signing up to buy credits<br/> for an uncensored self-regulated ad position. <br/>Each word included bears the same ad<br/> and then find dictionaries with words and sponsor them for their definitions</p>
 		<br/>
 		<br/>
 		<div class="feedback">
@@ -262,15 +262,6 @@ Babylon Police - Police yourself to police others
 				- Jack Don McLovin
 				</p>
 		</div>
-	</div>
-	<div class="logout-form" style="z-index:-4;">
-		<form action="{% url 'Bable:checkout_ads' %}" method='POST' >
-			{% csrf_token %}
-			{{ buyadvertisingform }}
-			<br/><br/>
-			<button id=pay type="submit" style="background-color: green; box-shadow:-5px 5px #e3dac9, -5px 5px 0 2px green;">Pay For It with Card</button>
-			<br/><br/><br/>
-		</form>
 	</div>
 	<style>
 		input {
@@ -559,15 +550,6 @@ Babylon Police - Police yourself to police others
 				- Jack Don McLovin
 				</p>
 		</div>
-	</div>
-	<div class="logout-form" style="z-index:-4;">
-		<form action="{% url 'Bable:checkout_ads' %}" method='POST' >
-			{% csrf_token %}
-			{{ buyadvertisingform }}
-			<br/><br/>
-			<button id=pay type="submit" style="background-color: green; box-shadow:-5px 5px #e3dac9, -5px 5px 0 2px green;">Pay For It with Card</button>
-			<br/><br/><br/>
-		</form>
 	</div>
 	<style>
 		input {

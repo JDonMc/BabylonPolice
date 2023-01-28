@@ -19,7 +19,7 @@ app_name='Bable'
 # url(r'^admin/', admin.site.urls),
 router = routers.DefaultRouter()
 router.register(r'author', views.AuthorViewSet)
-router.register(r'post', views.PostViewSet)
+#router.register(r'post', views.PostViewSet)
 	
 # Each has a sort
 # Needs a page-number
