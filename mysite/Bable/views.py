@@ -3445,7 +3445,7 @@ def tob_space_view_count(request, space, count):
 def tob_post(request, post):
 	users_post = Post.objects.get(id=int(post))
 	
-	posts_comments = users_post.comments.order_by('viewcount')[:25]
+	posts_comments = users_post.comments.order_by('-viewcount')[:25]
 	users_post.viewcount += 1
 
 	page_views, created = Pageviews.objects.get_or_create(page="tob_post")

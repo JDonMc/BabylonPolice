@@ -151,17 +151,17 @@
 		<div class=postvotes>
 			Votes:
 			{% for vote in users_post.votes.all %}
-			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-						{% if vote.url %}
-							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-								<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
-							</a>
-						{% else %}
-							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-								<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
-							</a>
-						{% endif %}
-						<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
 			
 		</div>
@@ -204,24 +204,8 @@
 				{% endfor %}
 			{% endif %}
 		</div>
-		<div class=postvotes>
-			Votes:
-			{% for vote in users_post.votes.all %}
-				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-				{% if vote.url %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
-					</a>
-				{% else %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
-					</a>
-				{% endif %}
-				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
-			{% endfor %}
-		</div>
 		<div class=postviews>
-				Views: {{ users_post.viewcount }}
+			Views: {{ users_post.viewcount }}
 		</div>
 		<div class=postcc>
 			CC:
@@ -439,6 +423,18 @@
 				{% for space in users_post.spaces.all %}
 					<a class=yellow href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
 				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postviews>
+			Views: {{ users_post.viewcount }}
+		</div>
+		<div class=postcc>
+			CC:
+			<br/>
+			{% if users_post.cc %}
+			{{ users_post.cc|safe }}
+			{% else %}
+				No creative common's license
 			{% endif %}
 		</div>
 		<div class=postcomments>
