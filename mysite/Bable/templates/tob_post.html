@@ -79,7 +79,7 @@
 			
 		</style>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<div id=flashreadbody style="text-align: center;">
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
 			<div id=flashpostbody style="display:none;">
 				{{ users_post.body|safety_clean }}
 			</div>
@@ -108,7 +108,7 @@
 			{{ users_post.body|safety_check|usernames|spaces|safe|linebreaks }}
 		</div>
 		{% endif %}
-		<div id=speakpostbody>
+		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
 			<script type="text/javascript">
 
@@ -146,7 +146,9 @@
 			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
 		<div class=postcount>
-			<a class=yellow href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">Votes: {{ users_post.votes_uniques }}</a>
+			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+				Total Votes: {{ users_post.votes.count }}
+			</a>
 		</div>
 		<div class=postvotes>
 			Votes:
@@ -219,7 +221,7 @@
 		<div class=postcomments>
 			Comments: {{ users_post.comments.count }}
 			<div class=comsubmit>
-				<div id=postcomlist onclick="openComment('postcomlist')">
+				<div id=postcomlist onclick="openComment('postcomlist')" style="cursor: pointer;">
 					Newcom
 				</div>
 				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
@@ -324,7 +326,7 @@
 			</h3>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<div id=flashreadbody style="text-align: center;">
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
 			<p id=flashreadword>Click here to flash read.</p>
 			<div>
 			</div>
@@ -344,7 +346,7 @@
 		<div id=postbody class=postbody>
 			{{ users_post.body|safety_clean|safe|linebreaks }}
 		</div>
-		<div id=speakpostbody>
+		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
 			<script type="text/javascript">
 
@@ -381,10 +383,27 @@
 		<div class=postvoters>
 			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
-		<div class=postvotes>
+		<div class=postcount>
 			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
-				Votes: {{ users_post.votes.count }}
+				Total Votes: {{ users_post.votes.count }}
 			</a>
+		</div>
+		<div class=postvotes>
+			Votes:
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+			{% endfor %}
+			
 		</div>
 		<div class=postchange>
 			Latest Change: {{ users_post.latest_change_date }}
@@ -440,14 +459,9 @@
 		<div class=postcomments>
 			Comments:
 			<div class=comsubmit>
-				<div id=postcomlist onclick="openComment('postcomlist')">
-					Newcom
+				<div id=postcomlist style="cursor: pointer;">
+					<button type=submit>Sign in/up to comment</button>
 				</div>
-				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
-					{% csrf_token %}
-					{{ comment_form }}
-					<button type=submit>what've I got to lose?</button>
-				</form>
 			</div>
 			{% if users_post.comments.count %}
 				{% recursetree users_post.comments.all %}
