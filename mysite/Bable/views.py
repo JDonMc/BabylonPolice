@@ -3171,7 +3171,7 @@ def tower_of_bable_count(request, count):
 	mcount = 0
 	if count > 25:
 		mcount = count - 25
-	posts_by_viewcount = Post.objects.order_by('latest_change_date', 'votes_count', 'viewcount')[count:count100]
+	posts_by_viewcount = Post.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[count:count100]
 	postscount = posts_by_viewcount.count()
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
