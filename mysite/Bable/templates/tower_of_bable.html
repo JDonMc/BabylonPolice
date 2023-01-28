@@ -343,10 +343,6 @@ BabylonPolice.com - incentivised-ascento-secrecy
 				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
 			}
 		*/
-		$(document).on('click', 'button.Delete', function() {
-			var target = '#id_' + $(this).val() + '-DELETE';
-			$(target).prop('checked', true);
-			$(this).closest('tr').hide();
-		});
+		  
 	</script>
 {% endblock %}
