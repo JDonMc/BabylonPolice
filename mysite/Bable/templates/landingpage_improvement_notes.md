@@ -36,17 +36,50 @@ Each post will have the ability to use unique-share link click-tracking (ie. any
 
 ## Things to make when moving to a Linux OS.
 
-### Encrypted Drive By Default
-
-[1] Applies to OS' when installing Kali, HardenedBSD, OpenBSD, Ubuntu, Debian, Arch, and Librem.
+[1] Applies to OS' including Kali, HardenedBSD, OpenBSD, Ubuntu, Debian, Arch, and Librem.
 
 [2] The lower applies to the Apps, Scripts, Forks, and Packages to create when using [1] 
 
 
+### Encrypted Drive By Default
+
+When installing the OS, separate the boot files from the drive and encrypt the drive requiring a password, before actually booting the OS.
+
 ### CacheGit
 
 ## Set up CacheCommit mod the commit method in a fork of Git
-which is a includes an optional extra flag -ts like the -m flag, except it takes in a date and a time down to the minute on a randomised second, and sets up a time-triggered shell script, like a auto-updater or a live-app, or a desktop toolbar (top on mac, bottom right on windows) to submit the commit at that time, as long as it is after the other commits with a -ts. \"dd/mm/yyyy/hh:mm\" where \":\" \",\" \"/\" are all equivalents. optionally add \"ss\" at one or two digits, and specifies the detail of the randomness, ie. set it at the start of that minute, or set it at the end, or don't set it, or set it in the middle. Because you may want to include one at the start of the minute, or at the end of a minute or in the middle, if you want to make it not conflict with other commands around that minute, so they can be stacked with other trigger commands (in case you want to auto-trigger a set of minutes for a set of commits that are divided from one big commit, and the overall commit message can be auto-attached to be subdivided and then expanded on for the appropriate areas of the code (break on file-edits per file, add filename; break on files-class-edits per class, add file-class-edit name; break on class-function edits per function, add class-function name; and others for other file types (.md .txt .doc .docx .img .png .jpeg .gif (then the same can be done for image edits into sequential steps, to show the process of photoshop and then train an AI to do it, so each step can be generative)))
+which is a includes an optional extra flag -ts like the -m flag, except it takes in a date and a time down to the minute on a randomised second, and sets up a time-triggered shell script, like a auto-updater or a live-app, or a desktop toolbar (top on mac, bottom right on windows) to submit the commit at that time, as long as it is after the other commits with a -ts. \"dd/mm/yyyy/hh:mm\" where \":\" \",\" \"/\" are all equivalents. optionally add \"ss\" at one or two digits, and specifies the detail of the randomness, ie. set it at the start of that minute, or set it at the end, or don't set it, or set it in the middle. 
 
-And a secondary optional flag -
+Because you may want to include one at the start of the minute, or at the end of a minute or in the middle, if you want to make it not conflict with other commands around that minute, so they can be stacked with other trigger commands 
+
+(in case you want to auto-trigger a set of minutes for a set of commits that are divided from one big commit, and the overall commit message can be auto-attached to be subdivided and then expanded on for the appropriate areas of the code (break on file-edits per file, add filename; break on files-class-edits per class, add file-class-edit name; break on class-function edits per function, add class-function name; and others for other file types (.md .txt .doc .docx .img .png .jpeg .gif (then the same can be done for image edits into sequential steps, to show the process of photoshop and then train an AI to do it, so each step can be generative)); break on filetype) 
+
+include minutes rounders and randomisers ie "b-" in the "mm" for bottom (0-2), randomised minute-second, or "t-" for the same but top (4-6) and "m-" for (2-4) and "--" for random, but when the first member is one the second must be "-".
+
+Then we can also do a FixFork where you clone/fork your own app and auto test certain potential fixes at the same time, for situations where there are many possible fixes, and you don't know which one will work. So if something breaks or was already broken, you can design an AI to trigger from the information you provide it about the break and then auto-search-scrape for potential fixes and then test out each simultaneously, so if something takes a long time to test (like compiling an app, requiring a download or install, testing possible versioning differences, not knowing if something is vulnerable until you audit it, etc.)
+
+And a secondary optional flag -break that allows you to specify the breaking rules for the commits.
+
+
+## Set up a temp export script
+
+temp export exports the specified variable to a temp_hold_varname and then exports the specified variable to the original variable name, and can be called by eg. `temp export PATH=...:$PATH` which does 
+
+```
+export TEMP_HOLD_PATH=$PATH
+export PATH=...:$PATH
+```
+
+and `temp unexport PATH`
+which does
+```
+export PATH=TEMP_HOLD_PATH
+```
+seems unneccessary but means you don't have to write out all of it and custom specify the temp varname.
+
+This allows you to write
+```
+temp export PATH=...:$PATH && command set && temp unexport PATH
+```
+which allows you to have log vars set in particular scripts that turn off when you leave, so they don't hold and apply all the time or for other scripts that you don't want the flag to apply for.
 
