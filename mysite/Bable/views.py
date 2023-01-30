@@ -3693,7 +3693,7 @@ def change_anon_sort_char(request):
 
 def tob_view_users(request):
 
-	user_anons = Anon.objects.all()[:100]
+	user_anons = Anon.objects.all()[:25]
 	count = 0 
 	mcount = 0
 	count100 = 100
@@ -3708,7 +3708,7 @@ def tob_view_users(request):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
 
-		user_anons = Anon.objects.all().order_by(loggedinanon.anon_sort_char)[0:100]
+		user_anons = Anon.objects.all().order_by(loggedinanon.anon_sort_char)[0:25]
 
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
@@ -3738,11 +3738,11 @@ def tob_view_users(request):
 
 def tob_view_users_count(request, count):
 	count = int(count)
-	count100 = count + 100
+	count100 = count + 25
 	user_anons = Anon.objects.order_by()[count:count100]
 	#if request.user.is_authenticated:
-	if count > 100:
-		mcount = count - 100
+	if count > 25:
+		mcount = count - 25
 	else:
 		mcount = 0
 	#	if user_anons is not None:
@@ -7670,7 +7670,7 @@ def tob_users_dic_analyses(request, user, dictionary, count):
 
 def tob_dics(request):
 
-	dics = Dictionary.objects.order_by('-latest_change_date')[:100]
+	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
 	
 	registerform = UserCreationForm()
 	
@@ -7703,7 +7703,7 @@ def tob_dics(request):
 
 def tob_dics_count(request, count):
 
-	dics = Dictionary.objects.order_by('-latest_change_date')[:100]
+	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
 	
 	registerform = UserCreationForm()
 	
