@@ -420,7 +420,7 @@ select {
 	background-color: #2f2f2f;
 }
 
-.postsponsors, .dictionarysponsors, .spacesponsors, .exasponsors {
+.dictionarysponsors, .spacesponsors, .exasponsors {
 	position: absolute;
 	right: 3em;
 	display: inline-block;
