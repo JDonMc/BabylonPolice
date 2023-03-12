@@ -1,0 +1,675 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+Psyop Tactics - Tactics to conduct and prevent psyops
+{% endblock %}
+
+{% block inserts %}
+<meta name="viewport" content="width=1024">
+<meta property="og:description" content="Psyop Tactics - Tactics to conduct and prevent psyops. It may sound like an autoantonym but it's necessary like attack and defence in war. If someone is invading your territory and arguing in your language, do they obey the rules you follow? If you can't argue with them, invade their territory under cover, learn their rules and cut off what they stand on.">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+{% block authenticatedposts %}
+<div class=pitch style="margin-left: 6em;">
+	<h1 class=pitchtitle style="font-size:3em; font-family: FS Kim,Georgia,'Serif';">
+		The Psyop Wars have begun<br/> Time to prepare with tactics and strategy!
+	</h1>
+	<h2 class=pitchdesc1 style="font-size:2.1em; font-family: 'futura-pt';">
+		Tactics and strategy are often seen as interchangeable, but I seperate these waters.
+	</h2>
+	<h3 class=pitchdesc2 style="font-size:1.7em; font-family: FS Kim,Georgia,'Serif';">
+		Tactics is optimising for the individual actions to take, <br/> Strategy is how the group operates assuming they are co-coordinated authorities.
+	</h3>
+	<h2 class=pitchdesc3 style="font-size:2.1em; font-family: 'futura-pt';">
+		Part of the tactics involves something along the lines of "stoop to the fool and argue on his level".
+	</h2>
+	<h4 class=pitchdesc4 style="font-size:1.7em; font-family: FS Kim,Georgia;">
+		It's basis is in "treat your neighbour as he treats you"<br/> And a fool beats you with experience because he beats you <i>in his</i> experience.
+	</h4>
+	<h2 class=pitchdesc5 style="font-size:2.1em; font-family: 'futura-pt';">
+		So to beat them, you must beat them in their experience.
+	</h2>
+	<div class=pitchdescription style="font-family: monospace;">
+		Build Out Your Psyop War Plan<br/>
+		Say one thing, mean another<br/><br/>
+		let only those who pay to know be in the know<br/><br/><br/>
+	</div>
+	<h2 class=pitchdesc6 style="font-size:2.1em; font-family: 'futura-pt';">
+		Connecting the disconnected: We want to remove the need for <br/><i>like-mindedness</i> for people to meaningfully increase connection with others
+	</h2>
+	<a id="keybutton" href="/B/index" style="border-radius:3em; padding: 1em 1em 1em 1em; margin: 2em 2em 2em 2em;">Click the Key to Sign Up</a>
+	<br/>
+	<br/>
+	<h2 class=pitchdesc7 style="font-size:2.1em; font-family: 'futura-pt';">
+		Connecting the disconnected: We want to remove the need for <br/><i>like-mindedness</i> for people to meaningfully increase connection with others
+	</h2>
+	<div class=pitchbasis style="font-family: FS Kim,Georgia,'Serif';">
+		Advertise, buy or subscribe to private dictionaries of code words and forums<br/>
+		Speak in public, but only be known in private.
+	</div>
+	<h2 class=pitchdesc8 style="font-size:2.1em; font-family: 'futura-pt';">
+		<i>Multidimensional Voting Mechanism:</i> The voting mechanism should be designed to be <i>N-dimensional</b>, <b>allowing for greater granularity</i> in the post categorization and analyzed. For example, a user could "vote" for a post not only based on its content, but also <i>vote on</i> its <i>delivery</i>, <i>tone</i>, <i>or any other aspect deemed important</i>.
+	</h2>
+	<div style="margin-top: 20px; font-family: monospace;">
+		See the <a style="color: blue;" href="/B/about">ABOUT</a> page to read the research paper on the conceptual design mechanic for this particular Social Media Platform, which is inherently a combination of Wikipedia, Urban Dictionary, and Reddit, with a touch of ascento-secrecy.
+	</div>	
+</div>
+<style>
+	#keybutton {
+		background-color: green;
+		color: white;
+	}
+	#keybutton:hover {
+		background-color: gold;
+		color: black;
+	}
+</style>
+
+<div class=top>
+	<div class=topscreen style="text-align: center;">
+		<h2>Why Choose Us</h2>
+	</div>
+	<style>
+		.bannerleft:hover, .bannermiddle:hover, .bannerright:hover, .botbannerleft:hover, .botbannermiddle:hover, .botbannerright:hover {
+			box-shadow: 0 2px 10px black;
+			transition: box-shadow 0.3s ease-in-out;
+		}
+	</style>
+	<div class=topbanner style="text-align: center; font-size:xx-small;">
+		<div class=bannerleft style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Designed For Everyone</h3>
+			<p>
+				BabylonPolice pays it's readers, posters, and commenters.<br/>
+				With adrevenue going to users, we have happy advertisees.<br/>
+				Happy Advertisees means a better response and a better audience.
+			</p>
+		</div>
+
+		<div class=bannermiddle style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Expert Reporting</h3>
+			<p>
+				BabylonPolice stores the location of every click<br/>
+				This allows us to see who sees your ad and where<br/>
+				With better ad management, you get better results.
+			</p>
+		</div>
+
+		<div class=bannerright style="background-color: white; margin: auto; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Content Uploading</h3>
+			<p>
+				BabylonPolice automatically copies the content from other websites<br/>
+				Bringing you the best free content from around the web<br/>
+				All your favourite content all in one place, paying you.
+			</p>
+		</div>
+
+
+	</div>
+	<div class=bottombanner style="text-align: center;">
+		<div class=botbannerleft style="background-color: white; display: inline-block; width: fit-content;padding: 5px; border: black 1px solid;">
+			<h3>No Blockchain Required</h3>
+			<p>
+				BabylonPolice pays you with credits that you sell to advertisers<br/>
+				There are no fees involved, so no losses<br/>
+				We pay no allegience to one blockchain to rule them all.
+			</p>
+		</div>
+
+		<div class=botbannermiddle style="background-color: white; display: inline-block; width: fit-content;padding: 5px; border: black 1px solid;">
+			<h3>No KYC</h3>
+			<p>
+				The most data that BabylonPolice takes from you is your email<br/>
+				We don't care who you are or where you come from<br/>
+				We allow everyone around the globe to use our site.
+			</p>
+		</div>
+
+		<div class=botbannerright style="background-color: white; margin: auto; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>No Moderation/Censorship</h3>
+			<p>
+				We used to use Reddit, but BabylonPolice was built different<br/>
+				Without moderation we don't have to pay people for reporting<br/>
+				We are going back to the wild west for the people.
+			</p>
+		</div>
+	</div>
+</div>
+
+<div id='featuredposts' style="left: 10px; position: relative;">
+	<h2 style="left: 20px; position: relative;">Featured Posts</h2>
+	
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.jackdonmclovin.com"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/304326/count/0/"><h4>A Motherfucker’s Guide to Life.</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			Sick cunts are like tough cunts but they don’t have to be tough. Tough cunts are usually huge, but big cunts are massive. Shit cunts get into a…
+		</div>
+		<div class="postwords">
+			Words:
+			
+			<a href="/B/user/test/dictionary/firstian/word/error/count/0/">
+				error
+			</a>
+			
+			<a href="/B/user/test/dictionary/firstian/word/self/count/0/">
+				self
+			</a>
+			
+			<a href="/B/user/test/dictionary/firstian/word/god/count/0/">
+				god
+			</a>
+			
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+
+
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.sciencealert.com/new-clinical-trial-points-to-how-psilocybin-works-in-the-brain-to-dissolve-your-ego"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/1041/count/0/"><h4>First-of-Its-Kind Study Hints at How Psilocybin Works in The Brain to Dissolve Ego</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/profilepic.jpeg" style="z-index: 1; height: 6em; width: 6em; object-fit: cover;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			The psychedelic experience can be rough on a person's ego. Those who experiment with magic mushrooms and LSD often describe a dissolution …
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+
+
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.reddit.com/r/technology/comments/hwi0uf/3_lawmakers_in_charge_of_grilling_apple_amazon/?utm_source=share&amp;utm_medium=web2x"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/2307/count/0/"><h4>Regulatory Capture is a thing magnora7 warned us about.</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/profilepic.jpeg" style="z-index: 1; height: 6em; width: 6em; object-fit: cover;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			Lawmakers and corporations are in bed with each other again. Not only do lobbyists get paid by corporations to sway the government, but they capture their own: It's not illegal for lawmakers to own shares in companies, even when an investigation into those companies is underway.
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+</div>
+<style>
+	#buyadvertising:hover {
+		box-shadow: 0 2px 10px black;
+		transition: box-shadow 0.3s ease-in-out;
+	}
+</style>
+<br/><br/><br/><br/>
+<div id=buyadvertising style="margin: auto; text-align: center; background-color: white; margin-left:20px; border: 5px green solid; border-radius: 8px;">
+	<h1>Monetise link sharing</h1>
+	<p>Post your link here and then share it there<br/>
+	We add an ad to the page and help you get paid<br/>
+	<br/>
+	Create and use a dictionary for in-post ads <br/>
+	Let companies compete and follow the fads.	<br/>
+	<br/>
+	Buy better dictionaries to get a better payment <br/>
+	Post better content and get better engagement. <br/>
+	<br/>
+	Sell your soul to the ascension of information <br/>
+	Have a stake in content propagation. <br/>
+	<br/>
+	We make companies reveal what words they sponsor <br/>
+	So they reveal what presumptions they honour. <br/>
+	<br/>
+	</p>
+
+	<div style="background-color: lightgreen; border-top: 5px black solid; border-bottom: 5px black solid;">
+		<h2>Buy Advertising</h2>
+		<p>Follow the form on signing up to buy credits<br/> for an uncensored self-regulated ad position. <br/>Each word included bears the same ad<br/> and then find dictionaries with words and sponsor them for their definitions</p>
+		<br/>
+		<br/>
+		<div class="feedback">
+			<h2>Feedback</h2>
+			<p>Word-based advertising rather than <br/>age-location-based advertising<br/>
+				allows for a searchable landscape<br/>rather than a user-targetted ad<br/>
+				- Jack Don McLovin
+				</p>
+		</div>
+	</div>
+	<style>
+		input {
+			border-radius: 8px;
+			border-color: green;
+		}
+		input:hover {
+			box-shadow: 0 2px 10px black;
+		    transition: box-shadow 0.3s ease-in-out;
+		}
+		label {
+			display:block;
+		}
+	</style>
+</div>
+
+<div style="margin: auto; text-align:center;">
+	<p>
+		3rd Party Advertising, for a safer world, don't advertise for companies <br/> with health products if they contain toxins for example like the <br/>current baby food scandal in the US 95% contain either Arsenic Mercury <br/>Lead or Cadmium.
+		<br/>
+		<br/>
+		Login to enable post sorting. 
+		<br/>
+		<br/>
+		Buy/sell dictionaries which contain words which contain spaces <br/>(subreddits) to conglomerate posts and sell ads. 
+		<br/>
+		<br/>
+		Adverts pay users for each click and are auctioned off to the highest <br/>bidder. No clicks no credits. Posts do not archive, they stay active<br/> and can recirculate by editing to add new spaces (you can cross-post<br/> to multiple spaces at once). 
+		<br/>
+		<br/>
+		We do not track your data. We do not send emails. Your content is yours,<br/> so you can input a Creative Commons on every post.
+		<br/><br/>
+	</p>
+		
+</div>
+
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<div class=pitch style="margin-left: 6em;">
+	<h1 class=pitchtitle style="font-size:3em; font-family: FS Kim,Georgia,'Serif';">
+		Freedom of Speech<br/> is being threatened!
+	</h1>
+	<h2 class=pitchdesc1 style="font-size:2.1em; font-family: 'futura-pt';">
+		Get Crypto-for-Content (soon), Not a token!<br/> Sell with subscription/one-off/free, public/private, sell merch (soon)
+	</h2>
+	<h3 class=pitchdesc2 style="font-size:1.7em; font-family: FS Kim,Georgia,'Serif';">
+		Share just links, include an image/gif (video soon), <br/> Or private urban-dictionary/thesaurus entries, or short/long-form posts.
+	</h3>
+	<h2 class=pitchdesc3 style="font-size:2.1em; font-family: 'futura-pt';">
+		Time to: <i style="color: green;">decentralise</i> the <i style="color: red;">control</i> of <i style="color: blue;">language</i>!<br/> dissolve the boundaries between language borders.
+	</h2>
+	<h4 class=pitchdesc4 style="font-size:1.7em; font-family: FS Kim,Georgia;">
+		Threaded replies, in-comment user-selected ads paying the commenter<br/> Democratic/auctioned/private in-content ads paying the author
+	</h4>
+	<h2 class=pitchdesc5 style="font-size:2.1em; font-family: 'futura-pt';">
+		Balancing for Equitable Unity: Our community focuses on balancing and <i>accelerating meaningful connections</i>, leaving no individual behind.
+	</h2>
+	<div class=pitchdescription style="font-family: monospace;">
+		Freely Commercialising User Choice Definitions<br/>
+		Create-your-own code words <br/><br/>
+		hide your truth - conceal your intent<br/><br/><br/>
+	</div>
+	<h2 class=pitchdesc6 style="font-size:2.1em; font-family: 'futura-pt';">
+		Connecting the disconnected: We want to remove the need for <br/><i>like-mindedness</i> for people to meaningfully increase connection with others
+	</h2>
+	<a id="keybutton" href="/B/index" style="border-radius:3em; padding: 1em 1em 1em 1em; margin: 2em 2em 2em 2em;">Click the Key to Sign Up</a>
+	<br/>
+	<br/>
+	<h2 class=pitchdesc7 style="font-size:2.1em; font-family: 'futura-pt';">
+		Connecting the disconnected: We want to remove the need for <br/><i>like-mindedness</i> for people to meaningfully increase connection with others
+	</h2>
+	<div class=pitchbasis style="font-family: FS Kim,Georgia,'Serif';">
+		Advertise or subscribe to private dictionaries of code words and forums<br/>
+		Speak in public, but only be known in private.
+	</div>
+	<h2 class=pitchdesc8 style="font-size:2.1em; font-family: 'futura-pt';">
+		<i>Multidimensional Voting Mechanism:</i> The voting mechanism should be designed to be <i>N-dimensional</b>, <b>allowing for greater granularity</i> in the post categorization and analyzed. For example, a user could "vote" for a post not only based on its content, but also <i>vote on</i> its <i>delivery</i>, <i>tone</i>, <i>or any other aspect deemed important</i>.
+	</h2>
+	<div style="margin-top: 20px; font-family: monospace;">
+		See the <a style="color: blue;" href="/B/about">ABOUT</a> page to read the research paper on the conceptual design mechanic for this particular Social Media Platform, which is inherently a combination of Wikipedia, Urban Dictionary, and Reddit, with a touch of ascento-secrecy.
+	</div>	
+
+	
+</div>
+<style>
+	#keybutton {
+		background-color: green;
+		color: white;
+	}
+	#keybutton:hover {
+		background-color: gold;
+		color: black;
+	}
+</style>
+
+
+<div class=top>
+
+	<div class=topscreen style="text-align: center;">
+		<h2>Why Choose Us</h2>
+	</div>
+
+	<div class=topbanner style="text-align: center; font-size:xx-small;">
+		<div class=bannerleft style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Designed For Everyone</h3>
+			<p>
+				BabylonPolice pays it's readers, posters, and commenters.<br/>
+				With adrevenue going to users, and they can sell their compositions, we have happy advertisees.<br/>
+				Happy Advertisees means a better response and a better audience.
+			</p>
+		</div>
+		<style>
+			.bannerleft:hover, .bannermiddle:hover, .bannerright:hover, .botbannerleft:hover, .botbannermiddle:hover, .botbannerright:hover {
+				box-shadow: 0 2px 10px black;
+				transition: box-shadow 0.3s ease-in-out;
+			}
+		</style>
+
+		<div class=bannermiddle style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Expert Reporting</h3>
+			<p>
+				BabylonPolice stores the location of every view, and click<br/>
+				This allows you to see who sees your ad and where<br/>
+				With better ad management, you get better results.
+			</p>
+		</div>
+
+		<div class=bannerright style="background-color: white; margin: auto; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>Content Uploading</h3>
+			<p>
+				BabylonPolice automatically copies the content from other websites<br/>
+				Bringing you the best free content from around the web<br/>
+				All your favourite content all in one place, paying you.
+			</p>
+		</div>
+
+
+	</div>
+	<div class=bottombanner style="text-align: center; font-size:xx-small;">
+		<div class=botbannerleft style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>No Blockchain Required</h3>
+			<p>
+				BabylonPolice pays you with credits that you sell to advertisers<br/>
+				There are no fees involved, so no losses<br/>
+				We pay no allegience to one blockchain to rule them all.
+			</p>
+		</div>
+
+		<div class=botbannermiddle style="background-color: white; display: inline-block; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>No KYC</h3>
+			<p>
+				The most data that BabylonPolice takes from you is your email<br/>
+				We don't care who you are or where you come from<br/>
+				We allow everyone around the glob to use our site.
+			</p>
+		</div>
+
+		<div class=botbannerright style="background-color: white; margin: auto; width: fit-content; padding: 5px; border: black 1px solid;">
+			<h3>No Moderation/Censorship</h3>
+			<p>
+				We used to use Reddit, but BabylonPolice was built different<br/>
+				Without moderation we don't have to pay people for reporting<br/>
+				We are going back to the wild west, for the people.
+			</p>
+		</div>
+	</div>
+</div>
+
+<div id='featuredposts' style="left: 10px; position: relative;">
+	<h2 style="left: 20px; position: relative;">Featured Posts</h2>
+	
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.jackdonmclovin.com"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/304326/count/0/"><h4>A Motherfucker’s Guide to Life.</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/profilepic.jpeg" style="z-index: 1; height: 6em; width: 6em; object-fit: cover;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			Sick cunts are like tough cunts but they don’t have to be tough. Tough cunts are usually huge, but big cunts are massive. Shit cunts get into a…
+		</div>
+		<div class="postwords">
+			Words:
+			
+			<a href="/B/user/test/dictionary/firstian/word/error/count/0/">
+				error
+			</a>
+			
+			<a href="/B/user/test/dictionary/firstian/word/self/count/0/">
+				self
+			</a>
+			
+			<a href="/B/user/test/dictionary/firstian/word/god/count/0/">
+				god
+			</a>
+			
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+
+
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.sciencealert.com/new-clinical-trial-points-to-how-psilocybin-works-in-the-brain-to-dissolve-your-ego"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/1041/count/0/"><h4>First-of-Its-Kind Study Hints at How Psilocybin Works in The Brain to Dissolve Ego</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/profilepic.jpeg" style="z-index: 1; height: 6em; width: 6em; object-fit: cover;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			The psychedelic experience can be rough on a person's ego. Those who experiment with magic mushrooms and LSD often describe a dissolution …
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+
+
+	<div class="post">
+		<div class="posttop">
+			<div class="postpreview">
+				
+					<a href="https://www.reddit.com/r/technology/comments/hwi0uf/3_lawmakers_in_charge_of_grilling_apple_amazon/?utm_source=share&amp;utm_medium=web2x"><img src="/static/babylonpolice.com.gif" style="z-index: 1; height: 6em; width: 6em;"></a>
+				
+			</div>
+			<div class="posttitle">
+				<a href="/B/user/test/post/2307/count/0/"><h4>Regulatory Capture is a thing magnora7 warned us about.</h4></a>
+			</div>
+			
+			<div class="postsponsors">
+				
+					<a href="https://www.jackdonmclovin.com/"><img src="/static/profilepic.jpeg" style="z-index: 1; height: 6em; width: 6em; object-fit: cover;"></a>
+				
+			</div>
+		</div>
+		<div class="postbody" style="margin-right: 0.5em">
+			Lawmakers and corporations are in bed with each other again. Not only do lobbyists get paid by corporations to sway the government, but they capture their own: It's not illegal for lawmakers to own shares in companies, even when an investigation into those companies is underway.
+		</div>
+		<div class="postauthor">
+			<a href="/B/user/test/count/0/">/u/test</a>
+		</div>
+	</div>
+</div>
+<style>
+	#buyadvertising:hover {
+		box-shadow: 0 2px 10px black;
+		transition: box-shadow 0.3s ease-in-out;
+	}
+</style>
+<br/><br/><br/><br/>
+<div id=buyadvertising style="margin: auto; text-align: center; background-color: white; margin-left:20px; border: 5px green solid; border-radius: 8px;">
+	<h1>Monetise link sharing</h1>
+	<p>Post your link here and then share it there<br/>
+	We add an ad to the page and help you get paid<br/>
+	<br/>
+	Create and use a dictionary for in-post ads <br/>
+	Let companies compete and follow the fads.	<br/>
+	<br/>
+	Buy better dictionaries to get a better payment <br/>
+	Post better content and get better engagement. <br/>
+	<br/>
+	Sell your soul to the ascension of information <br/>
+	Have a stake in content propagation. <br/>
+	<br/>
+	We make companies reveal what words they sponsor <br/>
+	So they reveal what presumptions they honour. <br/>
+	<br/>
+	</p>
+
+	<div style="background-color: lightgreen; border-top: 5px black solid; border-bottom: 5px black solid;">
+		<h2>Buy Advertising</h2>
+		<p>Follow the form on the landing page to bid<br/> for an uncensored self-regulated ad position. <br/>Each word included bears the same ad</p>
+		<br/>
+		<br/>
+		<div class="feedback">
+			<h2>Feedback</h2>
+			<p>Word-based advertising rather than <br/>age-location-based advertising<br/>
+				allows for a searchable landscape<br/>rather than a user-targetted ad<br/>
+				- Jack Don McLovin
+				</p>
+		</div>
+	</div>
+	<style>
+		input {
+			border-radius: 8px;
+			border-color: green;
+		}
+		input:hover {
+			box-shadow: 0 2px 10px black;
+		    transition: box-shadow 0.3s ease-in-out;
+		}
+		label {
+			display:block;
+		}
+	</style>
+</div>
+
+<div style="margin: auto; text-align:center;">
+	<p>
+		3rd Party Advertising, for a safer world, don't advertise for companies <br/> with health products if they contain toxins for example like the <br/>current baby food scandal in the US 95% contain either Arsenic Mercury <br/>Lead or Cadmium.
+		<br/>
+		<br/>
+		Login to enable post sorting. 
+		<br/>
+		<br/>
+		Buy/sell dictionaries which contain words which contain spaces <br/>(subreddits) to conglomerate posts and sell ads. 
+		<br/>
+		<br/>
+		Adverts pay users for each click and are auctioned off to the highest <br/>bidder. No clicks no credits. Posts do not archive, they stay active<br/> and can recirculate by editing to add new spaces (you can cross-post<br/> to multiple spaces at once). 
+		<br/>
+		<br/>
+		We do not track your data. We do not send emails. Your content is yours,<br/> so you can input a Creative Commons on every post.
+		<br/><br/>
+	</p>
+		
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

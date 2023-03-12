@@ -83,3 +83,20 @@ temp export PATH=...:$PATH && command set && temp unexport PATH
 ```
 which allows you to have log vars set in particular scripts that turn off when you leave, so they don't hold and apply all the time or for other scripts that you don't want the flag to apply for.
 
+
+
+## Don't know yet
+
+You can only control your language if you choose to define it and use it for something, and be able to refer back to it, and then to sequentially improve it, while still being able to refer back to the previous, and to use them as individually different. Because all notions are historical notions. Even here in this very text.
+
+
+Revealing multi-party untrustworthiness, and aligning the group-mind agenda.
+Making it easier to see the faults in others, and easier to trust your own information.
+
+Commenter request permission privileges at optional purchase.
+Mod. Submod. bequest. long-form request. question request. respond... request. What is the value of your word?
+
+If it is implicit, then put it at a cost. Because mine is apparently forever cheap. Talk is cheap so you say "and you should pay less", instead I would say "talk to play". The game was set in motion and act was to tell all motion of all possible motion. Now if you think that is a variable as a part of a category of numbers, then you're mistaken as to the task of apprehension. You do not speed up to take in. You read in to take in, and then you read all until you have tell all to tell about it.
+
+And then with potential in your hand, possibility was in the midst of land, that potentially you could be right. Assuming potentiality was such that probability, AS A CONCEPT, even originally existed. Likelihood, or boundaryhoods, or significance, or some other measure. They perform an experiment that will last like a minutea of the past. Rather to act on it here in the present. "I don't fucking know and to whoever else doesn't I don't care, but if I think I know, then I'll know I know and then the experimental measurements would be itself an impact." If you had to work it out; you could guess. Guess and check. The basis of all pre-conditions. And now good luck getting that to work with quantum computers. It's cat and mouse. You're thinking about a mouse in a box. Schrodinger's mousetrap. Fucking playing gotchya with Mr I wish it could. If observing it is an impact quit staring at it's potential. Potential, potential for what?  Potential for impact? If it happening is the measurement, then that's already the impact. Go home to bed or work in a circus. If you can't do it and nobody is allowed to know how to, then what are you doing that I think you shouldn't be doing. Global conspiracy of a psyop if I ever could smell one. People who don't know how to cause trouble don't know where trouble comes from. But you can know how to cause trouble and not cause trouble. You can be an anti-virus to the wind. Steer magellan's ship like it's your only road home. Because after that the fact is an existence. Winds don't pass wind, they breeze and then they blow, and then they dwindle until she drops.
+
