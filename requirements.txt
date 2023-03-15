@@ -8,7 +8,7 @@ numpy==1.22.2
 psycopg2==2.9.3
 psycopg2-binary==2.9.3
 lxml==4.9.1
-Django==3.2.16
+Django==3.2.18
 djangorestframework==3.13.1
 unidecode==1.3.2
 djangorestframework-simplejwt==5.0.0
@@ -24,7 +24,7 @@ cachetools==3.0.0
 certifi==2022.12.07
 chardet==3.0.4
 constantly==15.1.0
-cryptography==36.0.1
+cryptography==39.0.1
 cssselect==1.0.3
 dj-database-url==0.5.0
 django-js-asset==2.0.0
@@ -68,7 +68,7 @@ virtualenv-clone==0.5.1
 w3lib==1.19.0
 webkit2png==0.8.2
 webpreview==1.5.0
-Werkzeug==0.15.3
+Werkzeug==2.2.3
 zope.interface==5.4.0
 matplotlib_venn==0.11.7
 plotly==5.7.0
