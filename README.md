@@ -13,7 +13,23 @@ This is the SourceAvailable form of BabylonPolice.com which you can copy, and bu
 User-customisable dictionaries and spaces, a mix of urban-dictionary and reddit, but payments are in cryptocurrency.
 
 
+# Vision
 
+## Where We Want To Be
+
+We want to be aligned morally and ethically as a company with the corporate sector, as well as with stakeholders and shareholders. We want to be guided by firstly family, and then friends close enough to be considered family, before we decide about when and how much to open up to outside investors. We want to be on the same side as those around us.
+
+## How We Want To Get There
+
+To get there we need to be open an honest about our relationships where we are divulging intellectual property. We want to prove transparency amongst those who use our platform, ie. the customers. We want to show that we aren't saving your passwords or credit card information, we want to show updates live as connected to the platform changes, so that there's nothing missing between what happens and what we can prove is what happening.
+
+# Mission
+
+## What We Aim To Do
+
+We aim to put our clients first. As a social media that means not making money without our customers making money. So advertisers don't pay unless they get results. 
+
+## Who We Aim To Help
 
 
 
