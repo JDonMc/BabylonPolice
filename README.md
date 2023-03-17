@@ -27,15 +27,17 @@ To get there we need to be open an honest about our relationships where we are d
 
 ## What We Aim To Do
 
-We aim to put our clients first. As a social media that means not making money without our customers making money. So advertisers don't pay unless they get results. 
+We aim to put our clients first. As a social media that means not making money without our customers making money. So advertisers don't pay unless they get results. We don't sell anything ourselves, only take a cut from content curators earning.
 
 ## Who We Aim To Help
 
+We aim to help content curators to earn from forwarding their clients onto other resources. So long as you are comfortable with the order of content being curated and what is there, you can make an income with or without also being the content creator. Turn your feed into feeds for others.
 
+We also aim to help prominent Urban Dictionary slang-writers to sell and privatise their content.
 
+# For Investors
 
-
-
+Take a brief scan over the to-do list, if you have questions, ask, if you have suggestions tell. Your input is my security, I'm banking on your criticisms being valid and important. Until we launch as a company instead of just a business there will be no shares in writing, but consideration will be made for those have provided value as referred to by other investor parties.
 
 # To do list:
 
@@ -75,4 +77,4 @@ It looks like we'll be using [tutanota](https://github.com/tutao/tutanota) as th
 
 ## Implement user-specific clickthrough id's
 
-This allows for tracking who forwarded someone to your dictionary or space.
+This allows for tracking who forwarded someone to your dictionary or space, allowing the dictionary or space owner to pay-it-forward for who referred who to your system.
