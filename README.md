@@ -39,6 +39,10 @@ We also aim to help prominent Urban Dictionary slang-writers to sell and privati
 
 Take a brief scan over the to-do list, if you have questions, ask, if you have suggestions tell. Your input is my security, I'm banking on your criticisms being valid and important. Until we launch as a company instead of just a business there will be no shares in writing, but consideration will be made for those have provided value as referred to by other investor parties.
 
+# Quick Scan and Example Infrastructure
+
+[https://www.babylonpolice.com/B/user/test/dictionary/be_here_now/word/inconsistory/count/0/](This is an example of what defining a word looks like without signing in), and if you sign in and click on the attribute, because it is selected as available to the public, you can see other attributes beyond just the definition.
+
 # To do list:
 
 ## Implement End-to-End-to-End encryption.
@@ -78,3 +82,5 @@ It looks like we'll be using [tutanota](https://github.com/tutao/tutanota) as th
 ## Implement user-specific clickthrough id's
 
 This allows for tracking who forwarded someone to your dictionary or space, allowing the dictionary or space owner to pay-it-forward for who referred who to your system.
+
+## Custom 
