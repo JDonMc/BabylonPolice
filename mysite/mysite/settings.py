@@ -28,7 +28,7 @@ from django.core.management.utils import get_random_secret_key
 SECRET_KEY = get_random_secret_key()
 COINBASE_COMMERCE_API_KEY = os.environ['COINBASE_COMMERCE_API_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
