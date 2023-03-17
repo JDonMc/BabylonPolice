@@ -195,7 +195,7 @@
 											<div class=attdefs>Definitions:
 											{% for def in attr.definitions.all %}
 												<div class=attdef>
-													Definition: {{ def.the_definition_itself|id_up:users_dic.id }}
+													Definition: {{ def.the_definition_itself }}
 												</div>
 												{% if user_anon.username.username == request.user.username %}
 													<div class=attdefdelete>
