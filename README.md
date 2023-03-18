@@ -47,6 +47,7 @@ Take a brief scan over the to-do list, if you have questions, ask, if you have s
 
 ## Implement End-to-End-to-End encryption.
 
+### (includes reasoning for)
 Most end-to-end encryption, like protonmail.com, dnmx.org, signal, wickr, silksafe, pryvate, signal, whatsapp, telegram, line, dust, viber, threema, silent phone, wire, imessage, facetime, kakaotalk, outlook, tutanota, mailfence, hushmail, etc etc. aren't actually secure just because they say they implement end-to-end encryption. And let me go into this. All implementations of E2EE so far (aside from Dark Net Markets that use PGP), hold onto your private keys. It's the same rule as with Crypto. Not your key's not your coins, AKA not your private keys not your privacy.
 
 So. We will implement an email encryption service that is double encrypted. Once between our servers and databases to which we hold the private keys, to keep our databases from being easily combed through, but the thing is, we still hold the private keys in the database, and we can't do that in plain text. So we will have to encrypt those ourselves with an environment variable, so not only do they have to get into the database, but they also have to get into the server. And then we'll create a client-side encryption-decryption script that you can see, and test, and ensure that you can encrypt-decrypt the messages between anyone who uses our services, and YOU HOLD THE PRIVATE KEYS. People who don't use our services will either have to encrypt their own messages to your public address, or not use E2EE, however, we will still encrypt it on our end-to-end. Web applications are not just one end to another. There is an SQL database URL (text, numbers), there is a server URL, and then there is a file-databse URL (images, videos, etc). The difference is, SQL is readily searchable, has metadata, and stores the ID's of the files in the file-database, so that they can be input into a URL and loaded by the client. Imagine if the website you were using had to load every image from the database and then send it to you, NO, imagine how inefficient that would be, we have an old term for this "Double Handling". So ideally you would encrypt between each end that communicates with every other end, with each end holding unique private keys for each scenario.
@@ -83,4 +84,16 @@ It looks like we'll be using [tutanota](https://github.com/tutao/tutanota) as th
 
 This allows for tracking who forwarded someone to your dictionary or space, allowing the dictionary or space owner to pay-it-forward for who referred who to your system.
 
-## Custom 
+## Custom Font and Moving Text for in-text word referencing.
+
+Allows for fonts and jiggling text to have specific meanings.
+
+## Users Vote History
+
+This allows for votes to work as endorsements whether it's a positive or negative or other support framework.
+
+## Embed YouTube and TikTok videos
+
+Include more content curation ability.
+
+## Crypto currency payments for content creators / curators.
