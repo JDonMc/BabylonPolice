@@ -1561,10 +1561,10 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													Definition: {{ def.the_definition_itself }}
 												</div>
 												<div class=attdefviews>
-													{{ def.views }}
+													Views: {{ def.views }}
 												</div>
 												<div class=attdefcount>
-													{{ def.votes_count }}
+													Votes: {{ def.votes_count }}
 												</div>
 												<div class=attdefvotes>
 													{% for vote in def.votes.all %}
