@@ -41,7 +41,7 @@ Take a brief scan over the to-do list, if you have questions, ask, if you have s
 
 # Quick Scan and Example Infrastructure
 
-[https://www.babylonpolice.com/B/user/test/dictionary/be_here_now/word/inconsistory/count/0/](This is an example of what defining a word looks like without signing in), and if you sign in and click on the attribute, because it is selected as available to the public, you can see other attributes beyond just the definition.
+https://www.babylonpolice.com/B/user/test/dictionary/be_here_now/word/inconsistory/count/0/ This is an example of what defining a word looks like without signing in, and if you sign in and click on the attribute, because it is selected as available to the public, you can see other attributes beyond just the definition.
 
 # To do list:
 
