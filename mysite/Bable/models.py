@@ -1112,8 +1112,21 @@ ANON_SORT_CHOICES_CHAR = (
 	("-creation_date", "Newest Account Creation"),
 	("creation_date", "Oldest Account Creation"),
 )
+class Densitivity(models.Model):
+	dense = models.IntegerField(default=0)
+
+
+class Page_Density(models.Model):
+	ip = models.CharField(max_length=15, default="")
+	time_spent = models.IntegerField(default=0)
+	density = models.ManyToManyField(Densitivity, default=None)
+	scroll_height = models.IntegerField(default=0)
+	client_height = models.IntegerField(default=0)
+	duration = models.IntegerField(default=2)
+
 
 class Anon(models.Model):
+	home_page_density = models.ManyToManyField(Page_Density, default=None)
 	username = models.OneToOneField(User, on_delete=models.CASCADE)
 	email = models.EmailField(max_length=144, default='', null=True)
 	anon_sort = models.IntegerField(choices=ANON_SORT_CHOICES, default=0)

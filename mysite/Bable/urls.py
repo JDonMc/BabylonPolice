@@ -54,6 +54,7 @@ urlpatterns = [
 	url(r'^change_password/$', views.change_password, name='change_password'),
 	url(r'^search/count/(?P<count>[\w-]+)/$', views.search, name='search'),
 	url(r'^index/count/(?P<count>[\w-]+)/$', views.tower_of_bable_count, name='tower_of_bable_count'),
+	url(r'^index/time/$', views.tower_time, name='tower_time'),
 	url(r'^spaces/$', views.tob_view_spaces, name='tob_view_spaces'),
 	url(r'^spaces/count/(?P<count>[\w-]+)/$', views.tob_view_spaces_count, name='tob_view_spaces_count'),
 	url(r'^space/(?P<space>[\w-]+)/count/(?P<count>[\w-]+)/$', views.tob_space_view_count, name='tob_space_view_count'),

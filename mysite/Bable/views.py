@@ -110,6 +110,23 @@ def send_notification(author, text):
         author=author, text=text
     )
 '''
+def tower_time(request):
+	ip = request.META.get('REMOTE_ADDR')
+	timeSpent = request.POST['timeSpent']
+	density = request.POST.getlist('density[]', False)
+	scrollHeight = request.POST['scrollHeight']
+	clientHeight = request.POST['clientHeight']
+	#print(density)
+	#print(ip)
+	duration = request.POST['duration']
+	page_density = Page_Density.objects.create(ip=ip, time_spent=timeSpent, scroll_height=scrollHeight, client_height=clientHeight, duration=duration)
+	for dense in density:
+		page_density.density.add(Densitivity.objects.create(dense=dense))
+	if request.user.is_authenticated:
+		loggedinanon = Anon.objects.get(username=request.user)
+		loggedinanon.home_page_density.add(page_density)
+	print("success")
+	return HttpResponse("")
 
 
 @login_required
@@ -1854,6 +1871,8 @@ def login_view(request):
 	### Input redirect to previous page.
 
 	return redirect('Bable:tower_of_bable')
+
+from django.contrib.auth import authenticate
 
 # Needs to be AJAX with Rails-style Flash Messages
 def register_view(request):
