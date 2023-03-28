@@ -3703,7 +3703,7 @@ def tob_spaces_posts_comment_count(request, space, post, comment, count):
 @login_required
 def change_anon_sort_char(request):
 	if request.method == "POST":
-		anon_sort_form = AnonSortForm(request.POST)
+		anon_sort_form = AnonSortForm(request, data=request.POST)
 		if anon_sort_form.is_valid():
 			anon_sort_form.save()
 	return base_redirect(request, 0)
