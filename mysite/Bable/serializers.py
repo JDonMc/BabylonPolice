@@ -19,7 +19,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class PostSerializer(WritableNestedModelSerializer):
 	class Meta:
 		model = Post
-		fields = ('title', 'body',)
+		fields = ('title', 'body', 'url',)
 
 
 class ExampleSerializer(WritableNestedModelSerializer):
