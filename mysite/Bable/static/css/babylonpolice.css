@@ -909,6 +909,12 @@ select {
 
 #logs {
 	display: none;
+	zoom:80%;
+	margin-left: 1em;
+	border-style: solid;
+	border-color: #e3dac9;
+	border-width: 0.1em;
+	background-color: #e3dac9;
 }
 
 .register-form, .login-form, .logout-form, .reply-form{
