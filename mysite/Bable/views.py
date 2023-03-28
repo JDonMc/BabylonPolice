@@ -151,8 +151,8 @@ def home_view(request):
 			'currency': 'USD'
 		},
 		'pricing_type': 'fixed_price',
-		'redirect_url2': redirect('Bable:tob_user_view', user=request.user.username),
-		'cancel_url2': redirect('Bable:tob_user_view', user=request.user.username),
+		'redirect_url': redirect('Bable:tob_user_view', user=request.user.username),
+		'cancel_url': redirect('Bable:tob_user_view', user=request.user.username),
 	}
 	charge = client.charge.create(**product)
 	# 'charge': charge,
@@ -5291,8 +5291,8 @@ def buy_bread(request, amount):
 			'item_name': 'Bread {}, Author {}'.format(price, request.user.username),
 			'invoice': str(bread_invoice.id),
 			'currency_code': 'AUD',
-			'notify_url2': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-			'return_url2': 'http://{}{}'.format(host, redirect('Bable:tob_user_baking', invoice=bread_invoice.id)),
+			'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+			'return_url': 'http://{}{}'.format(host, redirect('Bable:tob_user_baking', invoice=bread_invoice.id)),
 			'cancel_return': 'http://{}{}'.format(host, redirect('Bable:failed_to_purchase_bread', amount=price)),
 		}
 		paypalform = PayPalPaymentsForm(initial=paypal_dict)
@@ -5459,8 +5459,8 @@ def buy_donate(request, amount):
 		'item_name': 'Donate X',
 		'invoice': '0',
 		'currency_code': 'AUD',
-		'notify_url2': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-		'return_url2': 'http://{}{}'.format(host, redirect('Bable:tob_donated')),
+		'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+		'return_url': 'http://{}{}'.format(host, redirect('Bable:tob_donated')),
 		'cancel_return': 'http://{}{}'.format(host, base_redirect(request, 'cancelled')),
 	}
 	paypalform = PayPalPaymentsForm(initial=paypal_dict)
