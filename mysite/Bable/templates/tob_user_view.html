@@ -477,7 +477,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 					{% if space.max_sponsor %}
 						<a href="{% url 'Bable:clickthrough' space.author.username space.max_sponsor.id %}">{% if space.max_sponsor.img %}<img src="{{ space.max_sponsor.img }}" style="height: 6em; width: 6em;">{% endif %}</a>
 					{% else %}
-						<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 					{% endif %}
 				</div>
 				{% if space.author.username == request.user.username %}
@@ -625,7 +625,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 					{% if dictionary.max_sponsor %}
 						<a href="{% url 'Bable:clickthrough' dictionary.author.username dictionary.max_sponsor.id %}">{% if dictionary.max_sponsor.img %}<img src="{{ dictionary.max_sponsor.img }}" style="height: 6em; width: 6em;">{% endif %}</a>
 					{% else %}
-						<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 					{% endif %}
 				</div>
 				{% if request.user.username == user_anon.username.username %}
@@ -757,7 +757,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 								{% if exa.max_sponsor %}
 									<a href="{% url 'Bable:clickthrough' exa.author.username exa.max_sponsor.id %}">{% if exa.max_sponsor.img %}<img src="{{ exa.max_sponsor.img }}" style="height: 6em; width: 6em;">{% endif %}</a>
 								{% else %}
-									<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+									<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 								{% endif %}
 							</div>
 							{% if request.user.username == user_anon.username.username %}
@@ -865,7 +865,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							{% if post.img %}
 								<a href="{{ post.url }}"><img src="{{ post.img }}" style="height: 6em; width: 6em;"></a>
 							{% else %}
-								<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+								<a href="{{ post.url }}"><img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;"></a>
 							{% endif %}
 						</div>
 						<div class=posttitle>
@@ -884,7 +884,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							{% if post.max_sponsor %}
 								<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}">{% if post.max_sponsor.img %}<img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">{% endif %}</a>
 							{% else %}
-								<img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;">
+								<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;">
 							{% endif %}
 						</div>
 					</div>
@@ -1060,7 +1060,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 				{% if space.sponsors.count or space.max_sponsor %}
 					<a href="{% url 'Bable:clickthrough' space.author.username space.max_sponsor.id %}"><img src="{{ space.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
 				{% else %}
-					<img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;">
+					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;">
 				{% endif %}
 			</div>
 			<div class=space_left>
@@ -1138,7 +1138,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 				{% if dictionary.sponsors_count or dictionary.max_sponsor %}
 					<a href="{% url 'Bable:clickthrough' dictionary.author.username dictionary.max_sponsor.id %}"><img src="{{ dictionary.max_sponsor.img }}" style="height: 6em; width: 6em;"></a>
 				{% else %}
-					<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+					<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 				{% endif %}
 			</div>
 			<div class=dictionary_left>
@@ -1237,7 +1237,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							{% if exa.max_sponsor %}
 								<a href="{% url 'Bable:clickthrough' exa.author.username exa.max_sponsor.id %}"><img src="{{ exa.max_sponsor.img }}" style="height: 6em; width: 6em;"></a>
 							{% else %}
-								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+								<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 							{% endif %}
 						</div>
 						<div class=exacha>
@@ -1296,7 +1296,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 						{% if post.sponsors.count or post.max_sponsor %}
 							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
 						{% else %}
-							<img src="{% static 'growadic.png' %}" style="z-index: 1; height: 6em; width: 6em;">
+							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;">
 						{% endif %}
 					</div>
 				</div>
