@@ -1019,6 +1019,9 @@ class Space(models.Model):
 	def max_sponsor(self):
 		max_price = 0
 		pks = Sponsor.objects.values_list('pk', flat=True)
+		if not pks:
+			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us")
+			pks = [new_spon.id]
 		random_pk = choice(pks)
 		random_obj = Sponsor.objects.get(pk=random_pk)
 		max_sponsor = random_obj
