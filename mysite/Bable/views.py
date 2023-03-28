@@ -151,8 +151,8 @@ def home_view(request):
 			'currency': 'USD'
 		},
 		'pricing_type': 'fixed_price',
-		'redirect_url': redirect('Bable:tob_user_view', user=request.user.username),
-		'cancel_url': redirect('Bable:tob_user_view', user=request.user.username),
+		'redirect_url2': redirect('Bable:tob_user_view', user=request.user.username),
+		'cancel_url2': redirect('Bable:tob_user_view', user=request.user.username),
 	}
 	charge = client.charge.create(**product)
 	# 'charge': charge,
@@ -2083,11 +2083,11 @@ def create_post(request):
 		if Post.objects.filter(spaces__the_space_itself__the_word_itself=post_form.cleaned_data['spaces'], author=loggedinauthor, title=post_form.cleaned_data['title'], dictionaries__the_dictionary_itself=post_form.cleaned_data['dictionaries']).count():
 			return base_redirect(request, 'duplicate post')
 		else:
-			if post_form.cleaned_data['url']:
+			if post_form.cleaned_data['url2']:
 				if post_form.cleaned_data['img']:
-					new_post = Post.objects.create(author=loggedinauthor, title=post_form.cleaned_data['title'], url=post_form.cleaned_data['url'], body=post_form.cleaned_data['body'], img=post_form.cleaned_data['img'])
+					new_post = Post.objects.create(author=loggedinauthor, title=post_form.cleaned_data['title'], url2=post_form.cleaned_data['url2'], body=post_form.cleaned_data['body'], img=post_form.cleaned_data['img'])
 				else:
-					new_post = Post.objects.create(author=loggedinauthor, title=post_form.cleaned_data['title'], url=post_form.cleaned_data['url'], body=post_form.cleaned_data['body'])
+					new_post = Post.objects.create(author=loggedinauthor, title=post_form.cleaned_data['title'], url2=post_form.cleaned_data['url2'], body=post_form.cleaned_data['body'])
 			else:
 				new_post = Post.objects.create(author=loggedinauthor, title=post_form.cleaned_data['title'], body=post_form.cleaned_data['body'])
 			for word in post_form.cleaned_data['spaces']:
@@ -3042,7 +3042,7 @@ def tower_of_bable(request):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 		file_form = FileForm()
-		posts_values = list(posts_by_viewcount.values('img', 'url', 'author__username', 'id', 'title', 'body', 'viewcount', 'votes_count', 'votes_uniques', 'latest_change_date'))
+		posts_values = list(posts_by_viewcount.values('img', 'url2', 'author__username', 'id', 'title', 'body', 'viewcount', 'votes_count', 'votes_uniques', 'latest_change_date'))
 		postscount = 25
 		posts_by_viewcount = posts_values
 		
@@ -3051,7 +3051,7 @@ def tower_of_bable(request):
 	else:
 		posts_by_viewcount = Post.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[:25]
 		postscount = 25
-		posts_values = list(posts_by_viewcount.values('img', 'url', 'author__username', 'id', 'title', 'body', 'viewcount', 'votes_count', 'votes_uniques', 'latest_change_date'))
+		posts_values = list(posts_by_viewcount.values('img', 'url2', 'author__username', 'id', 'title', 'body', 'viewcount', 'votes_count', 'votes_uniques', 'latest_change_date'))
 		posts_by_viewcount = posts_values
 		the_response = render(request, 'tower_of_bable.html', { "postscount": postscount, "ip": ip, "x_forwarded_for": x_forwarded_for, "buyadvertisingform": buyadvertisingform, "total": total, "count": lower, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	
@@ -3991,6 +3991,7 @@ def tob_user_view_count(request, user, count=0):
 		user_anon.posts.add(post)
 	
 
+
 	users_posts = user_anon.posts.all()
 	if users_posts.count is not None:
 		if request.user.is_authenticated:
@@ -4434,7 +4435,7 @@ def tob_users_spaces_sponsor(request, user, space_id, sponsor):
 		if sponsor_form.is_valid():
 			if sponsor_form.cleaned_data["allowable_expenditure"] <= loggedinanon.false_wallet:
 				loggedinanon.false_wallet -= sponsor_form.cleaned_data["allowable_expenditure"]
-				new_spon = Sponsor.objects.create(payperview=sponsor_form.cleaned_data['payperview'], allowable_expenditure=sponsor_form.cleaned_data["allowable_expenditure"], the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], url=sponsor_form.cleaned_data['url'], price_limit=sponsor_form.cleaned_data['price_limit'], author=loggedinauthor)
+				new_spon = Sponsor.objects.create(payperview=sponsor_form.cleaned_data['payperview'], allowable_expenditure=sponsor_form.cleaned_data["allowable_expenditure"], the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], url2=sponsor_form.cleaned_data['url2'], price_limit=sponsor_form.cleaned_data['price_limit'], author=loggedinauthor)
 				users_space.sponsors.add(new_spon)
 				users_space.save()
 				request.COOKIES['current'] = 'tob_users_spaces_sponsor'
@@ -4813,7 +4814,7 @@ def tob_users_post(request, user, post, count=0):
 		file_form = FileForm()
 
 		posts_by_viewcount = sort_posts(Post.objects.all(), loggedinanon.post_sort, 0, 100)
-		posts_by_viewcount = list(posts_by_viewcount.values('img', 'url', 'author__username', 'id', 'title', 'body', 'votes', 'viewcount', 'latest_change_date'))
+		posts_by_viewcount = list(posts_by_viewcount.values('img', 'url2', 'author__username', 'id', 'title', 'body', 'votes', 'viewcount', 'latest_change_date'))
 		
 		loggedinanon.is_viewing = True
 		loggedinanon.save()
@@ -5290,8 +5291,8 @@ def buy_bread(request, amount):
 			'item_name': 'Bread {}, Author {}'.format(price, request.user.username),
 			'invoice': str(bread_invoice.id),
 			'currency_code': 'AUD',
-			'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-			'return_url': 'http://{}{}'.format(host, redirect('Bable:tob_user_baking', invoice=bread_invoice.id)),
+			'notify_url2': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+			'return_url2': 'http://{}{}'.format(host, redirect('Bable:tob_user_baking', invoice=bread_invoice.id)),
 			'cancel_return': 'http://{}{}'.format(host, redirect('Bable:failed_to_purchase_bread', amount=price)),
 		}
 		paypalform = PayPalPaymentsForm(initial=paypal_dict)
@@ -5321,7 +5322,7 @@ def checkout_ads(request):
 			price = 0
 			multiplier = buyadvertisingform.cleaned_data['allowable_expenditure']
 			value = buyadvertisingform.cleaned_data['words_to_sponsor']
-			sponsor = Sponsor.objects.create(the_sponsorship_phrase=buyadvertisingform.cleaned_data['the_sponsorship_phrase'], img=buyadvertisingform.cleaned_data['img'], payperview=buyadvertisingform.cleaned_data['payperview'], url=buyadvertisingform.cleaned_data['url'], author='test', price_limit=buyadvertisingform.cleaned_data['price_limit'], allowable_expenditure=buyadvertisingform.cleaned_data['allowable_expenditure'])
+			sponsor = Sponsor.objects.create(the_sponsorship_phrase=buyadvertisingform.cleaned_data['the_sponsorship_phrase'], img=buyadvertisingform.cleaned_data['img'], payperview=buyadvertisingform.cleaned_data['payperview'], url2=buyadvertisingform.cleaned_data['url2'], author='test', price_limit=buyadvertisingform.cleaned_data['price_limit'], allowable_expenditure=buyadvertisingform.cleaned_data['allowable_expenditure'])
 			nodic_words = words.filter(home_dictionary=None).order_by('the_word_itself')
 			email = buyadvertisingform.cleaned_data['email']
 			for word in nodic_words:
@@ -5458,8 +5459,8 @@ def buy_donate(request, amount):
 		'item_name': 'Donate X',
 		'invoice': '0',
 		'currency_code': 'AUD',
-		'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-		'return_url': 'http://{}{}'.format(host, redirect('Bable:tob_donated')),
+		'notify_url2': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+		'return_url2': 'http://{}{}'.format(host, redirect('Bable:tob_donated')),
 		'cancel_return': 'http://{}{}'.format(host, base_redirect(request, 'cancelled')),
 	}
 	paypalform = PayPalPaymentsForm(initial=paypal_dict)
@@ -5797,7 +5798,7 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 				dics_word.relations.add(relations_inst)
 
 			if words_sponsor.is_valid():
-				sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=words_sponsor.cleaned_data['the_sponsorship_phrase'], author=loggedinauthor, img=words_sponsor.cleaned_data['img'], url=words_sponsor.cleaned_data['url'], price_limit=words_sponsor.cleaned_data['price_limit'])
+				sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=words_sponsor.cleaned_data['the_sponsorship_phrase'], author=loggedinauthor, img=words_sponsor.cleaned_data['img'], url2=words_sponsor.cleaned_data['url2'], price_limit=words_sponsor.cleaned_data['price_limit'])
 				dics_word.sponsors.add(sponsor_inst)
 				if sponsor_inst.price_limit > dics_word.price_limit:
 					dics_word.price_limit = sponsor_inst.price_limit
@@ -7239,7 +7240,7 @@ def tob_users_dic_word_sponsor(request, user, dictionary, word, sponsor):
 				if sponsor_form.is_valid():
 					if sponsor_form.cleaned_data["allowable_expenditure"] <= loggedinanon.false_wallet:
 						loggedinanon.false_wallet -= sponsor_form.cleaned_data["allowable_expenditure"]
-						sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], payperview=sponsor_form.cleaned_data['payperview'], url=sponsor_form.cleaned_data['url'], author=loggedinauthor, price_limit=sponsor_form.cleaned_data['price_limit'], allowable_expenditure=sponsor_form.cleaned_data['allowable_expenditure'])
+						sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], payperview=sponsor_form.cleaned_data['payperview'], url2=sponsor_form.cleaned_data['url2'], author=loggedinauthor, price_limit=sponsor_form.cleaned_data['price_limit'], allowable_expenditure=sponsor_form.cleaned_data['allowable_expenditure'])
 						dics_word.sponsors.add(sponsor_inst)
 						dics_word.latest_change_date = timezone.now()
 						dics_word.trickle()
@@ -7261,7 +7262,7 @@ def tob_users_dic_word_sponsor(request, user, dictionary, word, sponsor):
 						if sponsor_form.is_valid():
 							sponsor_inst.the_sponsorship_phrase = sponsor_form.cleaned_data['the_sponsorship_phrase']
 							sponsor_inst.img = sponsor_form.cleaned_data['img']
-							sponsor_inst.url = sponsor_form.cleaned_data['url']
+							sponsor_inst.url = sponsor_form.cleaned_data['url2']
 							sponsor_inst.author = loggedinauthor
 							sponsor_inst.price_limit = sponsor_form.cleaned_data['price_limit']
 							sponsor_inst.payperview = sponsor_form.cleaned_data['payperview']
@@ -7326,7 +7327,7 @@ def tob_word_sponsor(request, word_id, sponsor_id):
 				if sponsor_form.is_valid():
 					if sponsor_form.cleaned_data["allowable_expenditure"] <= loggedinanon.false_wallet:
 						loggedinanon.false_wallet -= sponsor_form.cleaned_data["allowable_expenditure"]
-						sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], url=sponsor_form.cleaned_data['url'], author=loggedinauthor, payperview=sponsor_form.cleaned_data['payperview'], price_limit=sponsor_form.cleaned_data['price_limit'], allowable_expenditure=sponsor_form.cleaned_data['allowable_expenditure'])
+						sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], url2=sponsor_form.cleaned_data['url2'], author=loggedinauthor, payperview=sponsor_form.cleaned_data['payperview'], price_limit=sponsor_form.cleaned_data['price_limit'], allowable_expenditure=sponsor_form.cleaned_data['allowable_expenditure'])
 						dics_word.sponsors.add(sponsor_inst)
 						dics_word.latest_change_date = timezone.now()
 						dics_word.trickle()
@@ -7348,7 +7349,7 @@ def tob_word_sponsor(request, word_id, sponsor_id):
 						if sponsor_form.is_valid():
 							sponsor_inst.the_sponsorship_phrase = sponsor_form.cleaned_data['the_sponsorship_phrase']
 							sponsor_inst.img = sponsor_form.cleaned_data['img']
-							sponsor_inst.url = sponsor_form.cleaned_data['url']
+							sponsor_inst.url = sponsor_form.cleaned_data['url2']
 							sponsor_inst.author = loggedinauthor
 							sponsor_inst.price_limit = sponsor_form.cleaned_data['price_limit']
 							sponsor_inst.save()
@@ -8382,7 +8383,7 @@ def tob_word(request, word_id):
 				word.relations.add(relations_inst)
 
 			if words_sponsor.is_valid():
-				sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=words_sponsor.cleaned_data['the_sponsorship_phrase'], author=loggedinauthor, img=words_sponsor.cleaned_data['img'], url=words_sponsor.cleaned_data['url'], price_limit=words_sponsor.cleaned_data['price_limit'])
+				sponsor_inst = Sponsor.objects.create(the_sponsorship_phrase=words_sponsor.cleaned_data['the_sponsorship_phrase'], author=loggedinauthor, img=words_sponsor.cleaned_data['img'], url2=words_sponsor.cleaned_data['url2'], price_limit=words_sponsor.cleaned_data['price_limit'])
 				word.sponsors.add(sponsor_inst)
 				if sponsor_inst.price_limit > dics_word.price_limit:
 					word.price_limit = sponsor_inst.price_limit
