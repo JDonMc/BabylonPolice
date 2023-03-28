@@ -39,6 +39,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 	<div class=usersusername>
 		<h2>
 		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}; ID: {{ user_anon.id }}</a>
+
 		</h2>
 	</div>
 	{% if user_anon.username.username == request.user.username %}
@@ -911,7 +912,11 @@ User: {{ user_anon.username.username }} - Babylon Police
 						Latest: {{ post.latest_change_date }}
 					</div>
 					<div class=postauthor>
+						{% if post.author.username %}
 						<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+						{% else %}
+						/u/anonymous
+						{% endif %}
 					</div>
 				</div>
 				{% endfor %}
@@ -1319,7 +1324,11 @@ User: {{ user_anon.username.username }} - Babylon Police
 					Latest: {{ post.latest_change_date }}
 				</div>
 				<div class=postauthor>
+					{% if post.author.username %}
 					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
+					{% else %}
+					/u/anonymous
+					{% endif %}
 				</div>
 			</div>
 			{% endfor %}
