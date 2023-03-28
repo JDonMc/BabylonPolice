@@ -868,7 +868,11 @@ User: {{ user_anon.username.username }} - Babylon Police
 							{% endif %}
 						</div>
 						<div class=posttitle>
+							{% if post.author.username %}
 							<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+							{% else %}
+							<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+							{% endif %}
 						</div>
 						{% if post.author.username == user_anon.username.username %}
 						<div class=postdel>
@@ -1277,7 +1281,11 @@ User: {{ user_anon.username.username }} - Babylon Police
 			<div class=post>
 				<div class=posttop>
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+						{% if post.author.username %}
+							<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+							{% else %}
+							<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+							{% endif %}
 					</div>
 					<div class=postsponsors>
 						{% if post.sponsors.count or post.max_sponsor %}
