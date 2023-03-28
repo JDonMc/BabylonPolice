@@ -23,7 +23,7 @@
 	{% if users_post %}
 		<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
-				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<style>
@@ -146,24 +146,24 @@
 			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
 		<div class=postcount>
-			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+			<a href="{% url2 'Bable:votewvotestyle' 'post' users_post.id %}">
 				Total Votes: {{ users_post.votes.count }}
 			</a>
 		</div>
 		<div class=postvotes>
 			Votes:
 			{% for vote in users_post.votes.all %}
-				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-				{% if vote.url %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+				<a href="{% url2 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url2 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
 					</a>
 				{% else %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<a href="{% url2 'Bable:tob_users_vote' vote.author.username vote.id %}">
 						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
 					</a>
 				{% endif %}
-				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+				<a href="{% url2 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
 			
 		</div>
@@ -174,7 +174,7 @@
 		<div class=postauthor>
 			{% if users_post.author.username %}
 			<div class=postauthor style="font-size: 1em;">
-				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+				<a href="{% url2 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
 			</div>
 			{% else %}
 			<div class=postauthor style="font-size: 1em;">
@@ -186,7 +186,7 @@
 			Dictionaries: 
 			{% if users_post.dictionaries.count %}
 				{% for dic in users_post.dictionaries.all %}
-					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+					<a href="{% url2 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -194,7 +194,7 @@
 			Words: 
 			{% if users_post.words.count %}
 				{% for word in users_post.words.all %}
-					<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+					<a href="{% url2 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -202,7 +202,7 @@
 			Spaces:
 			{% if users_post.spaces.count %}
 				{% for space in users_post.spaces.all %}
-					<a class=yellow href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+					<a class=yellow href="{% url2 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -224,7 +224,7 @@
 				<div id=postcomlist onclick="openComment('postcomlist')" style="cursor: pointer;">
 					Newcom
 				</div>
-				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
+				<form id=postcomlistform class=starter action="{% url2 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
 					{% csrf_token %}
 					{{ comment_form }}
 					<button type=submit>what've I got to lose?</button>
@@ -249,7 +249,7 @@
 						</div>
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
-							<a href="{% url 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
+							<a href="{% url2 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
 								<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
 								</div>
 
@@ -259,44 +259,44 @@
 							{% endif %}
 						</div>
 						<div class=postcomsvotes>
-							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+							<a href="{% url2 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
 						</div>
 						<div class=postcomsvotess>Votess:
 							{% for vote in node.votes.all %}
 								{% if vote in loggedinanon.applied_votestyles.to_source %}
 								<div class=postcomsvotesss>
-									<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+									<a href="{% url2 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url2 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 								</div>
 								{% endif %}
 							{% endfor %}
 						</div>
 						{% if request.user.username == user_authore.username or request.user.username == node.author.username %}
 						<div class=comdelete>
-							<a href="{% url 'Bable:delete_own_com' node.id 'full' %}">X</a>
+							<a href="{% url2 'Bable:delete_own_com' node.id 'full' %}">X</a>
 						</div>
 						{% endif %}
 						<div class=postcomsdics>Dics:
 								{% for dic in node.dictionaries.all %}
 									{% if dic in loggedinanon.applied_dictionaries.all %}
 										<div class=postcomsdicss>
-											<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+											<a href="{% url2 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url2 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
 										</div>
 									{% endif %}
 								{% endfor %}
 							</div>
 							<div class=postcomswords>Words:
 								{% for word in node.words.all|slice:"10" %}
-									<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+									<a href="{% url2 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 								{% endfor %}
 							</div>
 						<div class=postcomsauthor>
-							<a href="{% url 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+							<a href="{% url2 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
 						</div>
 						<div class=comsubmit>
 							<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
 								Reply
 							</div>
-							<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+							<form id='{{node.id}}form' class=threaded action="{% url2 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
 								{% csrf_token %}
 								{{ comment_form }}
 								<button type=submit>what've I got to lose?</button>
@@ -322,7 +322,7 @@
 		{% if users_post %}
 		<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
-				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -384,24 +384,24 @@
 			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
 		<div class=postcount>
-			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+			<a href="{% url2 'Bable:votewvotestyle' 'post' users_post.id %}">
 				Total Votes: {{ users_post.votes.count }}
 			</a>
 		</div>
 		<div class=postvotes>
 			Votes:
 			{% for vote in users_post.votes.all %}
-				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-				{% if vote.url %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-						<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+				<a href="{% url2 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url2 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
 					</a>
 				{% else %}
-					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<a href="{% url2 'Bable:tob_users_vote' vote.author.username vote.id %}">
 						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
 					</a>
 				{% endif %}
-				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+				<a href="{% url2 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
 			
 		</div>
@@ -412,7 +412,7 @@
 		<div class=postauthor>
 			{% if users_post.author.username %}
 			<div class=postauthor style="font-size: 1em;">
-				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+				<a href="{% url2 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
 			</div>
 			{% else %}
 			<div class=postauthor style="font-size: 1em;">
@@ -424,7 +424,7 @@
 			Dictionaries: 
 			{% if users_post.dictionaries.count %}
 				{% for dic in users_post.dictionaries.all %}
-					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+					<a href="{% url2 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -432,7 +432,7 @@
 			Words: 
 			{% if users_post.words.count %}
 				{% for word in users_post.words.all %}
-					<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+					<a href="{% url2 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -440,7 +440,7 @@
 			Spaces:
 			{% if users_post.spaces.count %}
 				{% for space in users_post.spaces.all %}
-					<a class=yellow href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+					<a class=yellow href="{% url2 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>
@@ -484,7 +484,7 @@
 						</div>
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
-								<a href="{% url 'Bable:clickthrough' node.author.username node.max_sponsor.id %}"><img src="{{ node.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
+								<a href="{% url2 'Bable:clickthrough' node.author.username node.max_sponsor.id %}"><img src="{{ node.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
 									<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
 									</div>
 
@@ -494,21 +494,21 @@
 							{% endif %}
 						</div>
 						<div class=postcomsvotes>
-							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+							<a href="{% url2 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
 						</div>
 						<div class=postcomswords>Words:
 							{% for word in node.words.all|slice:"10" %}
-								<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+								<a href="{% url2 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 							{% endfor %}
 						</div>
 						<div class=postcomsauthor>
-							<a href="{% url 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+							<a href="{% url2 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
 						</div>
 						<div class=comsubmit>
 							<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
 								Reply
 							</div>
-							<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+							<form id='{{node.id}}form' class=threaded action="{% url2 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
 								{% csrf_token %}
 								{{ comment_form }}
 								<button type=submit>what've I got to lose?</button>

@@ -35,7 +35,7 @@ def get_image_path(instance, filename):
 # settings.MEDIA_ROOT for local
 class File(models.Model):
 	file = models.FileField(upload_to='files', null=True)
-	url = models.URLField(max_length=2000)
+	url2 = models.URLField(max_length=2000)
 	filename = models.CharField(max_length=200, default='')
 	public = models.BooleanField(default=False)
 	creation_date = models.DateTimeField(default=timezone.now)
@@ -182,7 +182,7 @@ class Sponsor(models.Model):
 	the_sponsorship_phrase = models.CharField(max_length=200, default='')
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	img = models.URLField(max_length=2000)
-	url = models.URLField(max_length=2000)
+	url2 = models.URLField(max_length=2000)
 	clicks = models.IntegerField(default=0)
 	payperview = models.BooleanField(default=False)
 	price_limit = models.IntegerField(default=0)
@@ -203,7 +203,7 @@ class Advertising(models.Model):
 	the_sponsorship_phrase = models.CharField(max_length=200, default='')
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	img = models.URLField(max_length=2000)
-	url = models.URLField(max_length=2000)
+	url2 = models.URLField(max_length=2000)
 	clicks = models.IntegerField(default=0)
 	payperview = models.BooleanField(default=False)
 	trickles = models.IntegerField(default=0)
@@ -537,7 +537,7 @@ WORD_SORT_CHOICES = (
 
 class Votes(models.Model):
 	the_vote_name = models.CharField(max_length=200, default='')
-	url = models.URLField(max_length=2000, blank=True, default='')
+	url2 = models.URLField(max_length=2000, blank=True, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	the_vote_style = models.ForeignKey(SpaceSource, on_delete=models.CASCADE, related_name='name', default=1)
 	votes = models.IntegerField(default=0)
@@ -830,7 +830,7 @@ class Post(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
 	edits = models.ManyToManyField(Edit, default=None)
 	title = models.CharField(max_length=200, default='')
-	url = models.URLField(max_length=2000, blank=True, default='')
+	url2 = models.URLField(max_length=2000, blank=True, default='')
 	img = models.URLField(max_length=2000, blank=True, default='')
 	has_commented = models.ManyToManyField(Author, default=None, related_name='post_has_commented')
 	sum_has_commented = models.IntegerField(default=0)

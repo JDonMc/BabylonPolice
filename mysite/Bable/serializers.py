@@ -19,7 +19,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class PostSerializer(WritableNestedModelSerializer):
 	class Meta:
 		model = Post
-		fields = ('title', 'body', 'url',)
+		fields = ('title', 'body', 'url2',)
 
 
 class ExampleSerializer(WritableNestedModelSerializer):
@@ -37,4 +37,4 @@ class WordSerializer(WritableNestedModelSerializer):
 class SponsorSerializer(WritableNestedModelSerializer):
 	class Meta:
 		model = Sponsor
-		fields = ('the_sponsorship_phrase', 'img', 'url', 'payperview', 'price_limit', 'allowable_expenditure', 'author')
+		fields = ('the_sponsorship_phrase', 'img', 'url2', 'payperview', 'price_limit', 'allowable_expenditure', 'author')

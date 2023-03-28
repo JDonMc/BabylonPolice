@@ -102,8 +102,8 @@
 			<div class=post>
 				<div class=posttitle>
 					<div class=postpreview>
-						{% if post.url %}
-							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+						{% if post.url2 %}
+							<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
 						{% else %}
 							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
 						{% endif %}
@@ -118,7 +118,7 @@
 					{% endif %}
 					
 					{% if post.max_sponsor %}
-						<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url }}" style="height: 4em; width: 4em; float:right;"></a> <!-- if no sponsor input default ad -->
+						<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url2 }}" style="height: 4em; width: 4em; float:right;"></a> <!-- if no sponsor input default ad -->
 					{% else %}
 						{% ifequal forloop.counter 1 %}
 							<img src="{% static 'growadic.png' %}" style="height: 4em; width: 4em; float:right;">

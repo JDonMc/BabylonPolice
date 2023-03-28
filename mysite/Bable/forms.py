@@ -35,7 +35,7 @@ class BreadForm(forms.ModelForm):
 class BuyAdvertisingForm(forms.ModelForm):
     class Meta:
         model = Advertising
-        fields = ('email', 'words_to_sponsor', 'the_sponsorship_phrase', 'img', 'url', 'payperview', 'price_limit', 'allowable_expenditure', 'trickles')
+        fields = ('email', 'words_to_sponsor', 'the_sponsorship_phrase', 'img', 'url2', 'payperview', 'price_limit', 'allowable_expenditure', 'trickles')
 
 class EmailForm(forms.ModelForm):
     class Meta:
@@ -222,12 +222,12 @@ class RelationForm(forms.ModelForm):
 class SponsorForm(forms.ModelForm):
     class Meta:
         model = Sponsor
-        fields = ('the_sponsorship_phrase', 'img', 'url', 'payperview', 'price_limit', 'allowable_expenditure', 'trickles')
+        fields = ('the_sponsorship_phrase', 'img', 'url2', 'payperview', 'price_limit', 'allowable_expenditure', 'trickles')
     def clean(self):
         cleaned_data = super(SponsorForm, self).clean()
         the_sponsorship_phrase = cleaned_data.get('the_sponsorship_phrase')
         img = cleaned_data.get('img')
-        url = cleaned_data.get('url')
+        url2 = cleaned_data.get('url2')
         price_limit = cleaned_data.get('price_limit')
         trickles = cleaned_data.get('trickles')
         allowable_expenditure = cleaned_data.get('allowable_expenditure')
@@ -291,7 +291,7 @@ class WordForm(forms.ModelForm):
 class CreateVotesForm(forms.ModelForm):
     class Meta:
         model = Votes
-        fields = ('the_vote_style', 'url',)
+        fields = ('the_vote_style', 'url2',)
     def clean(self):
         cleaned_data = super(CreateVotesForm, self).clean()
         the_vote_style = cleaned_data.get('the_vote_style')
@@ -571,7 +571,7 @@ class CommentForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'img', 'url', 'body', 'spaces', 'dictionaries', 'cc')
+        fields = ('title', 'img', 'url2', 'body', 'spaces', 'dictionaries', 'cc')
         
     def clean(self):
         cleaned_data = super(PostForm, self).clean()

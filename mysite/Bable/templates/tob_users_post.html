@@ -27,7 +27,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 	{% if users_post %}
 		<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
-				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		{% if post.author.username == user_author.username %}
@@ -171,9 +171,9 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			Votes:
 			{% for vote in users_post.votes.all|slice:"10" %}
 			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-						{% if vote.url %}
+						{% if vote.url2 %}
 							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-								<img src="{{ vote.url }}" style="z-index: 1; height: 1em; width: 1em;">
+								<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
 							</a>
 						{% else %}
 							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
@@ -337,7 +337,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		{% if users_post %}
 			<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
-				<a href="{{ users_post.url }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

@@ -84,8 +84,8 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 			<div class=post>
 				<div class=posttop>
 					<div class=postpreview>
-						{% if post.url %}
-							<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+						{% if post.url2 %}
+							<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
 						{% else %}
 							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
 						{% endif %}
@@ -100,7 +100,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 					{% endif %}
 					<div class=postsponsors>
 						{% if post.sponsors.count %}
-							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url }}" style="height: 6em; width: 6em;"></a>
+							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url2 }}" style="height: 6em; width: 6em;"></a>
 						{% else %}
 							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
 						{% endif %}
@@ -208,8 +208,8 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 				<div class=post>
 					<div class=posttop>
 						<div class=postpreview>
-							{% if post.url %}
-								<a href="{{ post.url }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+							{% if post.url2 %}
+								<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
 							{% else %}
 								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
 							{% endif %}
@@ -219,7 +219,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 						</div>
 						<div class=postsponsors>
 							{% if users_post.sponsors.count %}
-								<a href="{% url 'Bable:clickthrough' post.author.username users_post.max_sponsor.id %}"><img src="{{ users_post.max_sponsor.img.url }}" style="height: 6em; width: 6em;"></a>
+								<a href="{% url 'Bable:clickthrough' post.author.username users_post.max_sponsor.id %}"><img src="{{ users_post.max_sponsor.img.url2 }}" style="height: 6em; width: 6em;"></a>
 							{% else %}
 								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
 							{% endif %}
