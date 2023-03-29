@@ -2432,19 +2432,21 @@ def buy_users_dic(request, user, dictionary):
 				for dic in users_dic.prerequisite_dics:
 					if dic in loggedinanon.purchased_dictionaries:
 						loggedinanon.purchased_dictionaries.add(users_dic)
+						loggedinanon.sum_purchased_dictionaries += 1
 						loggedinanon.false_wallet = loggedinanon.false_wallet - users_dic.entry_fee
 						user_anon.false_wallet = user_anon.false_wallet + users_dic.entry_fee
 					else:
 						return HttpResponse("Obtain prerequisites first.")
 			else:
 				loggedinanon.purchased_dictionaries.add(users_dic)
+				loggedinanon.sum_purchased_dictionaries += 1
 				loggedinanon.false_wallet = loggedinanon.false_wallet - users_dic.entry_fee
 				user_anon.false_wallet = user_anon.false_wallet + users_dic.entry_fee
 			
 		else:
 			return HttpResponse("Insufficient balance.")
 
-		loggedinanon.purchased_dictionaries.add(users_dic)
+		loggedinanon.save()
 	else:
 		return HttpResponse("Oi, you're not logged in.")
 
@@ -2464,6 +2466,8 @@ def unpurchase_users_dic(request, user, dictionary):
 
 		# wallet function... could become crypto/blockchain, but it is infeasible.
 		loggedinanon.purchased_dictionaries.remove(users_dic)
+		loggedinanon.sum_purchased_dictionaries -= 1
+		loggedinanon.save()
 	else:
 		return HttpResponse("Oi, you're not logged in.")
 
