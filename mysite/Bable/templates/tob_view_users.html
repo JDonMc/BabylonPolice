@@ -22,7 +22,7 @@ BabylonPolice - View Users {{ count }}
 
 <div class=displaybanner>
 	<h3>
-		Users: ({{ user_anons.count }})
+		Users: ({{ user_anons_count }})
 	</h3>
 </div>
 <div class=possectionsort>
@@ -93,7 +93,7 @@ BabylonPolice - View Users {{ count }}
 {% block unauthenticated_posts %}
 <div class=displaybanner>
 	<h3>
-		Users:
+		Users: ({{ user_anons_count }})
 	</h3>
 </div>
 <div class=users>

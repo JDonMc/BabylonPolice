@@ -3735,7 +3735,7 @@ def tob_view_users(request):
 	count100 = 100
 	registerform = UserCreationForm()
 	
-	
+	user_anons_count = Anon.objects.count()
 		
 	
 	loginform = AuthenticationForm()
@@ -3744,7 +3744,7 @@ def tob_view_users(request):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
 
-		user_anons = Anon.objects.all().order_by(loggedinanon.anon_sort_char)[0:25]
+		user_anons = Anon.objects.order_by(loggedinanon.anon_sort_char)[0:25]
 
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
@@ -3765,10 +3765,10 @@ def tob_view_users(request):
 	
 	
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_view_users.html", {"anon_sort_form": anon_sort_form, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "user_anons": user_anons, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_view_users.html", {"user_anons_count": user_anons_count, "anon_sort_form": anon_sort_form, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "user_anons": user_anons, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_view_users.html", {"count": count, "mcount": mcount, "count100": count100, "user_anons": user_anons, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_view_users.html", {"user_anons_count": user_anons_count, "count": count, "mcount": mcount, "count100": count100, "user_anons": user_anons, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_view_users')
 	return the_response
 
