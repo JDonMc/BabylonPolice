@@ -71,6 +71,7 @@ urlpatterns = [
 	url(r'^change_comment/sort/(?P<sort>[\w-]+)/$', views.change_comment_sort, name='change_comment_sort'),
 	url(r'^change_word/sort/(?P<sort>[\w-]+)/$', views.change_word_sort, name='change_word_sort'),
 	url(r'^change_post/sort/(?P<sort>[\w-]+)/$', views.change_post_sort, name='change_post_sort'),
+	url(r'^change_post_sort_char/$', views.change_post_sort_char, name='change_post_sort_char'),
 	url(r'^change_example/sort/(?P<sort>[\w-]+)/$', views.change_example_sort, name='change_example_sort'),
 	url(r'^user/(?P<user>[\w-]+)/$', views.tob_user_view, name='tob_user_view'),
 	url(r'^user/(?P<user>[\w-]+)/count/(?P<count>[\w-]+)/$', views.tob_user_view_count, name='tob_user_view_count'),

@@ -32,51 +32,16 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 		</h3></a>
 	</div>
 	<div class=possectionsort>
-		<div id=possortnav>
-			Sort: {{ loggedinanon.get_post_sort_display }}
-		</div>
-		<div class=dropdown-content-pos-sort>
-			<div class=popular>
-				<div class=viral>
-					<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
-				</div>
-				<div class=early>
-					<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
-				</div>
-				<div class=freshest>
-					<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
-				</div>
-				<div class=eldest>
-					<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
-				</div>
-				<div class=uniques>
-					<a href="{% url 'Bable:change_post_sort' 'uniques' %}">Uniques</a>
-				</div>
-				<div class=voters>
-					<a href="{% url 'Bable:change_post_sort' 'voters' %}">Voters</a>
-				</div>
-			</div>
-			<div class=stats>
-				<div class=broadness>
-					<a href="{% url 'Bable:change_post_sort' 'broadness' %}">Broadness</a>
-				</div>
-				<div class=intricacy>
-					<a href="{% url 'Bable:change_post_sort' 'intricacy' %}">Intricacy</a>
-				</div>
-				<div class=talkative>
-					<a href="{% url 'Bable:change_post_sort' 'talkative' %}">Talkative</a>
-				</div>
-				<div class=homes>
-					<a href="{% url 'Bable:change_post_sort' 'homes' %}">Homes</a>
-				</div>
-				<div class=encouraged>
-					<a href="{% url 'Bable:change_post_sort' 'encouraged' %}">Encouraged</a>
-				</div>
-				<div class=votes>
-					<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
-				</div>
-			</div>
-		</div>
+		<form name=post_sort action="{% url 'Bable:change_post_sort_char' %}" method=post>
+			{% csrf_token %}
+			{{ post_sort_form }}
+		</form>
+		<script>
+			var form = document.querySelector('form[name="post_sort"]');
+			form.addEventListener('change', function() {
+			    form.submit();
+			});
+		</script>
 	</div>
 	<div class=posts>
 		{% if users_posts.count %}

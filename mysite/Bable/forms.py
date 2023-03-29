@@ -25,6 +25,16 @@ class AnonSortForm(forms.ModelForm):
         self.fields['anon_sort_char'].label = False
         self.instance = current_anon
 
+class PostSortForm(forms.ModelForm):
+    class Meta:
+        model = Anon
+        fields = ('post_sort_char',)
+    def __init__(self, request, *args, **kwargs):
+        super(PostSortForm, self).__init__(*args, **kwargs)
+        current_anon = Anon.objects.get(username=request.user)
+        self.fields['post_sort_char'].initial = current_anon.post_sort_char
+        self.fields['post_sort_char'].label = False
+        self.instance = current_anon
 
 
 class BreadForm(forms.ModelForm):

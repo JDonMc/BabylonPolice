@@ -838,6 +838,7 @@ class Post(models.Model):
 	sum_has_viewed = models.IntegerField(default=0)
 	has_voted = models.ManyToManyField(Author, default=None, related_name='post_has_voted')
 	votes_uniques = models.IntegerField(default=0)
+	under_talked = models.FloatField(default=0)
 	dictionaries = models.ManyToManyField(Dictionary, default=None)
 	sum_dictionaries = models.IntegerField(default=0)
 	words = models.ManyToManyField(Word, default=None)
@@ -958,6 +959,25 @@ POST_SORT_CHOICES = (
 	(11, "votes"),
 	(12, "unvoted"),
 	
+)
+
+POST_SORT_CHOICES_CHAR = (
+	("-viewcount", "Viral"),
+	("viewcount", "Early"),
+	("-latest_change_date", "Freshest"),
+	("latest_change_date", "Eldest"),
+	("-sum_has_viewed", "Uniques"),
+	("-sum_has_voted", "Voters"),
+	("-sum_dictionaries", "Broadness"),
+	("-sum_words", "Intricacy"),
+	("-sum_comments", "Talkative"),
+	("sum_comments", "Silencio"),
+	("-under_talked", "Under Commented"),
+	("under_talked", "Over Commented"),
+	("-sum_spaces", "Homes"),
+	("-sum_sponsors", "Encouraged"),
+	("-votes_count", "Votes"),
+	("votes_count", "Unvoted"),
 )
 
 
@@ -1172,6 +1192,7 @@ class Anon(models.Model):
 	posts = models.ManyToManyField(Post, blank=True, default=None)
 	sum_posts = models.IntegerField(default=0)
 	post_sort = models.IntegerField(choices=POST_SORT_CHOICES, default=0)
+	post_sort_char = models.CharField(choices=POST_SORT_CHOICES_CHAR, default="latest_change_date", max_length=180)
 	
 	spaces = models.ManyToManyField(Space, blank=True, default=None, related_name='spaces')
 	sum_spaces = models.IntegerField(default=0)
