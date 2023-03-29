@@ -1104,6 +1104,7 @@ def create_dic(request):
 		new_dic = Dictionary.objects.create(the_dictionary_itself=defaultfilters.slugify(unidecode(dic_form.cleaned_data['the_dictionary_itself'])), author=loggedinauthor, public=dic_form.cleaned_data['public'], for_sale=dic_form.cleaned_data['for_sale'], entry_fee=dic_form.cleaned_data['entry_fee'], continuation_fee=dic_form.cleaned_data['continuation_fee'], invite_only=dic_form.cleaned_data['invite_only'])
 		loggedinanon.dictionaries.add(new_dic)
 		loggedinanon.purchased_dictionaries.add(new_dic)
+		loggedinanon.sum_dictionaries += 1
 		loggedinanon.save()
 		new_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
 		Dictionary_Source.objects.create(the_dictionary_itself=new_dic.the_dictionary_itself, author=loggedinauthor).purchasers.add(loggedinauthor)
@@ -1218,6 +1219,8 @@ def delete_own_dic(request, user, dictionary):
 				for po in Post.objects.filter(dictionaries__the_dictionary_itself=dictionary):
 					po.dictionaries.remove(users_dic)
 			users_dic.delete()
+			loggedinanon.sum_dictionaries -= 1
+			loggedinanon.save()
 
 
 		else:
