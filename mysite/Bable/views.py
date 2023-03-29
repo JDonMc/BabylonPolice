@@ -3729,10 +3729,10 @@ def change_post_sort_char(request):
 
 def tob_view_users(request):
 
-	user_anons = Anon.objects.all()[:25]
+	user_anons = Anon.objects.order_by('-latest_change_date')[:25]
 	count = 0 
 	mcount = 0
-	count100 = 100
+	count100 = 25
 	registerform = UserCreationForm()
 	
 	user_anons_count = Anon.objects.count()
@@ -3775,7 +3775,7 @@ def tob_view_users(request):
 def tob_view_users_count(request, count):
 	count = int(count)
 	count100 = count + 25
-	user_anons = Anon.objects.order_by()[count:count100]
+	user_anons = Anon.objects.order_by('-latest_change_date')[count:count100]
 	#if request.user.is_authenticated:
 	if count > 25:
 		mcount = count - 25
@@ -3784,7 +3784,8 @@ def tob_view_users_count(request, count):
 	#	if user_anons is not None:
 	registerform = UserCreationForm()
 	
-		
+	user_anons_count = Anon.objects.count()
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -3792,7 +3793,7 @@ def tob_view_users_count(request, count):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
 
-		user_anons = Anon.objects.all().order_by(loggedinanon.anon_sort_char)[count:count100]
+		user_anons = Anon.objects.order_by(loggedinanon.anon_sort_char)[count:count100]
 
 
 		dic_form = DictionaryForm()
@@ -3809,10 +3810,10 @@ def tob_view_users_count(request, count):
 
 		anon_sort_form = AnonSortForm(request)
 
-		the_response = render(request, "tob_view_users.html", {"anon_sort_form": anon_sort_form, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "user_anons": user_anons, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_view_users.html", {"user_anons_count": user_anons_count, "anon_sort_form": anon_sort_form, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "user_anons": user_anons, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_view_users.html", {"count": count, "mcount": mcount, "count100": count100, "user_anons": user_anons, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_view_users.html", {"user_anons_count": user_anons_count, "count": count, "mcount": mcount, "count100": count100, "user_anons": user_anons, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_view_users_count')
 	the_response.set_cookie('count', count)
 	return the_response
