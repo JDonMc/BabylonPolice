@@ -763,7 +763,7 @@ class Comment(MPTTModel):
 	has_commented = models.ManyToManyField(Author, default=None, related_name='comments_has_commented')
 	sum_has_commented = models.IntegerField(default=0)
 	has_viewed = models.ManyToManyField(Author, default=author, related_name='comments_has_viewed')
-	sum_sum_has_viewed = models.IntegerField(default=0)
+	sum_has_viewed = models.IntegerField(default=0)
 	has_voted = models.ManyToManyField(Author, default=None, related_name='comment_has_voted')
 	sum_has_voted = models.IntegerField(default=0)
 	parent = TreeForeignKey('self', on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='children', db_index=True)
@@ -818,6 +818,23 @@ COMMENT_SORT_CHOICES = (
 	(12, "discussed"),
 	(13, "final"),
 	(14, "voters"),
+)
+
+COMMENT_SORT_CHOICES_CHAR = (
+	("sum_dctionaries", "Generalist"),
+	("-sum_dictionaries", "Broadness"),
+	("sum_words", "Less Complex"),
+	("-sum_words", "More Intelligent"),
+	("sum_sponsors", "Encouraged"),
+	("-sum_sponsors", "Discouraged"),
+	("sum_has_voted", "Less Uniques"),
+	("-sum_has_voted", "More Uniques"),
+	("-viewcount", "Viewcount"),
+	("viewcount", "Unseen"),
+	("-latest_change_date", "Latest"),
+	("latest_change_date", "Unchanged"),
+	("-sum_has_commented", "Discussed"),
+	("sum_has_commented", "Unspoken"),
 )
 	
 class Edit(models.Model):
@@ -1187,6 +1204,7 @@ class Anon(models.Model):
 	reposting_comments = models.ManyToManyField(Comment, default=None, related_name='reposting_comments')
 	reposting_comment_sources = models.ManyToManyField(Comment_Source, default=None, related_name='reposting_comment_sources')
 	comment_sort = models.IntegerField(choices=COMMENT_SORT_CHOICES, default=0)
+	comment_sort_char = models.CharField(choices=COMMENT_SORT_CHOICES_CHAR, default="latest_change_date", max_length=180)
 
 
 	posts = models.ManyToManyField(Post, blank=True, default=None)

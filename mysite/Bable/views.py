@@ -4535,24 +4535,24 @@ def tob_users_spaces_post(request, user, space_id, post):
 	if spaces_post.edits.count():
 		latest_edit = spaces_post.edits.last()
 	
-	posts_comments = Comments.objects.get(post=post, post__space=users_space, post__space__author=user_author)
+	posts_comments = spaces_post.comments.count()
 	
-	if posts_comments is not None:
+	if posts_comments:
 		if request.user.is_authenticated:
 			if not users_space.public:
 				if len(users_space.filter(approved_voters__username=request.user.username))>0:
 					space_viewable = True
-					posts_comments = sort_comments(posts_comments, loggedinanon.comment_sort, 0, 100)
+					posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
 					#
 				else:
 					space_viewable = False
 			else:
 				space_viewable = True
-				posts_comments = sort_comments(posts_comments, loggedinanon.comment_sort, 0, 100)
+				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
 		else:
 			if users_space.public:
 				space_viewable = True
-				posts_comments = sort_comments(posts_comments, 14, 0, 100)
+				posts_comments = spaces_post.comments.order_by('latest_change_date')[0:100]
 				
 			else:
 				space_viewable = False
@@ -4609,23 +4609,23 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 
 	space_viewable = False
 	spaces_post = Post.objects.get(space__author=user_author, space__the_space_itself__the_word_itself=space, title=post)
-	posts_comments = Comment.objects.get(post=post, post__space=space, post__space__author=user_author)
+	posts_comments = spaces_post.comments.count()
 	users_space = Space.objects.get(author=user_author, the_space_itself__the_word_itself=space)
-	if posts_comments is not None:
+	if posts_comments:
 		if request.user.is_authenticated:
 			if not users_space.public:
 				if len(users_space.filter(approved_voters__username=request.user.username))>0:
 					space_viewable = True
-					posts_comments = sort_comments(posts_comments, loggedinanon.comment_sort, count, 100)
+					posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort)[count:100]
 				else:
 					space_viewable = False
 			else:
 				space_viewable = True
-				posts_comments = sort_comments(posts_comments, loggedinanon.comment_sort, count, 100)
+				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort)[count:100]
 		else:
 			if users_space.public:
 				space_viewable = True
-				posts_comments = sort_comments(posts_comments, 14, count, 100)
+				posts_comments = spaces_post.comments.order_by('latest_change_date')[count:100]
 			else:
 				space_viewable = False
 	
