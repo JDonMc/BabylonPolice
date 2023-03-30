@@ -99,6 +99,7 @@
 		
 		{% if user_anon.username.username == request.user.username or request.user.username == 'test' %}
 			<div class=words>
+			{% if dic_words.count %}
 				{% for dics_word in dic_words %}
 				<div class=word>
 					<div class=worditself>
@@ -2358,8 +2359,10 @@
 							</div>
 						</form>
 					</div>
-					
-				</div>
+			{% else %}	
+			No words.
+			{% endif %}
+			</div>
 			
 			{% else %}
 				<div class=word>
@@ -2447,6 +2450,7 @@
 
 		{% if users_dic.public or request.user.username == 'test' %}
 			<div class=words>
+			{% if dic_words.count %}
 				{% for dics_word in dic_words %}
 				<div class=word>
 					<div class=worditself>
@@ -2703,7 +2707,9 @@
 				</div>
 				{% endfor %}
 			</div>
-			
+			{% else %}	
+			No words.
+			{% endif %}
 			</div>
 		{% else %}
 			<div class=word>
