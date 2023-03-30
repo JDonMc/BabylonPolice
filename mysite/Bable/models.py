@@ -903,7 +903,8 @@ class Post(models.Model):
 		max_price = 0
 		pks = Sponsor.objects.values_list('pk', flat=True)
 		if not pks:
-			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us")
+			Sponsor.objects.get(id=1).delete()
+			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us", author=Author.object.get(username='test'))
 			pks = [new_spon.id]
 		random_pk = choice(pks)
 		random_obj = Sponsor.objects.get(pk=random_pk)
@@ -1057,7 +1058,8 @@ class Space(models.Model):
 		max_price = 0
 		pks = Sponsor.objects.values_list('pk', flat=True)
 		if not pks:
-			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us")
+			Sponsor.objects.get(id=1).delete()
+			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us", author=Author.object.get(username='test'))
 			pks = [new_spon.id]
 		random_pk = choice(pks)
 		random_obj = Sponsor.objects.get(pk=random_pk)
