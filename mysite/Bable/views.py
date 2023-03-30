@@ -3877,7 +3877,7 @@ def tob_user_view(request, user, count=0):
 			users_posts = user_anon.posts.order_by(loggedinanon.post_sort_char)[count:25]
 			
 		else:
-			users_posts = users_posts.order_by('viewcount')[count:count+25]
+			users_posts = user_anon.posts.order_by('viewcount')[count:count+25]
 	if request.user.username == user or request.user.username == 'test':
 		users_posts = user_anon.posts.order_by(loggedinanon.post_sort_char)[count:25]
 		
@@ -4026,7 +4026,7 @@ def tob_user_view_count(request, user, count=0):
 			users_posts = user_anon.posts.filter(Q(dictionaries__in=loggedinanon.purchased_dictionaries.all())|Q(dictionaries=None)).order_by(loggedinanon.post_sort_char)[count:25]
 			
 		else:
-			users_posts = users_posts.order_by('viewcount')[count:count+25]
+			users_posts = user_anon.posts.order_by('viewcount')[count:count+25]
 	if request.user.username == user or request.user.username == 'test':
 		users_posts = user_anon.posts.order_by(loggedinanon.post_sort_char)[count:25]
 	# Dictionary contains: author, for_sale, views, 
