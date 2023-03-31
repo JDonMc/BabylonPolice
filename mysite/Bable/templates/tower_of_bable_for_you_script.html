@@ -1,0 +1,99 @@
+<script>
+$(document).ready(function() {
+  var start = new Date();
+  var density = [0];
+  var counter = 0;
+	var limit = 100;
+	console.log(start);
+	
+	var myVar = setInterval(function(){ 
+	    if (!document.hidden) {
+	    	if (counter > limit)
+		    {
+		    	var end = new Date();
+		      $.ajax({ 
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 2},
+		        dataType: 'json',
+		        async: false
+		      })
+		        clearInterval(myVar);
+		    }
+		    
+		    counter++;
+		    density.push(window.pageYOffset); 
+	    } else {
+	    	var stop = true;
+	    	var end = new Date();
+		      $.ajax({
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 2},
+		        async: false
+		      })
+	    };
+	}, 20);
+	var density2 = [0];
+	var counter2 = 0;
+	var myVar2 = setInterval(function(){ 
+	    if (!document.hidden) {
+	    	if (counter2 > limit)
+		    {
+		    	var end = new Date();
+		      $.ajax({ 
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density2, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 20},
+		        async: false
+		      })
+		        clearInterval(myVar2);
+		    }
+		    
+		    counter2++;
+		    density2.push(window.pageYOffset); 
+	    } else {
+	    	var stop = true;
+	    	var end = new Date();
+		      $.ajax({
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density2, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 20},
+		        async: false
+		      })
+	    };
+	}, 200);
+	var density3 = [0];
+	var counter3 = 0;
+	var myVar3 = setInterval(function(){ 
+	    if (!document.hidden) {
+	    	if (counter3 > limit)
+		    {
+		    	var end = new Date();
+		      $.ajax({ 
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density3, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 200},
+		        async: false
+		      })
+		        clearInterval(myVar3);
+		    }
+		    
+		    counter3++;
+		    density3.push(window.pageYOffset); 
+	    } else {
+	    	var stop = true;
+	    	var end = new Date();
+		      $.ajax({
+		      	method: "POST",
+		        url: "{% url 'Bable:tower_time' %}",
+		        data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'timeSpent': end - start, 'density': density3, 'scrollHeight': document.documentElement.scrollHeight, 'clientHeight': document.documentElement.clientHeight, 'duration': 200},
+		        async: false
+		      })
+		      clearInterval(myVar3)
+	    };
+	}, 2000);
+
+  
+});
+</script>
