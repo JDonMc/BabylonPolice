@@ -19,6 +19,7 @@ cffi==1.15.1
 chardet==3.0.4
 charset-normalizer==2.0.12
 cloudinary==1.30.0
+coinbase-commerce==1.0.1
 constantly==15.1.0
 contourpy==1.0.6
 coreapi==2.3.3

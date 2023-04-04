@@ -136,8 +136,8 @@ def home_view(request):
 
 	if request.method == 'POST':
 		charge_form = BreadForm(request.POST)
-		if charge_from.is_valid():
-			amount = charge_from.cleaned_data['amount']
+		if charge_form.is_valid():
+			amount = charge_form.cleaned_data['amount']
 			new_invoice = Invoice.objects.create(amount=charge_form.cleaned_data['amount'], item_name='Coinbase', author=request.user.username)
 	else:
 		amount = 5.00
@@ -151,8 +151,8 @@ def home_view(request):
 			'currency': 'USD'
 		},
 		'pricing_type': 'fixed_price',
-		'redirect_url': redirect('Bable:tob_user_view', user=request.user.username),
-		'cancel_url': redirect('Bable:tob_user_view', user=request.user.username),
+		'redirect_url': domain_url+reverse('Bable:tob_user_view', kwargs={'user': request.user.username}),
+		'cancel_url': domain_url+reverse('Bable:tob_user_view', kwargs={'user': request.user.username}),
 	}
 	charge = client.charge.create(**product)
 	# 'charge': charge,
@@ -2414,6 +2414,8 @@ def create_comment_thread(request, source_type, source, com):
 	
 	return base_redirect(request, 0)
 
+from coinbase_commerce.client import Client
+
 @login_required
 def buy_users_dic(request, user, dictionary):
 	user_themself = User.objects.get(username=user)
@@ -2427,14 +2429,16 @@ def buy_users_dic(request, user, dictionary):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 
 		# wallet function... could become crypto/blockchain, but it is infeasible.
+		# if users_dic.author.to_anon().monero_wallet:
+
 		if loggedinanon.false_wallet > users_dic.entry_fee:
 			if users_dic.prerequisite_dics:
 				for dic in users_dic.prerequisite_dics:
 					if dic in loggedinanon.purchased_dictionaries:
-						loggedinanon.purchased_dictionaries.add(users_dic)
-						loggedinanon.sum_purchased_dictionaries += 1
 						loggedinanon.false_wallet = loggedinanon.false_wallet - users_dic.entry_fee
 						user_anon.false_wallet = user_anon.false_wallet + users_dic.entry_fee
+						loggedinanon.purchased_dictionaries.add(users_dic)
+						loggedinanon.sum_purchased_dictionaries += 1
 					else:
 						return HttpResponse("Obtain prerequisites first.")
 			else:

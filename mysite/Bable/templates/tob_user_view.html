@@ -29,15 +29,14 @@ User: {{ user_anon.username.username }} - Babylon Police
 
 
 {% block authenticatedposts %}
-	<!--
+	
 	<div class=monerowallet>
 		<div class=monerowalletform>
-			Save your monero wallet to enable CPU mining (get paid to buy credits)
+			Save your monero wallet to receive Monero payments
 			<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
 		</div>
 
 	</div>
-	-->
 	<div class=usersusername>
 		<h2>
 		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}; ID: {{ user_anon.id }}</a>
@@ -48,7 +47,9 @@ User: {{ user_anon.username.username }} - Babylon Police
 		<div class=userself>
 
 			<div class=userbalance>
-				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): <form action="{% url 'Bable:buy_bread' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Paypal</button></form>
+				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): 
+				<form action="{% url 'Bable:home_view' %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Coinbase</button></form>
+				<form action="{% url 'Bable:buy_bread' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Paypal</button></form>
 				<form action="{% url 'Bable:api_checkout_session' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Card</button></form>
 				(Card requires email)
 				<form action="{% url 'Bable:submit_email' %}" method='POST'>{% csrf_token %}{{ email_form }}<button type="submit">Submit Email</button></form>

@@ -1,43 +1,31 @@
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'forum/static/css/home.css' %}" />
-    <title>Tower Of Bable - Home</title>
-    <form name="searchform" id="post-search-form">
-        <div>
-            <b>Search</b>
-            <input type="text" name="txtInput" title="Enter the search terms" />
-            <input type="submit" value="GO!" class="submit" style="cursor: pointer;" />
-        </div>
-    </form>
-    <form name="searchform" id="view-search-form">
-        <div>
-            <b>Search</b>
-            <input type="text" name="txtInput" title="Enter the view terms" />
-            <input type="submit" value="GO!" class="submit" style="cursor: pointer;" />
-        </div>
-    </form>
-    <div class="card w-25">
+{% load i18n %}
+
+{% block title %}
+{% if count %}
+BabylonPolice.com - incentivised-ascento-secrecy {{ count }}
+{% else %}
+BabylonPolice.com - incentivised-ascento-secrecy
+{% endif %}
+{% endblock %}
+
+{% block authenticatedposts %}
+    <div class="card w-25" style="margin-left: 10px;">
         <div class="card-body">
-          <h5 class="card-title">{{ charge.name }}</h5>
+          <h2 class="card-title">{{ charge.name }}</h2>
           <p class="card-text">
             <span>{{ charge.description }}</span>
             <br>
             <span>${{ charge.pricing.local.amount }} {{ charge.pricing.local.currency }}</span>
           </p>
           <div>
-            <a class="btn btn-primary w-100" href="{{ charge.hosted_url }}">Purchase</a>
+            <a class="btn btn-primary w-100" href="{{ charge.hosted_url }}" style="background-color: green;">Purchase</a>
           </div>
         </div>
     </div>
-</head>
-<body>
-    
-    <!-- Needed static flag for django for src tags
-    <script src="{% static 'forum/js/jquery.min.js' %}"></script>
-    <script src="{% static 'forum/js/jquery.scrollex.min.js' %}"></script>
-    -->
-</body>
-</html>
+{% endblock %}

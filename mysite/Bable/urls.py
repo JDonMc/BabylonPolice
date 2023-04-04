@@ -50,6 +50,7 @@ urlpatterns = [
 	url(r'^about/$', views.about, name='about'),
 	url(r'^register/$', views.register_view, name='register_view'),
 	url(r'^index/$', views.tower_of_bable, name='tower_of_bable'),
+	url(r'^buy_credits/coinbase/$', views.home_view, name='home_view'),
 	url(r'^landingpage/$', views.landingpage, name='landingpage'),
 	url(r'^change_password/$', views.change_password, name='change_password'),
 	url(r'^search/count/(?P<count>[\w-]+)/$', views.search, name='search'),
