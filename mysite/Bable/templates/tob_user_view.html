@@ -47,7 +47,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 		<div class=userself>
 
 			<div class=userbalance>
-				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): 
+				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): (amounts in USD) 
 				<form action="{% url 'Bable:home_view' %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Coinbase</button></form>
 				<form action="{% url 'Bable:buy_bread' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Paypal</button></form>
 				<form action="{% url 'Bable:api_checkout_session' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Card</button></form>
