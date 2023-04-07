@@ -5267,9 +5267,14 @@ def buy_dic(request, dicid):
 			buying_dic = Dictionary.objects.get(id=dicid)
 			price = buying_dic.entry_fee + buying_dic.continuation_fee
 			if price == 0:
-				loggedinanon.purchased_dictionaries.add(buying_dic)
-				buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
-				return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
+				list_of_prerequisite_ids = buying_dic.prerequisite_dics__id
+				list_of_usernames_ids = buying_dic.prerequisite_dics__username__username
+				if loggedinanon.purchase_dictionaries.filter(prerequisite_dics__id=buying_dic.prerequisite_dics__id).count() == 0:
+					loggedinanon.purchased_dictionaries.add(buying_dic)
+					buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+					return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
+				else:
+					return render(request, 'failed_to_purchase_dic.html', {'list_of_p_ids': list_of_prerequisite_ids, 'list_of_usernames_u_ids': list_of_usernames_u_ids})
 			else:
 				if loggedinanon.false_wallet > price:
 					loggedinanon.false_wallet = loggedinanon.false_wallet - price

@@ -523,7 +523,7 @@ class DictionaryPrereqForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         super(DictionaryPrereqForm, self).__init__(*args, **kwargs)
         if Author.objects.get(username=request.user.username):
-            self.fields['prerequisite_dics'] = forms.ChoiceField(choices=[(e, e) for e in Dictionary_Source.objects.all().filter(author=Author.objects.get(username=request.user.username)).order_by('the_dictionary_itself').values_list('the_dictionary_itself', flat=True)])
+            self.fields['prerequisite_dics'] = forms.MultipleChoiceField(choices=[(e, e) for e in Dictionary_Source.objects.all().filter(author=Author.objects.get(username=request.user.username)).order_by('the_dictionary_itself').values_list('the_dictionary_itself', flat=True)])
         else:
             self.fields['prerequisite_dics'] = None
     
