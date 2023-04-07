@@ -3206,7 +3206,7 @@ def tower_of_bable_count(request, count):
 	mcount = 0
 	if count > 25:
 		mcount = count - 25
-	posts_by_viewcount = Post.objects.order_by(loggedinanon.post_sort_char)[count:count100]
+	posts_by_viewcount = Post.objects.order_by('viewcount')[0:25]
 	postscount = posts_by_viewcount.count()
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -5696,6 +5696,18 @@ def tob_users_dic(request, user, dictionary, count):
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
 	return the_response
+
+@login_required
+def submit_dic_prereq(request):
+	loggedinuser = User.object.get(username=request.user.username)
+	loggedinanon = Anon.object.get(username=loggedinuser)
+	dic_prereq_form = DictionaryPrereqForm(request, users_dic)
+	if dic_prereq_form.is_valid():
+		the_dic_to_prereq = loggedinanon.purchased_dictionaries.get(the_dictionary_itself=the_response.COOKIES['dictionary'])
+		the_dic_to_prereq.prerequisite_dics.add(dic_prereq_form.cleaned_date['prerequisite_dics'])
+		the_dic_to_prereq.save()
+			
+	return base_redirect(request, 0)
 
 def tob_users_dic_word_count(request, user, dictionary, word, count):
 	if User.objects.get(username=user):
