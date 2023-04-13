@@ -97,3 +97,5 @@ This allows for votes to work as endorsements whether it's a positive or negativ
 Include more content curation ability.
 
 ## Crypto currency payments for content creators / curators.
+
+## Search Auto Complete with every known word (vertically stacked) in every known category of words (other verbs, other nouns, other nouns alphabetically).

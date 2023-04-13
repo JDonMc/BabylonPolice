@@ -35,7 +35,7 @@ Babylon Police - Want to Purchase a Dic - {{ users_dic.the_dictionary_itself }}:
 			{% for prerequisite_id in list_of_p_ids %}
 				<div class=word>
 					<div class=words_itself>
-						<b>Prerequisite ID: <a href="{% url 'Bable:tob_dic' prerequisite_id %}">{{ username }}</a></b>
+						<b>Prerequisite ID: <a href="{% url 'Bable:tob_dic' prerequisite_id %}">{{ prerequisite_id }}</a></b>
 					</div>
 				</div>
 			{% endfor %}

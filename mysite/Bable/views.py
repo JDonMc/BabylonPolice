@@ -5280,9 +5280,14 @@ def buy_dic(request, dicid):
 					loggedinanon.false_wallet = loggedinanon.false_wallet - price
 					dic_owner = Anon.objects.get(username__username=buying_dic.author.username)
 					dic_owner.false_wallet = dic_owner.false_wallet + price - 1
-					loggedinanon.purchase_dictionaries.add(buying_dic)
-					buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
-					return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
+					list_of_prerequisite_ids = buying_dic.prerequisite_dics__id
+					list_of_usernames_ids = buying_dic.prerequisite_dics__username__username
+					if loggedinanon.purchase_dictionaries.filter(prerequisite_dics__id=buying_dic.prerequisite_dics__id).count() == 0:
+						loggedinanon.purchase_dictionaries.add(buying_dic)
+						buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+						return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
+					else:
+						return render(request, 'failed_to_purchase_dic.html', {'list_of_p_ids': list_of_prerequisite_ids, 'list_of_usernames_u_ids': list_of_usernames_u_ids})
 				else:
 					return redirect('Bable:buy_bread', amount=price)
 	return base_redirect(request, 0)
