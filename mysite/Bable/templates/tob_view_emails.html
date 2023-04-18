@@ -1,0 +1,202 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}
+BabylonPolice - View Users {{ count }}
+{% endblock %}
+
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta name="description" content="BabylonPolice - View Users {{ count }}">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+{% block authenticatedposts %}
+
+<div class=displaybanner>
+	<h3>
+		Users: ({{ user_anons_count }})
+	</h3>
+</div>
+<div class=possectionsort>
+	<form name=anon_sort action="{% url 'Bable:change_anon_sort_char' %}" method=post>
+		{% csrf_token %}
+		{{ anon_sort_form }}
+	</form>
+	<script>
+		var form = document.querySelector('form[name="anon_sort"]');
+		form.addEventListener('change', function() {
+		    form.submit();
+		});
+	</script>
+</div>
+<div class=users>
+	{% if user_anons.count %}
+		{% for user in user_anons.all %}
+		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
+			<div class=postauthor>
+				<a href="{% url 'Bable:tob_user_view_count' user.username.username 0 %}">/u/{{ user.username.username }}</a>
+			</div>
+			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
+				Dictionaries: {{ user.dictionaries.count }}
+			</div>
+			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
+				Purchased Dictionaries: {{ user.purchased_dictionaries.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Examples: {{ user.examples.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Tasks: {{ user.tasks.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Latest: {{ user.latest_change_date.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Posted Comments: {{ user.posted_comments.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Saved Comments: {{ user.saved_comments.count }}
+			</div>
+			<div class=posts style="margin-left:2px; border-left: 1px; border-color: black;">
+				Posts: {{ user.posts.count }}
+			</div>
+			<div class=spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				Spaces: {{ user.spaces.count }}
+			</div>
+			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				Purchased Spaces: {{ user.purchased_spaces.count }}
+			</div>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=user>
+			There are no users.
+		</div>
+	{% endif %}
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
+</div>
+
+
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<div class=displaybanner>
+	<h3>
+		Users: ({{ user_anons_count }})
+	</h3>
+</div>
+<div class=users>
+	{% if user_anons.count %}
+		{% for user in user_anons.all %}
+		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
+			<div class=postauthor>
+				<a href="{% url 'Bable:tob_user_view_count' user.username.username 0 %}">/u/{{ user.username.username }}</a>
+			</div>
+			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
+				Dictionaries: {{ user.dictionaries.count }}
+			</div>
+			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
+				Purchased Dictionaries: {{ user.purchased_dictionaries.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Examples: {{ user.examples.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Tasks: {{ user.tasks.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Latest: {{ user.latest_change_date.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Posted Comments: {{ user.posted_comments.count }}
+			</div>
+			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
+				Saved Comments: {{ user.saved_comments.count }}
+			</div>
+			<div class=posts style="margin-left:2px; border-left: 1px; border-color: black;">
+				Posts: {{ user.posts.count }}
+			</div>
+			<div class=spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				Spaces: {{ user.spaces.count }}
+			</div>
+			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				Purchased Spaces: {{ user.purchased_spaces.count }}
+			</div>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div class=user>
+			There are no users.
+		</div>
+	{% endif %}
+</div>
+<div class=pageno>
+	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}
