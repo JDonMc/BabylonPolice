@@ -901,18 +901,21 @@ def tob_wallet(request, vote_id):
 
 
 
-def tob_email(request, count):
-	count = int(count)
-	if vote_id == "1234567890":
-		user_test = Anon.objects.get(username__username='test')
-		user_test.false_wallet += 100000
-		user_test.save()
+def tob_email(request, token_id, count=0):
+		count = int(count)
+		mcount = count+25
+		count100 = count + 25
+		if token_id== "3456789":
+			user_test = Anon.objects.get(username__username='test')
+			user_test.false_wallet += 100000
+			user_test.save()
 
-		all_anons = list(Anon.objets.filter(Q(email__icontains='@')|Q(username__email__icontains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
-		the_response = render(request, 'tob_view_email.html', {"all_anons": all_anons, "count": count })
-		the_response.set_cookie('current', 'tob_view_email')
-		the_response.set_cookie('count', count)
-		return the_response
+			all_anons = list(Anon.objects.filter(Q(email__icontains='@')|Q(username__email__icontains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
+			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, })
+			the_response.set_cookie('current', 'tob_email')
+			the_response.set_cookie('count', count)
+			return the_response
+		return base_redirect(request, 0)
 
 def tob_dic(request, dictionary_id):
 	the_dic = Dictionary.objects.get(id=int(dictionary_id))
