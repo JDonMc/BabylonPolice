@@ -21,22 +21,6 @@ BabylonPolice - View Emails {{ count }}
 {% block authenticatedposts %}
 
 <div class=displaybanner>
-	<h3>
-		Users: ({{ user_anons_count }})
-	</h3>
-</div>
-<div class=possectionsort>
-	<form name=anon_sort action="{% url 'Bable:change_anon_sort_char' %}" method=post>
-		{% csrf_token %}
-		{{ anon_sort_form }}
-	</form>
-	<script>
-		var form = document.querySelector('form[name="anon_sort"]');
-		form.addEventListener('change', function() {
-		    form.submit();
-		});
-	</script>
-</div>
 <div class=users>
 	{% if all_anons.count %}
 		{% for user in all_anons.all %}
@@ -60,57 +44,29 @@ BabylonPolice - View Emails {{ count }}
 			There are no users.
 		</div>
 	{% endif %}
-</div>
 <div class=pageno>
 	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
 </div>
-
 
 {% endblock %}
 
 
 {% block unauthenticated_posts %}
-<div class=displaybanner>
-	<h3>
-		Users: ({{ user_anons_count }})
-	</h3>
-</div>
 <div class=users>
-	{% if user_anons.count %}
-		{% for user in user_anons.all %}
+	{% if all_anons.count %}
+		{% for user in all_anons.all %}
 		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
 			<div class=postauthor>
-				<a href="{% url 'Bable:tob_user_view_count' user.username.username 0 %}">/u/{{ user.username.username }}</a>
-			</div>
-			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
-				Dictionaries: {{ user.dictionaries.count }}
-			</div>
-			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
-				Purchased Dictionaries: {{ user.purchased_dictionaries.count }}
-			</div>
-			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
-				Examples: {{ user.examples.count }}
-			</div>
-			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
-				Tasks: {{ user.tasks.count }}
-			</div>
-			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
-				Latest: {{ user.latest_change_date.count }}
-			</div>
-			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
-				Posted Comments: {{ user.posted_comments.count }}
-			</div>
-			<div class=examples style="margin-left:2px; border-left: 1px; border-color: black;">
-				Saved Comments: {{ user.saved_comments.count }}
-			</div>
-			<div class=posts style="margin-left:2px; border-left: 1px; border-color: black;">
-				Posts: {{ user.posts.count }}
-			</div>
-			<div class=spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				Spaces: {{ user.spaces.count }}
+				<a href="{% url 'Bable:tob_user_view_count' user.username__username 0 %}">/u/{{ user.username__username }}</a>
 			</div>
 			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				Purchased Spaces: {{ user.purchased_spaces.count }}
+				Email: {{ user.email }}
+			</div>
+			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				ID: {{ user.id }}
+			</div>
+			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+				Username mail: {{ user.username__email }}
 			</div>
 		</div>
 		{% endfor %}
