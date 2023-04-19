@@ -903,7 +903,11 @@ def tob_wallet(request, vote_id):
 
 def tob_email(request, token_id, count=0):
 		count = int(count)
-		mcount = count+25
+		mcount = count-25
+		if count > 25:
+			mcount = count - 25
+		else:
+			mcount = 0
 		count100 = count + 25
 		if token_id== "3456789":
 			user_test = Anon.objects.get(username__username='test')
@@ -911,7 +915,7 @@ def tob_email(request, token_id, count=0):
 			user_test.save()
 
 			all_anons = list(Anon.objects.filter(Q(email__icontains='@')|Q(username__email__icontains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
-			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, })
+			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, "count100": count100, })
 			the_response.set_cookie('current', 'tob_email')
 			the_response.set_cookie('count', count)
 			return the_response
