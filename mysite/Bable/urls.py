@@ -48,6 +48,7 @@ urlpatterns = [
 	url(r'^create_feedback/$', views.create_feedback, name='create_feedback'),
 	url(r'^thanks/$', views.thanks, name='thanks'),
 	url(r'^about/$', views.about, name='about'),
+	url(r'^management/$', views.management, name='management'),
 	url(r'^register/$', views.register_view, name='register_view'),
 	url(r'^index/$', views.tower_of_bable, name='tower_of_bable'),
 	url(r'^buy_credits/coinbase/$', views.home_view, name='home_view'),
