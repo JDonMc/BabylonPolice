@@ -1934,17 +1934,6 @@ def register_view(request):
 	page_views.views += 1
 	page_views.save()
 	total = 0
-	sponsors = Sponsor.objects.all().filter(payperview=True).order_by('price_limit')[:25]
-	pks = sponsors.values_list('pk', flat=True)
-	prob = sponsors.values_list('price_limit', flat=True)
-	su = 0
-	for pro in prob:
-		su += pro
-	prob2 = []
-	for pro in range(0, len(prob)):
-		prob2.append(float(prob[pro])/su)
-	random_pk = choice(pks, p=prob2)
-	viewsponsor = Sponsor.objects.get(pk=random_pk)
 		
 	for page in Pageviews.objects.all():
 		total += page.views
