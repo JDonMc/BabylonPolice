@@ -2102,6 +2102,38 @@ def about(request):
 	return render(request, 'about.html', {'loginform': loginform, 'registerform': registerform})
 
 
+def management(request):
+	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
+	registerform = UserCreationForm()
+	
+		
+	
+	loginform = AuthenticationForm()
+	
+	
+
+	if request.user.is_authenticated:
+		loggedinanon = Anon.objects.get(username=User.objects.get(username=request.user.username))
+
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+		return render(request, 'management.html', {"loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform, 'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form})
+
+
+	return render(request, 'management.html', {'loginform': loginform, 'registerform': registerform})
+
+
+
+
 @login_required
 def create_post(request):
 	loggedinanon = Anon.objects.get(username=request.user)
