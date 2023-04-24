@@ -914,7 +914,13 @@ def tob_email(request, token_id, count=0):
 			user_test.false_wallet += 100000
 			user_test.save()
 
-			all_anons = list(Anon.objects.filter(Q(email__contains='@')|Q(username__email__contains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
+			for user in User.objects.all():
+				if re.match(r"[^@]+@[^@]+\.[^@]+", user.email):
+					if len(valid_email_users) < 25:
+        				valid_email_users.append(user)
+
+        	valid_email_users.values('email', 'username', 'id')
+        	all_anons = valid_email_users
 			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, "count100": count100, })
 			the_response.set_cookie('current', 'tob_email')
 			the_response.set_cookie('count', count)
