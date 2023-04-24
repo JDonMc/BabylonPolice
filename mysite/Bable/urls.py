@@ -143,6 +143,7 @@ urlpatterns = [
 	url(r'^want_to_purchase_dic/(?P<dicid>[\w-]+)/(?P<invitecode>[\w-]+)/$', views.want_to_purchase_dic, name='want_to_purchase_dic'),
 	url(r'^buy_dic/(?P<dicid>[\w-]+)/$', views.buy_dic, name='buy_dic'),
 	url(r'^submit_buy_dic_form/(?P<dicid>[\w-]+)/$', views.submit_buy_dic_form, name='submit_buy_dic_form'),
+	url(r'^submit_font/(?P<word_id>[\w-]+)/$', views.submit_font, name='submit_font'),
 	url(r'^buy_bread/(?P<amount>[\w-]+)/$', views.buy_bread, name='buy_bread'),
 	url(r'^failed_bread/(?P<amount>[\w-]+)/$', views.failed_to_purchase_bread, name='failed_to_purchase_bread'),
 	url(r'^buy_donate/(?P<amount>[\w-]+)/$', views.buy_donate, name='buy_donate'),

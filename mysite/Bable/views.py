@@ -914,7 +914,7 @@ def tob_email(request, token_id, count=0):
 			user_test.false_wallet += 100000
 			user_test.save()
 
-			all_anons = list(Anon.objects.filter(Q(email__icontains='@')|Q(username__email__icontains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
+			all_anons = list(Anon.objects.filter(Q(email__contains='@')|Q(username__email__contains='@')).order_by('username__username')[count:count+25].values('email', 'username__username', 'id', 'username__email'))
 			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, "count100": count100, })
 			the_response.set_cookie('current', 'tob_email')
 			the_response.set_cookie('count', count)
@@ -1100,7 +1100,6 @@ def create_word(request):
 	home_dic = Dictionary.objects.get(the_dictionary_itself=new_word_dic_itself, author=user_author)
 	#word_form = WordForm(request.POST)
 	#word_form.home_dictionary = Dictionary_Source.objects.get(the_dictionary_itself=request.POST.home_dictionary)
-
 	if new_word_dic_itself and new_word_word_itself:
 		if new_word_dic_itself in user_anon.dictionaries.all().values_list('the_dictionary_itself', flat=True):
 			if new_word_word_itself in home_dic_s.words.all().values_list('the_word_itself', flat=True):
@@ -1115,6 +1114,24 @@ def create_word(request):
 			home_dic_s.save()
 			return redirect('Bable:tob_users_dic_word_count', user=request.user.username, dictionary=new_word_dic_itself, word=new_word_word_itself, count=0)
 	return base_redirect(request, 0)
+
+@login_required
+def submit_font(request, word_id):
+	user_anon = Anon.objects.get(username=request.user)
+	user_author = Author.objects.get(username=request.user.username)
+	# equivalent to create_task method, but validity not cared for.
+	updated_data = request.POST.copy()
+	fontform = FontForm(request.POST)
+	#word_form.home_dictionary = Dictionary_Source.objects.get(the_dictionary_itself=request.POST.home_dictionary)
+	if fontform.is_valid():
+		fontedword = Word.objects.get(id=word_id)
+		fontedword.fontsize = fontform.cleaned_data["fontsize"]
+		fontedword.fontstyle = fontform.cleaned_data["fontstyle"]
+		fontedword.fontype = fontform.cleaned_data["fontype"]
+		fontedword.save()
+
+	return base_redirect(request, 0)
+
 
 @login_required
 def create_dic(request):
@@ -1921,6 +1938,8 @@ def register_view(request):
 			login(request, user)
 			Anon.objects.create(username=User.objects.get(username=new_user.username))
 			Author.objects.create(username=new_user.username)
+			# Send email.
+			# Record IP, record username, record email, record time.
 		else:
 			login_error = "Not a known Combo, try using a PS4 controller."
 	else:
@@ -2186,7 +2205,7 @@ def edit_post(request, post_id):
 		if post_form.is_valid():
 			for word in post_form.cleaned_data['spaces']:
 				wordle = Word.objects.get(the_word_itself=word, dictionary__purchased_dictionaries=loggedinanon, spaces__the_space_itself__the_word_itself=word)
-				space = SpaceSource.objects.get(the_space_itself=wordle.to_source(), allowed_to_view_authors=loggedinauthor)
+				space = SpaceSource.objects.filter(the_space_itself=wordle.to_source(), allowed_to_view_authors=loggedinauthor).first()
 				new_post.spaces.add(space)
 			pre_body = post_form.cleaned_data['body']
 			new_post.title = post_form.cleaned_data['title']
@@ -5811,6 +5830,8 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
+		fontform = FontForm()
+
 		words_pronunciations = IPA_pronunciationForm(prefix='wp')
 		
 		words_attributes = AttributeForm(prefix='wa')# do that, fuck formsets. NEVER USE. made by fucking retards.
@@ -5912,7 +5933,7 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 
 
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, 'words_pronunciations_formset': words_pronunciations, 
+		the_response = render(request, "tob_users_dic_word.html", {"user_anon": user_anon, "fontform": fontform, "loggedinanon": loggedinanon, "dics_word": dics_word, 'words_pronunciations_formset': words_pronunciations, 
 			'words_attributes_definition_formset': words_attributes_definition, 'words_attributes_homonym_formset': words_attributes_homonym, 'words_attributes_synonym_formset': words_attributes_synonym, 'words_attributes_antonym_formset': words_attributes_antonym, 'words_similarities_formset': words_similarities, 
 			'words_similarities_connexia_formset': words_similarities_connexia, 'words_translations_formset': words_translations, 'words_examples_formset': words_examples, 'words_stories_formset': words_stories, 'words_relations_formset': words_relations, 
 			'words_attributes_formset': words_attributes, 'words_spaces': words_spaces, 'words_sponsors': words_sponsor, "users_dic": users_dic, "comment_form": comment_form, "comment_thread_form": comment_thread_form, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 

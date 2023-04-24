@@ -35,6 +35,10 @@ def subset(value, subset):
 		return True
 	return False
 
+
+
+
+
 @register.filter(is_safe=True)
 def sponsor(value, dictionaries):
 	pricemax = 0
@@ -147,19 +151,32 @@ def prereq_dics_word_up(value, dictionaries):
 @register.filter(is_safe=True)
 def dics_word(value, dictionaries):
 	for dic in dictionaries:
-		if '/'+dic.the_dictionary_itself+'/' in value:
+		if '/'+dic.the_dictionary_itself+'/' in value.split(" "):
 			for word in dic.words.all():
-				if '/'+dic.the_dictionary_itself+'/'+word.the_word_itself in value:
+				if '/'+dic.the_dictionary_itself+'/'+word.the_word_itself in value.split(" "):
 					value.replace('/{}/{}'.format(dic.the_dictionary_itself, word.the_word_itself), '<a class=plain href="{}">{}</a>'.format(reverse('Bable:tob_users_dic_word_count', kwargs={'user':dic.author.username, 'dictionary':dic.the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself))
+	
 	return value
 
+
+from django.utils.safestring import mark_safe
+
+
+@register.filter(is_safe=True)
+def fontypes(value, words):
+	for word in words:
+		if word.the_word_itself in value:
+			replace_to = '<a class="plain{} plain" href="{}" data-text="{}"style="font-style: url(\'{}\'); font-size: {}em; position: relative; display: inline-block;">{}</a><style>{}</style>'.format(word.id, reverse('Bable:tob_users_dic_word_count', kwargs={'user':word.home_dictionary.to_full().author.username, 'dictionary':word.home_dictionary.to_full().the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself, word.fontstyle, word.fontsize, word.the_word_itself, word.fontype)
+			value = value.replace('{}'.format(word.the_word_itself), replace_to)
+			print(value)
+	return value
 
 
 @register.filter(is_safe=True)
 def directive_jump_up(value, dictionaries):
 	for dic in dictionaries:
 		for word in dic.words.all():
-			for pointfromword in dic.words.all():
+			for pointforward in dic.words.all():
 				if word.id + '+' + pointforward.id + '@' + '%H:%M:%S' + '/' in value:
 					start = value.index(pointforward.id + '@') + len(pointforward.id + '@')
 					color = datetime.strptime(value[start:], '%H')
@@ -171,7 +188,7 @@ def directive_jump_up(value, dictionaries):
 						color = "green"
 					delay = datetime.strptime(value[start+2:], '%M:%S')
 					value = value.replace('{}'.format(pointforward.the_word_itself), '<div class=delay style:"transition-delay = {}; color = {};">{}</div>'.format(delay, color, pointfrward.the_word_itself))
-
+	return value
 
 
 

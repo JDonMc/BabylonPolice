@@ -312,6 +312,20 @@ class WordForm(forms.ModelForm):
             self.fields['home_dictionary'] = None
 
 
+
+class FontForm(forms.ModelForm):
+    class Meta:
+        model = Word
+        fields = ('fontsize', 'fontstyle', 'fontype')
+        
+    def clean(self):
+        cleaned_data = super(FontForm, self).clean()
+        
+    def __init__(self, *args, **kwargs):
+        super(FontForm, self).__init__(*args, **kwargs)
+           
+
+
 class CreateVotesForm(forms.ModelForm):
     class Meta:
         model = Votes

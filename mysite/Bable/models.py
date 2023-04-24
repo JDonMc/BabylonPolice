@@ -401,8 +401,6 @@ SPONSOR_SORT_CHOICES = (
 
 from numpy.random import choice
 
-
-
 class Word(models.Model):
 	the_word_itself	= models.CharField(max_length=200, default='')
 	home_dictionary = models.ForeignKey(Dictionary_Source, on_delete=models.CASCADE, default=None, null=True)
@@ -422,13 +420,16 @@ class Word(models.Model):
 	spaces = models.ManyToManyField(SpaceSource, default=None)
 	votes = models.ManyToManyField(Votes_Source, default=None)
 	ap_voters = models.ManyToManyField(Author, default=None, related_name="ap_voters")
+	fontstyle = models.URLField(max_length=2000, blank=True, default='')
+	fontsize = models.CharField(max_length=3, blank=True, default='')
+	fontype = models.TextField(max_length=14400, default='')
 
 	class Meta:
 		unique_together = (('home_dictionary', 'the_word_itself'),)
 
 
 	def to_source(self):
-		return Word_Source.objects.all().filter(author=self.author, the_word_itself=self.the_word_itself, home_dictionary=self.home_dictionary.the_dictionary_itself).first()
+		return Word_Source.objects.filter(author=self.author, the_word_itself=self.the_word_itself, home_dictionary=self.home_dictionary.the_dictionary_itself).first()
 
 	def get_approved(self):
 		self.home_dictionary.get_purchasers

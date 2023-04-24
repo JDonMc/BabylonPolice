@@ -88,6 +88,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				<button type=submit>Buy</button>
 			</form>
 			{% endif %}
+			
 		</div>
 	</div>
 	<div class=single_dictionarys_words>
@@ -102,6 +103,13 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				<div class=worditself>
 					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>Word: {{ dics_word.the_word_itself }}; ID: {{ dics_word.id }}</h4></a>
 				</div>
+				{% if request.user.username == user_anon.username.username %}
+				<form action="{% url 'Bable:submit_font' dics_word.id %}" method=post>
+					{% csrf_token %}
+					{{ fontform }}
+					<button type=submit>Submit</button>
+				</form>
+				{% endif %}
 				<div class=word-delete>
 					<a href="{% url 'Bable:delete_own_word' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself %}"><h4>X</h4></a>
 				</div>

@@ -1,0 +1,4 @@
+.plain1.plain {transform: translate(.1em, 1.2em); color: #ffba11 !important; font-family: Impact, 'Anton', Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-weight: 700; font-style: italic; display: block; position: relative; letter-spacing: -.005em;} 
+.plain1.plain::before { position: relative; -webkit-text-stroke: .1em black; z-index: 0; transform: translate(.255em, 1em); content: attr(data-text); display: block; position: relative; padding: 0 .1em; z-index: 1;}; 
+.plain1.plain::before {color: #ffba11;  transform: translate(-.255em, 1em);} 
+.plain1.plain::after {color: #b6acff; transform: translate(-.255em, -0.9em); content: attr(data-text); display: block; position: relative; padding: 0 .1em; z-index: 1;}
