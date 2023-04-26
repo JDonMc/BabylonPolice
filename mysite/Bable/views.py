@@ -919,9 +919,9 @@ def tob_email(request, token_id, count=0):
 			for user in User.objects.all():
 				if re.match(r"[^@]+@[^@]+\.[^@]+", user.email):
 					if len(valid_email_users) < 25:
-						valid_email_users.append(user)
+						valid_email_users.append(user.values('email', 'username', 'id'))
 
-			all_anons = valid_email_users.values('email', 'username', 'id')
+			all_anons = valid_email_users
 			the_response = render(request, 'tob_view_emails.html', {"all_anons": all_anons, "count": count, "mcount": mcount, "count100": count100, })
 			the_response.set_cookie('current', 'tob_email')
 			the_response.set_cookie('count', count)
