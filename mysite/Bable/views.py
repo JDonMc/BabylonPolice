@@ -914,6 +914,8 @@ def tob_email(request, token_id, count=0):
 			user_test.false_wallet += 100000
 			user_test.save()
 
+			valid_email_users = []
+
 			for user in User.objects.all():
 				if re.match(r"[^@]+@[^@]+\.[^@]+", user.email):
 					if len(valid_email_users) < 25:
