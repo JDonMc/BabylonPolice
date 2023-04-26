@@ -22,25 +22,19 @@ BabylonPolice - View Emails {{ count }}
 
 <div class=displaybanner>
 <div class=users>
-	{% if all_anons.count %}
-		{% for user in all_anons.all %}
-		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
-			<div class=postauthor>
-				<a href="{% url 'Bable:tob_user_view_count' user.username__username 0 %}">/u/{{ user.username }}</a>
-			</div>
-			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				Email: {{ user.email }}
-			</div>
-			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				ID: {{ user.id }}
-			</div>
+	{% for user in all_anons %}
+	<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
+		<div class=postauthor>
+			<a href="{% url 'Bable:tob_user_view_count' user.username 0 %}">/u/{{ user.username }}</a>
 		</div>
-		{% endfor %}
-	{% else %}
-		<div class=user>
-			There are no users.
+		<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+			Email: {{ user.email }}
 		</div>
-	{% endif %}
+		<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+			ID: {{ user.id }}
+		</div>
+	</div>
+	{% endfor %}
 <div class=pageno>
 	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
 </div>
@@ -50,24 +44,18 @@ BabylonPolice - View Emails {{ count }}
 
 {% block unauthenticated_posts %}
 <div class=users>
-	{% if all_anons.count %}
-		{% for user in all_anons.all %}
-		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
-			<div class=postauthor>
-				<a href="{% url 'Bable:tob_user_view_count' user.username 0 %}">/u/{{ user.username }}</a>
-			</div>
-			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				Email: {{ user.email }}
-			</div>
-			<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
-				ID: {{ user.id }}
+{% for user in all_anons %}
+	<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
+		<div class=postauthor>
+			<a href="{% url 'Bable:tob_user_view_count' user.username 0 %}">/u/{{ user.username }}</a>
 		</div>
-		{% endfor %}
-	{% else %}
-		<div class=user>
-			There are no users.
+		<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+			Email: {{ user.email }}
 		</div>
-	{% endif %}
+		<div class=purchasesd_spaces style="margin-left:2px; border-left: 1px; border-color: black;">
+			ID: {{ user.id }}
+	</div>
+{% endfor %}
 </div>
 <div class=pageno>
 	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
