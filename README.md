@@ -99,3 +99,17 @@ Include more content curation ability.
 ## Crypto currency payments for content creators / curators.
 
 ## Search Auto Complete with every known word (vertically stacked) in every known category of words (other verbs, other nouns, other nouns alphabetically).
+
+## Make Mutawords as having a mechanism
+
+### One such mechanism:
+
+Prediction sort -- using frequency, match occurrence with word length.
+
+#### Sequential sort -- using permutation types:
+
+Match least consonants, match least phonemes, match quickest to say
+
+-- Then remove letters from the selectors - no c, no k, and so on.
+
+Rebuild a type-set for words of a given length with a selector algorithm to compare uniques.
