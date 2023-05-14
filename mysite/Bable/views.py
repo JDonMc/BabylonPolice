@@ -952,8 +952,8 @@ def apply_votes(request):
 		loggedinauthor = Author.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=request.user)
 		create_votes_form = CreateVotesForm(request, data=request.POST)
-		the_votes = Votes.objects.create(the_vote_name=request.POST.get('the_vote_style')[0], author=loggedinauthor)
-		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=request.POST.get('the_vote_style')[0])
+		the_votes = Votes.objects.create(the_vote_name=request.POST.get('the_vote_style'), author=loggedinauthor)
+		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=request.POST.get('the_vote_style'))
 		for space in the_vote_styles_space:
 			the_votes.the_vote_style.add(space.to_source())
 			the_votes_source = Votes_Source.objects.create(author=space.to_source().author, the_vote_name=space.to_source().the_space_itself)
