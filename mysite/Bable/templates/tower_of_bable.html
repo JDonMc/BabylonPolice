@@ -126,9 +126,6 @@ BabylonPolice.com - incentivised-ascento-secrecy
 			<div class=postcount style="font-size: 1em;">
 				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
 			</div>
-			<div class=postvotes style="font-size: 1em;">
-				Votes: {{ post.votes_count }}
-			</div>
 			<div class=postviews style="font-size: 1em;">
 				Views: {{ post.viewcount }}
 			</div>
@@ -246,9 +243,6 @@ BabylonPolice.com - incentivised-ascento-secrecy
 				</div>
 				<div class=postcount style="font-size: 1em;" onclick="showregister();">
 					Voters: {{ post.votes_uniques }}
-				</div>
-				<div class=postvotes style="font-size: 1em;">
-					Votes: {{ post.votes_count }}
 				</div>
 				<div class=postviews style="font-size: 1em;">
 					Views: {{ post.viewcount }}
