@@ -938,13 +938,11 @@ def apply_votestyle(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		apply_votestyle_form = ApplyVotestyleForm(request, data=request.POST)
-		if apply_votestyle_form.is_valid():
-
-			the_votes = Votes.objects.get(id=int(apply_votestyle_form.cleaned_data['the_vote_style']))
-			if the_votes in loggedinanon.applied_votestyles.all():
-				loggedinanon.applied_votestyles.remove(the_votes)
-			else:
-				loggedinanon.applied_votestyles.add(the_votes)
+		the_votes = Votes.objects.get(id=int(request.POST.get('the_vote_style')))
+		if the_votes in loggedinanon.applied_votestyles.all():
+			loggedinanon.applied_votestyles.remove(the_votes)
+		else:
+			loggedinanon.applied_votestyles.add(the_votes)
 
 	return base_redirect(request, 0)
 
@@ -954,8 +952,8 @@ def apply_votes(request):
 		loggedinauthor = Author.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=request.user)
 		create_votes_form = CreateVotesForm(request, data=request.POST)
-		the_votes = Votes.objects.create(the_vote_name=create_votes_form.cleaned_data['the_vote_style'][0], author=loggedinauthor)
-		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=create_votes_form.cleaned_data['the_vote_style'][0])
+		the_votes = Votes.objects.create(the_vote_name=request.POST.get('the_vote_style')[0], author=loggedinauthor)
+		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=request.POST.get('the_vote_style')[0])
 		for space in the_vote_styles_space:
 			the_votes.the_vote_style.add(space.to_source())
 			the_votes_source = Votes_Source.objects.create(author=space.to_source().author, the_vote_name=space.to_source().the_space_itself)
@@ -2580,21 +2578,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2612,21 +2606,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2642,21 +2632,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2671,21 +2657,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2701,21 +2683,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2731,21 +2709,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2761,21 +2735,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2791,21 +2761,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2821,21 +2787,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2851,21 +2813,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2881,21 +2839,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2911,21 +2865,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2942,21 +2892,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2973,21 +2919,17 @@ def votewvotestyle(request, source_type, source_id):
 				if vote in source_obj.votes.all():
 					voters = vote.voters.all()
 					if user_author in voters:
-						voters.remove(user_author)
-						voters.save()
+						vote.voters.remove(user_author)
 						vote.votes -= 1
 						vote.save()
 					else:
-						voters.add(user_author)
-						voters.save()
+						vote.voters.add(user_author)
 						vote.votes += 1
 						vote.save()
 						voted = True
 				else:
 					source_obj.votes.add(vote)
-					voters = vote.voters.all()
-					voters.add(user_author)
-					voters.save()
+					vote.voters.add(user_author)
 					vote.votes += 1
 					vote.save()
 					voted = True
@@ -2995,12 +2937,16 @@ def votewvotestyle(request, source_type, source_id):
 				if not voted:
 					source_obj.has_voted.remove(user_author)
 					source_obj.votes_uniques -= 1
-					source_obj.under_talked = float(source_obj.votes_uniques) / float(source_obj.sum_comments)
+					if source_obj.sum_comments:
+						source_obj.under_talked = float(source_obj.votes_uniques) / float(source_obj.sum_comments)
 			else:
 				if voted:
+					source_obj.has_voted.add(user_author)
 					source_obj.votes_uniques += 1
-					source_obj.under_talked = float(source_obj.votes_uniques) / float(source_obj.sum_comments)
+					if source_obj.sum_comments:
+						source_obj.under_talked = float(source_obj.votes_uniques) / float(source_obj.sum_comments)
 			source_obj.save()
+
 	return base_redirect(request, 0)
 
 
