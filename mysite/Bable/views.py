@@ -954,23 +954,22 @@ def apply_votes(request):
 		loggedinauthor = Author.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=request.user)
 		create_votes_form = CreateVotesForm(request, data=request.POST)
-		if create_votes_form.is_valid():
-			the_votes = Votes.objects.create(the_vote_name=create_votes_form.cleaned_data['the_vote_style'][0], author=loggedinauthor)
-			the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=create_votes_form.cleaned_data['the_vote_style'][0])
-			for space in the_vote_styles_space:
-				the_votes.the_vote_style.add(space.to_source())
-				the_votes_source = Votes_Source.objects.create(author=space.to_source().author, the_vote_name=space.to_source().the_space_itself)
-				the_votes_source.the_vote_style.add(Word_Source.objects.get(the_word_itself=space.to_source().the_space_itself.the_word_itself, home_dictionary=space.to_source().dictionary.to_full().the_dictionary_itself, author=loggedinauthor))
-				the_votes_source.save()
+		the_votes = Votes.objects.create(the_vote_name=create_votes_form.cleaned_data['the_vote_style'][0], author=loggedinauthor)
+		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=create_votes_form.cleaned_data['the_vote_style'][0])
+		for space in the_vote_styles_space:
+			the_votes.the_vote_style.add(space.to_source())
+			the_votes_source = Votes_Source.objects.create(author=space.to_source().author, the_vote_name=space.to_source().the_space_itself)
+			the_votes_source.the_vote_style.add(Word_Source.objects.get(the_word_itself=space.to_source().the_space_itself.the_word_itself, home_dictionary=space.to_source().dictionary.to_full().the_dictionary_itself, author=loggedinauthor))
+			the_votes_source.save()
 
-				space.to_source().allowed_to_view_authors.add(loggedinauthor)
-				the_votes.save()
-				space.to_source().votessource.add(the_votes_source)
-				space.save()
-
+			space.to_source().allowed_to_view_authors.add(loggedinauthor)
 			the_votes.save()
-			loggedinanon.created_votestyles.add(the_votes)
-			loggedinanon.save()
+			space.to_source().votessource.add(the_votes_source)
+			space.save()
+
+		the_votes.save()
+		loggedinanon.created_votestyles.add(the_votes)
+		loggedinanon.save()
 	return base_redirect(request, 0)
 
 @login_required
