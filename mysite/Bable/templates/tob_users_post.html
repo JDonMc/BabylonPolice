@@ -154,7 +154,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			{% if users_post.sponsors.count %}
 
 				<a href="{% url 'Bable:clickthrough' users_post.author.username users_post.max.id %}"><img src="{{ users_post.max.img }}" style="height: 8em; width: 8em;">
-					<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+					<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
 					</div>
 				</a>
 			{% else %}
@@ -255,7 +255,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
 							<a href="{% url 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
-								<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+								<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
 								</div>
 
 							</a>
@@ -395,7 +395,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<div class=postsponsors>
 			{% if users_post.sponsors.count %}
 				<a href="{% url 'Bable:clickthrough' users_post.author.username users_post.max.id %}"><img src="{{ users_post.max.img }}" style="height: 8em; width: 8em;">
-					<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+					<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
 					</div>
 				</a>
 			{% else %}
@@ -473,7 +473,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
 								<a href="{% url 'Bable:clickthrough' node.author.username node.max_sponsor.id %}"><img src="{{ node.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
-									<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+									<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
 									</div>
 
 								</a>
