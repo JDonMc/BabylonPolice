@@ -140,6 +140,7 @@ def word_up(value, dictionaries):
 def prereq_dics_word_up(value, dictionaries):
 	for dic in dictionaries:
 		if '/'+dic.the_dictionary_itself+'/' in value:
+			print(dic.the_dictionary_itself)
 			for prerequisite in dic.prerequisite_dics.all():
 				if '/'+dic.the_dictionary_itself+'/'+prerequisite.the_dictionary_itself+'/' in value:
 					for word in prerequisite.to_full().words.all():

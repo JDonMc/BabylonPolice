@@ -5782,7 +5782,7 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-		fontform = FontForm()
+		fontform = FontForm(instance=dics_word)
 
 		words_pronunciations = IPA_pronunciationForm(prefix='wp')
 		
