@@ -9,12 +9,12 @@ register = template.Library()
 
 @register.filter(is_safe=True)
 def usernames(value):
-	return value.replace('/user/', 'https://www.babylonpolice.com/B/user/')
+	return value.replace('/username/', 'https://www.babylonpolice.com/B/user/')
 
 
 @register.filter(is_safe=True)
 def spaces(value):
-	return value.replace('/space/', 'https://www.babylonpolice.com/B/space/')
+	return value.replace('/spacename/', 'https://www.babylonpolice.com/B/space/')
 # register.filter('usernames', usernames) # can be used instead of decorator
 # enter {% load user_referencing %}
 # to incorporate into HTML
