@@ -36,7 +36,7 @@ sitemaps = {
 urlpatterns = [
 	url(r'^paypal/', include('paypal.standard.ipn.urls')),
 	path('B/', include('Bable.urls')),
-	path('', RedirectView.as_view(pattern_name='Bable:landingpage')),
+    path('', RedirectView.as_view(pattern_name='Bable:landingpage')),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     
     

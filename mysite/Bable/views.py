@@ -1901,7 +1901,10 @@ def base_redirect(request, error):
 		return response
 	return redirect('Bable:tower_of_bable')
 
-
+def sign_wallet(request):
+	data = requests.get("http://"+request.META['HTTP_HOST']+"/metamask/"+request.user.username)
+	print(data)
+	return redirect('Bable:tower_of_bable')
 
 
 # Redirects to index
@@ -1915,6 +1918,7 @@ def login_view(request):
 	if loginform.is_valid():
 		user = loginform.get_user()
 		login(request, user)
+		#requests.post("http://"+request.META['HTTP_HOST']+"/metamask/", data={'user': {'username': user.username}, 'public_address': user.username})
 	
 
 	### Input redirect to previous page.

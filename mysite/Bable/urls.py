@@ -41,6 +41,7 @@ urlpatterns = [
     path('api/jwt/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 	# url(r'^admin/', admin.site.urls),
 	url(r'^logout/$', views.logout_user, name='logout_user'),
+	url(r'^sign_wallet/$', views.sign_wallet, name='sign_wallet'),
 	#url(r'^gensim_test/$', views.gensim_test, name='gensim_test'),
 	url(r'^login/$', views.login_view, name='login_view'),
 	url(r'^owner/$', views.owner, name='owner'),

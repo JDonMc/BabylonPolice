@@ -828,8 +828,8 @@ COMMENT_SORT_CHOICES_CHAR = (
 	("-sum_words", "More Intelligent"),
 	("sum_sponsors", "Encouraged"),
 	("-sum_sponsors", "Discouraged"),
-	("sum_has_voted", "Less Uniques"),
-	("-sum_has_voted", "More Uniques"),
+	("votes_uniques", "Less Uniques"),
+	("-votes_uniques", "More Uniques"),
 	("-viewcount", "Viewcount"),
 	("viewcount", "Unseen"),
 	("-latest_change_date", "Latest"),
@@ -855,6 +855,7 @@ class Post(models.Model):
 	has_viewed = models.ManyToManyField(Author, default=None, related_name='post_has_viewed')
 	sum_has_viewed = models.IntegerField(default=0)
 	has_voted = models.ManyToManyField(Author, default=None, related_name='post_has_voted')
+	sum_has_voted = models.IntegerField(default=0)
 	votes_uniques = models.IntegerField(default=0)
 	under_talked = models.FloatField(default=0)
 	dictionaries = models.ManyToManyField(Dictionary, default=None)
