@@ -71,7 +71,7 @@ def safety_clean(value):
 
 @register.filter(is_safe=True)
 def safety_check(value):
-	return bleach.clean(value, tags=['a', 'div', 'style', 'img', 'video'])
+	return bleach.clean(value, tags=['a', 'div', 'style', 'img', 'video'], attributes=['class', 'src', 'height', 'width', 'style'])
 
 @register.filter(is_safe=True)
 def nodic_word_up(value):
