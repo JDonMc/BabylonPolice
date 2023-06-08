@@ -121,7 +121,7 @@ BabylonPolice.com - incentivised-ascento-secrecy
 				{% endif %}
 			</div>
 			<div class=postbody style="margin-right: 0.5em;">
-				{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
+				{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:666|safe }}
 			</div>
 			<div class=postcount style="font-size: 1em;">
 				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
@@ -239,7 +239,7 @@ BabylonPolice.com - incentivised-ascento-secrecy
 					{% endif %}
 				</div>
 				<div class=postbody style="margin-right: 0.5em;">
-					{{ post.body|safety_clean|usernames|spaces|urlize|truncatechars:666|safe }}
+					{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:666|safe }}
 				</div>
 				<div class=postcount style="font-size: 1em;" onclick="showregister();">
 					Voters: {{ post.votes_uniques }}
