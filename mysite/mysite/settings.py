@@ -21,11 +21,10 @@ STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-from django.core.management.utils import get_random_secret_key
 
 # generating and printing the SECRET_KEY
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_random_secret_key()
+SECRET_KEY = os.environ['SECRET_KEY']
 COINBASE_COMMERCE_API_KEY = os.environ['COINBASE_COMMERCE_API_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
