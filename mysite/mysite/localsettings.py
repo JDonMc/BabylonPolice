@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 import psycopg2
 import environ
+
 env = environ.Env()
 environ.Env.read_env()
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'

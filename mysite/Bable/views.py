@@ -110,12 +110,17 @@ def send_notification(author, text):
         author=author, text=text
     )
 '''
+
+from django.http import HttpResponseRedirect, JsonResponse
+
 def grabvoteid(request):
 	if request.GET.get('q'):
 		q = request.GET['q']
-		data = Votes.objects.get(the_vote_name__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
-		json = list(data)
-		return JsonResponse(json, safe=False)
+		if Votes.objects.filter(the_vote_style__the_space_itself__the_word_itself__startswith=q):
+			data = Votes.objects.get(the_vote_style__the_space_itself__the_word_itself__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
+			json = list(data)
+			return JsonResponse(json, safe=False)
+		return JsonResponse([])
 	else:
 		data = Votes.objects.all().order_by('-creation_date').values_list('id',flat=True).first()
 		json = list(data)
@@ -125,10 +130,12 @@ def grabvoteid(request):
 
 def autocomplete_votestyles(request):
 	if request.GET.get('q'):
-		q = request.GET['q']
-		data = Votes.objects.get(the_vote_name__startswith=q).order_by('-creation_date').values_list('the_vote_name',flat=True)
-		json = list(data)
-		return JsonResponse(json, safe=False)
+		q = request.GET.get('q')
+		if Votes.objects.filter(the_vote_style__the_space_itself__the_word_itself__startswith=q):
+			data = Votes.objects.get(the_vote_style__the_space_itself__the_word_itself__startswith=q).order_by('-creation_date').values_list('the_vote_name',flat=True)
+			json = list(data)
+			return JsonResponse(json, safe=False)
+		return JsonResponse([], safe=False)
 	else:
 		data = Votes.objects.all().order_by('-creation_date').values_list('the_vote_name',flat=True)
 		json = list(data)
@@ -3059,7 +3066,8 @@ def search(request, count):
 def tower_of_bable(request):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
 	registerform = UserCreationForm()
-	
+	for vot in Votes.objects.all():
+		vot.delete()
 	loginform = AuthenticationForm()
 
 	buyadvertisingform = BuyAdvertisingForm()
@@ -3229,6 +3237,7 @@ def change_password(request):
 def tower_of_bable_count(request, count):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
 	registerform = UserCreationForm()
+
 	
 		
 

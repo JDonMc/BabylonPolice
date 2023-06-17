@@ -137,10 +137,10 @@ class Dictionary_Source(models.Model):
 
 
 class Votes_Source(models.Model):
-	the_vote_style = models.ManyToManyField(Word_Source, related_name='style', default=None)
+	the_vote_style = models.ManyToManyField(Word_Source, related_name='votestyle', default=None)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	votes = models.IntegerField(default=0)
-	the_vote_name = models.ForeignKey(Word_Source, on_delete=models.CASCADE, related_name='name', default=None)
+	the_vote_name = models.ForeignKey(Word_Source, on_delete=models.CASCADE, related_name='votename', default=None)
 
 	def to_full(self):
 		return Votes.objects.get(author=self.author, the_vote_name=self.the_vote_name__the_word_itself)
@@ -540,9 +540,10 @@ class Votes(models.Model):
 	the_vote_name = models.CharField(max_length=200, default='', unique=True)
 	url2 = models.URLField(max_length=2000, blank=True, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
-	the_vote_style = models.ForeignKey(SpaceSource, on_delete=models.CASCADE, related_name='name', default=1)
+	the_vote_style = models.ForeignKey(SpaceSource, on_delete=models.CASCADE, related_name='votename', default=1)
 	votes = models.IntegerField(default=0)
 	voters = models.ManyToManyField(Author, related_name="votestyle_voters", default=None)
+	
 	creation_date = models.DateTimeField(default=timezone.now)
 
 	def to_source(self):
