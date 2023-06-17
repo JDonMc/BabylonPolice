@@ -36,7 +36,7 @@
 				<div id="siteTitleWrapper">
 					<h1 id="siteTitle" class="site-title" width=20%>
 						<img src="{% static 'towerofbable.png' %}" style="height: 1em; width: 1em" onclick="showhideleft()" alt="Apply Votes">&nbsp; <a href="{% url 'Bable:tower_of_bable' %}">
-							{{ request.META.HTTP_HOST }}
+							{{ request.META.HTTP_HOST|stripwww }}
 						</a>
 					</h1>
 				</div>
