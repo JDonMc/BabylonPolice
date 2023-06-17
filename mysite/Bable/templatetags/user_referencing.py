@@ -13,6 +13,11 @@ def usernames(value):
 
 
 @register.filter(is_safe=True)
+def stripwww(value):
+	return value.replace('www.', '')
+
+
+@register.filter(is_safe=True)
 def spaces(value):
 	return value.replace('/spacename/', 'https://www.babylonpolice.com/B/space/')
 # register.filter('usernames', usernames) # can be used instead of decorator
