@@ -110,6 +110,30 @@ def send_notification(author, text):
         author=author, text=text
     )
 '''
+def grabvoteid(request):
+	if request.GET.get('q'):
+		q = request.GET['q']
+		data = Votes.objects.get(the_vote_name__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
+		json = list(data)
+		return JsonResponse(json, safe=False)
+	else:
+		data = Votes.objects.all().order_by('-creation_date').values_list('id',flat=True).first()
+		json = list(data)
+		return JsonResponse(json, safe=False)
+
+
+
+def autocomplete_votestyles(request):
+	if request.GET.get('q'):
+		q = request.GET['q']
+		data = Votes.objects.get(the_vote_name__startswith=q).order_by('-creation_date').values_list('the_vote_name',flat=True)
+		json = list(data)
+		return JsonResponse(json, safe=False)
+	else:
+		data = Votes.objects.all().order_by('-creation_date').values_list('the_vote_name',flat=True)
+		json = list(data)
+		return JsonResponse(json, safe=False)
+
 def tower_time(request):
 	ip = request.META.get('REMOTE_ADDR')
 	timeSpent = request.POST['timeSpent']

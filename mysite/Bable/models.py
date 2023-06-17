@@ -537,12 +537,13 @@ WORD_SORT_CHOICES = (
 )
 
 class Votes(models.Model):
-	the_vote_name = models.CharField(max_length=200, default='')
+	the_vote_name = models.CharField(max_length=200, default='', unique=True)
 	url2 = models.URLField(max_length=2000, blank=True, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	the_vote_style = models.ForeignKey(SpaceSource, on_delete=models.CASCADE, related_name='name', default=1)
 	votes = models.IntegerField(default=0)
 	voters = models.ManyToManyField(Author, related_name="votestyle_voters", default=None)
+	creation_date = models.DateTimeField(default=timezone.now)
 
 	def to_source(self):
 		return Votes_Source.objects.get(author=author, the_vote_name__the_word_itself=the_vote_name)

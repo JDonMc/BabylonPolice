@@ -42,6 +42,8 @@ urlpatterns = [
 	# url(r'^admin/', admin.site.urls),
 	url(r'^logout/$', views.logout_user, name='logout_user'),
 	url(r'^sign_wallet/$', views.sign_wallet, name='sign_wallet'),
+	url(r'^autocomplete_votestyles/$', views.autocomplete_votestyles, name='autocomplete_votestyles'),
+	url(r'^grabvoteid/$', views.grabvoteid, name='grabvoteid'),
 	#url(r'^gensim_test/$', views.gensim_test, name='gensim_test'),
 	url(r'^login/$', views.login_view, name='login_view'),
 	url(r'^owner/$', views.owner, name='owner'),
