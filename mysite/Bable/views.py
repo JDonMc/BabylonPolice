@@ -114,8 +114,8 @@ def send_notification(author, text):
 from django.http import HttpResponseRedirect, JsonResponse
 
 def grabvoteid(request):
-	if request.GET.get('q'):
-		q = request.GET['q']
+	if request.GET.get('name'):
+		q = request.GET['name']
 		if Votes.objects.filter(the_vote_style__the_space_itself__the_word_itself__startswith=q):
 			data = Votes.objects.get(the_vote_style__the_space_itself__the_word_itself__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
 			json = list(data)
