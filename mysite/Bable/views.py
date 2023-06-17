@@ -3539,6 +3539,7 @@ def tob_post(request, post):
 	
 	posts_comments = users_post.comments.order_by('-viewcount')[:25]
 	users_post.viewcount += 1
+	users_post.save()
 
 	page_views, created = Pageviews.objects.get_or_create(page="tob_post")
 	page_views.views += 1
