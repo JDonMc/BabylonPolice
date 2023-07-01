@@ -153,9 +153,11 @@ def tower_time(request):
 	page_density = Page_Density.objects.create(ip=ip, time_spent=timeSpent, scroll_height=scrollHeight, client_height=clientHeight, duration=duration)
 	for dense in density:
 		page_density.density.add(Densitivity.objects.create(dense=dense))
+	page_density.save()
 	if request.user.is_authenticated:
 		loggedinanon = Anon.objects.get(username=request.user)
 		loggedinanon.home_page_density.add(page_density)
+		loggedinanon.save()
 	print("success")
 	return HttpResponse("")
 
