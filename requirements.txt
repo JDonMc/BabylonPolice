@@ -111,6 +111,7 @@ regex==2017.4.5
 requests==2.31.0
 rlp==2.0.1
 rsa==4.7
+salmon-mail==3.2.0
 scipy==1.10.0
 Scrapy==1.5.1
 service-identity==18.1.0

@@ -1,0 +1,1 @@
+2023-07-05 15:59:20,504 - root - INFO - LMTPReceiver started on <socket.socket fd=8, family=AddressFamily.AF_INET6, type=SocketKind.SOCK_STREAM, proto=0, laddr=('::1', 8823, 0, 0)>.
