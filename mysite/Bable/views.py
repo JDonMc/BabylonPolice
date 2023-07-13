@@ -2233,6 +2233,8 @@ def create_post(request):
 				spa.save()
 			new_post.save()
 			return redirect('Bable:tob_users_post', user=request.user.username, post=new_post.id, count=0)
+	else:
+		return HttpResponse(post_form.errors)
 	return redirect('Bable:tob_users_posts', user=request.user.username, count=0)
 
 
