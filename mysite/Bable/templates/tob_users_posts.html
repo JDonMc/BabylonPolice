@@ -50,9 +50,9 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 				<div class=posttop>
 					<div class=postpreview>
 						{% if post.url2 %}
-							<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+							<a href="{{ post.url2 }}"><img src="{% static 'babylonpolice.com.png' %}" style="height: 6em; width: 6em;"></a>
 						{% else %}
-							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+							<img src="{% static 'babylonpolice.com.png' %}" style="height: 6em; width: 6em;">
 						{% endif %}
 					</div>
 					<div class=posttitle>
@@ -67,13 +67,6 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
 					</div>
 					{% endif %}
-					<div class=postsponsors>
-						{% if post.sponsors.count %}
-							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url2 }}" style="height: 6em; width: 6em;"></a>
-						{% else %}
-							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
-						{% endif %}
-					</div>
 				</div>
 				<div class=postbody style="margin-right: 8em">
 					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
@@ -186,7 +179,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 							{% if post.url2 %}
 								<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
 							{% else %}
-								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+								<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 							{% endif %}
 						</div>
 						<div class=posttitle>
@@ -195,13 +188,6 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 						{% else %}
 						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
 						{% endif %}
-						</div>
-						<div class=postsponsors>
-							{% if users_post.sponsors.count %}
-								<a href="{% url 'Bable:clickthrough' post.author.username users_post.max_sponsor.id %}"><img src="{{ users_post.max_sponsor.img.url2 }}" style="height: 6em; width: 6em;"></a>
-							{% else %}
-								<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
-							{% endif %}
 						</div>
 					</div>
 					<div class=postbody style="margin-right: 8em">
