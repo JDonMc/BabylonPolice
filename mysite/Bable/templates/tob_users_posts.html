@@ -56,7 +56,11 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 						{% endif %}
 					</div>
 					<div class=posttitle>
+						{% if not post.author.username %}
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+						{% else %}
 						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+						{% endif %}
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
@@ -94,7 +98,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 				<div class=postlatest>
 					Latest: {{ post.latest_change_date }}
 				</div>
-				{% if not post.author %}
+				{% if not post.author.username %}
 				<div class=postauthor>
 					/u/anonymous
 				</div>
@@ -186,7 +190,11 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 							{% endif %}
 						</div>
 						<div class=posttitle>
-							<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+							{% if not post.author.username %}
+						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
+						{% else %}
+						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+						{% endif %}
 						</div>
 						<div class=postsponsors>
 							{% if users_post.sponsors.count %}
@@ -219,7 +227,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 					<div class=postlatest>
 						Latest: {{ post.latest_change_date }}
 					</div>
-					{% if not post.author %}
+					{% if not post.author.username %}
 					<div class=postauthor>
 						/u/anonymous
 					</div>
