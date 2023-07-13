@@ -841,13 +841,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
 						</div>
 						{% endif %}
-						<div class=postsponsors>
-							{% if post.max_sponsor %}
-								<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}">{% if post.max_sponsor.img %}<img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">{% endif %}</a>
-							{% else %}
-								<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;">
-							{% endif %}
-						</div>
+						
 					</div>
 					<div class=postbody style="margin-right: 0.5em">
 						{{ post.body|usernames|spaces|urlize|truncatechars:144 }}
@@ -1253,13 +1247,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
 							{% endif %}
 					</div>
-					<div class=postsponsors>
-						{% if post.sponsors.count or post.max_sponsor %}
-							<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;"></a>
-						{% else %}
-							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;">
-						{% endif %}
-					</div>
+					
 				</div>
 				<div class=postbody style="margin-right: 8em">
 					{{ post.body|usernames|spaces|urlize|truncatechars:144 }}

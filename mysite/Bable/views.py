@@ -4942,9 +4942,9 @@ def tob_users_posts(request, user, count):
 	users_posts = user_anon.posts.count()
 	if users_posts:
 		if request.user.is_authenticated:
-			user_anon.posts.order_by(loggedinanon.post_sort_char)[count:count+100]
+			users_posts = user_anon.posts.order_by(loggedinanon.post_sort_char)[count:count+100]
 		else:
-			user_anon.posts.order_by('viewcount')[count:count+100]
+			users_posts = user_anon.posts.order_by('viewcount')[count:count+100]
 
 	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 	if x_forwarded_for:
