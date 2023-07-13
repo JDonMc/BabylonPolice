@@ -94,7 +94,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 				<div class=postlatest>
 					Latest: {{ post.latest_change_date }}
 				</div>
-				{% if post.author %}
+				{% if not post.author %}
 				<div class=postauthor>
 					/u/anonymous
 				</div>
@@ -219,7 +219,7 @@ User: {{ user_anon.username.username }}'s Posts - Dream Cloud Middle Men
 					<div class=postlatest>
 						Latest: {{ post.latest_change_date }}
 					</div>
-					{% if post.author %}
+					{% if not post.author %}
 					<div class=postauthor>
 						/u/anonymous
 					</div>
