@@ -113,3 +113,8 @@ Match least consonants, match least phonemes, match quickest to say
 -- Then remove letters from the selectors - no c, no k, and so on.
 
 Rebuild a type-set for words of a given length with a selector algorithm to compare uniques.
+
+
+TODO:
+
+Build in bulk billing for spaces. Revamp spaces page

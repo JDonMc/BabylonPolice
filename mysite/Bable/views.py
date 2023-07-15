@@ -3298,7 +3298,7 @@ def tower_of_bable_count(request, count):
 	return the_response
 
 def tob_view_spaces(request):
-	spaces = Space.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[0:100]
+	spaces = Space.objects.order_by('viewcount')[0:100]
 	count = 0
 	count100 = count+100
 	mcount = 0
