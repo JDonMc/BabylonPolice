@@ -1238,7 +1238,7 @@ class Anon(models.Model):
 	sum_excluded_authors = models.IntegerField(default=0)
 
 	dictionary_sort = models.IntegerField(choices=DICTIONARY_SORT_CHOICES, default=0)
-	dictionary_sort_char = models.IntegerField(choices=DICTIONARY_SORT_CHOICES_CHAR, default=0)
+	dictionary_sort_char = models.IntegerField(choices=DICTIONARY_SORT_CHOICES_CHAR, default="viewcount")
 	word_sort = models.IntegerField(choices=WORD_SORT_CHOICES, default=0)
 	attribute_sort = models.IntegerField(choices=ATTRIBUTE_SORT_CHOICES, default=0)
 	examples = models.ManyToManyField(Example, blank=True, default=None) # saved comments
