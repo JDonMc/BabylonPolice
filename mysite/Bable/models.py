@@ -817,6 +817,8 @@ DICTIONARY_SORT_CHOICES = (
 DICTIONARY_SORT_CHOICES_CHAR = (
 	("-latest_change_date", "Most Recent Change"),
 	("latest_change_date", "Least Recent Change"),
+	("-views", "Most Viewed"),
+	("views", "Least Viewed"),
 	("-price", "Most Expensive"),
 	("price", "Least Expensive"),
 	("-creation_date", "Oldest"),
@@ -1321,7 +1323,7 @@ class Anon(models.Model):
 	sum_excluded_authors = models.IntegerField(default=0)
 
 	dictionary_sort = models.IntegerField(choices=DICTIONARY_SORT_CHOICES, default=0)
-	dictionary_sort_char = models.CharField(choices=DICTIONARY_SORT_CHOICES_CHAR, default="viewcount", max_length=180)
+	dictionary_sort_char = models.CharField(choices=DICTIONARY_SORT_CHOICES_CHAR, default="views", max_length=180)
 	word_sort = models.IntegerField(choices=WORD_SORT_CHOICES, default=0)
 	word_sort_char = models.CharField(choices=WORD_SORT_CHOICES_CHAR, default="viewcount", max_length=180)
 	attribute_sort = models.IntegerField(choices=ATTRIBUTE_SORT_CHOICES, default=0)
