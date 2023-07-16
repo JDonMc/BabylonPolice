@@ -7922,7 +7922,7 @@ def tob_dics(request):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		dic_sort_form = DicSortForm(request)
-		if not loggedinanon.dictionary_sort_char:
+		if loggedinanon.dictionary_sort_char == "0":
 			loggedinanon.dictionary_sort_char = "views"
 			loggedinanon.save()
 
@@ -7968,7 +7968,7 @@ def tob_dics_count(request, count):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		dic_sort_form = DicSortForm(request)
-		if not loggedinanon.dictionary_sort_char:
+		if loggedinanon.dictionary_sort_char == "0":
 			loggedinanon.dictionary_sort_char = "views"
 			loggedinanon.save()
 		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[count:count+25]
