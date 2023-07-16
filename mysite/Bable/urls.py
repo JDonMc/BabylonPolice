@@ -73,6 +73,7 @@ urlpatterns = [
 	url(r'^change_anon/sort/(?P<sort>[\w-]+)/$', views.change_anon_sort, name='change_anon_sort'),
 	url(r'^change_anon_sort_char/$', views.change_anon_sort_char, name='change_anon_sort_char'),
 	url(r'^change_space_sort_char/$', views.change_space_sort_char, name='change_space_sort_char'),
+	url(r'^change_dic_sort_char/$', views.change_dic_sort_char, name='change_dic_sort_char'),
 	url(r'^change_comment/sort/(?P<sort>[\w-]+)/$', views.change_comment_sort, name='change_comment_sort'),
 	url(r'^change_word/sort/(?P<sort>[\w-]+)/$', views.change_word_sort, name='change_word_sort'),
 	url(r'^change_post/sort/(?P<sort>[\w-]+)/$', views.change_post_sort, name='change_post_sort'),

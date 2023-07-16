@@ -620,16 +620,25 @@ class Dictionary(models.Model):
 	traded_date = models.DateTimeField(default=timezone.now)
 	purchase_orders = models.ManyToManyField(Purchase_Order, default=None, related_name='purchase_orders') # put purchaser with author when created
 	allowed_to_view_authors = models.ManyToManyField(Author, default=None, related_name='dic_allowed')
+	allowed_count = models.IntegerField(default=0)
 	words = models.ManyToManyField(Word, default=None)
+	word_count = models.IntegerField(default=0)
 	wordgroups = models.ManyToManyField(Wordgroup, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
+	votes_count = models.IntegerField(default=0)
 	true_translations = models.ManyToManyField(True_Translation, default=None)
 	viewcount = models.IntegerField(default=0)
 	sentences = models.ManyToManyField(Sentence, default=None)
+	sentence_count = models.IntegerField(default=0)
 	analyses = models.ManyToManyField(Analysis, default=None)
-
+	analysis_count = models.IntegerField(default=0)
+	renditions = models.ManyToManyField(Rendition, default=None)
+	rendition_count = models.IntegerField(default=0)
+	
+	
 	prerequisite_dics = models.ManyToManyField(Dictionary_Source, default=None)
-
+	prerequisite_dics_count = models.IntegerField(default=0)
+	
 	entry_fee = models.IntegerField(default=0)
 	continuation_fee = models.IntegerField(default=0)
 	class Meta:
@@ -720,6 +729,26 @@ DICTIONARY_SORT_CHOICES = (
 	(12, "renditions"),
 	(13, "analyses"),
 	(14, "viewcount"),
+)
+
+DICTIONARY_SORT_CHOICES_CHAR = (
+	("-latest_change_date", "Most Recent Change"),
+	("latest_change_date", "Least Recent Change"),
+	("-price", "Most Expensive"),
+	("price", "Least Expensive"),
+	("-creation_date", "Oldest"),
+	("creation_date", "Newest"),
+	("-traded_date", "Most Recent Trade"),
+	("traded_date", "Least Recent Trade"),
+	("-word_count", "Most Words"),
+	("word_count", "Least Words"),
+	("-votes_count", "Most Votes"),
+	("votes_count", "Least Votes"),
+	("-rendition_count", "Most Renditions"),
+	("rendition_count", "Least Renditions"),
+	("-analysis_count", "Most Analyses"),
+	("analysis_count", "Least Analyses"),
+
 )
 	
 
@@ -1209,6 +1238,7 @@ class Anon(models.Model):
 	sum_excluded_authors = models.IntegerField(default=0)
 
 	dictionary_sort = models.IntegerField(choices=DICTIONARY_SORT_CHOICES, default=0)
+	dictionary_sort_char = models.IntegerField(choices=DICTIONARY_SORT_CHOICES_CHAR, default=0)
 	word_sort = models.IntegerField(choices=WORD_SORT_CHOICES, default=0)
 	attribute_sort = models.IntegerField(choices=ATTRIBUTE_SORT_CHOICES, default=0)
 	examples = models.ManyToManyField(Example, blank=True, default=None) # saved comments

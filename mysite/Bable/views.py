@@ -948,7 +948,6 @@ import re
 
 def tob_email(request, token_id, count=0):
 		count = int(count)
-		mcount = count-25
 		if count > 25:
 			mcount = count - 25
 		else:
@@ -2561,6 +2560,10 @@ def buy_users_dic(request, user, dictionary):
 						user_anon.false_wallet = user_anon.false_wallet + users_dic.entry_fee
 						loggedinanon.purchased_dictionaries.add(users_dic)
 						loggedinanon.sum_purchased_dictionaries += 1
+						users_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+						users_dic.traded_date = timezone.now
+						users_dic.save()
+						
 					else:
 						return HttpResponse("Obtain prerequisites first.")
 			else:
@@ -2568,6 +2571,9 @@ def buy_users_dic(request, user, dictionary):
 				loggedinanon.sum_purchased_dictionaries += 1
 				loggedinanon.false_wallet = loggedinanon.false_wallet - users_dic.entry_fee
 				user_anon.false_wallet = user_anon.false_wallet + users_dic.entry_fee
+				users_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+				users_dic.traded_date = timezone.now
+				users_dic.save()
 			
 		else:
 			return HttpResponse("Insufficient balance.")
@@ -3805,6 +3811,14 @@ def change_anon_sort_char(request):
 		anon_sort_form = AnonSortForm(request, data=request.POST)
 		if anon_sort_form.is_valid():
 			anon_sort_form.save()
+	return base_redirect(request, 0)
+
+@login_required
+def change_dic_sort_char(request):
+	if request.method == "POST":
+		dic_sort_form = DicSortForm(request, data=request.POST)
+		if dic_sort_form.is_valid():
+			dic_sort_form.save()
 	return base_redirect(request, 0)
 
 
@@ -5367,6 +5381,8 @@ def buy_dic(request, dicid):
 				if loggedinanon.purchase_dictionaries.filter(prerequisite_dics__id=buying_dic.prerequisite_dics__id).count() == 0:
 					loggedinanon.purchased_dictionaries.add(buying_dic)
 					buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+					buying_dic.traded_date = timezone.now
+					buying_dic.save()
 					return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
 				else:
 					return render(request, 'failed_to_purchase_dic.html', {'list_of_p_ids': list_of_prerequisite_ids, 'list_of_usernames_u_ids': list_of_usernames_u_ids})
@@ -5380,6 +5396,8 @@ def buy_dic(request, dicid):
 					if loggedinanon.purchase_dictionaries.filter(prerequisite_dics__id=buying_dic.prerequisite_dics__id).count() == 0:
 						loggedinanon.purchase_dictionaries.add(buying_dic)
 						buying_dic.purchase_orders.add(Purchase_Order.objects.create(author=loggedinauthor))
+						buying_dic.traded_date = timezone.now
+						buying_dic.save()
 						return redirect('Bable:tob_users_dic', user=buying_dic.author.username, dictionary=buying_dic.the_dictionary_itself, count=0)
 					else:
 						return render(request, 'failed_to_purchase_dic.html', {'list_of_p_ids': list_of_prerequisite_ids, 'list_of_usernames_u_ids': list_of_usernames_u_ids})
@@ -7845,12 +7863,14 @@ def tob_users_dic_analyses(request, user, dictionary, count):
 
 def tob_dics(request):
 
-	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
 	
 	registerform = UserCreationForm()
 	
 		
-	
+	count = 0
+	mcount = 0
+	count100 = count + 25
+
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
@@ -7867,20 +7887,30 @@ def tob_dics(request):
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
-		the_response = render(request, "tob_dics.html", {"loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+
+		dic_sort_form = DicSortForm(request)
+
+		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[:25]
+		the_response = render(request, "tob_dics.html", {"dic_sort_form": dic_sort_form, "loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 		the_response.set_cookie('current', 'tob_dics')
 		return the_response
-
+	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
 	the_response = render(request, "tob_dics.html", {"dics": dics, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_dics')
 	return the_response
 
 def tob_dics_count(request, count):
 
-	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
 	
 	registerform = UserCreationForm()
+	
+	count = int(count)
+	if count > 25:
+		mcount = count - 25
+	else:
+		mcount = 0
+	count100 = count + 25
 	
 		
 	
@@ -7901,8 +7931,13 @@ def tob_dics_count(request, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-	the_response = render(request, "tob_dics.html", {"loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		dic_sort_form = DicSortForm(request)
+		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[count:count+25]
+		the_response = render(request, "tob_dics.html", {"dic_sort_form": dic_sort_form, "loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	dics = Dictionary.objects.order_by('-latest_change_date')[count:count+25]
+	the_response = render(request, "tob_dics.html", {"dics": dics, "registerform": registerform,  "loginform": loginform})
+	
 	the_response.set_cookie('current', 'tob_dics_count')
 	the_response.set_cookie('count', count)
 	return the_response

@@ -44,10 +44,23 @@ class SpaceSortForm(forms.ModelForm):
         model = Anon
         fields = ('space_sort_char',)
     def __init__(self, request, *args, **kwargs):
-        super(AnonSortForm, self).__init__(*args, **kwargs)
+        super(SpaceSortForm, self).__init__(*args, **kwargs)
         current_anon = Anon.objects.get(username=request.user)
         self.fields['space_sort_char'].initial = current_anon.space_sort_char
         self.fields['space_sort_char'].label = False
+        self.instance = current_anon
+
+
+
+class DicSortForm(forms.ModelForm):
+    class Meta:
+        model = Anon
+        fields = ('dictionary_sort_char',)
+    def __init__(self, request, *args, **kwargs):
+        super(DicSortForm, self).__init__(*args, **kwargs)
+        current_anon = Anon.objects.get(username=request.user)
+        self.fields['dictionary_sort_char'].initial = current_anon.dictionary_sort_char
+        self.fields['dictionary_sort_char'].label = False
         self.instance = current_anon
 
 

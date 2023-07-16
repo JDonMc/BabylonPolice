@@ -18,6 +18,24 @@ Dics - Babylon Police
 
 
 {% block authenticatedposts %}
+<div class=displaybanner>
+	<h3>
+		Dictionaries: ({{ dics.count }})
+	</h3>
+</div>
+<div class=possectionsort>
+	<form name=dic_sort action="{% url 'Bable:change_dic_sort_char' %}" method=post>
+		{% csrf_token %}
+		{{ dic_sort_form }}
+	</form>
+	<script>
+		var form = document.querySelector('form[name="dic_sort"]');
+		form.addEventListener('change', function() {
+		    form.submit();
+		});
+	</script>
+</div>
+
 {% for dic in dics %}
 	<div class=single_dictionary style="margin-top: 50px;">
 		<div class=dictionary_itself>
