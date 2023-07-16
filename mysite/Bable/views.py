@@ -340,6 +340,44 @@ def change_anon_sort(request, sort):
 	return redirect('Bable:'+request.COOKIES['current'])
 
 @login_required
+def change_anon_sort(request, sort):
+	user_anon = Anon.objects.get(username=request.user)
+	if sort == 'dictionaries':
+		user_anon.anon_sort = 0
+		user_anon.save()
+	elif sort == 'saved_dictionaries':
+		user_anon.anon_sort = 1
+		user_anon.save()
+	elif sort == 'examples':
+		user_anon.anon_sort = 2
+		user_anon.save()
+	elif sort == 'tasks':
+		user_anon.anon_sort = 3
+		user_anon.save()
+	elif sort == 'latest':
+		user_anon.anon_sort = 4
+		user_anon.save()
+	elif sort == 'posted_comments':
+		user_anon.anon_sort = 5
+		user_anon.save()
+	elif sort == 'saved_comments':
+		user_anon.anon_sort = 6
+		user_anon.save()
+	elif sort == 'posts':
+		user_anon.anon_sort = 7
+		user_anon.save()
+	elif sort == 'spaces':
+		user_anon.anon_sort = 8
+		user_anon.save()
+	elif sort == 'saved_spaces':
+		user_anon.anon_sort = 9
+		user_anon.save()
+
+	return redirect('Bable:'+request.COOKIES['current'])
+
+
+
+@login_required
 def change_comment_sort(request, sort):
 	user_anon = Anon.objects.get(username=request.user)
 	if sort == 'dictionaries':
@@ -547,33 +585,7 @@ def change_word_sort(request, sort):
 
 	return base_redirect(request, 0)
 
-@login_required
-def change_space_sort(request, sort):
-	user_anon = Anon.objects.get(username=request.user)
-	if sort == 'viral':
-		user_anon.space_sort = 0
-		user_anon.save()
-	elif sort == 'early':
-		user_anon.space_sort = 1
-		user_anon.save()
-	elif sort == 'freshest':
-		user_anon.space_sort = 2
-		user_anon.save()
-	elif sort == 'eldest':
-		user_anon.space_sort = 3
-		user_anon.save()
-	elif sort == 'starter':
-		user_anon.space_sort = 4
-		user_anon.save()
-	elif sort == 'useful':
-		user_anon.space_sort = 5
-		user_anon.save()
-	elif sort == 'encourage':
-		user_anon.space_sort = 6
-		user_anon.save()
-	elif sort == 'synched':
-		user_anon.space_sort = 7
-		user_anon.save()
+
 
 	return base_redirect(request, 0)
 
@@ -2226,6 +2238,8 @@ def create_post(request):
 			for space in post_form.cleaned_data['spaces']:
 				spa = Space.objects.get(the_space_itself__the_word_itself=space, approved_voters=loggedinauthor)
 				spa.posts.add(new_post)
+				spa.postcount += 1
+				spa.save()
 				for spon in spa.sponsors.all():
 					new_post.sponsors.add(spon)
 				if not new_post.public:
@@ -3792,6 +3806,14 @@ def change_anon_sort_char(request):
 	return base_redirect(request, 0)
 
 
+@login_required
+def change_space_sort_char(request):
+	if request.method == "POST":
+		space_sort_form = SpaceSortForm(request, data=request.POST)
+		if space_sort_form.is_valid():
+			space_sort_form.save()
+	return base_redirect(request, 0)
+
 
 @login_required
 def change_post_sort_char(request):
@@ -3925,11 +3947,11 @@ def tob_user_view(request, user, count=0):
 	if users_spaces is not None:
 		users_spaces = user_anon.spaces.filter(Q(for_sale=True)|Q(approved_voters__username=request.user.username))
 		if request.user.is_authenticated:
-			users_spaces = sort_spaces(users_spaces, loggedinanon.space_sort, count, 25)
+			users_spaces = users_spaces.order_by(loggedinanon.space_sort_char)[count:count+25]
 		else:
 			users_spaces = user_anon.spaces.order_by('viewcount')[count:count+25]
 	if request.user.username == user or request.user.username == 'test':
-		users_spaces = sort_spaces(user_anon.spaces.all(), loggedinanon.space_sort, count, 25)
+		users_spaces = user_anon.spaces.order_by(loggedinanon.space_sort_char)[count:count+25]
 	
 
 
@@ -4075,7 +4097,7 @@ def tob_user_view_count(request, user, count=0):
 	if users_spaces is not None:
 		users_spaces = user_anon.spaces.filter(Q(for_sale=True)|Q(approved_voters__username=request.user.username))
 		if request.user.is_authenticated:
-			users_spaces = sort_spaces(users_spaces, loggedinanon.space_sort, count, 25)
+			users_spaces = users_spaces.order_by(loggedinanon.space_sort_char)[count:count+25]
 		else:
 			users_spaces = user_anon.spaces.order_by('viewcount')[count:count+25]
 	
@@ -4214,7 +4236,7 @@ def tob_users_spaces(request, user, count):
 	if users_spaces is not None:
 		users_spaces = user_anon.spaces.filter(Q(for_sale=True)|Q(approved_voters__username=request.user.username))
 		if request.user.is_authenticated:
-			users_spaces = sort_spaces(users_spaces, loggedinanon.space_sort, count, 100)
+			users_spaces = users_spaces.order_by(loggedinanon.space_sort_char)[count:count+25]
 		else:
 			users_spaces = user_anon.spaces.order_by('viewcount')[count:count+100]
 	

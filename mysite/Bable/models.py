@@ -1011,10 +1011,13 @@ class Space(models.Model):
 	viewcount = models.IntegerField(default=0)
 	posts_viewcount = models.IntegerField(default=0)
 	posts = models.ManyToManyField(Post, default=None)
+	postcount = models.IntegerField(default=0)
 	votes = models.ManyToManyField(Votes, default=None)
 	votes_count = models.IntegerField(default=0)
 	sponsors = models.ManyToManyField(Sponsor, default=None)
+	sponsor_count = models.IntegerField(default=0)
 	approved_voters = models.ManyToManyField(Author, related_name='approved_voters', default=None)
+	approved_voter_count = models.IntegerField(default=0)
 	public = models.BooleanField(default=False)
 	for_sale = models.BooleanField(default=False)
 	free_sponsorships = models.BooleanField(default=False)
@@ -1085,6 +1088,21 @@ SPACE_SORT_CHOICES = (
 	(5, "useful"),
 	(6, "encourage"),
 	(7, "synched"),
+)
+
+SPACE_SORT_CHOICES_CHAR = (
+	("-viewcount", "Most Viewed"),
+	("viewcount", "Least Viewed"),
+	("-latest_change_date", "Recent Change"),
+	("latest_change_date", "Distant Change"),
+	("-posts_viewcount", "Most Post Views"),
+	("posts_viewcount", "Least Post Views"),
+	("-votes_count", "Most Votes"),
+	("votes_count", "Least Votes"),
+	("-sponsor_count", "Most Sponsored"),
+	("sponsor_count", "Least Sponsored"),
+	("-approved_voter_count", "Most Approved Voters"),
+	("approved_voter_count", "Least Approved Voters"),
 )
 
 ANON_SORT_CHOICES = (
@@ -1227,6 +1245,7 @@ class Anon(models.Model):
 	purchased_spaces = models.ManyToManyField(Space, blank=True, default=None, related_name='purchased_spaces')
 	sum_purchased_spaces = models.IntegerField(default=0)
 	space_sort = models.IntegerField(choices=SPACE_SORT_CHOICES, default=0)
+	space_sort_char = models.CharField(choices=SPACE_SORT_CHOICES_CHAR, default="latest_change_date", max_length=180)
 
 	created_votestyles = models.ManyToManyField(Votes, default=None, related_name='created_votestyles')
 	sum_created_votestyles = models.IntegerField(default=0)
