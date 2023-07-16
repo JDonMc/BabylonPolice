@@ -117,4 +117,4 @@ Rebuild a type-set for words of a given length with a selector algorithm to comp
 
 TODO:
 
-Build in bulk billing for spaces. Revamp spaces page
+Build in bulk billing for spaces. Revamp spaces page.

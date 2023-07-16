@@ -165,71 +165,16 @@ Dics - Babylon Police
 				<a href="{% url 'Bable:tob_users_dic_words' dic.author.username dic.the_dictionary_itself 0 %}"><h4>Dic's wordentries:</h4></a>
 			</div>
 			<div class=wordsectionsort>
-				<div class=wordsortnav>
-					Sort: {{ loggedinanon.get_word_sort_display }}
-				</div>
-				<div class=dropdown-content-word-sort>
-					<div class=popular>
-						<div class=alphabetical>
-							<a href="{% url 'Bable:change_word_sort' 'alphabetical' %}">Alphabetical</a>
-						</div>
-						<div class=latest>
-							<a href="{% url 'Bable:change_word_sort' 'latest' %}">Latest</a>
-						</div>
-						<div class=eldest>
-							<a href="{% url 'Bable:change_word_sort' 'eldest' %}">Eldest</a>
-						</div>
-						<div class=pronunciations>
-							<a href="{% url 'Bable:change_word_sort' 'pronunciations' %}">Pronunciations</a>
-						</div>
-						<div class=attributes>
-							<a href="{% url 'Bable:change_word_sort' 'attributes' %}">Attributes</a>
-						</div>
-						<div class=similarities>
-							<a href="{% url 'Bable:change_word_sort' 'similarities' %}">Similarities</a>
-						</div>
-					</div>
-					<div class=stats>
-						<div class=translations>
-							<a href="{% url 'Bable:change_word_sort' 'translations' %}">Translations</a>
-						</div>
-						<div class=examples>
-							<a href="{% url 'Bable:change_word_sort' 'examples' %}">Examples</a>
-						</div>
-						<div class=relations>
-							<a href="{% url 'Bable:change_word_sort' 'relations' %}">Relations</a>
-						</div>
-						<div class=sponsor>
-							<a href="{% url 'Bable:change_word_sort' 'sponsor' %}">Sponsor</a>
-						</div>
-						<div class=viewcount>
-							<a href="{% url 'Bable:change_word_sort' 'viewcount' %}">Viewcount</a>
-						</div>
-						<div class=unseen>
-							<a href="{% url 'Bable:change_word_sort' '-viewcount' %}">Unseen</a>
-						</div>
-					</div>
-					<div class=flair>
-						<div class=costly>
-							<a href="{% url 'Bable:change_word_sort' 'price' %}">Costly</a>
-						</div>
-						<div class=cheapest>
-							<a href="{% url 'Bable:change_word_sort' '-price' %}">Cheapest</a>
-						</div>
-						<div class=spaces>
-							<a href="{% url 'Bable:change_word_sort' 'spaces' %}">Spaces</a>
-						</div>
-						<div class=stories>
-							<a href="{% url 'Bable:change_word_sort' 'stories' %}">Stories</a>
-						</div>
-						<div class=voters>
-							<a href="{% url 'Bable:change_word_sort' 'voters' %}">Voters</a>
-						</div>
-						<div class=voteless>
-							<a href="{% url 'Bable:change_word_sort' '-voters' %}">Voteless</a>
-						</div>
-					</div>
-				</div>
+				<form name=word_sort action="{% url 'Bable:change_word_sort_char' %}" method=post>
+					{% csrf_token %}
+					{{ word_sort_form }}
+				</form>
+				<script>
+					var form = document.querySelector('form[name="word_sort"]');
+					form.addEventListener('change', function() {
+					    form.submit();
+					});
+				</script>
 			</div>
 		</div>
 		{% if dic.public or request.user.username == dic.author.username or request.user.username == 'test' %}

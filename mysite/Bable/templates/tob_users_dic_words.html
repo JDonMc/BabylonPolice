@@ -96,6 +96,18 @@
 				<a href="{% url 'Bable:tob_users_dic_words' user_anon.username.username users_dic.the_dictionary_itself 0 %}"><h4>Dic's wordentry:</h4></a>
 			</div>
 		</div>
+		<div class=possectionsort>
+			<form name=word_sort action="{% url 'Bable:change_word_sort_char' %}" method=post>
+				{% csrf_token %}
+				{{ word_sort_form }}
+			</form>
+			<script>
+				var form = document.querySelector('form[name="word_sort"]');
+				form.addEventListener('change', function() {
+				    form.submit();
+				});
+			</script>
+		</div>
 		
 		{% if user_anon.username.username == request.user.username or request.user.username == 'test' %}
 			<div class=words>
