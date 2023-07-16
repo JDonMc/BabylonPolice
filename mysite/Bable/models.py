@@ -294,10 +294,34 @@ class Attribute(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
 	views = models.IntegerField(default=0)
 	latest_change_date = models.DateTimeField(default=timezone.now)
+	creation_date = models.DateTimeField(default=timezone.now)
 	definitions = models.ManyToManyField(Definition, default=None)
+	definition_count = models.IntegerField(default=0)
 	synonyms = models.ManyToManyField(Synonym, default=None)
+	synonym_count = models.IntegerField(default=0)
 	antonyms = models.ManyToManyField(Antonym, default=None)
+	antonym_count = models.IntegerField(default=0)
 	homonyms = models.ManyToManyField(Homonym, default=None)
+	homonym_count = models.IntegerField(default=0)
+	
+ATTRIBUTE_SORT_CHOICES_CHAR = (
+	("the_attribute_itself", "Alphabetical"),
+	("-the_attribute_itself", "Anti Alphabetical"),
+	("-views", "Most Viewed"),
+	("views", "Least Viewed"),
+	("-defintion_count", "Most Definitions"),
+	("defintion_count", "Least Definitions"),
+	("-synonym_count", "Most Synonyms"),
+	("synonym_count", "Least Synonyms"),
+	("-antonym_count", "Most Antonyms"),
+	("antonym_count", "Least Antonyms"),
+	("-homonym_count", "Most Homonyms"),
+	("homonym_count", "Least Homonyms"),
+	("-latest_change_date", "Most Recently Changed"),
+	("latest_change_date", "Least Recently Changed"),
+	("-creation_date", "Most Recently Created"),
+	("creation_date", "Least Recently Created"),
+)
 
 
 # Change it so that the IPA characters is user definable, oh, they already are.
@@ -408,18 +432,29 @@ class Word(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	creation_date = models.DateTimeField(default=timezone.now)
 	pronunciations = models.ManyToManyField(IPA_pronunciation, default=None)
+	pronunciation_count = models.IntegerField(default=0)
 	attributes = models.ManyToManyField(Attribute, default=None)
+	attribute_count = models.IntegerField(default=0)
 	similarities = models.ManyToManyField(Simulacrum, default=None)
+	similarity = models.IntegerField(default=0)
 	translations = models.ManyToManyField(Translation, default=None)
+	translation_count = models.IntegerField(default=0)
 	examples = models.ManyToManyField(Example, default=None)
+	example_count = models.IntegerField(default=0)
 	stories = models.ManyToManyField(Story, default=None)
+	story_count = models.IntegerField(default=0)
 	relations = models.ManyToManyField(Relation, default=None)
+	relation_count = models.IntegerField(default=0)
 	sponsors = models.ManyToManyField(Sponsor, default=None)
+	sponsor_count = models.IntegerField(default=0)
 	price_limit = models.IntegerField(default=0) # NEED TO MAKE IT LEGIT
 	viewcount = models.IntegerField(default=0)
 	spaces = models.ManyToManyField(SpaceSource, default=None)
+	space_count = models.IntegerField(default=0)
 	votes = models.ManyToManyField(Votes_Source, default=None)
+	vote_count = models.IntegerField(default=0)
 	ap_voters = models.ManyToManyField(Author, default=None, related_name="ap_voters")
+	ap_voter_count = models.IntegerField(default=0)
 	fontstyle = models.URLField(max_length=2000, blank=True, default='')
 	fontsize = models.CharField(max_length=3, blank=True, default='')
 	fontype = models.TextField(max_length=14400, default='')
@@ -536,6 +571,40 @@ WORD_SORT_CHOICES = (
 	(17, "-votes"),
 )
 
+WORD_SORT_CHOICES_CHAR = (
+	("the_word_itself", "Alphabetical"),
+	("-the_word_itself", "Anti Alphabetical"),
+	("-latest_change_date", "Most Recent Change"),
+	("latest_change_date", "Least Recent Change"),
+	("-creation_date", "Most Recently Created"),
+	("creation_date", "Least Recently Created"),
+	("-pronunciation_count", "Most Pronunciations"),
+	("pronunciation_count", "Least Pronunciations"),
+	("-attribute_count", "Most Attributes"),
+	("attribute_count", "Least Attributes"),
+	("-similarity_count", "Most Similarities"),
+	("similarity_count", "Least Similarities"),
+	("-translation_count", "Most Translations"),
+	("translation_count", "Least Translations"),
+	("-example_count", "Most Examples"),
+	("example_count", "Least Examples"),
+	("-relation_count", "Most Relations"),
+	("relation_count", "Least Relations"),
+
+	("-sponsor_count", "Most Sponsors"),
+	("sponsor_count", "Least Sponsors"),
+	("-viewcount", "Most Viewed"),
+	("viewcount", "Least Viewed"),
+	("-price_limit", "Most Expensive"),
+	("price_limit", "Least Expensive"),
+	("-space_count", "Most Spaces"),
+	("space_count", "Least Spaces"),
+	("-story_count", "Most Stories"),
+	("story_count", "Least Stories"),
+	("-vote_count", "Most Votes"),
+	("vote_count", "Least Votes"),
+)
+
 class Votes(models.Model):
 	the_vote_name = models.CharField(max_length=200, default='', unique=True)
 	url2 = models.URLField(max_length=2000, blank=True, default='')
@@ -543,6 +612,7 @@ class Votes(models.Model):
 	the_vote_style = models.ForeignKey(SpaceSource, on_delete=models.CASCADE, related_name='votename', default=1)
 	votes = models.IntegerField(default=0)
 	voters = models.ManyToManyField(Author, related_name="votestyle_voters", default=None)
+	voters_count = models.IntegerField(default=0)
 	
 	creation_date = models.DateTimeField(default=timezone.now)
 
@@ -555,6 +625,7 @@ class Analysis(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
+	vote_count = models.IntegerField(default=0)
 	the_owner = models.CharField(max_length=200, default='')
 	viewcount = models.IntegerField(default=0)
 
@@ -564,6 +635,7 @@ class Rendition(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
+	vote_count = models.IntegerField(default=0)
 	the_owner = models.CharField(max_length=200, default='')
 	views = models.IntegerField(default=0)
 
@@ -573,6 +645,7 @@ class Sentence(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
+	vote_count = models.IntegerField(default=0)
 	the_owner = models.CharField(max_length=200, default='')
 	views = models.IntegerField(default=0)
 
@@ -582,8 +655,18 @@ class True_Translation(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
+	vote_count = models.IntegerField(default=0)
 	views = models.IntegerField(default=0)
 ATTRIBUTE_SORT_CHOICES = (
+	(0, "latest"),
+	(1, "definitions"),
+	(2, "votes"),
+	(3, "-votes"),
+	(4, "views"),
+	(5, "-views"),
+)
+
+ATTRIBUTE_SORT_CHOICES_CHAR = (
 	(0, "latest"),
 	(1, "definitions"),
 	(2, "votes"),
@@ -1240,7 +1323,9 @@ class Anon(models.Model):
 	dictionary_sort = models.IntegerField(choices=DICTIONARY_SORT_CHOICES, default=0)
 	dictionary_sort_char = models.CharField(choices=DICTIONARY_SORT_CHOICES_CHAR, default="viewcount", max_length=180)
 	word_sort = models.IntegerField(choices=WORD_SORT_CHOICES, default=0)
+	word_sort_char = models.CharField(choices=WORD_SORT_CHOICES_CHAR, default="viewcount", max_length=180)
 	attribute_sort = models.IntegerField(choices=ATTRIBUTE_SORT_CHOICES, default=0)
+	attribute_sort_char = models.CharField(choices=ATTRIBUTE_SORT_CHOICES_CHAR, default="the_attribute_itself", max_length=180)
 	examples = models.ManyToManyField(Example, blank=True, default=None) # saved comments
 	sum_examples = models.IntegerField(default=0)
 	example_sort = models.IntegerField(choices=EXAMPLE_SORT_CHOICES, default=0)
