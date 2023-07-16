@@ -3312,7 +3312,6 @@ def tower_of_bable_count(request, count):
 	return the_response
 
 def tob_view_spaces(request):
-	spaces = Space.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[0:100]
 	count = 0
 	count100 = count+100
 	mcount = 0
@@ -3326,6 +3325,7 @@ def tob_view_spaces(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		spaces = Space.objects.order_by(loggedinanon.space_sort_char)[0:100]
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
 		space_form = SpaceForm(request)
@@ -3341,6 +3341,7 @@ def tob_view_spaces(request):
 		the_response = render(request, 'tob_view_spaces.html', {"space_sort_form": space_sort_form, "spaces": spaces, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon,'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
+		spaces = Space.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[0:100]
 		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
 	the_response.set_cookie('current', 'tob_view_spaces')
 	return the_response
@@ -3354,7 +3355,6 @@ def tob_view_spaces_count(request, count):
 		mcount = count - 100
 	else:
 		mcount = 0
-	spaces = Space.objects.order_by('latest_change_date', 'votes_count', 'viewcount')[count:count100]
 	
 	registerform = UserCreationForm()
 	
@@ -3380,11 +3380,12 @@ def tob_view_spaces_count(request, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 		
+		spaces = Space.objects.order_by(loggedinanon.space_sort_char)[0:100]
 		
 		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		latest_spaces = sort_spaces(spaces, 0, count, 100)
+		spaces = Space.objects.order_by('latest_change_date', 'votes_count', 'viewcount')[count:count100]
 		the_response = render(request, 'tob_view_spaces.html', {"latest_spaces": latest_spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
 	the_response.set_cookie('current', 'tob_view_spaces_count')
 	the_response.set_cookie('count', count)
