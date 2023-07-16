@@ -64,6 +64,31 @@ class DicSortForm(forms.ModelForm):
         self.instance = current_anon
 
 
+class WordSortForm(forms.ModelForm):
+    class Meta:
+        model = Anon
+        fields = ('word_sort_char',)
+    def __init__(self, request, *args, **kwargs):
+        super(WordSortForm, self).__init__(*args, **kwargs)
+        current_anon = Anon.objects.get(username=request.user)
+        self.fields['word_sort_char'].initial = current_anon.word_sort_char
+        self.fields['word_sort_char'].label = False
+        self.instance = current_anon
+
+
+
+class AttributeSortForm(forms.ModelForm):
+    class Meta:
+        model = Anon
+        fields = ('attribute_sort_char',)
+    def __init__(self, request, *args, **kwargs):
+        super(AttributeSortForm, self).__init__(*args, **kwargs)
+        current_anon = Anon.objects.get(username=request.user)
+        self.fields['attribute_sort_char'].initial = current_anon.attribute_sort_char
+        self.fields['attribute_sort_char'].label = False
+        self.instance = current_anon
+
+
 
 
 class PostSortForm(forms.ModelForm):

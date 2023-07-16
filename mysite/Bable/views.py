@@ -3821,6 +3821,23 @@ def change_dic_sort_char(request):
 			dic_sort_form.save()
 	return base_redirect(request, 0)
 
+@login_required
+def change_word_sort_char(request):
+	if request.method == "POST":
+		word_sort_form = WordSortForm(request, data=request.POST)
+		if word_sort_form.is_valid():
+			word_sort_form.save()
+	return base_redirect(request, 0)
+
+@login_required
+def change_attribute_sort_char(request):
+	if request.method == "POST":
+		attribute_sort_form = AttributeSortForm(request, data=request.POST)
+		if attribute_sort_form.is_valid():
+			attribute_sort_form.save()
+	return base_redirect(request, 0)
+
+
 
 @login_required
 def change_space_sort_char(request):
@@ -6261,6 +6278,7 @@ def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
 	dics_word = users_dic.words.get(the_word_itself=word)
 	
 	registerform = UserCreationForm()
+
 	
 		
 	
@@ -6285,6 +6303,12 @@ def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		attribute_sort_form = AttributeSortForm(request)
+		word_sort_form = WordSortForm(request)
+
+		dics_word_attributes = dics_word.attributes.order_by(loggedinanon.attribute_sort_char)
+		
 
 	words_attribute_form = AttributeForm(prefix='w')
 	wadf = DefinitionForm(prefix='d')
@@ -6425,6 +6449,8 @@ def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
 			'words_attribute_form': words_attribute_form, "wadf": wadf, "wahf": wahf, "wasf": wasf, "waaf": waaf, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
+
+		dics_word_attributes = dics_word.attributes.all()
 		the_response = render(request, "tob_users_dic_word_attributes.html", {"user_anon": user_anon, "dics_word": dics_word,
 			"registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_attribute')
@@ -7608,7 +7634,6 @@ def tob_users_dic_words(request, user, dictionary, count):
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
 	count = int(count)
-	dic_words = users_dic.words.all()[count:count+100]
 	
 	registerform = UserCreationForm()
 	
@@ -7631,8 +7656,15 @@ def tob_users_dic_words(request, user, dictionary, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-		the_response = render(request, "tob_users_dic_words.html", {"loggedinanon": loggedinanon, "dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, "apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+		word_sort_form = WordSortForm(request)
+		attribute_sort_form = AttributeSortForm(request)
+
+		dic_words = users_dic.words.order_by(loggedinanon.word_sort_char)[count:count+100]
+	
+		the_response = render(request, "tob_users_dic_words.html", {"loggedinanon": loggedinanon, "attribute_sort_form": attribute_sort_form, "word_sort_form": word_sort_form, "dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, "apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
+		dic_words = users_dic.words.all()[count:count+100]
+	
 		the_response = render(request, "tob_users_dic_words.html", {"dic_words": dic_words, "users_dic": users_dic, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_words')
 	the_response.set_cookie('viewing_user', user)
@@ -7875,7 +7907,7 @@ def tob_dics(request):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
-		
+
 
 		dic_form = DictionaryForm()
 		space_form = SpaceForm(request)
