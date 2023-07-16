@@ -180,8 +180,8 @@ Dics - Babylon Police
 		{% if dic.public or request.user.username == dic.author.username or request.user.username == 'test' %}
 			<div class=words>
 				Words:
-				{% if dics_words.count %}
-					{% for word in dics_words %}
+				{% if dic.words.count %}
+					{% for word in dic.words %}
 						<div class=word>
 							<div class=words_itself>
 								<b>Word: <a href="{% url 'Bable:tob_users_dic_word_count' dic.author.username dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a></b>
