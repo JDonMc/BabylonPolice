@@ -3543,6 +3543,11 @@ def tob_post(request, post):
 	
 	posts_comments = users_post.comments.order_by('-viewcount')[:25]
 	users_post.viewcount += 1
+	if users_post.spaces.count():
+		for space in users_post.spaces.all():
+			full_space = space.to_full()
+			full_space.posts_viewcount += 1
+			full_space.save()
 	users_post.save()
 
 	page_views, created = Pageviews.objects.get_or_create(page="tob_post")
@@ -4575,7 +4580,7 @@ def tob_users_spaces_sponsor(request, user, space_id, sponsor):
 	return the_response
 
 
-def tob_users_spaces_post(request, user, space_id, post):
+def tob_users_spaces_post(request, user, space_id, post_id):
 	space_id = int(space_id)
 	user_themself = User.objects.get(username=user)
 	user_anon = Anon.objects.get(username=user_themself)
@@ -4594,12 +4599,15 @@ def tob_users_spaces_post(request, user, space_id, post):
 	
 	space_viewable = False
 	users_space = Space.objects.get(author=user_author, id=space_id)
-	spaces_post = Post.objects.get(space__author=user_author, space__the_space_itself__the_word_itself=users_space.the_space_itself.the_word_itself, title=post)
+	spaces_post = Post.objects.get(id=int(post_id))
 	if spaces_post.edits.count():
 		latest_edit = spaces_post.edits.last()
 	
 	posts_comments = spaces_post.comments.count()
 	
+	users_space.posts_viewcount += 1
+	users_space.save()
+
 	if posts_comments:
 		if request.user.is_authenticated:
 			if not users_space.public:
@@ -4848,7 +4856,11 @@ def tob_users_post(request, user, post, count=0):
 		if users_post not in user_anon.posts.all():
 			user_anon.posts.add(users_post)
 			user_anon.save()
-		
+		if users_post.spaces.count():
+			for space in users_post.spaces.all():
+				full_space = space.to_full()
+				full_space.posts_viewcount += 1
+				full_space.save()
 		users_post.viewcount += 1
 		page_views, created = Pageviews.objects.get_or_create(page="tob_users_post")
 		page_views.views += 1

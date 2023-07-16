@@ -1009,6 +1009,7 @@ class Space(models.Model):
 	sidebar = models.TextField(max_length=1000, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='author', default=None)
 	viewcount = models.IntegerField(default=0)
+	posts_viewcount = models.IntegerField(default=0)
 	posts = models.ManyToManyField(Post, default=None)
 	votes = models.ManyToManyField(Votes, default=None)
 	votes_count = models.IntegerField(default=0)
