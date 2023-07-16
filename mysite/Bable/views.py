@@ -3317,6 +3317,7 @@ def tob_view_spaces(request):
 	count100 = count+100
 	mcount = 0
 	registerform = UserCreationForm()
+
 	
 		
 	
@@ -3330,14 +3331,14 @@ def tob_view_spaces(request):
 		space_form = SpaceForm(request)
 		task_form = TaskForm()
 		word_form = WordForm(request)
-
+		space_sort_form = SpaceSortForm(request)
 		apply_votestyle_form = ApplyVotestyleForm(request)
 		create_votes_form = CreateVotesForm(request)
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon,'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
+		the_response = render(request, 'tob_view_spaces.html', {"space_sort_form": space_sort_form, "spaces": spaces, "count": count, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon,'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
