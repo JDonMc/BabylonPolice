@@ -7922,8 +7922,8 @@ def tob_dics(request):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		dic_sort_form = DicSortForm(request)
-		if not loggedinanon.dictionaries_sort_char:
-			loggedinanon.dictionaries_sort_char = "views"
+		if not loggedinanon.dictionary_sort_char:
+			loggedinanon.dictionary_sort_char = "views"
 			loggedinanon.save()
 
 		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[:25]
@@ -7968,8 +7968,8 @@ def tob_dics_count(request, count):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		dic_sort_form = DicSortForm(request)
-		if not loggedinanon.dictionaries_sort_char:
-			loggedinanon.dictionaries_sort_char = "views"
+		if not loggedinanon.dictionary_sort_char:
+			loggedinanon.dictionary_sort_char = "views"
 			loggedinanon.save()
 		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[count:count+25]
 		the_response = render(request, "tob_dics.html", {"dic_sort_form": dic_sort_form, "loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
