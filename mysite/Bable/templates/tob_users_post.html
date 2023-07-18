@@ -31,6 +31,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			</h3>
 		</div>
 		{% if post.author.username == user_author.username %}
+		<form action="{% url 'Bable:create_product_w_price' post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
 		<div class=postdel>
 			<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
 		</div>

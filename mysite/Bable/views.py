@@ -5140,6 +5140,7 @@ def tob_users_post(request, user, post, count=0):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		file_form = FileForm()
+		product_form = ProductForm()
 
 		posts_by_viewcount = Post.objects.order_by(loggedinanon.post_sort_char)[0:100]
 		posts_by_viewcount = list(posts_by_viewcount.values('img', 'url2', 'author__username', 'id', 'title', 'body', 'votes', 'viewcount', 'latest_change_date'))
@@ -5149,7 +5150,7 @@ def tob_users_post(request, user, post, count=0):
 
 
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "total": total, "mcount": mcount, "count": count, "count100": count100, "posts" : posts_by_viewcount, "loggedinanon": loggedinanon, "users_post": users_post, "user_author": user_author, "comment_form": comment_form,"space_form": space_form, "post_form": post_form, "dic_form": dic_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_post.html", {"product_form": product_form, "ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "total": total, "mcount": mcount, "count": count, "count100": count100, "posts" : posts_by_viewcount, "loggedinanon": loggedinanon, "users_post": users_post, "user_author": user_author, "comment_form": comment_form,"space_form": space_form, "post_form": post_form, "dic_form": dic_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 

@@ -45,6 +45,7 @@ urlpatterns = [
 	url(r'^autocomplete_votestyles/$', views.autocomplete_votestyles, name='autocomplete_votestyles'),
 	url(r'^grabvoteid/$', views.grabvoteid, name='grabvoteid'),
 	#url(r'^gensim_test/$', views.gensim_test, name='gensim_test'),
+	url(r'^create_product_w_price/$', views.create_product_w_price, name='create_product_w_price'),
 	url(r'^login/$', views.login_view, name='login_view'),
 	url(r'^owner/$', views.owner, name='owner'),
 	url(r'^feedback/$', views.feedback, name='feedback'),
