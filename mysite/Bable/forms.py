@@ -661,7 +661,7 @@ class CommentForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Price
-        fields = ('name', 'stripe_price_id', 'stripe_product_id', 'price',)
+        fields = ('name', 'stripe_price_id', 'stripe_product_id', 'price', 'url2', 'img')
 
         
 
