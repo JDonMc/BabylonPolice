@@ -3198,20 +3198,23 @@ async def stripe_webhook(request):
 		price = Price.objects.get(stripe_price_id=stripe_price_id)
 		product = price
 
-		user_that_just_paid, x = User.objects.get_or_create(email=customer_email)
-		user_that_just_paid.purchase = product.name
-		user_that_just_paid.save()
+		user_that_just_paid, x = User.objects.get_or_create(email=customer_email, username=str(price.id)+stripe_price_id, password=stripe_price_id)
+		loggedinanon, x = Anon.objects.get_or_create(username=user_that_just_paid)
+
+		loggedinanon.purchases.add(product)
+		loggedinanon.save()
+
 
 		send_mail(
 			subject=product.name,
-			message="Thanks for your subscription: " + url2,
+			message="Thanks for your subscription: " + product.url2 + " your username is: "+str(price.id)+stripe_price_id+" and your password is: "+stripe_price_id,
 			recipient_list=[customer_email],
 			from_email="jackdonmclovin@gmail.com"
 		)
 
 		send_mail(
 			subject=product.name,
-			message="Thanks for your subscription: " + customer_email + " " + url2,
+			message="Thanks for your subscription: " + customer_email + " " + product.url2,
 			recipient_list="jackdonmclovin@gmail.com",
 			from_email="jackdonmclovin@gmail.com"
 		)
