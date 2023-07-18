@@ -40,7 +40,6 @@ User: {{ user_anon.username.username }} - Babylon Police
 		<div class=userself>
 
 			<div class=monerowalletform>
-			Save your monero wallet to enable CPU mining (get paid to buy credits)
 			<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
 		</div>
 
@@ -433,39 +432,16 @@ User: {{ user_anon.username.username }} - Babylon Police
 			<a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}"><h3>Spaces:</h3></a>
 		</div>
 		<div class=spasectionsort>
-			<div id=spasortnav>
-				Sort: {{ loggedinanon.get_space_sort_display }}
-			</div>
-			<div class=dropdown-content-spa-sort>
-				<div class=popular>
-					<div class=viral>
-						<a href="{% url 'Bable:change_space_sort' 'viral' %}">Viral</a>
-					</div>
-					<div class="early">
-						<a href="{% url 'Bable:change_space_sort' 'early' %}">Early</a>
-					</div>
-					<div class="freshest">
-						<a href="{% url 'Bable:change_space_sort' 'freshest' %}">Freshest</a>
-					</div>
-					<div class="eldest">
-						<a href="{% url 'Bable:change_space_sort' 'eldest' %}">Eldest</a>
-					</div>
-				</div>
-				<div class="stats">
-					<div class="starter">
-						<a href="{% url 'Bable:change_space_sort' 'starter' %}">Sarter</a>
-					</div>
-					<div class="useful">
-						<a href="{% url 'Bable:change_space_sort' 'useful' %}">Useful</a>
-					</div>
-					<div class="encourage">
-						<a href="{% url 'Bable:change_space_sort' 'encourage' %}">Encourage</a>
-					</div>
-					<div class="synched">
-						<a href="{% url 'Bable:change_space_sort' 'synched' %}">Synched</a>
-					</div>
-				</div>
-			</div>
+			<form name=space_sort action="{% url 'Bable:change_space_sort_char' %}" method=post>
+				{% csrf_token %}
+				{{ space_sort_form }}
+			</form>
+			<script>
+				var form = document.querySelector('form[name="space_sort"]');
+				form.addEventListener('change', function() {
+				    form.submit();
+				});
+			</script>
 		</div>
 		<div class=spaces>
 		{% if users_spaces.count %} 

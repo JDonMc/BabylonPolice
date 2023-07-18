@@ -15,6 +15,11 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 <meta name="viewport" content="width=device-width">
 <meta name="description" content="User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Dream Cloud Middle Men">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+
+<link rel="stylesheet" href="{% static 'css/classa.education.css' %}">
+
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
 {% endblock %}
 
 {% block authenticatedposts %}
@@ -30,10 +35,33 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
-		{% if post.author.username == user_author.username %}
-		<form action="{% url 'Bable:create_product_w_price' post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
+		<div class="row pt-5 pricing-table">
+            <div class="col-12 mx-auto">
+                <div class="card-deck pricing-table">
+
+                     <div class="card">
+			            {% for price in users_post.products.all %}
+			            <hr />
+			            
+			            <h3>{{ price.name }}</h3>
+			            <img src="{{ price.img }}" style="width: 200px; height: 200px;">
+			            <div>
+			                <h5>${{ price.get_display_price }} AUD per month</h5>
+			                <form action="{% url 'create-checkout-session' price.id %}" method="POST">
+			                    {% csrf_token %}
+			                    <button type="submit">Checkout</button>
+			                </form>
+			            </div>
+
+			            {% endfor %}
+			        </div>
+                </div>
+            </div>
+        </div>
+		{% if users_post.author.username == user_author.username %}
+		<form action="{% url 'Bable:create_product_w_price' users_post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
 		<div class=postdel>
-			<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
+			<a href="{% url 'Bable:delete_own_post' users_post.author.username users_post.id %}">X</a>
 		</div>
 		{% endif %}
 		<style>

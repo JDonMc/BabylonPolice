@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Class A - Checkout canceled
+{% endblock %}
+
+{% block inserts %}
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block body %}
+<section class="pt-6 pb-7">
+    <div class="product">
+        <div class="description">
+            {% for price in prices %}
+            <hr />
+            
+            <h3>{{ price.product.name }}</h3>
+            <div>
+                <h5>${{ price.get_display_price }} AUD per month</h5>
+                <form action="{% url 'create-checkout-session' price.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Checkout</button>
+                </form>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
