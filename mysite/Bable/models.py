@@ -984,7 +984,8 @@ class Edit(models.Model):
 
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
-    
+    url2 = models.URLField(max_length=2000, blank=True, default='')
+    img = models.URLField(max_length=2000, blank=True, default='')
     stripe_price_id = models.CharField(max_length=100, default='')
     stripe_product_id = models.CharField(max_length=100, default='')
     price = models.IntegerField(default=0)  # cents
@@ -1346,6 +1347,7 @@ class Page_Density(models.Model):
 class Anon(models.Model):
 	products = models.ManyToManyField(Price, default=None)
 	stripe_private_key = models.CharField(max_length=600, default='')
+	stripe_api_secret = models.CharField(max_length=600, default='')
 	home_page_density = models.ManyToManyField(Page_Density, default=None)
 	username = models.OneToOneField(User, on_delete=models.CASCADE)
 	email = models.EmailField(max_length=144, default='', null=True)

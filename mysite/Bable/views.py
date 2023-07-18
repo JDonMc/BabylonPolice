@@ -70,7 +70,6 @@ from django.http import HttpResponseRedirect
 import stripe
 from django.http import JsonResponse
 from django.views import View
-stripe.api_key = settings.STRIPE_SECRET_KEY
 from django.utils.decorators import method_decorator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -3157,10 +3156,7 @@ class ProductLandingPageView(TemplateView):
     template_name = "landing.html"
 
     def get_context_data(self, **kwargs):
-        if Anon.objects.get(username=self.request.user).referral_pk:
-            prices = Price.objects.all().filter(product__name__contains="off")
-        else:
-            prices = Price.objects.all().filter(product__name__contains="Full")
+        prices = Price.objects.all().filter(name__contains="Full")
         context = super(ProductLandingPageView,
                         self).get_context_data(**kwargs)
         context.update({
@@ -3200,11 +3196,25 @@ async def stripe_webhook(request):
 
 		stripe_price_id = line_items["data"][0]["price"]["id"]
 		price = Price.objects.get(stripe_price_id=stripe_price_id)
-		product = price.product
+		product = price
 
 		user_that_just_paid, x = User.objects.get_or_create(email=customer_email)
 		user_that_just_paid.purchase = product.name
 		user_that_just_paid.save()
+
+		send_mail(
+			subject=product.name,
+			message="Thanks for your subscription: " + url2,
+			recipient_list=[customer_email],
+			from_email="jackdonmclovin@gmail.com"
+		)
+
+		send_mail(
+			subject=product.name,
+			message="Thanks for your subscription: " + customer_email + " " + url2,
+			recipient_list="jackdonmclovin@gmail.com",
+			from_email="jackdonmclovin@gmail.com"
+		)
 		# TODO include a URL to the appropriate discord server for thier level.
 
 		API_ENDPOINT = 'https://discord.com'
@@ -3229,21 +3239,9 @@ async def stripe_webhook(request):
 		#client.close()
 
 
-		send_mail(
-			subject=product.name,
-			message="Thanks for your subscription.",
-			recipient_list=[customer_email],
-			from_email="jackdonmclovin@gmail.com"
-		)
+		
 
-		send_mail(
-			subject=product.name,
-			message="Thanks for your subscription: " + customer_email,
-			recipient_list="jackdonmclovin@gmail.com",
-			from_email="jackdonmclovin@gmail.com"
-		)
-
-	return HttpResponse(status=200)
+	return redirect(price.url2)
 
 
 
@@ -3263,14 +3261,11 @@ def tower_of_bable(request):
 	count100 = 25
 	mcount = 0
 
-	basic, x = Product.objects.get_or_create(name="Class A Basic - Full Price")
-	if not basic.stripe_product_id:
-		basic.stripe_product_id = "prod_N3HlEO2UarIs71"
-		basic.save()
-
-	basic_price, x = Price.objects.get_or_create(product=basic)
+	basic_price, x = Price.objects.get_or_create(product=basic, name="Class A Basic - Full Price")
 	if not basic_price.stripe_price_id:
 		basic_price.stripe_price_id = "price_1MJBBgIDEcA7LIBjz30kc4Xl"
+
+		basic.stripe_product_id = "prod_N3HlEO2UarIs71"
 		basic_price.price = "5900"
 		basic_price.save()
 
@@ -5722,6 +5717,7 @@ def create_checkout_session(request, price):
 			bread_form = BreadForm(request.POST)
 			if bread_form.is_valid():
 				price = bread_form.cleaned_data['amount']
+
 	stripe.api_key = loggedinanon.stripe_private_key
 	checkout_session = stripe.checkout.Session.create(
 	    # Customer Email is optional,

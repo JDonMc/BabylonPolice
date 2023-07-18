@@ -39,6 +39,11 @@ User: {{ user_anon.username.username }} - Babylon Police
 	{% if user_anon.username.username == request.user.username %}
 		<div class=userself>
 
+			<div class=monerowalletform>
+			Save your monero wallet to enable CPU mining (get paid to buy credits)
+			<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
+		</div>
+
 			<div class=userbalance>
 				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): (amounts in USD) 
 				<form action="{% url 'Bable:home_view' %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Coinbase</button></form>
