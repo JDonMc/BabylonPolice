@@ -112,8 +112,13 @@ class Word_Source(models.Model):
 	home_dictionary = models.CharField(max_length=200, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 
+	word_id = models.CharField(max_length=256, default='')
+
 	def to_full(self):
 		return Word.objects.get(author=self.author, home_dictionary__the_dictionary_itself=self.home_dictionary, the_word_itself=self.the_word_itself)
+
+
+
 
 class Dictionary_Source(models.Model):
 	the_dictionary_itself = models.CharField(max_length=200, default='')
@@ -122,6 +127,7 @@ class Dictionary_Source(models.Model):
 	purchasers = models.ManyToManyField(Author, default=None, related_name='dspurchasers')
 	public = models.BooleanField(default=False)
 
+	dictionary_id = models.CharField(max_length=256, default='')
 
 
 	def __unicode__(self):
@@ -459,6 +465,8 @@ class Word(models.Model):
 	fontsize = models.CharField(max_length=3, blank=True, default='')
 	fontype = models.TextField(max_length=14400, default='')
 
+	word_source = models.CharField(max_length=400, default='')
+	
 	class Meta:
 		unique_together = (('home_dictionary', 'the_word_itself'),)
 
@@ -724,6 +732,10 @@ class Dictionary(models.Model):
 	
 	entry_fee = models.IntegerField(default=0)
 	continuation_fee = models.IntegerField(default=0)
+
+
+	dictionary_source = models.CharField(max_length=400, default='')
+	
 	class Meta:
 		unique_together = (('author', 'the_dictionary_itself'),)
 
@@ -953,16 +965,38 @@ COMMENT_SORT_CHOICES_CHAR = (
 	("-sum_has_commented", "Discussed"),
 	("sum_has_commented", "Unspoken"),
 )
+
+class PostSource(models.Model):
+	post_id = models.CharField(max_length=256, default='')
+
+	def to_full():
+		return Post.objects.get(id=int(post_id))
 	
 class Edit(models.Model):
 	body = models.TextField(max_length=144000, default='')
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	latest_change_date = models.DateTimeField(default=timezone.now)
+	post_source = models.ForeignKey(PostSource, on_delete=models.CASCADE, default=None)
+
+
+
+    
+
+class Price(models.Model):
+    stripe_price_id = models.CharField(max_length=100, default='')
+    stripe_product_id = models.CharField(max_length=100, default='')
+    price = models.IntegerField(default=0)  # cents
+    
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
+
+
 
 
 class Post(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
 	edits = models.ManyToManyField(Edit, default=None)
+	products = models.ManyToManyField(Price, default=None)
 	title = models.CharField(max_length=200, default='')
 	url2 = models.URLField(max_length=2000, blank=True, default='')
 	img = models.URLField(max_length=2000, blank=True, default='')
@@ -994,7 +1028,7 @@ class Post(models.Model):
 	votes = models.ManyToManyField(Votes, default=None)
 	votes_count = models.IntegerField(default=0)
 	post_allowed = models.ManyToManyField(Author, default=None, related_name='post_allowed_authors')
-
+	post_source = models.CharField(max_length=400, default='')
 	cc = models.CharField(max_length=400, default='')
 
 	def __str__(self):
@@ -1308,6 +1342,7 @@ class Page_Density(models.Model):
 
 
 class Anon(models.Model):
+	stripe_private_key = models.CharField(max_length=600, default='')
 	home_page_density = models.ManyToManyField(Page_Density, default=None)
 	username = models.OneToOneField(User, on_delete=models.CASCADE)
 	email = models.EmailField(max_length=144, default='', null=True)

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Class A - Thanks for your order!
+{% endblock %}
+
+{% block content %}
+<section class="pt-6 pb-7">
+    <p>
+        We appreciate your business! If you have any questions, please email
+        <a href="mailto:jackdonmclovin@gmail.com">jackdonmclovin@gmail.com</a>.
+    </p>
+    <a href="{% url 'landing' %}">Test again</a>
+</section>
+{% endblock %}

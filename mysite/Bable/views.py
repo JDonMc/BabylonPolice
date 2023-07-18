@@ -61,6 +61,20 @@ from django.http import StreamingHttpResponse
 import datetime
 import time
 
+
+
+
+# Stripe Auth here
+from django.http import HttpResponseRedirect
+
+import stripe
+from django.http import JsonResponse
+from django.views import View
+stripe.api_key = settings.STRIPE_SECRET_KEY
+from django.utils.decorators import method_decorator
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 class dotdict(dict):
     """dot.notation access to dictionary attributes"""
     __getattr__ = dict.get
@@ -3087,6 +3101,148 @@ def search(request, count):
 	return the_response
 
 
+@login_required
+def create_product_w_price(request):
+	loggedinuser = User.objects.get(username=request.user.username)
+	loggedinanon = Anon.objects.get(username=loggedinuser)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+	if request.method == "POST":
+		product_form = ProductForm(request.POST)
+		if product_form.is_valid():
+			Product.objects.create(name="")
+
+
+
+
+
+class CreateCheckoutSessionView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        price = Price.objects.get(id=self.kwargs["pk"])
+        domain = "https://www.classa.education"
+        if settings.DEBUG:
+            domain = "http://127.0.0.1:8000"
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price': price.stripe_price_id,
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url=domain + '/success/',
+            cancel_url=domain + '/cancel/',
+            customer_email=self.request.user.email,
+        )
+        return redirect(checkout_session.url)
+
+from django.views.generic import TemplateView
+
+
+class SuccessView(TemplateView):
+    template_name = "success.html"
+
+class CancelView(TemplateView):
+    template_name = "cancel.html"
+
+@method_decorator(login_required, name="dispatch")
+class ProductLandingPageView(TemplateView):
+    template_name = "landing.html"
+
+    def get_context_data(self, **kwargs):
+        if Anon.objects.get(username=self.request.user).referral_pk:
+            prices = Price.objects.all().filter(product__name__contains="off")
+        else:
+            prices = Price.objects.all().filter(product__name__contains="Full")
+        context = super(ProductLandingPageView,
+                        self).get_context_data(**kwargs)
+        context.update({
+            "prices": prices
+        })
+        return context
+
+
+import discord
+import requests
+
+@csrf_exempt
+async def stripe_webhook(request):
+	payload = request.body
+	sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+	event = None
+
+	try:
+		event = stripe.Webhook.construct_event(
+			payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+		)
+	except ValueError as e:
+		# Invalid payload
+		return HttpResponse(status=400)
+	except stripe.error.SignatureVerificationError as e:
+		# Invalid signature
+		return HttpResponse(status=400)
+
+	# Handle the checkout.session.completed event
+	if event['type'] == 'checkout.session.completed':
+		session = event['data']['object']
+		customer_email = session["customer_details"]["email"]
+
+		payment_intent = session["payment_intent"]
+
+		line_items = stripe.checkout.Session.list_line_items(session["id"])
+
+		stripe_price_id = line_items["data"][0]["price"]["id"]
+		price = Price.objects.get(stripe_price_id=stripe_price_id)
+		product = price.product
+
+		user_that_just_paid, x = User.objects.get_or_create(email=customer_email)
+		user_that_just_paid.purchase = product.name
+		user_that_just_paid.save()
+		# TODO include a URL to the appropriate discord server for thier level.
+
+		API_ENDPOINT = 'https://discord.com'
+		discord_client_id = "694700710545064027"
+		discord_client_secret = "qlzbfS2UzZMJmYcMn0GPhlpLKtW0gSCu"
+		REDIRECT_URI = 'https://discordapp.com/oauth2/authorize?&client_id=694700710545064027&scope=bot'
+
+		data = {
+			'client_id': discord_client_id,
+			'client_secret': discord_client_secret,
+			'response_type': 'code',
+			'scope': "identify\%20role_connections.write"
+		}
+		headers = {
+		'Content-Type': 'application/x-www-form-urlencoded'
+		}
+		r = requests.post('%s/oauth2/authorize' % API_ENDPOINT, data=data, headers=headers)
+		token = r.json()["access_token"]
+		#client = discord.Client()
+		#await client.login(token)
+		#client.connect()
+		#client.close()
+
+
+		send_mail(
+			subject=product.name,
+			message="Thanks for your subscription.",
+			recipient_list=[customer_email],
+			from_email="jackdonmclovin@gmail.com"
+		)
+
+		send_mail(
+			subject=product.name,
+			message="Thanks for your subscription: " + customer_email,
+			recipient_list="jackdonmclovin@gmail.com",
+			from_email="jackdonmclovin@gmail.com"
+		)
+
+	return HttpResponse(status=200)
+
+
+
+
+
+
 def tower_of_bable(request):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
 	registerform = UserCreationForm()
@@ -3100,6 +3256,16 @@ def tower_of_bable(request):
 	count100 = 25
 	mcount = 0
 
+	basic, x = Product.objects.get_or_create(name="Class A Basic - Full Price")
+	if not basic.stripe_product_id:
+		basic.stripe_product_id = "prod_N3HlEO2UarIs71"
+		basic.save()
+
+	basic_price, x = Price.objects.get_or_create(product=basic)
+	if not basic_price.stripe_price_id:
+		basic_price.stripe_price_id = "price_1MJBBgIDEcA7LIBjz30kc4Xl"
+		basic_price.price = "5900"
+		basic_price.save()
 
 
 	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable")
@@ -5549,7 +5715,7 @@ def create_checkout_session(request, price):
 			bread_form = BreadForm(request.POST)
 			if bread_form.is_valid():
 				price = bread_form.cleaned_data['amount']
-	stripe.api_key = settings.STRIPE_SECRET_KEY
+	stripe.api_key = loggedinanon.stripe_private_key
 	checkout_session = stripe.checkout.Session.create(
 	    # Customer Email is optional,
 	    # It is not safe to accept email directly from the client side
@@ -5617,8 +5783,7 @@ def submit_wallet(request, amount):
 			if request.method == 'POST':
 				wallet_form = MoneroWalletForm(request.POST)
 				if wallet_form.is_valid():
-					monero_wallet = wallet_form.cleaned_data['monero_wallet']
-					loggedinanon.monero_wallet = monero_wallet
+					loggedinanon.stripe_private_key = wallet_form.cleaned_data['stripe_private_key']
 					loggedinanon.save()
 		
 	return base_redirect(request, 0)

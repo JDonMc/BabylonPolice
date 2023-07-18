@@ -1,0 +1,177 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+New World Orderlessness
+{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <div class="container" style="background-image: url('/static/giphy (1).gif'); background-size: 300%;">
+    <div style="height: 300px;">
+    </div>
+    <div style="margin: auto; text-align: center;">
+        <h1 style="text-transform: uppercase; font-family: Arial,Helvetica,sans-serif; color: white;">Open Forum Order</h2>
+        <h2 style="color: white;"><a href="https://www.babylonpolice.com" style="color: white;">A Babylon Police creation</a></h2>
+        <img src="{% static 'crazy.png' %}" style="height: 350px; width: 350px; position: relative;">
+        
+    </div>
+     
+        <br/>
+        <br/>
+        <br/>
+    
+    <div style="height: 400px;"></div>
+  </div>
+  <div class="container" style="background-color: white;">
+    <div style="height:200px;"></div>
+    <div style="background-color: white;">
+        An accessible event for magicians to share concepts, trip reports and definitions on pressing and extremist issues.
+      <br/><br/>
+
+        The Open Forum is a theatrical event production that pays you to participate in and with a broader audience performing in in the activities of Subsets of religious ideology formed out of an archaic mythology determined by the set of searchable concepts being limited by the imagination based on our exploration of what has been ordained through the divination of modern media. Each year since 2022, the Open Forum convenes in December live on the website TripCityAnonymous with the brevity of anonymity and the payment platform of BabylonPolice, attracting Gods, Sons of Gods (reincarnated counterculture as a saviour from culture), disciples, rocks, religions, and churches in which lies houses and libraries together which builds the Library of Babel throughout eternity. This year is the first year where the Open Forum will be hosted, and will be advertised on Babylon Police, and everyone will get paid for tripping. We welcome government officials, artists, civil society leaders, innovative entrepreneurs and CEOs of multinational companies: All have a story or point of view to share.
+<br/><br/>
+In the spirit of BabylonPolice, the Open Forum aims to stimulate dialogue among thought leaders on issues ranging from current patent structures and mental health concerns to cryptocurrency solutions, belief disciplines and the role of the music in truth.
+<br/><br/>
+Indeed, the New World Orderlessness seizes the untimely happenstance of its Annual Meeting on TripCityAnonymous to offer a platform for universal basic income and compounding knowledge based on extremist fundamentalism which may not be true but it's a start (it goes on forever, trust me).
+<br/><br/>
+The Open Forum welcomes a diverse privacy from around the globe to listen, participate and share concepts, trip reports and definitions with the panellists on pressing and extremist issues (as mere conjecture for the entertainment of theatre). For those of you who cannot trip with the Open Forum personally on Trip City Anonymous, we hope you will follow the trippers on the web via our heatmap.
+<br/><br/>
+Mission
+The Open Forum aims to encourage dialogue and spread awareness on critical issues by providing a platform on which ideas, thoughts and questions can be expressed and tackled in an open environment.
+<br/><br/>
+********************************************************************************************************
+<br/><br/>
+The registration for the Open Forum this year is now open.
+<br/><br/>
+Sign up for the open forum to get network credits on Open Hand Misere (a platform which organises all of your Babylon Police credits, White Flag Robotics credits and Trip City Anonymous credits)
+    </div>
+    <div style="height:200px; border: white 2px; border-radius: 4px;"></div>
+    <a href="https://www.youtube.com/watch?v=NZGa1MfD7vY">Watch the talks "Cooking X while Cooked"</a>
+  </div>
+  <div class="container" style="background-image: url('/static/pexels-nothing-ahead-3571563.jpeg'); background-size: 700%;">
+    
+  </div>
+  <div class="container">
+      <div class=blogposts>
+        {% for post in blogposts %}
+        <div class=post>
+          <a href="{% url 'Bable:specifics' post.id %}">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.body }}</p>
+            <p>{{ post.post_date }}</p>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+  </div>
+  <div class="container" style="background-image: url('/static/pexels-adrien-olichon-2387532.jpeg'); background-size: 700%;">
+    
+
+    <div style="bottom: 40px; text-align: center; padding-top: 6px; width: 80px; height: 30px; background-color: green; border-radius: 15px; position: fixed; right: 80px;" onclick="$(window).scrollTop($('#buy').offset().top);">
+      Enquire
+
+    </div>
+
+<form id="buy" class=buy action="{% url 'Bable:buy' %}" method="post" style="background-color: lightgrey; border-radius: 10px; width: 60%; margin: auto;">
+    <h2 id="changetext" style="font-size: 26px; margin-left: 15px; padding-top: 15px; transition: font-size 100ms;">Send us an email <br/>and join our mailing list</h2>
+    <h3 style="margin-left:15px;"></h3>
+    {% csrf_token %}
+    {{ buyform }}
+    <div class="form-actions">
+        <button type="submit" style="border-radius: 10px; margin-left: 15px; margin-bottom: 15px; margin-top: 15px;">Send</button>
+    </div>
+</form>
+<br/>
+<br/>
+<style>
+.buy label {
+    display: block;
+    font-family: 'Source Sans Pro',sans-serif;
+    margin-left: 15px;
+}
+
+.buy input, .buy textarea {
+    margin-bottom: 15px;
+    display: inline-block;
+    padding-top: 8px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    border-radius: 10px;
+    margin-left: 15px;
+}
+
+.buy input[type="checkbox"] {
+    display: block;
+}
+
+#changetext:hover{
+    animation: slidein 10s;
+}
+
+@keyframes slidein {
+  from {
+    font-size: 24px;
+    color: blue;
+  }
+
+  5% {
+    font-size: 26px;
+    color: green;
+  }
+  10% {
+    font-size: 24px;
+    color: blue;
+  }
+  15% {
+    font-size: 26px;
+    color: green;
+  }
+  20% {
+    font-size: 24px;
+    color: blue;
+  }
+  25% {
+    font-size: 26px;
+    color: green;
+  }
+  30% {
+    font-size: 24px;
+    color: blue;
+  }
+  35% {
+    font-size: 26px;
+    color: green;
+  }
+  
+
+  75% {
+    font-size: 24px;
+    color: blue;
+  }
+
+  to {
+    font-size: 26px;
+    color: green;
+  }
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+function sleep(miliseconds) {
+    var currentTime = new Date().getTime();
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+}
+   
+</script>
+
+    
+  </div>
+</div>
+
+{% endblock %}
