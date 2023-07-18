@@ -16,6 +16,8 @@ Predictionary.us - You can't predict from what you don't know.
 <meta content="X-Frame-Options: SAMEORIGIN">
 <meta property="og:description" content="Predictionary.us - You can't predict from what you don't know. Urban Dictionary with a twist, sell your slang, hide meaning behind meaning. Ulterior motives like it's a potion.">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+<link rel="stylesheet" href="{% static 'css/classa.education.css' %}">
+<link rel="stylesheet" href="{% static 'css/default_original.css' %}">
 {% endblock %}
 
 {% block authenticatedposts %}
@@ -52,6 +54,61 @@ Predictionary.us - You can't predict from what you don't know.
 	<h3 class=pitchdesc1 style="font-size:2.1em; font-family: 'futura-pt';">
 		Private Imageboards you can sell
 	</h3>
+
+	<div class="row pt-5 pricing-table">
+            <div class="col-12 mx-auto">
+                <div class="card-deck pricing-table">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title pt-3">Basic</h3>
+                            <h2 class="card-title text-primary mb-0 pt-4">$0</h2>
+                            <div class="text-muted font-weight-medium mt-2">per month</div>
+                            <ul class="list-unstyled pricing-list">
+                                <li>Completely Free</li>
+                                <li>Sell Anything</li>
+                                <li>Link to a decentralised eBook</li>
+                                <li>or a private YouTube / SoundCloud</li>
+                            </ul>
+                            <a onclick="openForm()" class="btn btn-primary">
+                                Sign up to Stripe to Start
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title pt-3">Priority</h3>
+                            <h2 class="card-title text-info mb-0 pt-4">Priced in</h2>
+                            <div class="text-muted font-weight-medium mt-2">per month</div>
+                            <ul class="list-unstyled pricing-list">
+                                <li>Buy whatever's being sold</li>
+                                <li>We take 0% Commissions</li>
+                                <li>1.75% Australian credit cards</li>
+                                <li>3% International (check Stripe)</li>
+                            </ul>
+                            <a onclick="openForm()" class="btn btn-info">
+                                Don't Ask Us Why
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title pt-3">Exclusive</h3>
+                            <h2 class="card-title text-primary mb-0 pt-4">Of a kind</h2>
+                            <div class="text-muted font-weight-medium mt-2">per word</div>
+                            <ul class="list-unstyled pricing-list">
+                                <li>Sell pre-configurations of templates</li>
+                                <li>CSS incerpt inserts</li>
+                                <li>Quickly buy shopstyles by buying dictionary and the same keywords</li>
+                                <li>Soon to break form</li>
+                            </ul>
+                            <a onclick="openForm()" class="btn btn-primary">
+                                JavaScript to come.
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 	
 	<h2 class=pitchdesc1 style="font-size:2.1em; font-family: FS Kim,Georgia,'Serif';">
 		All in one solution to document management
