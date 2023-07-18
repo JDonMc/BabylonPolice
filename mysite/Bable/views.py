@@ -3264,11 +3264,11 @@ def tower_of_bable(request):
 	count100 = 25
 	mcount = 0
 
-	basic_price, x = Price.objects.get_or_create(product=basic, name="Class A Basic - Full Price")
+	basic_price, x = Price.objects.get_or_create(name="Class A Basic - Full Price")
 	if not basic_price.stripe_price_id:
 		basic_price.stripe_price_id = "price_1MJBBgIDEcA7LIBjz30kc4Xl"
 
-		basic.stripe_product_id = "prod_N3HlEO2UarIs71"
+		basic_price.stripe_product_id = "prod_N3HlEO2UarIs71"
 		basic_price.price = "5900"
 		basic_price.save()
 

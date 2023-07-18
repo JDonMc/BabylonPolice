@@ -1345,8 +1345,8 @@ class Page_Density(models.Model):
 
 
 class Anon(models.Model):
-	products = models.ManyToManyField(Price, default=None)
-	purchases = models.ManyToManyField(Price, default=None)
+	products = models.ManyToManyField(Price, related_name="anon_product", default=None)
+	purchases = models.ManyToManyField(Price, related_name="anon_purchase", default=None)
 	stripe_private_key = models.CharField(max_length=600, default='')
 	stripe_api_secret = models.CharField(max_length=600, default='')
 	home_page_density = models.ManyToManyField(Page_Density, default=None)
