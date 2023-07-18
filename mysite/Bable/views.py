@@ -3102,14 +3102,21 @@ def search(request, count):
 
 
 @login_required
-def create_product_w_price(request):
+def create_product_w_price(request, post_id):
 	loggedinuser = User.objects.get(username=request.user.username)
 	loggedinanon = Anon.objects.get(username=loggedinuser)
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	if request.method == "POST":
 		product_form = ProductForm(request.POST)
 		if product_form.is_valid():
-			Product.objects.create(name="")
+			product = product_form.save()
+			loggedinanon.products.add(product)
+			loggedinanon.save()
+			post = Post.objects.get(int(post_id))
+			if post in loggedinanon.posts.all():
+				post.products.add(product)
+				post.save()
+	return base_redirect(request, 0)
 
 
 

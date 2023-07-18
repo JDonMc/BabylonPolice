@@ -658,6 +658,13 @@ class CommentForm(forms.ModelForm):
 
     
 
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Price
+        fields = ('name', 'stripe_price_id', 'stripe_product_id', 'price',)
+
+        
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
