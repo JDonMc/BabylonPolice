@@ -3111,7 +3111,7 @@ def create_product_w_price(request, post_id):
 			product = product_form.save()
 			loggedinanon.products.add(product)
 			loggedinanon.save()
-			post = Post.objects.get(int(post_id))
+			post = Post.objects.get(id=int(post_id))
 			if post in loggedinanon.posts.all():
 				post.products.add(product)
 				post.save()

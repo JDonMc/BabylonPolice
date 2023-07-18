@@ -44,10 +44,10 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			            <hr />
 			            
 			            <h3>{{ price.name }}</h3>
-			            <img src="{{ price.img }}" style="width: 200px; height: 200px;">
+			            <img src="{{ price.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 			            <div>
 			                <h5>${{ price.get_display_price }} AUD per month</h5>
-			                <form action="{% url 'create-checkout-session' price.id %}" method="POST">
+			                <form action="{% url 'Bable:create-checkout-session' price.id %}" method="POST">
 			                    {% csrf_token %}
 			                    <button type="submit">Checkout</button>
 			                </form>
