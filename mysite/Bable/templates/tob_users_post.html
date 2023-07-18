@@ -39,8 +39,9 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
             <div class="col-12 mx-auto">
                 <div class="card-deck pricing-table">
 
-                     <div class="card">
 			            {% for price in users_post.products.all %}
+			            
+                     <div class="card">
 			            <hr />
 			            
 			            <h3>{{ price.name }}</h3>
@@ -53,8 +54,8 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			                </form>
 			            </div>
 
-			            {% endfor %}
 			        </div>
+			            {% endfor %}
                 </div>
             </div>
         </div>
