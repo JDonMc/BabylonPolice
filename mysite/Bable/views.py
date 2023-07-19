@@ -3125,10 +3125,10 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
         price = Price.objects.get(id=self.kwargs["pk"])
         loggedinanon = Anon.objects.get(username=request.user)
         stripe.api_key = loggedinanon.stripe_private_key
-        domain = "https://www.classa.education"
+        domain = "https://www.predictionary.us"
         if settings.DEBUG:
-            domain = "http://127.0.0.1:8000"
-        checkout_session = stripe.checkout.Session.create(
+            #domain = "http://127.0.0.1:8000"
+        	checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[
                 {
@@ -5745,7 +5745,7 @@ def create_checkout_session(request, price):
 				'quantity': 1,
 			}
 		],
-		mode='subscription',
+		mode='payment',
 		success_url=request.build_absolute_uri(
 			base_redirect(request, 'success')
 		) + "?session_id={CHECKOUT_SESSION_ID}",
