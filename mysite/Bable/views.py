@@ -3120,7 +3120,6 @@ def create_product_w_price(request, post_id):
 
 
 
-@login_required
 class CreateCheckoutSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         price = Price.objects.get(id=self.kwargs["pk"])
