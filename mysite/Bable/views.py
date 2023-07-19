@@ -3120,10 +3120,12 @@ def create_product_w_price(request, post_id):
 
 
 
-
+@login_required
 class CreateCheckoutSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         price = Price.objects.get(id=self.kwargs["pk"])
+        loggedinanon = Anon.objects.get(username=request.user)
+        stripe.api_key = loggedinanon.stripe_private_key
         domain = "https://www.classa.education"
         if settings.DEBUG:
             domain = "http://127.0.0.1:8000"
@@ -3169,6 +3171,7 @@ import discord
 import requests
 
 @csrf_exempt
+@login_required
 async def stripe_webhook(request):
 	payload = request.body
 	sig_header = request.META['HTTP_STRIPE_SIGNATURE']
