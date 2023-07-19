@@ -3136,7 +3136,7 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
                     'quantity': 1,
                 },
             ],
-            mode='payment',
+            mode='subscription',
             success_url=domain + '/success/',
             cancel_url=domain + '/cancel/',
             customer_email=self.request.user.email,
@@ -5700,7 +5700,7 @@ def checkout_ads(request):
 				'quantity': 1,
 			}
 		],
-		mode='payment',
+		mode='subscription',
 		success_url=request.build_absolute_uri(
 			base_redirect(request, 'success')
 		) + "?session_id={CHECKOUT_SESSION_ID}",
@@ -5745,7 +5745,7 @@ def create_checkout_session(request, price):
 				'quantity': 1,
 			}
 		],
-		mode='payment',
+		mode='subscription',
 		success_url=request.build_absolute_uri(
 			base_redirect(request, 'success')
 		) + "?session_id={CHECKOUT_SESSION_ID}",
