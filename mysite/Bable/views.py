@@ -5661,6 +5661,9 @@ def submit_email(request):
 		bread_form = EmailForm(request.POST)
 		if bread_form.is_valid():
 			loggedinanon.email = bread_form.cleaned_data['email']
+			loggedinanon.save()
+			loggedinanon.user.email = bread_form.cleaned_data['email']
+			loggedinanon.user.save()
 	loggedinanon.save()
 	return base_redirect(request, 'email saved')
 	
