@@ -40,7 +40,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
                 <div class="card-deck pricing-table">
 
 			            {% for price in users_post.products.all %}
-			            
+
                      <div class="card">
 			            <hr />
 			            
@@ -59,8 +59,30 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
                 </div>
             </div>
         </div>
-		{% if users_post.author.username == user_author.username %}
+		{% if users_post.author.username == request.user.username %}
 		<form action="{% url 'Bable:create_product_w_price' users_post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
+
+		<div class="row pt-5 pricing-table">
+            <div class="col-12 mx-auto">
+                <div class="card-deck pricing-table">
+		{% for price in loggedinanon.products.all %}
+			            
+     <div class="card">
+        <hr />
+        
+        <h3>{{ price.name }}</h3>
+        <img src="{{ price.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+        <div>
+            <h5>${{ price.get_display_price }} AUD per month</h5>
+            <form action="{% url 'Bable:keyup-checkout-session' price.id users_post.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Add to post</button>
+            </form>
+        </div>
+
+    </div>
+        {% endfor %}
+    </div></div></div>
 		<div class=postdel>
 			<a href="{% url 'Bable:delete_own_post' users_post.author.username users_post.id %}">X</a>
 		</div>

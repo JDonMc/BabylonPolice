@@ -40,6 +40,7 @@ urlpatterns = [
 	path('api/jwt/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/jwt/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('checkout/<int:pk>', views.CreateCheckoutSessionView.as_view(), name='create-checkout-session'),
+	path('keyup/<int:pk>/<int:post_id>', views.KeyupCheckoutSessionView.as_view(), name='keyup-checkout-session'),
 
 	# url(r'^admin/', admin.site.urls),
 	url(r'^logout/$', views.logout_user, name='logout_user'),

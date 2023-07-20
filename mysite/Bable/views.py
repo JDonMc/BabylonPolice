@@ -3119,6 +3119,18 @@ def create_product_w_price(request, post_id):
 
 
 
+class KeyupCheckoutSessionView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        price = Price.objects.get(id=self.kwargs["pk"])
+        post = Post.objects.get(id=self.kwargs["post_id"])
+        anon = Anon.objects.get(username=request.user)
+        if price in anon.products.all():
+        	if post in anon.posts.all():
+        		post.products.add(price)
+        		post.save()
+        return base_redirect(request, 0)
+
+
 
 class CreateCheckoutSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
