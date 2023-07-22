@@ -44,7 +44,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
                      <div class="card">
 			            <hr />
 			            
-			            <h3>{{ price.name }}</h3>
+			            <a href="{% url 'Bable:tob_product' price.id %}"><h3>{{ price.name }}</h3></a>
 			            <img src="{{ price.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 			            <div>
 			                <h5>${{ price.get_display_price }} AUD per month</h5>
