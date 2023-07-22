@@ -3107,9 +3107,9 @@ def create_product_w_price(request, post_id):
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	if request.method == "POST":
 		product_form = ProductForm(request.POST)
+		product_form.anon_id = loggedinanon.id
 		if product_form.is_valid():
 			product = product_form.save()
-			product.author = loggedinauthor
 			product.save()
 			loggedinanon.products.add(product)
 			loggedinanon.save()
@@ -3803,7 +3803,10 @@ def tob_post(request, post):
 
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
-	user_anon = users_product.author.to_anon()
+	if not users_product.anon_id:
+		user_anon = ''
+	else:
+		user_anon = Anon.objects.get(id=users_product.anon_id)
 	
 	
 	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
@@ -3839,12 +3842,12 @@ def tob_product(request, product_id):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		file_form = FileForm() 
-		the_response = render(request, "tob_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_post')
-	the_response.set_cookie('post', post)
+	the_response.set_cookie('post', product_id)
 	return the_response
 
 

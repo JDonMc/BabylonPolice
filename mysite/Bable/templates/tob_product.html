@@ -16,13 +16,56 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 {% endblock %}
 
 {% block authenticatedposts %}
-	<div class=usersusername>
+<div class=usersusername>
+	{% if user_anon %}
 		<h2>
-		<a href="{% url 'Bable:tob_user_view' user_anon.username.username 0 %}">
+		<a href="{% url 'Bable:tob_user_view' user_anon.username.username %}">
 			User: {{ user_anon.username.username }}
 		</a>
 		</h2>
 	</div>
+	{% endif %}
+	<div class=single_dictionary>
+		<div class=dictionary_itself>
+			<h4>
+				Product: {{ users_product.name }}; ID: {{ users_product.id }}
+			</h4>
+		</div>
+		<div class=dictionary-bottom>
+			<div class=dictionary_words>
+				Description: {{ users_product.description2helpsell }}
+			</div>
+			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
+	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <div>
+	            <h5>${{ users_product.get_display_price }} AUD per month</h5>
+	            
+	        </div>
+		</div>
+	</div>
+	{% for product in user_anon.products.all %}
+	<div class=single_dictionary>
+		<div class=dictionary_itself>
+			<h4>
+				Product: {{ product.name }}; ID: {{ product.id }}
+			</h4>
+		</div>
+		<div class=dictionary-bottom>
+			<div class=dictionary_words>
+				Description: {{ product.description2helpsell }}
+			</div>
+			<a href="{% url 'Bable:tob_product' product.id %}"><h3>{{ product.name }}</h3></a>
+	        <img src="{{ product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <div>
+	            <h5>${{ product.get_display_price }} AUD per month</h5>
+	            <form action="{% url 'Bable:keyup-checkout-session' product.id users_post.id %}" method="POST">
+	                {% csrf_token %}
+	                <button type="submit">Add to post</button>
+	            </form>
+	        </div>
+		</div>
+	</div>
+	{% endfor %}
 	
 {% endblock %}
 
@@ -44,7 +87,17 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<div class=dictionary_words>
 				Description: {{ users_product.description2helpsell }}
 			</div>
+			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
+	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <div>
+	            <h5>${{ users_product.get_display_price }} AUD per month</h5>
+	            <form action="{% url 'Bable:keyup-checkout-session' users_product.id users_post.id %}" method="POST">
+	                {% csrf_token %}
+	                <button type="submit">Add to post</button>
+	            </form>
+	        </div>
 		</div>
+
 	</div>
 	{% for product in user_anon.products.all %}
 	<div class=single_dictionary>
@@ -57,14 +110,11 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<div class=dictionary_words>
 				Description: {{ product.description2helpsell }}
 			</div>
-			<h3>{{ product.name }}</h3>
+			<a href="{% url 'Bable:tob_product' product.id %}"><h3>{{ product.name }}</h3></a>
 	        <img src="{{ product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
 	            <h5>${{ product.get_display_price }} AUD per month</h5>
-	            <form action="{% url 'Bable:keyup-checkout-session' product.id users_post.id %}" method="POST">
-	                {% csrf_token %}
-	                <button type="submit">Add to post</button>
-	            </form>
+	            
 	        </div>
 		</div>
 	</div>
