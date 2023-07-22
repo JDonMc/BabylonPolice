@@ -984,7 +984,7 @@ class Edit(models.Model):
 
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
-    author = models.ForeignKey(Author, on_delete=models.PROTECT, default=None)
+    author = models.OneToOneField(Author, on_delete=models.PROTECT, default=None, null=True)
     url2purchase = models.URLField(max_length=2000, blank=True, default='')
     description2purchase = models.TextField(max_length=144000, default='')
     description2helpsell = models.TextField(max_length=144000, default='')
