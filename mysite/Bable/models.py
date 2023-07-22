@@ -974,9 +974,9 @@ class PostSource(models.Model):
 	
 class Edit(models.Model):
 	body = models.TextField(max_length=144000, default='')
-	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
+	author = models.ForeignKey(Author, on_delete=models.PROTECT, default=None)
 	latest_change_date = models.DateTimeField(default=timezone.now)
-	post_source = models.ForeignKey(PostSource, on_delete=models.CASCADE, default=None)
+	post_source = models.ForeignKey(PostSource, on_delete=models.PROTECT, default=None)
 
 
 
@@ -984,7 +984,10 @@ class Edit(models.Model):
 
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
-    url2 = models.URLField(max_length=2000, blank=True, default='')
+    author = models.ForeignKey(Author, on_delete=models.PROTECT, default=None)
+    url2purchase = models.URLField(max_length=2000, blank=True, default='')
+    description2purchase = models.TextField(max_length=144000, default='')
+    description2helpsell = models.TextField(max_length=144000, default='')
     img = models.URLField(max_length=2000, blank=True, default='')
     stripe_price_id = models.CharField(max_length=100, default='')
     stripe_product_id = models.CharField(max_length=100, default='')

@@ -3109,6 +3109,8 @@ def create_product_w_price(request, post_id):
 		product_form = ProductForm(request.POST)
 		if product_form.is_valid():
 			product = product_form.save()
+			product.author = loggedinauthor
+			product.save()
 			loggedinanon.products.add(product)
 			loggedinanon.save()
 			post = Post.objects.get(id=int(post_id))
@@ -3797,6 +3799,56 @@ def tob_post(request, post):
 	the_response.set_cookie('current', 'tob_post')
 	the_response.set_cookie('post', post)
 	return the_response
+
+
+def tob_product(request, product_id):
+	users_product = Price.objects.get(id=int(product_id))
+	user_anon = users_product.author.to_anon()
+	
+	
+	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
+	page_views.views += 1
+	page_views.save()
+
+	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+	if x_forwarded_for:
+		x_forwarded_for = x_forwarded_for.split(',')[0]
+	ip = request.META.get('REMOTE_ADDR')
+
+
+	registerform = UserCreationForm()
+	
+		
+	
+	loginform = AuthenticationForm()
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+	
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		file_form = FileForm() 
+		the_response = render(request, "tob_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, "tob_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
+	the_response.set_cookie('current', 'tob_post')
+	the_response.set_cookie('post', post)
+	return the_response
+
+
+
 
 
 

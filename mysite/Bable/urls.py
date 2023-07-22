@@ -204,6 +204,7 @@ urlpatterns = [
 	url(r'^users_space_edit/(?P<space>[\w-]+)/$', views.users_space_edit, name='users_space_edit'),
 	url(r'^tob_vote/(?P<vote_id>[\w-]+)/$', views.tob_vote, name='tob_vote'),
 	url(r'^tob_post/(?P<post>[\w-]+)/$', views.tob_post, name='tob_post'),
+	url(r'^tob_product/(?P<product_id>[\w-]+)/$', views.tob_product, name='tob_product'),
 	url(r'^tob_word_sponsor/word_id/(?P<word_id>[\w-]+)/sponsor_id/(?P<sponsor_id>[\w-]+)/$', views.tob_word_sponsor, name='tob_word_sponsor'),
 	url(r'^tob_word_translation/word_id/(?P<word_id>[\w-]+)/translation_id/(?P<translation_id>[\w-]+)/$', views.tob_word_translation, name='tob_word_translation'),
 	url(r'^tob_word_attribute/word_id/(?P<word_id>[\w-]+)/attribute_id/(?P<attribute_id>[\w-]+)/$', views.tob_word_attribute, name='tob_word_attribute'),
