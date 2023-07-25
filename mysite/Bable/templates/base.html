@@ -65,7 +65,7 @@
 							<a href="{% url 'Bable:tob_user_view_count' request.user.username 0 %}">/u/</a>
 						</div>
 						<div id="headerNav3">
-							<div id="top_apply">
+							<div id="top_apply" ontouchstart="$('.dropdown-content3')[0].display == 'block';">
 								A
 							</div>
 							<div class="dropdown-content3">
@@ -201,7 +201,7 @@
 					{% else %}
 					<b>Register</b><br>
 					<p class="error">{{ register_error }}</p>
-					<div class="register-form">
+					<div class="register-form" style="color: black;">
 						<form action="{% url 'Bable:register_view' %}" method="post">
 							{% csrf_token %}
 							{{ registerform.as_table }}
@@ -210,7 +210,7 @@
 					</div>
 					<b>Login</b><br>
 					<p class="error">{{ login_error }}</p>
-					<div class="login-form">
+					<div class="login-form" style="color: black;">
 						<form action="{% url 'Bable:login_view' %}" method="post">
 							{% csrf_token %}
 							{{ loginform.as_p }}
