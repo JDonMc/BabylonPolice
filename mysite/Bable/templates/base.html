@@ -61,11 +61,11 @@
 					</div>
 					{% endif %}
 					{% if request.user.is_authenticated %}
-						<div class="account">
+						<div class="account" style="postition: relative; top: -6px;">
 							<a href="{% url 'Bable:tob_user_view_count' request.user.username 0 %}">/u/</a>
 						</div>
 						<div id="headerNav3">
-							<div id="top_apply" ontouchstart="$('.dropdown-content3')[0].display == 'block';">
+							<div id="top_apply" ontouchstart="$('.dropdown-content3')[0].display = 'block';">
 								A
 							</div>
 							<div class="dropdown-content3">
@@ -90,7 +90,7 @@
 							</div>
 						</div>
 						<div id="headerNav2">
-							<div id="top_create" ontouchstart="$('.dropdown-content2')[0].display == 'block';">+</div>
+							<div id="top_create" ontouchstart="$('.dropdown-content2')[0].display = 'block';">+</div>
 							<div class="dropdown-content2">
 								<div class="create_dic" onclick="showhidedic()">
 									<p> Grow A Dic </p>
@@ -117,7 +117,7 @@
 					{% endif %}
 				</div>
 
-				<div id="headerNav1" ontouchstart="$('.dropdown-content1')[0].display == 'block';">
+				<div id="headerNav1" ontouchstart="$('.dropdown-content1')[0].display = 'block';">
 					<div id="top"></div>
 					<div id="middle"></div>
 					<div id="bottom"></div>
