@@ -2126,14 +2126,16 @@ def thanks(request):
 	
 	loginform = AuthenticationForm()
 	
-	dic_form = DictionaryForm()
-	post_form = PostForm(request)
-	space_form = SpaceForm(request)
-	task_form = TaskForm()
-	word_form = WordForm(request)
-
+	
 	if request.user.is_authenticated:
 		loggedinanon = Anon.objects.get(username=User.objects.get(username=request.user.username))
+
+
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
 
 		apply_votestyle_form = ApplyVotestyleForm(request)
 		create_votes_form = CreateVotesForm(request)
@@ -3107,7 +3109,7 @@ def create_product_w_price(request, post_id):
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	if request.method == "POST":
 		product_form = ProductForm(request.POST)
-		product_form.anon_id = loggedinanon.id
+		product_form.anon_user_id = loggedinanon.id
 		if product_form.is_valid():
 			product = product_form.save()
 			product.save()
@@ -3803,10 +3805,10 @@ def tob_post(request, post):
 
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
-	if not users_product.anon_id:
+	if not users_product.anon_user_id:
 		user_anon = ''
 	else:
-		user_anon = Anon.objects.get(id=users_product.anon_id)
+		user_anon = Anon.objects.get(id=users_product.anon_user_id)
 	
 	
 	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
