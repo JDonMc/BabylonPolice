@@ -22,7 +22,7 @@ class Post_Sitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Post.objects.all()
+        return Post.objects.order_by('-latest_change_date')[0:1000]
 
     def location(self, obj):
         return reverse('Bable:tob_post', kwargs={'post': obj.id})
@@ -36,7 +36,7 @@ class Anon_Sitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Post.objects.all()
+        return Post.objects.order_by('-latest_change_date')[0:1000]
 
     def location(self, obj):
         return reverse('Bable:tob_post', kwargs={'post': obj.id})
@@ -49,7 +49,7 @@ class Dictionary_Sitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Dictionary.objects.all()
+        return Dictionary.objects.order_by('-latest_change_date')[0:1000]
 
     def location(self, obj):
         return reverse('Bable:tob_dic', kwargs={'dictionary_id': obj.id})
@@ -64,7 +64,7 @@ class Word_Sitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Word.objects.all()
+        return Word.objects.order_by('-latest_change_date')[0:1000]
 
     def location(self, obj):
         return reverse('Bable:tob_word', kwargs={'word_id': obj.id})
