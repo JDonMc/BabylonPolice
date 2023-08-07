@@ -3229,14 +3229,14 @@ async def stripe_webhook(request):
 
 		send_mail(
 			subject=product.name,
-			message="Thanks for your subscription: " + product.url2 + " your username is: "+str(price.id)+stripe_price_id+" and your password is: "+stripe_price_id,
+			message="Thanks for your subscription: " + product.url2 + " your username is: "+str(price.id)+stripe_price_id+" and your password is: "+stripe_price_id+"   Here is your purchased message:" + product.description2purchase,
 			recipient_list=[customer_email],
 			from_email="jackdonmclovin@gmail.com"
 		)
 
 		send_mail(
 			subject=product.name,
-			message="Thanks for your subscription: " + customer_email + " " + product.url2,
+			message="Thanks for your subscription: " + customer_email + " " + product.url2+ "   Here is your purchased message:" + product.description2purchase,
 			recipient_list="jackdonmclovin@gmail.com",
 			from_email="jackdonmclovin@gmail.com"
 		)
