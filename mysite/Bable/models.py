@@ -1321,6 +1321,8 @@ ANON_SORT_CHOICES_CHAR = (
 	("sum_examlpes", "Least Examples"),
 	("-sum_tasks", "Most Tasks"),
 	("sum_tasks", "Least Tasks"),
+	("-sum_posts", "Most Posts"),
+	("sum_posts", "Least Posts"),
 	("-sum_posted_comments", "Most Posted Comments"),
 	("sum_posted_comments", "Least Posted Comments"),
 	("-sum_saved_comments", "Most Saved Comments"),

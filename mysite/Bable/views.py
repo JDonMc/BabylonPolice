@@ -1807,6 +1807,8 @@ def delete_own_post(request, user, post):
 		if loggedinanon.username.username == user_anon.username.username:
 			if users_post:
 				users_post.delete()
+				if loggedinanon.sum_posts:
+					loggedinanon.sum_posts -= 1
 
 
 	return redirect('Bable:tob_user_view_count', user=user, count=0)
@@ -2260,6 +2262,8 @@ def create_post(request):
 					new_post.public = spa.public
 				spa.save()
 			new_post.save()
+			loggedinanon.sum_posts += 1
+			loggedinanon.save()
 			return redirect('Bable:tob_users_post', user=request.user.username, post=new_post.id, count=0)
 	else:
 		return HttpResponse(post_form.errors)
