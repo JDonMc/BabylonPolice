@@ -1037,6 +1037,9 @@ class Post(models.Model):
 	post_source = models.CharField(max_length=400, default='')
 	cc = models.CharField(max_length=400, default='')
 
+	shuffle = models.IntegerField(default=0)
+	attention = models.IntegerField(default=99999999)
+
 	def __str__(self):
 		return self.title
 
@@ -1055,7 +1058,25 @@ class Post(models.Model):
 			if vote in the_user.applied_votestyles:
 				self.returning_vote_styles.append(vote)
 
+
+	def attention_save(self, loggedinanon):
+		densities = loggedinanon.home_page_density.order_by('?')[0:25]
+		for density in densities:
+			denseness = []
+			for densitivity in density.density.all():
+				densensess.append(densitivity.dense)
+			posts = []
+			for post_id in density.post_ids.all():
+				posts.append(Post.objects.get(id=post_id.the_posts_id))
+
 	
+	def shuffle_save(self, loggedinanon, count):
+		posts = Post.objects.order_by('?')[count: count+25]
+		i = 0
+		for post in posts:
+			post.shuffle = i
+			post.save()
+			i+=1
 
 	def max_sponsor(self):
 		max_price = 0
@@ -1154,6 +1175,11 @@ POST_SORT_CHOICES_CHAR = (
 	("-sum_sponsors", "Encouraged"),
 	("-votes_count", "Votes"),
 	("votes_count", "Unvoted"),
+	("-shuffle", "Shuffle"),
+	("shuffle", "Counter-Shuffle"),
+	("-attention", "Attention Span Up"),
+	("attention", "Scroll Past"),
+
 )
 
 
@@ -1339,12 +1365,17 @@ ANON_SORT_CHOICES_CHAR = (
 class Densitivity(models.Model):
 	dense = models.IntegerField(default=0)
 
+class Post_id(models.Model):
+	the_posts_id = models.IntegerField(default=0)
+
 
 class Page_Density(models.Model):
 	ip = models.CharField(max_length=15, default="")
 	time_spent = models.IntegerField(default=0)
 	density = models.ManyToManyField(Densitivity, default=None)
+	post_ids = models.ManyToManyField(Post_id, default=None)
 	scroll_height = models.IntegerField(default=0)
+	scroll_type = models.CharField(choices=POST_SORT_CHOICES_CHAR, default="latest_change_date", max_length=180)
 	client_height = models.IntegerField(default=0)
 	duration = models.IntegerField(default=2)
 
