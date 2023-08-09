@@ -182,13 +182,6 @@
 										<div class=exaexa style="margin-right: 8em">
 											<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself exa.id %}" id=exaitself>{{ exa.the_example_itself }}</a>
 										</div>
-										<div class=exasponsors>
-											{% if exa.max_sponsor %}
-												<a href="{% url 'Bable:clickthrough' exa.author.username exa.max_sponsor.id %}"><img src="{{ exa.max_sponsor.img.url }}" style="height: 6em; width: 6em;"></a>
-											{% else %}
-												<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
-											{% endif %}
-										</div>
 										{% if user_anon.username.username == request.user.username %}
 										<div class=exadel>
 											<a href="{% url 'Bable:delete_own_exam' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself exa.id %}"><h4>X</h4></a>
@@ -414,13 +407,6 @@
 							<div id=exa{{exa.id}}>
 								<div class=exaexa style="margin-right: 8em">
 									<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself exa.id %}" id=exaitself>{{ exa.the_example_itself }}</a>
-								</div>
-								<div class=exasponsors>
-									{% if exa.max_sponsor %}
-										<a href="{% url 'Bable:clickthrough' exa.author.username exa.max_sponsor.id %}"><img src="{{ exa.max_sponsor.img.url }}" style="height: 6em; width: 6em;"></a>
-									{% else %}
-										<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
-									{% endif %}
 								</div>
 								{% if user_anon.username.username == request.user.username %}
 								<div class=exadel>
