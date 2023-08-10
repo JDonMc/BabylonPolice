@@ -6113,7 +6113,9 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	dics_word = users_dic.words.get(the_word_itself=word)
 	dics_word.viewcount += 1
 	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_count")
@@ -6524,7 +6526,9 @@ def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -6900,7 +6904,9 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -6997,7 +7003,9 @@ def tob_users_dic_word_translation(request, user, dictionary, word, translation)
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -7161,7 +7169,9 @@ def tob_users_dic_word_example(request, user, dictionary, word, example):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -7337,7 +7347,9 @@ def tob_users_dic_word_story(request, user, dictionary, word, story):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -7505,7 +7517,9 @@ def tob_users_dic_word_relation(request, user, dictionary, word, relation):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -7654,7 +7668,9 @@ def tob_users_dic_word_sponsor(request, user, dictionary, word, sponsor):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
@@ -7834,7 +7850,9 @@ def tob_users_dic_word_space(request, user, dictionary, word, space):
 		request.COOKIES['current'] = ('tob_user_view_count')
 		return base_redirect(request, 0)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
+	users_dic.views += 1
 	users_dic.update_purchases()
+	users_dic.save()
 	if not users_dic.words.filter(the_word_itself=word):
 		request.COOKIES['current'] = ('tob_users_dic')
 		return base_redirect(request, 0)
