@@ -118,6 +118,9 @@ class Word_Source(models.Model):
 		return Word.objects.get(author=self.author, home_dictionary__the_dictionary_itself=self.home_dictionary, the_word_itself=self.the_word_itself)
 
 
+class Searches(models.Model):
+	the_search_itself = models.CharField(max_length=200, default='')
+	creation_date = models.DateTimeField(default=timezone.now)
 
 
 class Dictionary_Source(models.Model):
@@ -992,6 +995,8 @@ class Price(models.Model):
     stripe_price_id = models.CharField(max_length=100, default='')
     stripe_product_id = models.CharField(max_length=100, default='')
     price = models.IntegerField(default=0)  # cents
+
+    monthly = models.BooleanField(default=False)
     
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)

@@ -3150,6 +3150,10 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
         loggedinanon = Anon.objects.get(username=request.user)
         stripe.api_key = loggedinanon.stripe_private_key
         domain = "https://www.predictionary.us"
+        if price.monthly:
+        	mode = 'subscription'
+        else:
+        	mode = 'payment'
         if settings.DEBUG:
             #domain = "http://127.0.0.1:8000"
         	checkout_session = stripe.checkout.Session.create(
@@ -3160,7 +3164,7 @@ class CreateCheckoutSessionView(LoginRequiredMixin, View):
                     'quantity': 1,
                 },
             ],
-            mode='subscription',
+            mode=mode,
             success_url=domain + '/success/',
             cancel_url=domain + '/cancel/',
             customer_email=self.request.user.email,
