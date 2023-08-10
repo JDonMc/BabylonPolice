@@ -4691,7 +4691,10 @@ def tob_users_space(request, user, space_id, count):
 
 	space_viewable = False
 	users_space = Space.objects.get(id=space_id)
-
+	spaces_dic = users_space.the_space_itself.home_dictionary.to_full()
+	spaces_dic.views += 1
+	spaces_dic.update_purchases
+	spaces_dic.save()
 	try:
 		spaces_posts = users_space.posts.count()
 		if spaces_posts:
