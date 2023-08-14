@@ -3117,7 +3117,7 @@ def create_product_w_price(request, post_id):
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	if request.method == "POST":
 		product_form = ProductForm(request.POST)
-		product_form.anon_user_id = loggedinanon.id
+		product_form.anon_id = loggedinanon.id
 		if product_form.is_valid():
 			product = product_form.save()
 			product.save()
@@ -3297,7 +3297,7 @@ def tower_of_bable(request):
 	prices = Price.objects.all()
 	for price in prices:
 		price.delete()
-	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_user_id=1)
+	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_id=1)
 	if not basic_price.stripe_price_id:
 		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
 
@@ -3343,14 +3343,14 @@ def tower_of_bable(request):
 		postscount = 25
 		posts_by_viewcount = posts_values
 		
-		the_response = render(request, 'tower_of_bable.html', {"post_sort_form": post_sort_form, "postscount": postscount, "ip": ip, "x_forwarded_for": x_forwarded_for, "buyadvertisingform": buyadvertisingform, "file_form": file_form, "total": total, "count": lower, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+		the_response = render(request, 'tower_of_bable.html', {"basic_price": basic_price, "post_sort_form": post_sort_form, "postscount": postscount, "ip": ip, "x_forwarded_for": x_forwarded_for, "buyadvertisingform": buyadvertisingform, "file_form": file_form, "total": total, "count": lower, "mcount": mcount, "count100": count100, "loggedinanon": loggedinanon, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		posts_by_viewcount = Post.objects.order_by('viewcount')[:25]
 		postscount = 25
 		posts_values = list(posts_by_viewcount.values('img', 'url2', 'author__username', 'id', 'title', 'body', 'viewcount', 'votes_count', 'votes_uniques', 'latest_change_date'))
 		posts_by_viewcount = posts_values
-		the_response = render(request, 'tower_of_bable.html', { "postscount": postscount, "ip": ip, "x_forwarded_for": x_forwarded_for, "buyadvertisingform": buyadvertisingform, "total": total, "count": lower, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
+		the_response = render(request, 'tower_of_bable.html', {"basic_price": basic_price, "postscount": postscount, "ip": ip, "x_forwarded_for": x_forwarded_for, "buyadvertisingform": buyadvertisingform, "total": total, "count": lower, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	
 	the_response.set_cookie('current', 'tower_of_bable')
 	return the_response
@@ -3820,10 +3820,10 @@ def tob_post(request, post):
 
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
-	if not users_product.anon_user_id:
+	if not users_product.anon_id:
 		user_anon = ''
 	else:
-		user_anon = Anon.objects.get(id=users_product.anon_user_id)
+		user_anon = Anon.objects.get(id=users_product.anon_id)
 	
 	
 	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
