@@ -33,9 +33,9 @@ BabylonPolice.com - incentivised-ascento-secrecy
 		</div>
 		<div class=dictionary-bottom>
 			<a href="{% url 'Bable:tob_product' basic_price.id %}"><h3>{{ basic_price.name }}</h3></a>
-	        <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <img src="{% static 'babylonpolice.com.gif' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
-	            <h5>${{ basic_price.get_display_price }} AUD per month</h5>
+	            <h5>${{ basic_price.get_display_price }} AUD</h5>
 	            <form action="{% url 'Bable:create-checkout-session' basic_price.id %}" method="POST">
 	                {% csrf_token %}
 	                <button type="submit">Purchase</button>

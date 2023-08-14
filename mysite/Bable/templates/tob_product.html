@@ -38,8 +38,11 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
 	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
-	            <h5>${{ users_product.get_display_price }} AUD per month</h5>
-	            
+	            <h5>${{ users_product.get_display_price }} AUD {% if users_product.monthly %}per month{% endif %}</h5>
+	            <form action="{% url 'Bable:create-checkout-session' useres_product.id %}" method="POST">
+	                {% csrf_token %}
+	                <button type="submit">Add to post</button>
+	            </form>
 	        </div>
 		</div>
 	</div>
@@ -57,10 +60,10 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<a href="{% url 'Bable:tob_product' product.id %}"><h3>{{ product.name }}</h3></a>
 	        <img src="{{ product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
-	            <h5>${{ product.get_display_price }} AUD per month</h5>
-	            <form action="{% url 'Bable:keyup-checkout-session' product.id users_post.id %}" method="POST">
+	            <h5>${{ product.get_display_price }} AUD {% if product.monthly %}per month{% endif %}</h5>
+	            <form action="{% url 'Bable:create-checkout-session' product.id %}" method="POST">
 	                {% csrf_token %}
-	                <button type="submit">Add to post</button>
+	                <button type="submit">Purchase</button>
 	            </form>
 	        </div>
 		</div>
@@ -90,7 +93,7 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
 	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
-	            <h5>${{ users_product.get_display_price }} AUD per month</h5>
+	            <h5>${{ users_product.get_display_price }} AUD {% if users_product.monthly %}per month{% endif %}</h5>
 	            <form action="{% url 'Bable:create-checkout-session' users_product.id %}" method="POST">
 	                {% csrf_token %}
 	                <button type="submit">Purchase</button>
@@ -113,7 +116,7 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			<a href="{% url 'Bable:tob_product' product.id %}"><h3>{{ product.name }}</h3></a>
 	        <img src="{{ product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
-	            <h5>${{ product.get_display_price }} AUD per month</h5>
+	            <h5>${{ product.get_display_price }} AUD {% if product.monthly %}per month{% endif %}</h5>
 	            
 	        </div>
 		</div>
