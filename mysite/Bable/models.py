@@ -988,6 +988,7 @@ class Edit(models.Model):
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
     anon_id = models.CharField(max_length=256, default='')
+    anon_user_id = models.CharField(max_length=256, default='')
     url2purchase = models.URLField(max_length=2000, blank=True, default='')
     description2purchase = models.TextField(max_length=144000, default='')
     description2helpsell = models.TextField(max_length=144000, default='')
