@@ -3302,7 +3302,7 @@ def tower_of_bable(request):
 		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
 
 		basic_price.stripe_product_id = "prod_OS2pk9gZWam5Ye"
-		basic_price.price = "500"
+		basic_price.price = 500
 		basic_price.save()
 
 
