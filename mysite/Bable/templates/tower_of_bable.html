@@ -28,18 +28,18 @@ BabylonPolice.com - incentivised-ascento-secrecy
 	<div class=donate>
 		<div class=dictionary_itself>
 			<h4>
-				Product: {{ basic_price.name }}; ID: {{ basic_price.id }}
+				{{ basic_price.name }}
 			</h4>
 		</div>
 		<div class=dictionary-bottom>
-			<div class=dictionary_words>
-				Description: {{ basic_price.description2helpsell }}
-			</div>
 			<a href="{% url 'Bable:tob_product' basic_price.id %}"><h3>{{ basic_price.name }}</h3></a>
 	        <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
 	        <div>
 	            <h5>${{ basic_price.get_display_price }} AUD per month</h5>
-	            
+	            <form action="{% url 'Bable:create-checkout-session' basic_price.id %}" method="POST">
+	                {% csrf_token %}
+	                <button type="submit">Purchase</button>
+	            </form>
 	        </div>
 		</div>
 	</div>
@@ -282,6 +282,24 @@ $(document).ready(function() {
 
 {% block unauthenticated_posts %}
 <div class=displaybanner>
+	<div class=donate>
+		<div class=dictionary_itself>
+			<h4>
+				{{ basic_price.name }}
+			</h4>
+		</div>
+		<div class=dictionary-bottom>
+			<a href="{% url 'Bable:tob_product' basic_price.id %}"><h3>{{ basic_price.name }}</h3></a>
+	        <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <div>
+	            <h5>${{ basic_price.get_display_price }} AUD per month</h5>
+	            <form action="{% url 'Bable:create-checkout-session' basic_price.id %}" method="POST">
+	                {% csrf_token %}
+	                <button type="submit">Purchase</button>
+	            </form>
+	        </div>
+		</div>
+	</div>
 	<p>Total post views: {{ total }}</p>
 </div>
 <div class=displaybanner>

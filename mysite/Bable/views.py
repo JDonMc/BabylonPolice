@@ -3294,9 +3294,7 @@ def tower_of_bable(request):
 	count100 = 25
 	mcount = 0
 
-	prices = Price.objects.all()
-	for price in prices:
-		price.delete()
+	
 	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_id=1, anon_user_id=1)
 	if not basic_price.stripe_price_id:
 		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
