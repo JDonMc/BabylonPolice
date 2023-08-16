@@ -65,6 +65,7 @@ class Requested_Agent(models.Model):
 
 class Invoice(models.Model):
 	amount = models.IntegerField(default=0)
+	price_id = models.CharField(max_length=200, default='')
 	item_name = models.CharField(max_length=200, default='')
 	author = models.CharField(max_length=200, default='')
 	success = models.BooleanField(default=False)
@@ -728,7 +729,7 @@ class Dictionary(models.Model):
 	analysis_count = models.IntegerField(default=0)
 	renditions = models.ManyToManyField(Rendition, default=None)
 	rendition_count = models.IntegerField(default=0)
-	
+	revoked_authors = models.ManyToManyField(Author, default=None, related_name='dic_unallowed')
 	
 	prerequisite_dics = models.ManyToManyField(Dictionary_Source, default=None)
 	prerequisite_dics_count = models.IntegerField(default=0)
@@ -921,17 +922,7 @@ class Comment(MPTTModel):
 	
 
 	def max_sponsor(self):
-		max_price = 0
-		pks = Sponsor.objects.values_list('pk', flat=True)
-		random_pk = choice(pks)
-		random_obj = Sponsor.objects.get(pk=random_pk)
-		max_sponsor = random_obj
-		for dic in self.dictionaries.all():
-			for sponsor in dic.sponsors.all().filter(payperview=False):
-				if sponsor.allowable_expenditure >= sponsor.price_limit:
-					if sponsor.price_limit >= max_price:
-						max_price = sponsor.price_limit
-						max_sponsor = sponsor
+		max_sponsor = self.sponsors.order_by('-price_limit').first()
 		return max_sponsor
 
 COMMENT_SORT_CHOICES = (
@@ -987,7 +978,7 @@ class Edit(models.Model):
 
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
-    anon_id = models.CharField(max_length=256, default='')
+    #anon_id = models.CharField(max_length=256, default='')
     anon_user_id = models.CharField(max_length=256, default='')
     url2purchase = models.URLField(max_length=2000, blank=True, default='')
     description2purchase = models.TextField(max_length=144000, default='')
@@ -998,6 +989,10 @@ class Price(models.Model):
     price = models.IntegerField(default=0)  # cents
 
     monthly = models.BooleanField(default=False)
+    comments = models.ManyToManyField(Comment, default=None)
+    sum_comments = models.IntegerField(default=0)
+    invoices = models.ManyToManyField(Invoice, default=None)
+    sum_invoices = models.IntegerField(default=0)
     
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
@@ -1085,42 +1080,11 @@ class Post(models.Model):
 			i+=1
 
 	def max_sponsor(self):
-		max_price = 0
-		pks = Sponsor.objects.values_list('pk', flat=True)
-		if not pks:
-			Sponsor.objects.get(id=1).delete()
-			new_spon = Sponsor.objects.create(img="https://www.predictionary.us/B/static/babylonpolice.com.gif", url2="https://www.predictionary.us", author=Author.object.get(username='test'))
-			pks = [new_spon.id]
-		random_pk = choice(pks)
-		random_obj = Sponsor.objects.get(pk=random_pk)
-		max_sponsor = random_obj
-		for dic in self.dictionaries.all():
-			for word in dic.words.all():
-				for sponsor in word.sponsors.all().filter(payperview=False):
-					if sponsor.allowable_expenditure >= sponsor.price_limit:
-						if sponsor.price_limit >= max_price:
-							max_price = sponsor.price_limit
-							max_sponsor = sponsor
+		max_sponsor = self.sponsors.order_by('-price_limit').first()
 		return max_sponsor
 
 	def max(self):
-		max_price = 0
-		pks = Sponsor.objects.values_list('pk', flat=True)
-		random_pk = choice(pks)
-		random_obj = Sponsor.objects.get(pk=random_pk)
-		max_sponsor = random_obj
-		for dic in self.dictionaries.all():
-			for word in dic.words.all():
-				for sponsor in word.sponsors.all().filter(payperview=False):
-					if sponsor.allowable_expenditure >= sponsor.price_limit:
-						if sponsor.price_limit >= max_price:
-							max_price = sponsor.price_limit
-							max_sponsor = sponsor
-		for sponsor in self.sponsors.all():
-			if sponsor.allowable_expenditure >= sponsor.price_limit:
-				if sponsor.price_limit >= max_price:
-					max_price = sponsor.price_limit
-					max_sponsor = sponsor
+		max_sponsor = self.sponsors.order_by('-price_limit').first()
 		return max_sponsor
 
 	def first_sorted_comment(self, anon):
@@ -1390,7 +1354,7 @@ class Anon(models.Model):
 	products = models.ManyToManyField(Price, related_name="anon_product", default=None)
 	purchases = models.ManyToManyField(Price, related_name="anon_purchase", default=None)
 	stripe_private_key = models.CharField(max_length=600, default='')
-	stripe_api_secret = models.CharField(max_length=600, default='')
+	stripe_webhook_secret = models.CharField(max_length=600, default='')
 	home_page_density = models.ManyToManyField(Page_Density, default=None)
 	username = models.OneToOneField(User, on_delete=models.CASCADE)
 	email = models.EmailField(max_length=144, default='', null=True)

@@ -718,7 +718,7 @@ class SpaceDataForm(forms.ModelForm):
 class MoneroWalletForm(forms.ModelForm):
     class Meta:
         model = Anon
-        fields = ('stripe_private_key', )
+        fields = ('stripe_private_key', 'stripe_webhook_secret')
 
 class AnonForm(forms.ModelForm):
     class Meta:

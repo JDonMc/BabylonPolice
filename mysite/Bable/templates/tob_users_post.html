@@ -434,7 +434,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				});
 			</script>
 		</div>
-		<div id=postbody class=postbody>
+		<div id=postbody class=postbody style="display: inline-block; widdth: -webkit-fill-available;">
 			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
 		</div>
 		<div id=speakpostbody>

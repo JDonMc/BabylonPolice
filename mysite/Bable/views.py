@@ -3117,7 +3117,7 @@ def create_product_w_price(request, post_id):
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	if request.method == "POST":
 		product_form = ProductForm(request.POST)
-		product_form.anon_id = loggedinanon.id
+		product_form.anon_user_id = loggedinanon.id
 		if product_form.is_valid():
 			product = product_form.save()
 			product.save()
@@ -3204,6 +3204,7 @@ async def stripe_webhook(request):
 	sig_header = request.META['HTTP_STRIPE_SIGNATURE']
 	event = None
 	loggedinanon = Anon.objects.get(username=request.user)
+	stripe.api_key = loggedinanon.stripe_private_key
 	try:
 		event = stripe.Webhook.construct_event(
 			payload, sig_header, loggedinanon.stripe_private_key
@@ -3229,7 +3230,7 @@ async def stripe_webhook(request):
 		product = price
 
 		user_that_just_paid, x = User.objects.get_or_create(email=customer_email, username=str(price.id)+stripe_price_id, password=stripe_price_id)
-		loggedinanon, x = Anon.objects.get_or_create(username=user_that_just_paid)
+		loggedinanon2, x = Anon.objects.get_or_create(username=user_that_just_paid, stripe_webhook_secret=loggedinanon.stripe_webhook_secret, stripe_private_key=loggedinanon.stripe_private_key)
 
 		loggedinanon.purchases.add(product)
 		loggedinanon.save()
@@ -3250,27 +3251,7 @@ async def stripe_webhook(request):
 		)
 		# TODO include a URL to the appropriate discord server for thier level.
 
-		API_ENDPOINT = 'https://discord.com'
-		discord_client_id = "694700710545064027"
-		discord_client_secret = "qlzbfS2UzZMJmYcMn0GPhlpLKtW0gSCu"
-		REDIRECT_URI = 'https://discordapp.com/oauth2/authorize?&client_id=694700710545064027&scope=bot'
-
-		data = {
-			'client_id': discord_client_id,
-			'client_secret': discord_client_secret,
-			'response_type': 'code',
-			'scope': "identify\%20role_connections.write"
-		}
-		headers = {
-		'Content-Type': 'application/x-www-form-urlencoded'
-		}
-		r = requests.post('%s/oauth2/authorize' % API_ENDPOINT, data=data, headers=headers)
-		token = r.json()["access_token"]
-		#client = discord.Client()
-		#await client.login(token)
-		#client.connect()
-		#client.close()
-
+		
 
 		
 
@@ -3295,7 +3276,7 @@ def tower_of_bable(request):
 	mcount = 0
 
 	
-	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_id=1, anon_user_id=1)
+	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_user_id=1)
 	if not basic_price.stripe_price_id:
 		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
 
@@ -3818,10 +3799,10 @@ def tob_post(request, post):
 
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
-	if not users_product.anon_id:
+	if not users_product.anon_user_id:
 		user_anon = ''
 	else:
-		user_anon = Anon.objects.get(id=users_product.anon_id)
+		user_anon = Anon.objects.get(id=users_product.anon_user_id)
 	
 	
 	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
