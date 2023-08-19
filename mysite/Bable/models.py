@@ -989,9 +989,9 @@ class Price(models.Model):
 
     monthly = models.BooleanField(default=False)
     comments = models.ManyToManyField(Comment, default=None)
-    sum_comments = models.IntegerField(default=0)
+    #sum_comments = models.IntegerField(default=0)
     invoices = models.ManyToManyField(Invoice, default=None)
-    sum_invoices = models.IntegerField(default=0)
+    #sum_invoices = models.IntegerField(default=0)
     
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
