@@ -3534,6 +3534,7 @@ def tob_view_spaces(request):
 		spaces = Space.objects.order_by('-latest_change_date', 'votes_count', 'viewcount')[0:100]
 		the_response = render(request, 'tob_view_spaces.html', {"spaces": spaces, "count": count, "mcount": mcount, "count100": count100, 'loginform': loginform, 'registerform': registerform, })
 	the_response.set_cookie('current', 'tob_view_spaces')
+	the_response.set_cookie('count', count)
 	return the_response
 
 def tob_view_spaces_count(request, count):
@@ -3661,6 +3662,7 @@ def tob_space_view(request, space):
 	
 	the_response.set_cookie('current', 'tob_space_view')
 	the_response.set_cookie('space', space)
+	the_response.set_cookie('count', count)
 	return the_response
 
 def tob_space_view_count(request, space, count):
@@ -3795,6 +3797,7 @@ def tob_post(request, post):
 		the_response = render(request, "tob_post.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_post": users_post, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_post')
 	the_response.set_cookie('post', post)
+	the_response.set_cookie('count', 0)
 	return the_response
 
 
@@ -3845,6 +3848,7 @@ def tob_product(request, product_id):
 		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_post')
 	the_response.set_cookie('post', product_id)
+	the_response.set_cookie('count', 0)
 	return the_response
 
 
@@ -3891,6 +3895,7 @@ def tob_spaces_post(request, space, post):
 	the_response.set_cookie('current', 'tob_spaces_post')
 	the_response.set_cookie('space', space)
 	the_response.set_cookie('post', post)
+	the_response.set_cookie('count', 0)
 	return the_response
 
 def tob_spaces_post_count(request, space, post, count):
@@ -3985,6 +3990,7 @@ def tob_spaces_posts_comment(request, space, post, comment):
 	the_response.set_cookie('space', space)
 	the_response.set_cookie('post', post)
 	the_response.set_cookie('comment', comment)
+	the_response.set_cookie('count', 0)
 	return the_response
 
 def tob_spaces_posts_comment_count(request, space, post, comment, count):
@@ -4137,6 +4143,7 @@ def tob_view_users(request):
 	else:
 		the_response = render(request, "tob_view_users.html", {"user_anons_count": user_anons_count, "count": count, "mcount": mcount, "count100": count100, "user_anons": user_anons, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_view_users')
+	the_response.set_cookie('count', 0)
 	return the_response
 
 def tob_view_users_count(request, count):
