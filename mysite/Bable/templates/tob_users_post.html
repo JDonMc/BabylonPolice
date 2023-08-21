@@ -139,6 +139,9 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			}
 			
 		</style>
+		<div>
+        	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
+        </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center;">
 			<p id=flashreadword>Click here to flash read.</p>
@@ -415,6 +418,9 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			            {% endfor %}
                 </div>
             </div>
+        </div>
+        <div>
+        	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
         </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center;">
