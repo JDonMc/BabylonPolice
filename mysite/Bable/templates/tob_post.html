@@ -79,7 +79,9 @@
 			
 		</style>
 		<div>
+        	{% if users_post.img %}
         	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
+			{% endif %}
         </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center; cursor: pointer;">
@@ -329,7 +331,9 @@
 			</h3>
 		</div>
 		<div>
+			{% if users_post.img %}
         	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
+			{% endif %}
         </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center; cursor: pointer;">
