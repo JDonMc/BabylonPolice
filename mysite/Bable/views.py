@@ -3482,6 +3482,7 @@ def tower_of_bable_count(request, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		posts_by_viewcount = Post.objects.order_by(loggedinanon.post_sort_char)[:25]
 	
 	
 	if request.user.is_authenticated:
