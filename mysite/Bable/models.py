@@ -1385,8 +1385,8 @@ class Anon(models.Model):
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	creation_date = models.DateTimeField(default=timezone.now)
 	#playlists = models.ManyToManyField(Playlist)=
-	sent_messages = models.ManyToManyField(Message, default=None, related_name='sent_messages')
-	received_messages = models.ManyToManyField(Message, default=None, related_name='received_messages')
+	sent_messages = models.ManyToManyField(Comment_Source, default=None, related_name='sent_messages')
+	received_messages = models.ManyToManyField(Comment_Source, default=None, related_name='received_messages')
 	posted_comments = models.ManyToManyField(Comment, default=None, related_name='posted_comments')
 	sum_posted_comments = models.IntegerField(default=0)
 	saved_comments = models.ManyToManyField(Comment, default=None, related_name='saved_comments')
