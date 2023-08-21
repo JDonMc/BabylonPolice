@@ -4953,13 +4953,10 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-	#Specific
-	comment_form = CommentForm()
-	if request.user.is_authenticated:
+		comment_form = CommentForm(request)
 		comment_form.fields["dictionaries"].queryset = loggedinanon.saved_dictionaries
 		comment_form.fields['words'].queryset = Word.objects.filter(dictionary__saved_dictionaries=loggedinanon)
 
-	if request.user.is_authenticated:
 		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
