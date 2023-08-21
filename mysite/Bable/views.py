@@ -1854,7 +1854,6 @@ def delete_own_votestyle(request, voteid):
 	return base_redirect(request, 0)
 
 def base_redirect(request, error):
-	count = request.COOKIES['count']
 	if request.COOKIES['current'] == ('tob_view_users' or 'tower_of_bable' or 'tob_dics' or 'word_attributess' or 'mutawords' or 'complementary_scholar') :
 		response = redirect("Bable:"+request.COOKIES['current'])
 		response.set_cookie('error', error)
@@ -1888,7 +1887,7 @@ def base_redirect(request, error):
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_sponsors'):
-		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], count=count)
+		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_spaces_sponsor'):
@@ -1896,7 +1895,7 @@ def base_redirect(request, error):
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_spaces_post'):
-		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], space=request.COOKIES['space'], post=request.COOKIES['post'], count=count)
+		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], space=request.COOKIES['space'], post=request.COOKIES['post'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_spaces_post_comment'):
@@ -1908,7 +1907,7 @@ def base_redirect(request, error):
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_post'):
-		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], post=request.COOKIES['post'], count=count)
+		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], post=request.COOKIES['post'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_posts_comment'):
@@ -1916,11 +1915,12 @@ def base_redirect(request, error):
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_dic'):
+		count = 0
 		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], dictionary=request.COOKIES['dictionary'], count=count)
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_dic_word_count'):
-		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], dictionary=request.COOKIES['dictionary'], word=request.COOKIES['word'], count=count)
+		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], dictionary=request.COOKIES['dictionary'], word=request.COOKIES['word'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == ('tob_users_dic_word_pronunciation'):
@@ -1960,7 +1960,7 @@ def base_redirect(request, error):
 		response.set_cookie('error', error)
 		return response
 	elif request.COOKIES['current'] == 'tob_dic':
-		response = redirect("Bable:"+'tob_users_dic', user=request.COOKIES['user'], dictionary=request.COOKIES['dictionary'], count=count)
+		response = redirect("Bable:"+'tob_users_dic', user=request.COOKIES['user'], dictionary=request.COOKIES['dictionary'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
 		return response
 	return redirect('Bable:tower_of_bable')
