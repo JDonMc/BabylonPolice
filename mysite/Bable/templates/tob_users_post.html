@@ -223,16 +223,16 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			Votes:
 			{% for vote in users_post.votes.all|slice:"10" %}
 			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-						{% if vote.url2 %}
-							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-								<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
-							</a>
-						{% else %}
-							<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-								<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
-							</a>
-						{% endif %}
-						<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+			{% if vote.url2 %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
+				</a>
+			{% else %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+				</a>
+			{% endif %}
+			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
 		</div>
 		<div class=postchange>
