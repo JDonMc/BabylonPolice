@@ -203,8 +203,8 @@ EMAIL_PORT = 587
 PAYPAL_RECEIVER_EMAIL = 'kranked_354@hotmail.com'
 PAYPAL_TEST = False
 
-#import dj_database_url
-#DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 '''
 DATABASE_URL = 'https://towerofbable-37.appspot.com/'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
