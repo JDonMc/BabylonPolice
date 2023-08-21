@@ -1854,10 +1854,7 @@ def delete_own_votestyle(request, voteid):
 	return base_redirect(request, 0)
 
 def base_redirect(request, error):
-	if not request.COOKIES['count']:
-		count = 0
-	else:
-		count = request.COOKIES['count']
+	count = request.COOKIES['count']
 	if request.COOKIES['current'] == ('tob_view_users' or 'tower_of_bable' or 'tob_dics' or 'word_attributess' or 'mutawords' or 'complementary_scholar') :
 		response = redirect("Bable:"+request.COOKIES['current'])
 		response.set_cookie('error', error)
@@ -6082,6 +6079,7 @@ def tob_users_dic(request, user, dictionary, count):
 	the_response.set_cookie('current', 'tob_users_dic')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
+	the_response.set_cookie('count', count)
 	return the_response
 
 @login_required
