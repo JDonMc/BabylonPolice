@@ -24,7 +24,7 @@ from django.contrib.sitemaps.views import sitemap
 
 from Bable.sitemaps import Static_Sitemap, Post_Sitemap, Anon_Sitemap, Dictionary_Sitemap, Word_Sitemap
 
-from Bable.views import CancelView
+from Bable.views import CancelView, SuccessView
 
 sitemaps = {
     'post': Post_Sitemap(),
