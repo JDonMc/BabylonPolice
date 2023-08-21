@@ -3447,7 +3447,14 @@ def tower_of_bable_count(request, count):
 	registerform = UserCreationForm()
 
 	
-		
+	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_user_id=1)
+	if not basic_price.stripe_price_id:
+		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
+
+		basic_price.stripe_product_id = "prod_OS2pk9gZWam5Ye"
+		basic_price.price = 500
+		basic_price.save()
+
 
 	count = int(count)
 	if not count:
@@ -3493,10 +3500,10 @@ def tower_of_bable_count(request, count):
 		post_sort_form = PostSortForm(request)
 		
 
-		the_response = render(request, 'tower_of_bable.html', {"post_sort_form": post_sort_form, "postscount": postscount, "buyadvertisingform": buyadvertisingform, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
+		the_response = render(request, 'tower_of_bable.html', {"basic_price": basic_price, "post_sort_form": post_sort_form, "postscount": postscount, "buyadvertisingform": buyadvertisingform, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, 'tower_of_bable.html', {"postscount": postscount, "buyadvertisingform": buyadvertisingform, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
+		the_response = render(request, 'tower_of_bable.html', {"basic_price": basic_price, "postscount": postscount, "buyadvertisingform": buyadvertisingform, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	the_response.set_cookie('current', 'tower_of_bable_count')
 	the_response.set_cookie('count', count)
 	return the_response
