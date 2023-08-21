@@ -678,14 +678,7 @@ ATTRIBUTE_SORT_CHOICES = (
 	(5, "-views"),
 )
 
-ATTRIBUTE_SORT_CHOICES_CHAR = (
-	(0, "latest"),
-	(1, "definitions"),
-	(2, "votes"),
-	(3, "-votes"),
-	(4, "views"),
-	(5, "-views"),
-)
+
 
 class Wordgroup_Source(models.Model):
 	grouping = models.CharField(max_length=200)
