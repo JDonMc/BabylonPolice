@@ -483,9 +483,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
 		</div>
 		<div class=postvotes>
-			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
-				Voters: {{ users_post.sum_has_voted }}
-			</a>
+			Voters: {{ users_post.sum_has_voted }}
 		</div>
 		<div class=postchange>
 			Latest Change: {{ users_post.latest_change_date }}
@@ -558,7 +556,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 							{% endif %}
 						</div>
 						<div class=postcomsvotes>
-							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+							Votes: {{ node.votes_count }}
 						</div>
 						<div class=postcomswords>Words:
 							{% for word in node.words.all|slice:"10" %}

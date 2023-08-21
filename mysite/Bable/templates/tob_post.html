@@ -384,9 +384,7 @@
 			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
 		<div class=postcount>
-			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
-				Total Votes: {{ users_post.votes.count }}
-			</a>
+			Total Votes: {{ users_post.votes.count }}
 		</div>
 		<div class=postvotes>
 			Votes:
@@ -494,7 +492,7 @@
 							{% endif %}
 						</div>
 						<div class=postcomsvotes>
-							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+							Votes: {{ node.votes_count }}
 						</div>
 						<div class=postcomswords>Words:
 							{% for word in node.words.all|slice:"10" %}
