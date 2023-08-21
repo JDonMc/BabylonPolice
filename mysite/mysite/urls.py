@@ -24,6 +24,8 @@ from django.contrib.sitemaps.views import sitemap
 
 from Bable.sitemaps import Static_Sitemap, Post_Sitemap, Anon_Sitemap, Dictionary_Sitemap, Word_Sitemap
 
+from Bable.views import CancelView
+
 sitemaps = {
     'post': Post_Sitemap(),
     'static': Static_Sitemap(),
@@ -36,6 +38,8 @@ sitemaps = {
 urlpatterns = [
 	url(r'^paypal/', include('paypal.standard.ipn.urls')),
 	path('B/', include('Bable.urls')),
+    path('cancel/', CancelView.as_view(), name='cancel'),
+    path('success/', SuccessView.as_view(), name='success'),
     path('', RedirectView.as_view(pattern_name='Bable:landingpage')),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     
