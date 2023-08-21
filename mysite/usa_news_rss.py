@@ -23,7 +23,7 @@ for rss_url in urls:
         print(item.title)
         print(item.summary)
         
-        r = requests.post('https://www.babylonpolice.com/B/posts/',data={'title':item.title, "body":item.summary, "url": item.links[0].link})
+        r = requests.post('https://www.predictionary.us/B/posts/',data={'title':item.title, "body":item.summary, "url": item.links[0].link})
         print(r.status_code)
         print(r.text)
 
@@ -41,7 +41,7 @@ for rss_url in urls2:
         print(item.title)
         print(item.summary)
         
-        r = requests.post('https://www.babylonpolice.com/B/posts/',data={'title':item.title, "body":item.summary, "url": item.id})
+        r = requests.post('https://www.predictionary.us/B/posts/',data={'title':item.title, "body":item.summary, "url": item.id})
         print(r.status_code)
         print(r.text)
 
