@@ -4957,7 +4957,7 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		#translation_dictionaries_queryset = loggedinanon.applied_dictionaries
 		#translation_words_queryset = Word.objects.filter(home_dictionary=loggedinanon.applied_dictionaries[0])
 
-		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "user_anon": user_anon, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
