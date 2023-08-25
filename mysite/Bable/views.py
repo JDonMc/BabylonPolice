@@ -4954,7 +4954,7 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		comment_form = CommentForm(request)
-		comment_form.fields["dictionaries"].queryset = loggedinanon.saved_dictionaries
+		comment_form.fields["dictionaries"].queryset = loggedinanon.purchased_dictionaries
 		comment_form.fields['words'].queryset = Word.objects.filter(dictionary__saved_dictionaries=loggedinanon)
 
 		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
@@ -5024,7 +5024,7 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 	#Specific
 	comment_form = CommentForm()
 	if request.user.is_authenticated:
-		comment_form.fields["dictionaries"].queryset = loggedinanon.saved_dictionaries
+		comment_form.fields["dictionaries"].queryset = loggedinanon.purchased_dictionaries
 		comment_form.fields['words'].queryset = Word.objects.filter(dictionary__saved_dictionaries=loggedinanon)
 
 	if request.user.is_authenticated:
