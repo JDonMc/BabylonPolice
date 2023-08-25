@@ -2028,7 +2028,7 @@ def register_view(request):
 		
 	for page in Pageviews.objects.all():
 		total += page.views
-	the_response = render(request, 'tower_of_bable.html', {"viewsponsor": viewsponsor, "register_error":register_error, "login_error":login_error, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
+	the_response = render(request, 'tower_of_bable.html', {"basic_price": Product.objects.get(id=1), "viewsponsor": viewsponsor, "register_error":register_error, "login_error":login_error, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	
 	the_response.set_cookie('current', 'tower_of_bable')
 	return the_response
