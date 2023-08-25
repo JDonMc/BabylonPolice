@@ -4964,7 +4964,7 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 	the_response.set_cookie('current', 'tob_users_spaces_post')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('space', space_id)
-	the_response.set_cookie('post', post)
+	the_response.set_cookie('post', post_id)
 	return the_response
 	
 
