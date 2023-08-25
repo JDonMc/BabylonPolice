@@ -4963,7 +4963,7 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_spaces_post')
 	the_response.set_cookie('viewing_user', user)
-	the_response.set_cookie('space', space)
+	the_response.set_cookie('space', space_id)
 	the_response.set_cookie('post', post)
 	return the_response
 	
