@@ -1359,7 +1359,7 @@ class Anon(models.Model):
 	
 	purchased_dictionaries = models.ManyToManyField(Dictionary, default=None, related_name='purchased_dictionaries')
 	sum_purchased_dictionaries = models.IntegerField(default=0)
-	applied_dictionaries = models.ManyToManyField(Dictionary, default=None, related_name='applied_dictionaries')
+	applied_dictionaries = models.ManyToManyField(Dictionary_Source, default=None, related_name='applied_dictionaries')
 	excluded_dic_authors = models.ManyToManyField(Author, default=None)
 	sum_excluded_authors = models.IntegerField(default=0)
 
