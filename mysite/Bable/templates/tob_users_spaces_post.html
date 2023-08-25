@@ -34,7 +34,7 @@
 		</div>
 		{% endif %}
 		<div class=space_sponsor>
-			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.id 0 %}" method=post>
+			<form action="{% url 'Bable:tob_users_spaces_sponsor' user_anon.username users_space.id 0 %}" method=post>
 				{% csrf_token %}
 				{{ sponsor_form }}
 				<button type=submit>Sponsor</button>

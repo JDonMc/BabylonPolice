@@ -4794,12 +4794,12 @@ def tob_users_spaces_sponsor(request, user, space_id, sponsor):
 		insert_sponsor_form = InsertSponsorForm(request)
 
 	space_viewable = False
-	users_space = Space.objects.get(id=space_id)
+	users_space = Space.objects.get(id=int(space_id))
 	space = users_space.the_space_itself.the_word_itself
 	try:
 		spaces_sponsors = users_space.sponsors.all()
 		if not sponsor == 0:
-			spaces_sponsor = Sponsor.objects.get(id=sponsor)
+			spaces_sponsor = Sponsor.objects.get(id=int(sponsor))
 		else:
 			spaces_sponsor = 0
 		if spaces_sponsor is not None:
@@ -4818,9 +4818,9 @@ def tob_users_spaces_sponsor(request, user, space_id, sponsor):
 					space_viewable = False
 		
 	except ObjectDoesNotExist:
-		users_space = Space.objects.get(id=space_id)
+		users_space = Space.objects.get(id=int(space_id))
 		spaces_sponsors = users_space.sponsors.all()
-		spaces_sponsor = Sponsor.objects.get(id=sponsor)
+		spaces_sponsor = Sponsor.objects.get(id=int(sponsor))
 		if request.user.is_authenticated:
 			if not users_space.public:
 				if len(users_space.filter(approved_votters__username=request.user.username))>0:
