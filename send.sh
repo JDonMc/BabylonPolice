@@ -1,24 +1,12 @@
 python3 mysite/manage.py collectstatic --noinput --clear
-sleep 1
 python3 mysite/manage.py makemigrations
-sleep 1
 python3 mysite/manage.py migrate
-sleep 1
-mv mysite/mysite/settings.py mysite/mysite/localsettings.py
-sleep 1
-mv mysite/mysite/herokusettings.py mysite/mysite/settings.py
-sleep 1
+move mysite/mysite/settings.py mysite/mysite/localsettings.py
+move mysite/mysite/herokusettings.py mysite/mysite/settings.py
 git add .
-sleep 1
 git commit -m "auto"
-sleep 1
 git push --set-upstream origin main
-sleep 1
 git push heroku main:main --force
-sleep 1
-mv mysite/mysite/settings.py mysite/mysite/herokusettings.py
-sleep 1
-mv mysite/mysite/localsettings.py mysite/mysite/settings.py
-sleep 1
+move mysite/mysite/settings.py mysite/mysite/herokusettings.py
+move mysite/mysite/localsettings.py mysite/mysite/settings.py
 heroku run python mysite/manage.py migrate
-sleep 1
