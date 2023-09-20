@@ -4920,15 +4920,14 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 	users_space.save()
 
 	if not users_space.public:
-		if len(users_space.filter(approved_voters=loggedinauthor))>0:
-			space_viewable = True
-			if request.user.is_authenticated:
+		if request.user.is_authenticated:
+			if len(users_space.filter(approved_voters=loggedinauthor))>0:
+				space_viewable = True
 				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
+				
+				#
 			else:
-				posts_comments = spaces_post.comments[0:100]
-			#
-		else:
-			space_viewable = False
+				space_viewable = False
 	else:
 		space_viewable = True
 		if request.user.is_authenticated:
@@ -4955,10 +4954,10 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		#translation_dictionaries_queryset = loggedinanon.applied_dictionaries
 		#translation_words_queryset = Word.objects.filter(home_dictionary=loggedinanon.applied_dictionaries[0])
 
-		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "user_anon": user_anon, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_spaces_post.html", {"space_viewable": space_viewable, "latest_edit": latest_edit, "user_anon": user_anon, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_spaces_post.html", {"latest_edit": latest_edit, "spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_spaces_post.html", {"space_viewable": space_viewable, "latest_edit": latest_edit, "spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_spaces_post')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('space', space_id)
