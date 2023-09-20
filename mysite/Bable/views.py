@@ -2031,7 +2031,7 @@ def register_view(request):
 	the_response = render(request, 'tower_of_bable.html', {"basic_price": Product.objects.get(id=1), "viewsponsor": viewsponsor, "register_error":register_error, "login_error":login_error, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	
 	the_response.set_cookie('current', 'tower_of_bable')
-	return the_response
+	return base_redirect(request, 0)
 
 def owner(request):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
