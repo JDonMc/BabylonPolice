@@ -98,14 +98,14 @@
 		
 		<div class=posts>
 		{% if space_viewable %} 
-			{% with post as users_post %}
+			{% with users_post as post %}
 			<div class=post>
 				<div class=posttitle>
 					<div class=postpreview>
 						{% if post.url2 %}
-							<a href="{{ post.url2 }}"><img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;"></a>
+							<a href="{{ post.url2 }}"><img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;"></a>
 						{% else %}
-							<img src="{% static 'growadic.png' %}" style="height: 6em; width: 6em;">
+							<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 						{% endif %}
 					</div>
 					<div class=posttitle>
@@ -119,49 +119,6 @@
 					
 					{% if post.max_sponsor %}
 						<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url2 }}" style="height: 4em; width: 4em; float:right;"></a> <!-- if no sponsor input default ad -->
-					{% else %}
-						{% ifequal forloop.counter 1 %}
-							<img src="{% static 'growadic.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 2 %}
-							<img src="{% static 'builtforme.png' %}" style="height: 4em; width: 4em;" float:right;>
-						{% endifequal %}
-						{% ifequal forloop.counter 3 %}
-							<img src="{% static 'capiche.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 4 %}
-							<img src="{% static 'change.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 5 %}
-							<img src="{% static 'empty.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 6 %}
-							<img src="{% static 'god.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 7 %}
-							<img src="{% static 'ignorance.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 8 %}
-							<img src="{% static 'merged.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 9 %}
-							<img src="{% static 'mixedmetaphors.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 10 %}
-							<img src="{% static 'ndimensional.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 11 %}
-							<img src="{% static 'proof.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 12 %}
-							<img src="{% static 'redefine.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 13 %}
-							<img src="{% static 'simple.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
-						{% ifequal forloop.counter 14 %}
-							<img src="{% static 'toborforcoff.png' %}" style="height: 4em; width: 4em; float:right;">
-						{% endifequal %}
 					{% endif %}
 				
 				</div>
