@@ -4919,25 +4919,22 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 	users_space.posts_viewcount += 1
 	users_space.save()
 
-	if posts_comments:
-		if request.user.is_authenticated:
-			if not users_space.public:
-				if len(users_space.filter(approved_voters=loggedinauthor))>0:
-					space_viewable = True
-					posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
-					#
-				else:
-					space_viewable = False
-			else:
-				space_viewable = True
+	if not users_space.public:
+		if len(users_space.filter(approved_voters=loggedinauthor))>0:
+			space_viewable = True
+			if request.user.is_authenticated:
 				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
-		else:
-			if users_space.public:
-				space_viewable = True
-				posts_comments = spaces_post.comments.order_by('latest_change_date')[0:100]
-				
 			else:
-				space_viewable = False
+				posts_comments = spaces_post.comments[0:100]
+			#
+		else:
+			space_viewable = False
+	else:
+		space_viewable = True
+		if request.user.is_authenticated:
+			posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[0:100]
+		else:
+			posts_comments = spaces_post.comments[0:100]
 	
 
 	#General
