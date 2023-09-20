@@ -123,7 +123,7 @@
 				
 				</div>
 				<div class=postbody>
-					<a href="{% url 'Bable:tob_users_spaces_post' user_anon.username.username users_space.the_space_itself.the_word_itself post.id 0 %}">{{ post.body|usernames|spaces|urlize|truncatechars:144 }}</a>
+					<a href="{% url 'Bable:tob_users_spaces_post' user_anon.username.username users_space.the_space_itself.the_word_itself post.id %}">{{ post.body|usernames|spaces|urlize|truncatechars:144 }}</a>
 				</div>
 				<div class=postauthor>
 					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
