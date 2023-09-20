@@ -160,7 +160,7 @@
 						<div id=postcomlist onclick="openComment('postcomlist')">
 							Newcom
 						</div>
-						<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
+						<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' post.id 0 %}" method=post>
 							{% csrf_token %}
 							{{ comment_form }}
 							<button type=submit>what've I got to lose?</button>
@@ -232,7 +232,7 @@
 									<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
 										Reply
 									</div>
-									<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+									<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' post.id node.id %}" method=post>
 										{% csrf_token %}
 										{{ comment_form }}
 										<button type=submit>what've I got to lose?</button>
