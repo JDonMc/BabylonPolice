@@ -3666,7 +3666,7 @@ def tob_space_view(request, space):
 		the_response = render(request, 'tob_space_view.html', {"sponsorform": sponsor_form, "users_sponsors": users_sponsors, "user_anon": user_anon, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform, 'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form, 'users_space': users_space, 'spaces_posts': spaces_posts })
 	else:
-		the_response = render(request, 'tob_space_view.html', {"users_sponsors": users_sponsors, "user_anon": user_anon, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, 'loginform': loginform, 'registerform': registerform, 'posts_in_space': posts_in_space })
+		the_response = render(request, 'tob_space_view.html', {"users_sponsors": users_sponsors, "user_anon": user_anon, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, 'loginform': loginform, 'registerform': registerform })
 	
 	the_response.set_cookie('current', 'tob_space_view')
 	the_response.set_cookie('space', space)
