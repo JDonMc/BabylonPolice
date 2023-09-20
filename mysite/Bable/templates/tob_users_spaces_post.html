@@ -98,7 +98,7 @@
 		
 		<div class=posts>
 		{% if space_viewable %} 
-			{% for post in spaces_posts %}
+			{% with post as users_post %}
 			<div class=post>
 				<div class=posttitle>
 					<div class=postpreview>
@@ -292,7 +292,7 @@
 			{% endfor %}
 		{% else %}
 			<div class=post>
-				This user either has not marked their post, or you can't smell what's under your nose, iykwim.
+				This user either has not marked their post, or you can't smell what's under your nose, iykwim (because you're not logged in or have purchased).
 			</div>
 		{% endif %}
 		</div>
