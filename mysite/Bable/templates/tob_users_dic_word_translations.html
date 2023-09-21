@@ -169,8 +169,6 @@
 				</div>
 				<div class=wordpronunciation>
 					
-					<form action="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}" method="post">
-						{% csrf_token %}
 						<div class=translationtitle>
 							Translations:
 						</div>
@@ -198,73 +196,7 @@
 								</form>
 						</div>
 						
-						<!--
-						<input type="button" value="+" id="waam" onclick="wordsAttributesAddMore()">
-						<div id="waef" style="display:none">
-							<div id=wadfs>
-								{% for wad in words_attributes_definition_formset.forms %}
-									{% if wad.instance.id == wa.pk %}
-										<table class='no_error'>
-											{{ wad.as_table }}
-										</table>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<input type="button" value="+" id="wadam" onclick="wordsDefinitionsAddMore()">
-							<div id="wadef" style="display:none">
-								<table class='no_error'>
-									{{ words_attributes_defintion_formet.empty_form.as_table }}
-								</table>
-							</div>
-							<div id=wahfs>
-								{% for wah in words_attributes_homonym_formset.forms %}
-									{% if wah.instance.id == wa.pk %}
-										<table class='no_error'>
-											{{ wah.as_table }}
-										</table>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<input type="button" value="+" id="waham" onclick="wordsHomonymsAddMore()">
-							<div id="wahef" style="display:none">
-								<table class='no_error'>
-									{{ words_attributes_homonym_formset.empty_form.as_table }}
-								</table>
-							</div>
-							<div id=wasfs>
-								{% for was in words_attributes_synonym_formset.forms %}
-									{% if was.instance.id == wa.pk %}
-										<table class='no_error'>
-											{{ was.as_table }}
-										</table>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<input type="button" value="+" id="wasam" onclick="wordsSynonymsAddMore()">
-							<div id="wasef" style="display:none">
-								<table class='no_error'>
-									{{ words_attributes_synonym_formset.empty_form.as_table }}
-								</table>
-							</div>
-							<div id=waafs>
-								{% for waa in words_attributes_antonym_formset.forms %}
-									{% if waa.instance.id == wa.pk %}
-										<table class='no_error'>
-											{{ waa.as_table }}
-										</table>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<input type="button" value="+" id="waaam" onclick="wordsAntonymsAddMore()">
-							<div id="waaef" style="display:none">
-								<table class='no_error'>
-									{{ words_attributes_antonym_formset.empty_form.as_table }}
-								</table>
-							</div>
-						</div>
-					-->
-						<button type="submit">Submit</button>
-					</form>
+						
 				</div>
 				
 				

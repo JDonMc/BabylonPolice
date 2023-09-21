@@ -279,7 +279,14 @@
 							</div>
 						{% endfor %}
 					{% endif %}		
-				</div>		
+				</div>
+				<form action="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself relation %}" method=post>
+					{% csrf_token %}
+					<div id=storyform>
+						{{ relation_form.as_p }}
+						<button type=submit>Submit</button>
+					</div>
+				</form>		
 			</div>
 		{% else %}
 			<div class=word>

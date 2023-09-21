@@ -731,10 +731,6 @@ select {
 	color: #e3dac9;
 }
 
-#attributeformset, #translationform, #storyform, #similarityform, #pronunciationform, #relationform, #exampleform, #spacesform, #sponsorform {
-	display: none;
-}
-
 .attributeformsetopen, .translationformopen, .storyformopen, .similarityformopen, .pronunciationformopen, .relationformopen, .exampleformopen, .spacesformopen, .sponsorformopen {
 	color: red;
 }

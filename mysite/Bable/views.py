@@ -7420,7 +7420,7 @@ def tob_users_dic_word_story(request, user, dictionary, word, story):
 					story_form = StoryForm(instance=story_inst)
 	
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, "story": story, "story_inst": story_inst, 'story_form': story_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_dic_word_stories.html", {"story":story, "user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, "story": story, "story_inst": story_inst, 'story_form': story_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_dic_word_stories.html", {"user_anon": user_anon, "users_dic": users_dic, "dics_word": dics_word, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
@@ -7581,7 +7581,7 @@ def tob_users_dic_word_relation(request, user, dictionary, word, relation):
 							users_dic.save()
 					else:
 						relation_form = RelationForm(instance=relation_inst)
-		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, 'relation_form': relation_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_dic_word_relations.html", {"relation": relation, "user_anon": user_anon, "users_dic": users_dic, "loggedinanon": loggedinanon, "dics_word": dics_word, 'relation_form': relation_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_dic_word_relations.html", {"user_anon": user_anon, "users_dic": users_dic, "dics_word": dics_word, "registerform": registerform,  "loginform": loginform})

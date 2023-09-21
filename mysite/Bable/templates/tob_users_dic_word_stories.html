@@ -290,7 +290,7 @@
 							</div>
 						{% endif %}
 					</div>
-					<form action="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}" method=post>
+					<form action="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself story %}" method=post>
 						{% csrf_token %}
 						<div id=storyform>
 							{{ story_form.as_p }}
