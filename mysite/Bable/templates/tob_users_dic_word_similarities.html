@@ -182,10 +182,26 @@
 										</div>
 									{% endfor %}
 								</div>
+								<form action="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself sim.id %}" method=post>
+									{% csrf_token %}
+									<div id=similarityconform>
+										{{ connexia_form.as_p }}
+										<button type=submit>Submit</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					{% endfor %}
 					<div>
+						<form action="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself similarity %}" method=post>
+							{% csrf_token %}
+							<div id=similarityformset>
+								{{ similarity_form.as_p }}
+								Connexia:
+								{{ connexia_form.as_p }}
+								<button type=submit>Submit All</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

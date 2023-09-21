@@ -6980,7 +6980,7 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 					similarity_form = SimulacrumForm(prefix='sim', instance=similarity_inst)
 	
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_dic_word_similarities.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "loggedinauthor": loggedinauthor, "dics_word": dics_word,
+		the_response = render(request, "tob_users_dic_word_similarities.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "loggedinauthor": loggedinauthor, "dics_word": dics_word, "similarity": similarity,
 			'similarity_form': similarity_form, 'connexia_form': connexia_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
@@ -6992,6 +6992,9 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 	the_response.set_cookie('word', word)
 	the_response.set_cookie('similarity', similarity)
 	return the_response
+
+
+
 
 def tob_users_dic_word_translation(request, user, dictionary, word, translation):
 	if User.objects.get(username=user):
