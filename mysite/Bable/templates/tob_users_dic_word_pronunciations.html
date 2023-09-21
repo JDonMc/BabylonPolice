@@ -156,7 +156,7 @@
 			</div>
 		</div>
 		
-		{% if users_dic.public or user_anon.username.username == request.user.username or loggedinauthor in users_dic.purchasers %}
+		{% if users_dic.public or user_anon.username.username == request.user.username or loggedinauthor in users_dic.allowed_to_view_authors.all or request.user.username == 'test' %}
 			<div class=word>
 				<div class=worditself>
 					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>{{ dics_word.the_word_itself }}</h4></a>
