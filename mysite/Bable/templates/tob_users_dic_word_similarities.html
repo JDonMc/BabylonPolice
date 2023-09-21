@@ -165,10 +165,28 @@
 		{% if users_dic.public or user_anon.username.username == request.user.username or loggedinauthor in users_dic.allowed_to_view_authors.all or request.user.username == 'test' %}
 			<div class=word>
 				<div class=worditself>
-					<a href="{% url 'Bable:tob_users_dic_word' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>Word: {{ dics_word.the_word_itself }}</h4></a>
+					<a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself 0 %}"><h4>Word: {{ dics_word.the_word_itself }}</h4></a>
 				</div>
 				<div>
-					
+					{% for sim in dics_word.similarities.all %}
+						<div>
+							<div>
+								Simulacrum: {{ sim.the_simulacrum_itself }}
+							</div>
+							<div>
+								Connexions:
+								<div>
+									{% for con in sim.connexia.all %}
+										<div>
+											Connexion: {{ con.the_connexion_itself }}
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					<div>
+					</div>
 				</div>
 			</div>
 		{% else %}
