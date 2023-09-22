@@ -6946,6 +6946,7 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 				similarity_form = SimulacrumForm(data=request.POST, prefix='sim')
 				if similarity_form.is_valid():
 					similarity_inst = Simulacrum.objects.create(the_simulacrum_itself=similarity_form.cleaned_data['the_simulacrum_itself'], author=loggedinauthor)
+					similarity = similarity_inst.id
 					dics_word.similarities.add(similarity_inst)
 					connexia_form = ConnexionForm(data=request.POST, prefix='con')
 					if connexia_form.is_valid():
