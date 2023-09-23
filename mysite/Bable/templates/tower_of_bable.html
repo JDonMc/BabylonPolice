@@ -28,12 +28,12 @@ BabylonPolice.com - incentivised-ascento-secrecy
 	<div class=donate>
 		<div class=dictionary-bottom>
 			<a href="{% url 'Bable:tob_product' basic_price.id %}"><h3>{{ basic_price.name }}</h3></a>
-	        <img src="{% static 'babylonpolice.com.gif' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
-	        <div>
-	            <h5>${{ basic_price.get_display_price }} AUD</h5>
+	        <img src="{% static 'babylonpolice.com.gif' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content; border-radius: 20px;">
+	        <div style="display: flex; align-items: center;">
+	            <p style="background-color: white; width: fit-content; margin-right: 20px;">${{ basic_price.get_display_price }} AUD</p>
 	            <form action="{% url 'Bable:create-checkout-session' basic_price.id %}" method="POST">
 	                {% csrf_token %}
-	                <button type="submit">Purchase</button>
+	                <button type="submit" style="color: gold; background-color: green; border-radius: 8px;">Donate</button>
 	            </form>
 	        </div>
 		</div>
@@ -212,18 +212,17 @@ $(document).ready(function() {
 });
 </script>
 
-<div class=posts onbeforeunload="sendtimeframe();">
+<div class=posts onbeforeunload="sendtimeframe();" >
 	{% if postscount %}
 		{% for post in posts %}
-		<div class=post>
-			<div class=posttop>
-				<div class=postpreview>
-					{% if post.img %}
-						<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="{{ post.title }}">
-					{% else %}
-						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
-					{% endif %}
-				</div>
+		<div class=post style="display: flex;">
+				{% if post.img %}
+					<img src="{{ post.img }}" style="z-index: 1; max-height:400px; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; margin: 10px" alt="{{ post.title }}">
+				{% else %}
+					<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:400px; z-index: 1; width: 30%; margin: 10px; border-radius: 20px; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
+				{% endif %}
+			<div class=posttop style="display: inline-block; vertical-align: top;">
+				
 				{% if post.author__username %}
 				<div class=posttitle>
 					<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
@@ -238,9 +237,8 @@ $(document).ready(function() {
 					<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
 				</div>
 				{% endif %}
-			</div>
 			<div class=postbody style="margin-right: 0.5em;">
-				{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:666|safe }}
+				{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:111|safe }}
 			</div>
 			<div class=postcount style="font-size: 1em;">
 				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
@@ -260,6 +258,8 @@ $(document).ready(function() {
 				<a href="">/u/anonymous</a>
 			</div>
 			{% endif %}
+
+			</div>
 		</div>
 		{% endfor %}
 	{% else %}
@@ -281,11 +281,11 @@ $(document).ready(function() {
 		<div class=dictionary-bottom>
 			<a href="{% url 'Bable:tob_product' basic_price.id %}"><h3>{{ basic_price.name }}</h3></a>
 	        <img src="{% static 'babylonpolice.com.gif' %}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
-	        <div>
-	            <h5>${{ basic_price.get_display_price }} AUD</h5>
+	        <div style="display: flex; align-items: center;">
+	            <p style="width: fit-content; margin-right: 20px; background-color: white;">${{ basic_price.get_display_price }} AUD</p>
 	            <form action="{% url 'Bable:create-checkout-session' basic_price.id %}" method="POST">
 	                {% csrf_token %}
-	                <button type="submit">Purchase</button>
+	                <button type="submit" style="color: gold; background-color: green; border-radius: 8px;">Donate</button>
 	            </form>
 	        </div>
 		</div>
@@ -449,18 +449,17 @@ $(document).ready(function() {
   
 });
 </script>
-<div class=posts>
+<div class=posts style="">
 	{% if postscount %}
 		{% for post in posts %}
-			<div class=post>
-				<div class=posttop>
-					<div class=postpreview>
-						{% if post.img %}
-							<img src="{{ post.img }}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="{{ post.title }}">
-						{% else %}
-							<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
-						{% endif %}
-					</div>
+			<div class=post style="display: inline-block;">
+					{% if post.img %}
+						<img src="{{ post.img }}" style="z-index: 1; max-height:400px; width: 30%; box-shadow: 0 2px 10px grey; margin: 10px; border-radius: 20px; vertical-align: top;" alt="{{ post.title }}">
+					{% else %}
+						<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+					{% endif %}
+				<div class=posttop style="display: inline-block; width: 60%; margin-left: 10px;">
+					
 					{% if post.author__username %}
 					<div class=posttitle>
 						<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
@@ -470,9 +469,9 @@ $(document).ready(function() {
 						<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
 					</div>
 					{% endif %}
-				</div>
+				
 				<div class=postbody style="margin-right: 0.5em;">
-					{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:666|safe }}
+					{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:111|safe }}
 				</div>
 				<div class=postcount style="font-size: 1em;" onclick="showregister();">
 					Voters: {{ post.votes_uniques }}
@@ -492,6 +491,7 @@ $(document).ready(function() {
 					<a href="">/u/anonymous</a>
 				</div>
 				{% endif %}
+			</div>
 			</div>
 		{% endfor %}
 
