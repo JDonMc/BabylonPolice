@@ -429,7 +429,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 	{% endif %}
 	<div class=usersspaces>
 		<div class=sectiontitle>
-			<a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}"><h3>Spaces:</h3></a>
+			<a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}"><h3>Spaces: {{ users_spaces.count }}</h3></a>
 		</div>
 		<div class=spasectionsort>
 			<form name=space_sort action="{% url 'Bable:change_space_sort_char' %}" method=post>
@@ -499,10 +499,10 @@ User: {{ user_anon.username.username }} - Babylon Police
 						{% endif %}
 					</div>
 					<div class=space_source>
-						<a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.home_dictionary.the_dictionary_itself }}</a>
+						Container Dictionary: <a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.home_dictionary.the_dictionary_itself }}</a>
 					</div>
 					<div class=space_save>
-						{% if space in loggedinanon.purchased_spaces %}
+						{% if space in loggedinanon.purchased_spaces.all %}
 						<a style="background-color: grey;" href="{% url 'Bable:tob_remove_space' space.author.username space.the_space_itself.the_word_itself %}">Remove</a>
 						{% else %}
 						<form action="{% url 'Bable:submit_buy_space_form' space.id %}" method=post>
@@ -510,7 +510,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 							<button type=submit>Buy</button>
 						</form>
 						{% endif %}
-						{% if space in loggedinanon.saved_spaces %}
+						{% if space in loggedinanon.saved_spaces.all %}
 						<a style="background-color: grey;" href="{% url 'Bable:tob_unsave_space' space.author.username space.the_space_itself.the_word_itself %}">Unsave</a>
 						{% else %}
 						<a style="background-color: grey;" href="{% url 'Bable:tob_save_space' space.author.username space.the_space_itself.the_word_itself %}">Save</a>
