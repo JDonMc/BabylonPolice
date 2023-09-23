@@ -42,6 +42,13 @@ def subset(value, subset):
 
 
 
+@register.filter(is_safe=True)
+def random_int(a, b=None):
+    if b is None:
+        b = a
+        a = 0
+    return random.randint(a, b)
+
 
 
 @register.filter(is_safe=True)

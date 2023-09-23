@@ -219,7 +219,50 @@ $(document).ready(function() {
 				{% if post.img %}
 					<img src="{{ post.img }}" style="z-index: 1; max-height:400px; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; margin: 10px" alt="{{ post.title }}">
 				{% else %}
-					<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:400px; z-index: 1; width: 30%; margin: 10px; border-radius: 20px; box-shadow: 0 2px 10px grey;" alt="Please Others With A Gif">
+					{% with 0|random_int:25 as rando %}
+						{% if rando == 0 %}
+						<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 1 %}
+						<img src="{% static 'giphy.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 2 %}
+						<img src="{% static 'giphy-1.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 3 %}
+						<img src="{% static 'giphy-2.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 4 %}
+						<img src="{% static 'giphy-3.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 5 %}
+						<img src="{% static 'giphy-4.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 6 %}
+						<img src="{% static 'giphy-5.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 7 %}
+						<img src="{% static 'giphy-6.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 8 %}
+						<img src="{% static 'giphy-7.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 9 %}
+						<img src="{% static 'giphy-8.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 10 %}
+						<img src="{% static 'giphy-9.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 11 %}
+						<img src="{% static 'giphy-10.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 12 %}
+						<img src="{% static 'giphy-11.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 13 %}
+						<img src="{% static 'giphy-12.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 14 %}
+						<img src="{% static 'giphy-13.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 15 %}
+						<img src="{% static 'giphy-14.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 16 %}
+						<img src="{% static 'giphy-15.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 17 %}
+						<img src="{% static 'giphy-16.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 18 %}
+						<img src="{% static 'giphy-17.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						
+						{% else %}
+						<img src="{% static 'towerofbable.png' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% endif %}
+						{% endwith %}
 				{% endif %}
 			<div class=posttop style="display: inline-block; vertical-align: top;">
 				
@@ -456,7 +499,50 @@ $(document).ready(function() {
 					{% if post.img %}
 						<img src="{{ post.img }}" style="z-index: 1; max-height:400px; width: 30%; box-shadow: 0 2px 10px grey; margin: 10px; border-radius: 20px; vertical-align: top;" alt="{{ post.title }}">
 					{% else %}
+						{% with 0|random_int:25 as rando %}
+						{% if rando == 0 %}
 						<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 1 %}
+						<img src="{% static 'giphy.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 2 %}
+						<img src="{% static 'giphy-1.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 3 %}
+						<img src="{% static 'giphy-2.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 4 %}
+						<img src="{% static 'giphy-3.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 5 %}
+						<img src="{% static 'giphy-4.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 6 %}
+						<img src="{% static 'giphy-5.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 7 %}
+						<img src="{% static 'giphy-6.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 8 %}
+						<img src="{% static 'giphy-7.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 9 %}
+						<img src="{% static 'giphy-8.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 10 %}
+						<img src="{% static 'giphy-9.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 11 %}
+						<img src="{% static 'giphy-10.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 12 %}
+						<img src="{% static 'giphy-11.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 13 %}
+						<img src="{% static 'giphy-12.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 14 %}
+						<img src="{% static 'giphy-13.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 15 %}
+						<img src="{% static 'giphy-14.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 16 %}
+						<img src="{% static 'giphy-15.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 17 %}
+						<img src="{% static 'giphy-16.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% elif rando == 18 %}
+						<img src="{% static 'giphy-17.gif' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						
+						{% else %}
+						<img src="{% static 'towerofbable.png' %}" style="max-height:400px; z-index: 1; width: 30%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin: 10px;" alt="Please Others With A Gif">
+						{% endif %}
+						{% endwith %}
 					{% endif %}
 				<div class=posttop style="display: inline-block; width: 60%; margin-left: 10px;">
 					
