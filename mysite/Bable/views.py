@@ -9376,8 +9376,13 @@ def submit_buy_space_form(request, space_id):
 					loggedinanon.false_wallet = loggedinanon.false_wallet - saving_space.entry_fee - saving_space.continuation_fee
 					saving_anon = saving_space.author.to_anon()
 					saving_anon.false_wallet += saving_space.entry_fee + saving_space.continuation_fee
-					saving_space.approved_voters.add(loggedinauthor)
-					loggedinanon.purchased_spaces.add(saving_space)
+					if not loggedinauthor in saving_space.approved_voters.all():
+						saving_space.approved_voters.add(loggedinauthor)
+					loggedinuser = User.objects.get(username=request.user.username)
+					loggedinanon = Anon.objects.get(username=loggedinuser)
+		
+					if not saving_space in loggedinanon.purchased_spaces.all():
+						loggedinanon.purchased_spaces.add(saving_space)
 	return base_redirect(request, 0)
 
 @login_required
