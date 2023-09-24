@@ -77,34 +77,37 @@ class Author(models.Model):
 	earnt_invoices = models.ManyToManyField(Invoice, default=None, related_name='earntinvoices')
 
 	def to_anon(self):
-		if Anon.objects.all().filter(username__username=self.username[0:149]).count():
-			if not User.objects.all().filter(username=self.username[0:149]).count():
+		if Anon.objects.filter(username__username=self.username[0:149]).count():
+			if not User.objects.filter(username=self.username[0:149]).count():
 				user = User.objects.create(username=self.username[0:149], password="Password-2")
 			else:
 				user = User.objects.get(username=self.username[0:149])
 			anon = Anon.objects.get(username=user)
 			author, created = Author.objects.get_or_create(username=self.username[0:149])
-			anons_posts = Post.objects.all().filter(author=author)
+			anons_posts = Post.objects.filter(author=author)
 			for post in anons_posts:
-				anon.posts.add(post)
+				if post not in anon.posts.all():
+					anon.posts.add(post)
 			return anon
 		else:
-			if not User.objects.all().filter(username=self.username[0:149]).count():
+			if not User.objects.filter(username=self.username[0:149]).count():
 				user = User.objects.create(username=self.username[0:149], password="Password-2")
 			else:
 				user = User.objects.get(username=self.username[0:149])
 			
-			if Anon.objects.all().filter(username=user).count():
+			if Anon.objects.filter(username=user).count():
 				anon = Anon.objects.get(username=user)
-				anons_posts = Post.objects.all().filter(author=Author.objects.get(username=self.username[0:149]))
+				anons_posts = Post.objects.filter(author=Author.objects.get(username=self.username[0:149]))
 				for post in anons_posts:
-					anon.posts.add(post)
+					if post not in anon.posts.all():
+						anon.posts.add(post)
 				return anon
 			else:
 				anon = Anon.objects.create(username=user)
 				anons_posts = Post.objects.all().filter(author=Author.objects.get(username=self.username[0:149]))
 				for post in anons_posts:
-					anon.posts.add(post)
+					if post not in anon.posts.all():
+						anon.posts.add(post)
 				return anon
 
 
