@@ -16,10 +16,14 @@ Predictionary.us - You can't predict from what you don't know.
 <meta content="X-Frame-Options: SAMEORIGIN">
 <meta property="og:description" content="Predictionary.us - You can't predict from what you don't know. Urban Dictionary with a twist, sell your slang, hide meaning behind meaning. Ulterior motives like it's a potion.">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
-<link rel="stylesheet" href="{% static 'css/classa.education.css' %}">
 {% endblock %}
 
 {% block authenticatedposts %}
+<style>
+	.forum {
+		width: max-content !important;
+	}
+</style>
 <div class="pitch" style="width:fit-content; margin: auto;">
 	<div class="framer-64f1t2" data-framer-name="Hero" name="Hero">
 		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: flex;">
@@ -203,6 +207,11 @@ Predictionary.us - You can't predict from what you don't know.
 
 
 {% block unauthenticated_posts %}
+<style>
+	.forum {
+		width: max-content !important;
+	}
+</style>
 <div class="pitch" style="width:fit-content; margin: auto;">
 	<div class="framer-64f1t2" data-framer-name="Hero" name="Hero">
 		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: flex;">
