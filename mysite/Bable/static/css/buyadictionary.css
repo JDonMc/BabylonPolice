@@ -1,0 +1,1456 @@
+/* Copyright Aden Handasyde 2019 */
+
+/* pipenv run python manage.py collectstatic --noinput --clear */
+
+@font-face {
+  font-family: futura-pt;
+  src: url('../fonts/Futura_PT/FuturaPTLight.otf') format("opentype");
+  src: local('../fonts/Futura_PT/FuturaPTLight.otf') format("opentype");
+}
+
+@font-face {
+  font-family: silianrail;
+  src: url('../fonts/Silian_Rail/Silian_Rail.ttf') format("truetype");
+  src: local('../fonts/Silian_Rail/Silian_Rail.ttf') format("truetype");
+}
+
+body {
+    background-color: #201a16;
+    margin: 0;
+    display: block;
+}
+
+h1, h2, h3 {
+	text-rendering: optimizeLegibility;
+}
+
+div {
+	display: block;
+	color: red;
+}
+
+.postpreview {
+	display: inline-block;
+}
+
+.postnexttopreview {
+	display: inline-block;
+}
+
+.posttitle {
+	display: inline-block;
+	width: auto;
+}
+
+
+
+#owner {
+	padding: 42px 420px 69px 42px;
+	background-color: aqua;
+}
+
+.dictionary-top div, .dictionary-bottom div {
+	display: inline-block;
+}
+
+.dictionary-bottom .buy a {
+	background-color: aqua !important;
+}
+
+.dictionary-delete, .dictionary_itself, .word-delete, .exadel {
+	display: inline-block;
+}
+
+.dictionary-delete, .space_delete, .word-delete, .exadel {
+	position: absolute;
+	right: 2em;
+}
+
+.space_edit form label, .space_edit form input, .space_sponsor form label, .space_sponsor form input {
+	display: block;
+}
+
+.space_edit form, .space_sponsor form, .insert_sponsor form {
+	background-color: #f2f2f2;
+	border: solid;
+
+}
+
+.error {
+	color: red;
+}
+
+#header div a, #header div p, #footer div a{
+	color: aqua;
+	font-family: futura-pt;
+	font-weight: 500;
+}
+
+#header div a:active, #footer div a:active {
+	color: #9c9999;
+}
+
+a, a:link, a:visited, a:focus, a:hover, a:active {
+	background-color: transparent;
+	color: red;
+	text-decoration: none;
+}
+
+#siteWrapper {
+	background-color: red;
+	position: relative;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: silianrail;
+	font-size: 12px;
+	letter-spacing: .5px;
+	font-weight: 300;
+	font-style: normal;
+}
+
+#header {
+	padding: 0px, 20px, 0px, 20px;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+}
+
+#mainNavigation a {
+    text-decoration-line: none;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    float: right;
+}
+
+#page {
+    width: 960 px;
+    text-align: left;
+    margin: 10px auto 20px auto;
+    background-color: #0c0c0c;
+}
+
+#siteTitleWrapper {
+	display: inline-block;
+	margin-left: 0;
+}
+
+#siteTitle {
+	font-family: futura-pt;
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: 2px;
+	margin-left: 0.5em;
+	padding-top: 0;
+	padding-bottom: 0;
+	line-height: 1em;
+	position: relative;
+	z-index: 1000;
+
+}
+
+.mobile-nav-toggle {
+	display: none;
+}
+
+.header-inner {
+	position: fixed;
+	background-color: red;
+	z-index: 10;
+	display: table;
+	width: 100%;
+	margin: auto;
+}
+
+.account {
+	display: inline-block;
+	font-family: 'futura-pt';
+	text-decoration-color: aqua;
+	margin-left: 1em;
+}
+
+#searchindex {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#searchindex #search {
+	margin-left: 0.5em;
+	width: 92%;
+}
+
+#searchindex #submit {
+	width: auto;
+}
+
+#submitindex {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#apply_votes {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#apply_votestyle {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#exclude_votes {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#apply_dic {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+#exclude_dic {
+	display: none;
+	background-color: aqua;
+	margin-left:1em;
+	width: 200px;
+}
+
+select {
+	height: 1.6em;
+}
+
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: red; /* red*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.leftsidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: red; /* red*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181 !important;
+    display: block;
+    transition: 0.3s;
+}
+.users {
+
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+	color: aqua;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.leftsidenav .leftclosebtn {
+	color: aqua;
+    position: absolute;
+    top: 20px;
+    left: 270px;
+    font-size: 36px;
+}
+
+.gooddoggo {
+	color: aqua;
+	margin-left: 1em;
+	padding-left: 1em;
+	margin-right: 1em;
+	padding-right: 1em;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#postindex {
+    transition: margin-right .5s;
+    padding: 20px 20px 20px 0px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+#dicform {
+	display: none;
+	background-color: aqua;
+	margin-left: 1em;
+	width: 200px;
+}
+
+#dicform form, #spaceform form, #taskform form, #wordform form {
+	margin-left: 0.2em;
+}
+
+#spaceform {
+	display: none;
+	background-color: aqua;
+	margin-left: 1em;
+	width: 200px;
+}
+
+#taskform {
+	display: none;
+	background-color: aqua;
+	margin-left: 1em;
+	width: 200px;
+}
+
+#wordform {
+	display: none;
+	background-color: aqua;
+	margin-left: 1em;
+	width: 200px;
+}
+
+.submit_new_post {
+	margin-left:0.5em;
+}
+
+#submitindex input, #submitindex textarea {
+	width: 96%;
+	margin-left: 0.5em;
+}
+
+#postindex {
+	display: block;
+	background-color: aqua;
+}
+
+.usersusername {
+	margin-top: 3em;
+	margin-left: 1em;
+}
+
+.usersspaces {
+	margin-left: 1.5em;
+}
+
+.usersdictionaries {
+	margin-left: 1.5em;
+}
+
+.usersexamples {
+	margin-left: 1.5em;
+}
+
+.users_sponosrs {
+	margin-left: 1.5em;
+}
+
+
+
+.usersposts, .userspost {
+	margin-left: 1.5em;
+}
+
+.postbody, .exaexa, #exaitself {
+	color: aqua;
+	background-color: darkred;
+}
+
+.postbody {
+	margin-right: 0.5em;
+	padding-left: 0.5em;
+	padding-right: 0.3em;
+	padding-top: 0.3em;
+	padding-bottom: 0.4em;
+}
+
+.postbody a {
+	background-color: transparent;
+	color: aqua !important;
+	text-decoration: none;
+}
+
+.postbody a:visited {
+	background-color: transparent;
+	color: yellow !important;
+	text-decoration: none;
+}
+
+.postbody a:hover {
+	background-color: transparent;
+	color: green;
+	text-decoration: none;
+}
+
+#plain {
+	color: #ffe;
+	background-color: darkred;
+}
+
+.dictionarysponsors, .spacesponsors, .exasponsors {
+	position: absolute;
+	right: 3em;
+	display: inline-block;
+
+}
+
+.space_itself { 
+	margin-right: 8em; 
+}
+
+.savedspaces {
+	padding-left: 5px;
+	border-left: solid;
+	border-bottom: solid;
+}
+
+.spacesponsors {
+	margin-top: -2em;
+}
+
+#postindex > .posts, .user > .users {
+	margin-left: 0.5em;
+}
+
+.space_left, .dictionary_left {
+	margin-right: 8em;
+}
+
+.postvoters, .postvotes, .postviews, .postlatest {
+	display: inline-block;
+}
+
+.post .postvotes {
+	display: block;
+}
+
+#registerterms {
+	margin-top: 4em;
+	margin-left: 2em;
+	display: none;
+}
+
+.dictionary, .example, .viewexample {
+	background-color: #f2f2f2;
+	padding-bottom: 1px;
+	border-right: solid;
+	margin-bottom: 1px;
+}
+
+.post {
+	background-color: #f2f2f2;
+	padding-bottom: 1px;
+	border-top: solid;
+	margin-bottom: 1px;
+}
+
+.user {
+	background-color: #f2f2f2;
+	padding-bottom: 1px;
+	border-top: solid;
+	margin-bottom: 1px;
+}
+
+.space {
+	background-color: #f2f2f2;
+	padding-bottom: 1px;
+	border-bottom: solid;
+	margin-bottom: 1px;
+}
+
+.postdel {
+	position: absolute;
+	right: 2em;
+}
+
+.comsubmit form button {
+	color: red;
+}
+
+.single_dictionary, .single_space, .single_example, .single_word {
+	margin-left: 1.5em;
+}
+
+.spacesposts {
+	margin-left: 1.5em;
+}
+
+.single_dictionarys_words {
+	margin-left: 2em;
+}
+
+#headerNav1 {
+	display: block;
+	box-sizing: border-box;
+	position: absolute;
+	margin-top: -2.5em;
+	right: 1em;
+	cursor: pointer;
+	color: aqua;
+	width: 2em;
+	height: 2em;
+}
+
+#headerNav2 {
+	display: block;
+	box-sizing: border-box;
+	position: absolute;
+	margin-top: -2.5em;
+	right: 3em;
+	cursor: pointer;
+	color: aqua;
+	width: 2em;
+	height: 2em;
+}
+
+#headerNav3 {
+	display: block;
+	box-sizing: border-box;
+	position: absolute;
+	margin-top: -2.2em;
+	right: 5em;
+	cursor: pointer;
+	color: aqua;
+	width: 2em;
+	height: 2em;
+}
+
+#top {
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 1.25em;
+	height: 0.1em;
+	background-color: aqua
+}
+
+#middle {
+	cursor: pointer;
+	position: absolute;
+	top: 0.5em;
+	right: 0;
+	width: 1.25em;
+	height: 0.1em;
+	background-color: aqua
+}
+
+ #bottom {
+ 	cursor: pointer;
+	position: absolute;
+	top: 1em;
+	right: 0;
+	width: 1.25em;
+	height: 0.1em;
+	background-color: aqua
+}
+
+.dropdown-content1 {
+	z-index: 9999;
+	display: none;
+	position: absolute;
+	left: -8em;
+	top: 2em;
+	background-color: darkred;
+}
+
+.dropdown-content2 {
+	z-index: 1;
+	display: none;
+	position: absolute;
+	left: -6em;
+	top: 1.75em;
+	background-color: darkred;
+}
+
+.dropdown-content3 {
+	z-index: 1;
+	display: none;
+	position: absolute;
+	left: -4em;
+	top: 1.75em;
+	background-color: darkred;
+}
+
+.dropdown-content2 div p {
+	margin-left: 0.5em;
+}
+
+#headerNav1:hover .dropdown-content1 {
+	display: block;
+}
+
+#headerNav1:hover .headerNav2 {
+		display: none;
+	}
+
+
+#headerNav2:hover .dropdown-content2 {
+	display: block;
+}
+
+#headerNav3:hover .dropdown-content3 {
+	display: block;
+}
+
+.dicsectionsort, .possectionsort, .spasectionsort, .exasectionsort, .wordsectionsort {
+	display: inline-block;
+}
+
+#dicsortnav, #spasortnav, #exasortnav, #possortnav, .wordsortnav, {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.attributetitle, .pronunciationtitle {
+	display: block;
+}
+
+#postindex .sectiontitle {
+	display: inline-block;
+	margin-left: 0.5em;
+}
+
+.users_sponsors, .users_sponsor {
+	margin-left: 1.5em;
+}
+
+.intro {
+	margin-top: 3em;
+}
+
+.sponsorsheading, .spon_latest, .spon_allowable, .spon_price_limit, .spon_votecount {
+	display: inline-block;
+	margin-left: 0.5em;
+}
+
+.spon_author {
+	display: block;
+	margin-left: 0.5em;
+}
+
+.spon-id {
+	display: block;
+}
+
+.spon-delete {
+	position: absolute;
+	display: inline;
+	right: 2em;
+}
+
+.users_sponsor {
+	background-color: #f2f2f2;
+	border-left: solid;
+	margin-left: 1px;
+}
+
+.the_sponsorship_phrase, .sponsorclick {
+	background-color: darkred;
+	color: aqua;
+}
+
+.ABN {
+	color: aqua;
+	font-size: 12px;
+}
+
+.displaybanner {
+	display: inline-block;
+	margin-left: 0.5em;
+}
+
+.sectiontitle {
+	display: inline-block;
+}
+
+.dropdown-content-dic-sort, .dropdown-content-exa-sort, .dropdown-content-spa-sort, .dropdown-content-pos-sort, .dropdown-content-word-sort {
+	display: none;
+	position: absolute;
+	background-color: darkred;
+}
+
+.popular, .stats, .flair {
+	display: inline-block;
+}
+
+.popular div a, .stats div a, .flair div a {
+	color: aqua;
+}
+
+.dicsectionsort:hover .dropdown-content-dic-sort, .possectionsort:hover .dropdown-content-pos-sort, .exasectionsort:hover .dropdown-content-exa-sort, .spasectionsort:hover .dropdown-content-spa-sort, .wordsectionsort:hover .dropdown-content-word-sort {
+	display: block;
+}
+
+.dictionary, .example, .viewexample, .post, .space, .word, .sponsor, .relationformsetopen, .relation, .storyformsetopen, .story, .translationformsetopen, .translation, .similarityformsetopen, .similarity, .exampleformsetopen, .attributeformsetopen, .attribute, .pronunciationformsetopen, .pronunciation {
+	padding: 0em 0em 0em 5px;
+}
+
+.attributedropdown {
+	display: none;
+	position: absolute;
+	background-color: darkred;
+}
+
+.attributetitle:hover .attributedropdown {
+	width: 75%;
+	display: block;
+	color: aqua;
+}
+
+.attributeformsetopen, .translationformopen, .storyformopen, .similarityformopen, .pronunciationformopen, .relationformopen, .exampleformopen, .spacesformopen, .sponsorformopen {
+	color: red;
+}
+
+.attributeformsetopen .leave, .translationformopen .leave, .storyformopen .leave, .similarityformopen .leave, .pronunciationformopen .leave, .relationformopen .leave, .exampleformopen .leave {
+	color: blue;
+}
+
+.attatt, .attdel, .homhom, .homdelete, .antitself, .antdelete, .defcomsvotesss, .defcomsdicss, .homcomsbody, .homcomsvotess, .antcomsvotess, .antcomsbody, .syncomsvotess, .syncombody, .synvotes, .defcomsvotess, .defcomsbody, .attdefvotes, .prondelete, .simidelete, .transdelete, .examdelete, .stordelete, .reladelete, .spondelete, .spacdelete {
+	display: inline-block;
+}
+
+.space_author, .space_viewcount, .space_latest, .space_posts, .space_votes, .space_sponsors, .space_voters {
+	display: inline-block;
+}
+
+.attdel, .attdefdelete, .homdelete, .antdelete, .comdelete, .syndelete, .antdelete, .prondelete, .simidelete, .transdelete, .examdelete, .stordelete, .reladelete, .spondelete, .spacdelete {
+	position: absolute;
+	right: 2em;
+}
+
+.posttop {
+	display: flex;
+}
+
+.userbalance, .userself, .usermsgs, .words_itself, .words_latest, .words_pronunciations, .words_attributes, .words_similarities, .words_translations, .words_translations, .words_examples, .words_stories, .words_relations, .words_pronunciations, .words_sponsors, .words_price, .words_viewcount, .words_spaces, .words_votes, .dicwordattribute, .attdefs, .attdef, .attdefchange, .attdefviews, .attdefcount, .attdefvotes, .attdefcom, .defcomlist, .defcoms, .syns, .synbody, .syncoms, .ants, .antbody, .antcoms, .homs, .hom, .dicwordpronunciation, .dicwordexample, .dicwordsimilarity, .dicwordtranslation, .dicwordstory, .dicwordrelation, .dicwordspace, .dicwordsponsor  {
+	padding-left: 0.3em;
+	border-left: 1px solid red;
+	margin-left: 1px solid aqua;
+}
+
+.userother, .users_votes {
+	margin-left: 1.5em;
+}
+
+.votedel {
+	display: inline-block;
+	position: absolute;
+	right: 2em;
+}
+
+.votes_heading {
+	margin-left: 0.5em;
+}
+
+
+
+.sent_itself, .sent_latest, .sent_renditions, .sent_author, .sent_views, .trans_itself, .trans_after, .trans_latest, .trans_votes, .trans_viewcount, .wordg_itself, .wordg_words, .wordg_author, .anal_itself, .anal_views, .anal_change, .anal_author, .anal_count, .anal_votes, .prereq_itself, .prereq_words, .prereq_author, .prereq_votes, .prereq_sponsors, .prereq_ms_author, .prereq_ms_price, .prereq_ms_allowable, .prereq_cost {
+	padding-left: 0.3em;
+	border-left: 1px solid red;
+	margin-left: 1px solid aqua;
+}
+
+.prerequisite, .analysis, .sentence, .translation, .wordgroup {
+	padding-left: 5px;
+}
+
+.userself, .titlesavevotes, .userssavedvotes {
+	margin-left: 1em;
+	border-left: 1px solid blue;
+}
+
+.votestyle {
+	border-bottom: 1px solid red;
+}
+
+.usersvotestyles {
+	margin-left: 1em;
+}
+
+.attvotess, .syncomsvotesss, .syncomsdicss, .antcomsvotess, .antcomsdicss, .homvotess, .homcomsvotesss, .homcomsdicss {
+	display: inline-block;
+}
+
+.starter, .threaded {
+	display: none;
+}
+
+.comsubmit div {
+	color: red;
+}
+
+.comsubmit form textarea {
+	display: block;
+}
+
+.comsubmit form label {
+	display: block;
+}
+
+.comsubmit form button {
+	background-color: red; /* Green */
+    border: none;
+    color: aqua;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+
+}
+
+.form-actions button {
+	background-color: green; /* Green */
+    border: none;
+    color: aqua;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+
+#dicform form button, #wordform form button, #spaceform form button, #postform form button, #taskform form button, .space_edit form button, .space_sponsor form button, #apply_votes form button, #apply_votestyle form button, #exclude_votes form button, #apply_dic form button, #exclude_dic form button, .sponsorform button, .logout-form form button, #submitindex form button, .userbalance form button {
+	background-color: green; /* Green */
+    border: 1px;
+    border-style: solid;
+    border-color: green;
+    color: aqua;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.logout-form form button {
+	background-color: aqua; /* Green */
+    border: none;
+    color: red;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.contact input, .contact label {
+	display: block;
+}
+
+.bar {
+	display: inline;
+}
+
+.login-bar {
+	display: inline-block;
+	text-decoration-color: aqua;
+	justify-content: center;
+	text-transform: uppercase;
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+.submit-bar {
+	display: inline-block;
+	text-decoration-color: aqua;
+	justify-content: center;
+	text-transform: uppercase;
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+.search-bar {
+	display: inline-block;
+	text-decoration-color: aqua;
+	justify-content: center;
+	text-transform: uppercase;
+	margin-left: 1em;
+	cursor: pointer;
+}
+
+#logs {
+	display: none;
+	zoom:80%;
+	margin-left: 1em;
+	border-style: solid;
+	border-color: aqua;
+	border-width: 0.1em;
+	background-color: aqua;
+}
+
+.register-form, .login-form, .logout-form, .reply-form{
+	background-color: aqua;
+}
+
+.footer-inner {
+	display: flex;
+	justify-content: center;
+}
+
+.creator, .feedback, .support, .contact, .about {
+	font-family: futura-pt;
+	font-size: 0.8em;
+	text-decoration-color: aqua;
+    text-transform: uppercase;
+    text-decoration-line: none;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1em;
+    padding-top: 0.75em;
+    padding-right: 1em;
+    padding-bottom: 0.75em;
+    padding-left: 1em;
+    display: inline-block;
+}
+
+@media only screen and (max-width: 700px) {
+
+	#owner {
+		padding: 42px 42px 69px 42px;
+		background-color: aqua;
+	}
+}
+
+@media only screen and (min-width: 490px) {
+
+	body {
+	    background-color: #201a16;
+	    margin: 0;
+	    display: block;
+	}
+
+	h1, h2, h3 {
+		text-rendering: optimizeLegibility;
+	}
+
+	div {
+		display: block;
+	}
+
+	#header div a, #header div p, #footer div a{
+		color: aqua;
+		font-family: futura-pt;
+		font-weight: 500;
+	}
+
+	#header div a:active, #footer div a:active {
+		color: #9c9999;
+	}
+
+	a, a:link, a:visited, a:focus, a:hover, a:active {
+		background-color: transparent;
+		color: red;
+		text-decoration: none;
+	}
+
+	#siteWrapper {
+		background-color: red;
+		position: relative;
+		padding: 0;
+		box-sizing: border-box;
+		font-family: silianrail;
+		font-size: 1.2em;
+		letter-spacing: 0.05em;
+		font-weight: 300;
+		font-style: normal;
+	}
+
+	#header {
+		padding: 0px, 20px, 0px, 20px;
+		z-index: 1000;
+		top: 0;
+		left: 0;
+	}
+
+	#mainNavigation a {
+	    text-decoration-line: none;
+	    text-decoration-style: initial;
+	    text-decoration-color: initial;
+	    float: right;
+	}
+
+	#page {
+	    width: 960 px;
+	    text-align: left;
+	    margin: 10px auto 20px auto;
+	    background-color: #0c0c0c;
+	}
+
+	#siteTitleWrapper {
+		display: inline-block;
+		margin-left: 0;
+	}
+
+	#siteTitle {
+		font-family: futura-pt;
+		text-transform: uppercase;
+		font-size: 24px;
+		letter-spacing: 2px;
+		margin-left: 0.5em;
+		padding-top: 0;
+		padding-bottom: 0;
+		line-height: 1em;
+		position: relative;
+		z-index: 1000;
+
+	}
+
+	.mobile-nav-toggle {
+		display: none;
+	}
+
+	.header-inner {
+		margin-left: -20px;
+		display: table;
+		width: 100%;
+		margin: auto;
+	}
+
+	#index {
+		display: block;
+		background-color: aqua;
+	}
+
+	.search-bar {
+		display: inline-block;
+		text-decoration-color: aqua;
+		justify-content: center;
+		text-transform: uppercase;
+		margin-left: 1em;
+		cursor: pointer;
+	}
+
+	.account {
+		display: inline-block;
+		font-family: 'futura-pt';
+		text-decoration-color: aqua;
+		margin-left: 1em;
+	}
+
+	#headerNav1 {
+		display: block;
+		box-sizing: border-box;
+		position: absolute;
+		margin-top: -2.3em;
+		right: 1em;
+		cursor: pointer;
+		color: aqua;
+		width: 2em;
+		height: 2em;
+	}
+
+	#headerNav2 {
+		display: block;
+		box-sizing: border-box;
+		position: absolute;
+		margin-top: -2.3em;
+		right: 3em;
+		cursor: pointer;
+		color: aqua;
+		width: 2em;
+		height: 2em;
+	}
+
+	#top {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	#middle {
+		cursor: pointer;
+		position: absolute;
+		top: 0.5em;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	 #bottom {
+	 	cursor: pointer;
+		position: absolute;
+		top: 1em;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	.dropdown-content1 {
+		display: none;
+		position: absolute;
+		left: -8em;
+		top: 2em;
+		background-color: darkred;
+	}
+
+	.dropdown-content2 {
+		display: none;
+		position: absolute;
+		left: -4em;
+		top: 2em;
+		background-color: darkred;
+	}
+
+	#headerNav1:hover .dropdown-content1 {
+		display: block;
+	}
+
+	#headerNav1:hover .headerNav2 {
+		display: none;
+	}
+
+	#headerNav2:hover .dropdown-content2 {
+		display: block;
+	}
+
+	.login-bar {
+		display: inline-block;
+		text-decoration-color: aqua;
+		justify-content: center;
+		text-transform: uppercase;
+		margin-left: 1em;
+	}
+
+	#logs {
+		display: none;
+	}
+
+	.register-form, .login-form, .logout-form, .reply-form{
+		background-color: aqua;
+	}
+
+	.footer-inner {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.creator, .feedback, .support, .contact, .about {
+		font-family: futura-pt;
+		font-size: 13px;
+		text-decoration-color: aqua;
+	    text-transform: uppercase;
+	    text-decoration-line: none;
+	    text-decoration-style: initial;
+	    text-decoration-color: initial;
+	    letter-spacing: 2px;
+	    font-weight: 500;
+	    font-style: normal;
+	    line-height: 1em;
+	    padding-top: 0.75em;
+	    padding-right: 1em;
+	    padding-bottom: 0.75em;
+	    padding-left: 1em;
+	    display: inline-block;
+	}
+}
+
+@media only screen and (min-width: 1300px) {
+	body {
+	    background-color: #201a16;
+	    margin: 0;
+	    display: block;
+	}
+
+	h1, h2, h3 {
+		text-rendering: optimizeLegibility;
+	}
+
+	div {
+		display: block;
+	}
+
+	#header div a, #header div p, #footer div a{
+		color: aqua;
+		font-family: futura-pt;
+		font-weight: 500;
+	}
+
+	#header div a:active, #footer div a:active {
+		color: #9c9999;
+	}
+
+	a, a:link, a:visited, a:focus, a:hover, a:active {
+		background-color: transparent;
+		color: red;
+		text-decoration: none;
+	}
+
+	#siteWrapper {
+		background-color: red;
+		position: relative;
+		box-sizing: border-box;
+		font-family: silianrail;
+		font-size: 16px;
+		letter-spacing: .5px;
+		font-weight: 300;
+		font-style: normal;
+	}
+
+	#header {
+		z-index: 1000;
+	}
+
+	#mainNavigation a {
+	    text-decoration-line: none;
+	    text-decoration-style: initial;
+	    text-decoration-color: initial;
+	    float: right;
+	}
+
+	#page {
+	    width: 960 px;
+	    text-align: left;
+	    margin: 10px auto 20px auto;
+	    background-color: #0c0c0c;
+	}
+
+	#siteTitleWrapper {
+		display: inline-block;
+		margin-left: 0;
+	}
+
+	#siteTitle {
+		font-family: futura-pt;
+		text-transform: uppercase;
+		font-size: 24px;
+		margin-left: 0.5em;
+		letter-spacing: 2px;
+		line-height: 1em;
+		position: relative;
+		z-index: 1000;
+
+	}
+
+	.mobile-nav-toggle {
+		display: inline-block;
+	}
+
+	.header-inner {
+		width: 100%;
+	}
+
+	.complementary, .mutawords, .dictionaries, .universal_pronunciation, .user_view, .word_attributes, .space_view, .create_dic, .word-bar, .space-bar, .post-bar, .task-bar {
+		font-family: futura-pt;
+		font-size: 13px;
+	    text-transform: uppercase;
+	    text-decoration-line: none;
+	    text-decoration-style: initial;
+	    text-decoration-color: initial;
+	    letter-spacing: 2px;
+	    font-weight: 500;
+	    font-style: normal;
+	    line-height: 1em;
+	    padding-top: 0.75em;
+	    padding-right: 1em;
+	    padding-bottom: 0.2em;
+	    padding-left: 1em;
+	    display: inline-block;
+	}
+
+	#index {
+		display: block;
+		background-color: aqua;
+	}
+
+	#headerNav1 {
+		display: block;
+		box-sizing: border-box;
+		position: absolute;
+		margin-top: -2.5em;
+		right: 1em;
+		cursor: pointer;
+		color: aqua;
+		width: 2em;
+		height: 2em;
+	}
+
+	#headerNav2 {
+		display: block;
+		box-sizing: border-box;
+		position: absolute;
+		margin-top: -2.5em;
+		right: 3em;
+		cursor: pointer;
+		color: aqua;
+		width: 2em;
+		height: 2em;
+	}
+
+	#top {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	#middle {
+		cursor: pointer;
+		position: absolute;
+		top: 0.5em;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	 #bottom {
+	 	cursor: pointer;
+		position: absolute;
+		top: 1em;
+		right: 0;
+		width: 1.25em;
+		height: 0.1em;
+		background-color: aqua
+	}
+
+	.dropdown-content1 {
+		display: none;
+		position: absolute;
+		left: -10em;
+		top: 2em;
+		background-color: darkred;
+	}
+
+	.dropdown-content2 {
+		display: none;
+		position: absolute;
+		left: -6em;
+		top: 1.75em;
+		background-color: darkred;
+	}
+
+	#headerNav1:hover .dropdown-content1 {
+		display: block;
+	}
+
+	#headerNav1:hover .headerNav2 {
+		display: none;
+	}
+
+
+	#headerNav2:hover .dropdown-content2 {
+		display: block;
+	}
+
+	.login-bar {
+		display: inline-block;
+		text-decoration-color: aqua;
+		justify-content: center;
+		text-transform: uppercase;
+		margin-left: 1em;
+		cursor: pointer;
+	}
+
+	#logs {
+		display: none;
+		margin-left: 1em;
+		border-style: solid;
+		border-color: aqua;
+		border-width: 0.1em;
+		background-color: aqua;
+	}
+
+	.register-form, .login-form, .logout-form, .reply-form{
+		background-color: aqua;
+	}
+
+	.footer-inner {
+		display: flex;
+		justify-content: center;
+	}
+
+	.creator, .feedback, .support, .contact, .about {
+		font-family: futura-pt;
+		font-size: 13px;
+		text-decoration-color: aqua;
+	    text-transform: uppercase;
+	    text-decoration-line: none;
+	    text-decoration-style: initial;
+	    text-decoration-color: initial;
+	    letter-spacing: 2px;
+	    font-weight: 500;
+	    font-style: normal;
+	    line-height: 1em;
+	    padding-top: 0.75em;
+	    padding-right: 1em;
+	    padding-bottom: 0.75em;
+	    padding-left: 1em;
+	    display: inline-block;
+	}
+}
+
+input[type=button] {
+    background-color: darkred; /* Green */
+    border: none;
+    color: aqua;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=text], textarea {
+	background-color: darkred; /* Green */
+    border: none;
+    color: aqua;
+    width: 80%;
+}
+
+.no_error {
+	width: 50%;
+}
+
+#wafs, #wpfs {
+	background-color: #e7e7e7;
+}

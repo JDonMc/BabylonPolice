@@ -12,7 +12,15 @@
         {% block title %}
     	{% endblock %}
     </title>
+    {% if request.META.HTTP_HOST|stripwww == 'spellsell.com' %}
+    <link rel="stylesheet" href="{% static 'css/spellsell.css' %}">
+    {% elif request.META.HTTP_HOST|stripwww == 'predictionary.us' %}
+    <link rel="stylesheet" href="{% static 'css/predictionary.css' %}">
+    {% elif request.META.HTTP_HOST|stripwww == 'the-rosetta-stone.com' %}
+    <link rel="stylesheet" href="{% static 'css/buyadictionary.css' %}">
+    {% else %}
     <link rel="stylesheet" href="{% static 'css/babylonpolice.css' %}">
+    {% endif %}
     <link rel="icon" href="{% static 'towerofbable.png' %}">
     <link rel="stylesheet" href="{% static 'awesomplete-gh-pages/awesomplete.css' %}">
     <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
