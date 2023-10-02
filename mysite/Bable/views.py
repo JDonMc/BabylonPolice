@@ -4717,23 +4717,22 @@ def tob_users_space(request, user, space_id, count):
 	spaces_dic.save()
 	try:
 		spaces_posts = users_space.posts.count()
-		if spaces_posts:
-			if request.user.is_authenticated:
-				if not users_space.public:
-					if request.user.username in users_space.approved_voters.all().values_list('username'):
-						spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:25]
-						space_viewable = True
-					else:
-						space_viewable = False
-				else:
-					spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:25]
-					space_viewable = True
-			else:
-				if users_space.public:
-					spaces_posts = users_space.posts.order_by('viewcount')[:25]
+		if request.user.is_authenticated:
+			if not users_space.public:
+				if request.user.username in users_space.approved_voters.all().values_list('username'):
+					spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:count+25]
 					space_viewable = True
 				else:
 					space_viewable = False
+			else:
+				spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:count+25]
+				space_viewable = True
+		else:
+			if users_space.public:
+				spaces_posts = users_space.posts.order_by('viewcount')[count:count+25]
+				space_viewable = True
+			else:
+				space_viewable = False
 	
 	except ObjectDoesNotExist:
 		users_space = Space.objects.get(id=space_id)
@@ -4741,16 +4740,16 @@ def tob_users_space(request, user, space_id, count):
 		if request.user.is_authenticated:
 			if not users_space.public:
 				if request.user.username in users_space.approved_voters.all().values_list('username'):
-					spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:25]
+					spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:count+25]
 					space_viewable = True
 				else:
 					space_viewable = False
 			else:
-				spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:25]
+				spaces_posts = users_space.posts.order_by(loggedinanon.post_sort_char)[count:count+25]
 				space_viewable = True
 		else:
 			if users_space.public:
-				spaces_posts = users_space.posts.order_by('viewcount')[:25]
+				spaces_posts = users_space.posts.order_by('viewcount')[count:count+25]
 				space_viewable = True
 			else:
 				space_viewable = False
