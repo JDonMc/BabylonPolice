@@ -487,7 +487,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 						Sponsors: {{ space.sponsors.count }}
 					</div>
 					<div class=space_voters>
-						Approved Voters: {{ space.latest_change_date|naturaltime }}
+						Approved Voters: {{ space.approved_voters.count }}
 					</div>
 					<div class=space_intro>
 						Intro: {{ space.sidebar|urlize }}
@@ -1029,7 +1029,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 					Sponsors: {{ space.sponsors.count }}
 				</div>
 				<div class=space_voters>
-					Approved Voters: {{ space.latest_change_date|naturaltime }}
+					Approved Voters: {{ space.approved_voters.count }}
 				</div>
 				<div class=space_intro>
 					Intro: {{ space.sidebar|urlize }}
