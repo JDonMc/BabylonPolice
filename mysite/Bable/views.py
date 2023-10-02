@@ -4730,7 +4730,7 @@ def tob_users_space(request, user, space_id, count):
 					space_viewable = True
 			else:
 				if users_space.public:
-					spaces_posts.order_by('viewcount')[:25]
+					spaces_posts = users_space.posts.order_by('viewcount')[:25]
 					space_viewable = True
 				else:
 					space_viewable = False
@@ -4750,7 +4750,7 @@ def tob_users_space(request, user, space_id, count):
 				space_viewable = True
 		else:
 			if users_space.public:
-				users_space.posts.order_by('viewcount')[:25]
+				spaces_posts = users_space.posts.order_by('viewcount')[:25]
 				space_viewable = True
 			else:
 				space_viewable = False
