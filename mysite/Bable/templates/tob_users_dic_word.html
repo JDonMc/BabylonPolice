@@ -1407,7 +1407,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 											</div>
 											<div id=spa{{spac.id}} style="display: inline-block;">
 												<div class=spaspa>
-													<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself spac.id %}">Space: {{ spac.the_space_itself.the_word_itself }}</a>
+													<a href="{% url 'Bable:tob_users_space' user_anon.username.username spac.id %}">Space: {{ spac.the_space_itself.the_word_itself }}</a>
 												</div>
 												{% if loggedinanon == user_anon %}
 												<div class=dictionary-delete>
