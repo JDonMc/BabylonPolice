@@ -7887,6 +7887,7 @@ def tob_users_dic_word_space(request, user, dictionary, word, space):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
 		dic_form = DictionaryForm()
 		space_form = SpaceForm(request)
 		post_form = PostForm(request)
