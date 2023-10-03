@@ -166,7 +166,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in pron.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 														<div class=pronvotess>
-															<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
+															<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
 														</div>
 														{% endif %}
 													{% endfor %}
@@ -224,7 +224,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 												{% for vote in def.votes.all %}
 													{% if vote in loggedinanon.applied_votestyles.to_source %}
 													<div class=attdefvotess>
-														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 													</div>
 													{% endif %}
 												{% endfor %}
@@ -270,7 +270,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=defcomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -348,7 +348,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 															{% for vote in syn.votes.all %}
 																{% if vote in loggedinanon.applied_votestyles.to_source %}
 																<div class=synvotess>
-																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																</div>
 																{% endif %}
 															{% endfor %}
@@ -393,7 +393,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=syncomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -507,7 +507,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																			{% for vote in node.votes.all %}
 																				{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																				<div class=antcomsvotesss>
-																					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																				</div>
 																				{% endif %}
 																			{% endfor %}
@@ -585,7 +585,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 															{% for vote in hom.votes.all %}
 																{% if vote in loggedinanon.applied_votestyles.to_source %}
 																<div class=homevotess>
-																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																</div>
 																{% endif %}
 															{% endfor %}
@@ -633,7 +633,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																			{% for vote in node.votes.all %} <!-- either needs an ALL before or after or neither - if source-->
 																				{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																				<div class=homcomsvotesss>
-																					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																				</div>
 																				{% endif %}
 																			{% endfor %}
@@ -742,7 +742,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in exa.votes.all|slice:"10" %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=exavotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -794,7 +794,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=exacomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -876,7 +876,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 														{% for vote in conn.votes.all %}
 															{% if vote in loggedinanon.applied_votestyles.to_source %}
 																<div class=simiconnvotess>
-																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																</div>
 															{% endif %}
 														{% endfor %}
@@ -926,7 +926,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=simiconncomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -979,7 +979,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=simicomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -1052,7 +1052,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in tran.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=tranvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -1104,7 +1104,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=trancomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -1177,7 +1177,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in stor.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=storvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -1229,7 +1229,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=storcomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -1302,7 +1302,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in rela.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=relavotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -1334,7 +1334,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in com.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=relacomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -1407,7 +1407,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 											</div>
 											<div id=spa{{spac.id}} style="display: inline-block;">
 												<div class=spaspa>
-													<a href="{% url 'Bable:tob_users_space' user_anon.username.username spac.id %}">Space: {{ spac.the_space_itself.the_word_itself }}</a>
+													<a href="{% url 'Bable:tob_users_space' user_anon.username.username spac.id 0 %}">Space: {{ spac.the_space_itself.the_word_itself }}</a>
 												</div>
 												{% if loggedinanon == user_anon %}
 												<div class=dictionary-delete>
@@ -1428,7 +1428,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 														{% for vote in spac.to_full.votes.all %}
 															{% if vote in loggedinanon.applied_votestyles.to_source %}
 																<div class=spavotess>
-																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																	<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																</div>
 															{% endif %}
 														{% endfor %}
@@ -1485,7 +1485,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in spon.votes.all %}
 														{% if vote in loggedinanon.applied_votestyle.to_source %}
 															<div class=sponvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -1535,7 +1535,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 												{% for vote in pron.votes.all %}
 													{% if vote in loggedinanon.applied_votestyles.to_source %}
 													<div class=pronvotess>
-														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
+														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
 													</div>
 													{% endif %}
 												{% endfor %}
@@ -1583,7 +1583,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in def.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=attdefvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -1609,7 +1609,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																{% for vote in node.votes.all %}
 																	{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																	<div class=attdefcomsvotesss>
-																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																	</div>
 																	{% endif %}
 																{% endfor %}
@@ -1691,7 +1691,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 												{% for vote in examp.votes.all %}
 													{% if vote in loggedinanon.applied_votestyles.to_source %}
 														<div class=exavotess>
-															<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+															<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 														</div>
 													{% endif %}
 												{% endfor %}
@@ -1714,7 +1714,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																{% for vote in node.votes.all %}
 																	{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																	<div class=exacomsvotesss>
-																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																	</div>
 																	{% endif %}
 																{% endfor %}
@@ -1807,7 +1807,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 															{% for vote in conn.votes.all %}
 																{% if vote in loggedinanon.applied_votestyles.to_source %}
 																	<div class=simiconnvotess>
-																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																		<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																	</div>
 																{% endif %}
 															{% endfor %}
@@ -1830,7 +1830,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		{% for vote in node.votes.all %}
 																			{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																			<div class=simiconncomsvotesss>
-																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																			</div>
 																			{% endif %}
 																		{% endfor %}
@@ -1899,7 +1899,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																	{% for vote in com.votes.all %}
 																		{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																		<div class=simicomsvotesss>
-																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																		</div>
 																		{% endif %}
 																	{% endfor %}
@@ -1985,7 +1985,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in tran.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=tranvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -2008,7 +2008,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																	{% for vote in node.votes.all %}
 																		{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																		<div class=trancomsvotesss>
-																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																		</div>
 																		{% endif %}
 																	{% endfor %}
@@ -2094,7 +2094,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in stor.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=storvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -2118,7 +2118,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																	{% for vote in node.votes.all %}
 																		{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																		<div class=storcomsvotesss>
-																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																		</div>
 																		{% endif %}
 																	{% endfor %}
@@ -2204,7 +2204,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in rela.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=relavotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -2227,7 +2227,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																	{% for vote in node.votes.all %}
 																		{% if vote in loggedinanon.applied_votesstyles.to_source %}
 																		<div class=relacomsvotesss>
-																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 																		</div>
 																		{% endif %}
 																	{% endfor %}
@@ -2313,7 +2313,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in spac.votes.all %}
 														{% if vote in loggedinanon.applied_votestyles.to_source %}
 															<div class=spavotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -2362,7 +2362,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 													{% for vote in spon.votes.all %}
 														{% if vote in loggedinanon.applied_votestyle.to_source %}
 															<div class=sponvotess>
-																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+																<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 															</div>
 														{% endif %}
 													{% endfor %}
@@ -2707,7 +2707,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 											{% for vote in spon.votes.all %}
 												{% if vote in loggedinanon.applied_votestyle.to_source %}
 													<div class=sponvotess>
-														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+														<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_vote' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 													</div>
 												{% endif %}
 											{% endfor %}
