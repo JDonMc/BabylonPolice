@@ -6,12 +6,12 @@
 {% load static %}
 
 {% block title %}
-{{ users_post.title }} - Babylon Police - ID: {{ users_post.id }}
+{{ spaces_post.title }} - Babylon Police - ID: {{ spaces_post.id }}
 {% endblock %}
 
 {% block inserts %}
 <meta name="viewport" content="width=device-width">
-<meta name="description" content="{{ users_post.title }} - Babylon Police - ID: {{ users_post.id }}">
+<meta name="description" content="{{ spaces_post.title }} - Babylon Police - ID: {{ spaces_post.id }}">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
@@ -109,7 +109,7 @@
 						{% endif %}
 					</div>
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_users_post' post.author.username post.id 0 %}"><h4>{{ post.title|word_up:post.dictionaries }}</h4></a>
+						<a href="{% url 'Bable:tob_spaces_post' post.author.username post.id 0 %}"><h4>{{ post.title|word_up:post.dictionaries }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
@@ -124,10 +124,10 @@
 				</div>
 				<div class=postbody>
 					{% if post.dictionaries.count %}
-					<a href="{% url 'Bable:tob_users_spaces_post' user_anon.username.username users_space.the_space_itself.the_word_itself post.id %}">{{ post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}</a>
+					<a href="{% url 'Bable:tob_users_spaces_post' user_anon.username.username users_space.the_space_itself.the_word_itself post.id %}">{{ post.body|safety_check|prereq_dics_word_up:spaces_post.dictionaries.all|dics_word:spaces_post.dictionaries.all|fontypes:spaces_post.words.all|usernames|spaces|safe|linebreaks }}</a>
 					{% else %}
 					<div id=postbody class=postbody style="width: fit-content; margin: auto;">
-						{{ post.body|safety_check|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
+						{{ post.body|safety_check|fontypes:spaces_post.words.all|usernames|spaces|safe|linebreaks }}
 					</div>
 					{% endif %}
 				</div>
@@ -146,7 +146,7 @@
 				</div>
 				<div class=postvotes>
 					Votes:
-					{% for vote in users_post.votes.all %}
+					{% for vote in spaces_post.votes.all %}
 					<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
 					{% endfor %}
 					
@@ -154,14 +154,14 @@
 				<div class=postcc>
 					CC:
 					<br/>
-					{% if users_post.cc %}
-					{{ users_post.cc|safe }}
+					{% if spaces_post.cc %}
+					{{ spaces_post.cc|safe }}
 					{% else %}
 						No creative common's license
 					{% endif %}
 				</div>
 				<div class=postcomments>
-					Comments: {{ users_post.comments.count }}
+					Comments: {{ spaces_post.comments.count }}
 					<div class=comsubmit>
 						<div id=postcomlist onclick="openComment('postcomlist')">
 							Newcom
@@ -172,8 +172,8 @@
 							<button type=submit>what've I got to lose?</button>
 						</form>
 					</div>
-					{% if users_post.comments.count %}
-						{% recursetree users_post.comments.all %}
+					{% if spaces_post.comments.count %}
+						{% recursetree spaces_post.comments.all %}
 						<div class=postcoms>
 							<div class=comclose onclick="comCollapse('{{node.id}}')">
 								-:
