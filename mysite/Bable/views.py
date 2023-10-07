@@ -5143,7 +5143,7 @@ class MarkovChain:
     else:
       return random.choice(self._dict[prev_token])
 
-
+'''
 from web3.auto import w3
 from eth_account.messages import encode_defunct
 import asyncio
@@ -5163,7 +5163,7 @@ async def signature(request):     # noqa
         pass
 
 
-
+'''
 
 def tob_users_post(request, user, post, count=0):
 	if not User.objects.all().filter(username=user).count():
@@ -7097,7 +7097,7 @@ def tob_users_dic_word_translation(request, user, dictionary, word, translation)
 		the_response = render(request, "tob_users_dic_word_translations.html", {"user_anon": user_anon, "trans_form": trans_form, "loggedinanon": loggedinanon, "loggedinauthor": loggedinauthor, "dics_word": dics_word, 'trans_form': trans_form, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_translations.html", {"user_anon": user_anon, "loggedinanon": loggedinanon, "dics_word": dics_word, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
+		the_response = render(request, "tob_users_dic_word_translations.html", {"user_anon": user_anon, "dics_word": dics_word, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_translations')
 	the_response.set_cookie('viewing_user', user)
 	the_response.set_cookie('dictionary', dictionary)
@@ -7260,7 +7260,7 @@ def tob_users_dic_word_example(request, user, dictionary, word, example):
 			'exa_form': example_form, 'instance_id': example, "users_dic": users_dic, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, 'comment_form': comment_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, "tob_users_dic_word_examples.html", {"user_anon": user_anon, "dics_word": dics_word, 
+		the_response = render(request, "tob_users_dic_word_examples.html", {"user_anon": user_anon, "dics_word": dics_word, 'instance_id': example, 
 			"users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_dic_word_example')
 	the_response.set_cookie('viewing_user', user)
