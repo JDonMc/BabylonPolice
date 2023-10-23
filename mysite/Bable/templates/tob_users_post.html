@@ -404,10 +404,8 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<div class="row pt-5 pricing-table">
             <div class="col-12 mx-auto">
                 <div class="card-deck pricing-table">
-
-			            {% for price in users_post.products.all %}
-
-                     <div class="card">
+					{% for price in users_post.products.all %}
+					<div class="card">
 			            <hr />
 			            
 			            <a href="{% url 'Bable:tob_product' price.id %}"><h3>{{ price.name }}</h3></a>
@@ -423,9 +421,8 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			                    <button type="submit">Checkout</button>
 			                </form>
 			            </div>
-
 			        </div>
-			            {% endfor %}
+			        {% endfor %}
                 </div>
             </div>
         </div>
