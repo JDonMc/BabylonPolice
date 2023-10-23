@@ -37,8 +37,10 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 			</div>
 			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
 			{% if users_product.img %}
-	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        <img src="{{ users_product.img }}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
 	        {% else %}
+	         <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
+	        {% endif %}
 	        <div>
 	            <h5>${{ users_product.get_display_price }} AUD {% if users_product.monthly %}per month{% endif %}</h5>
 	            <form action="{% url 'Bable:create-checkout-session' users_product.id %}" method="POST">
@@ -101,7 +103,11 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 				Description: {{ users_product.description2helpsell }}
 			</div>
 			<a href="{% url 'Bable:tob_product' users_product.id %}"><h3>{{ users_product.name }}</h3></a>
-	        <img src="{{ users_product.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
+	        {% if users_product.img %}
+	        <img src="{{ users_product.img }}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
+	        {% else %}
+	         <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
+	        {% endif %}
 	        <div>
 	            <h5>${{ users_product.get_display_price }} AUD {% if users_product.monthly %}per month{% endif %}</h5>
 	            <form action="{% url 'Bable:create-checkout-session' users_product.id %}" method="POST">
