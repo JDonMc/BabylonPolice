@@ -3121,6 +3121,7 @@ def create_product_w_price(request, post_id):
 		product_form.anon_user_id = loggedinanon.id
 		if product_form.is_valid():
 			product = product_form.save()
+			product.anon_user_id = loggedinanon.id
 			product.save()
 			loggedinanon.products.add(product)
 			loggedinanon.save()
@@ -3830,7 +3831,8 @@ def tob_post(request, post):
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
 	if not users_product.anon_user_id:
-		user_anon = ''
+
+		user_anon = Anon.objects.filter(products=int(product_id)).first()
 	else:
 		user_anon = Anon.objects.get(id=users_product.anon_user_id)
 	

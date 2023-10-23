@@ -48,7 +48,7 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 	                <button type="submit">Purchase</button>
 	            </form>
 	        </div>
-	        {% if loggedinanon == user_anon %}
+	        {% if product in loggedinanon.products %}
 	        <div class=dictionary_words>
 				Description2Purchase: {{ users_product.description2purchase }}
 			</div>
