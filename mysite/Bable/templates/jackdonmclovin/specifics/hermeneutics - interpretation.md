@@ -1,1 +1,0 @@
-Hermeneutics are an interesting field to study, and I will write some more on this, because it is about the Theory of Interpretation, or as I prefer, Interpretation of Interpretation, which, although we may interpret different things differently, can be identical across individuals, and is important for studying the Chaos of Perception.

@@ -1,3 +1,0 @@
-Skeptics like to talk about Woo Woo as if it were something other than what it really is, a Strawman fallacy.
-
-The commonality conferred by all starting from ignorance and some coming up with theories requiring different boundaries of The Weird, what is weird? is not reason enough to call everything requiring anecdotal evidence to be flimsy and irrational, when, hey, your very experience is anecdotal. Who's to say I have to acknowledge you, Solipsist?

@@ -1,8 +1,0 @@
-# How Psychedelic Wake
-## a trailing tangential that forgets its purpose because it doesn’t need one to be definable
-
-The ‘how’ involves the process of the individual’s boat of psychedelics and the shared boat of psychedelics travelling across the Ocean of Being and how the wake of a boat forms. The wake is essentially the time-wave, the information particles diluted across a general experience of existence forming into a meaningful pattern described by the direction (intent) of the boat and the speed (intensity) at which it travels.
-
-Intent and intensity are to do with what psychedelics do and thus what psychedelic culture is about. And from what I’ve garnered, it ties into just about everything, ideas about right thinking and right living in so many areas, and I seek to address them as they come to my attention. Psychedelics (mind-manifesters) primarily bring to life objects of the mind, or so the name suggests, and as people think, brings about hallucinations and delusions. But as a user, these hallucinations and delusions are far more mysterious than what those categories give them credit for, they most often come about as a scripted sequence, like a dream with a story line intact; a moral of the story is present; inside lays a teaching to be obtained.
-
-From other dimensions and the entities that inhabit them, the moods they give off and what the multiverse may or may not entail, to metaphorical conjecture, States of Mind and a trailing tangential that forgets its purpose because it doesn’t need one to be definable.
