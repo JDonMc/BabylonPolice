@@ -115,11 +115,12 @@
 		{% endif %}
 		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
+			
 			<script type="text/javascript">
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbody');
+		        const content = document.getElementById('flashpostbody');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);
@@ -359,11 +360,12 @@
 		</div>
 		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
+			
 			<script type="text/javascript">
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbody');
+		        const content = document.getElementById('flashpostbody');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);

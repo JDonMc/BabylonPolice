@@ -151,11 +151,12 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center;">
 			<p id=flashreadword>Click here to flash read.</p>
-			<div>
+			<div id=postbodyread style="display:none">
+				{{ users_post.body|safety_check }}
 			</div>
 			<script>
 				$("#flashreadbody").click(async () => {
-				  var posttext = $("#postbody").text();
+				  var posttext = $("#postbodyread").text();
 				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
 				  for (var i = 0; i < postwords.length; i++) {
 				    console.log(postwords);
@@ -186,7 +187,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbody');
+		        const content = document.getElementById('postbodyread');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);
@@ -434,11 +435,12 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<div id=flashreadbody style="text-align: center;">
 			<p id=flashreadword>Click here to flash read.</p>
-			<div>
+			<div id=postbodyread style="display:none">
+				{{ users_post.body|safety_check }}
 			</div>
 			<script>
 				$("#flashreadbody").click(async () => {
-				  var posttext = $("#postbody").text();
+				  var posttext = $("#postbodyread").text();
 				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
 				  for (var i = 0; i < postwords.length; i++) {
 				    console.log(postwords);
@@ -458,7 +460,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbody');
+		        const content = document.getElementById('postbodyread');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);
