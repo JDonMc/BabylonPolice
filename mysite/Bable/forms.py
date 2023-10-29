@@ -133,7 +133,7 @@ class Comment_SourceForm(forms.ModelForm):
         dictionaries = cleaned_data.get('dictionaries')
         if not body:
             raise forms.ValidationError('What the fuck you trynna say?')
-        if cleaned_data.get('dictionaries').count() > 5:
+        if len(cleaned_data.get('dictionaries')) > 5:
             raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(Comment_SourceForm, self).__init__(*args, **kwargs)
@@ -651,7 +651,7 @@ class CommentForm(forms.ModelForm):
         body = cleaned_data.get('body')
         if not body:
             raise forms.ValidationError('You need a comment')
-        if cleaned_data.get('dictionaries').count() > 5:
+        if len(cleaned_data.get('dictionaries')) > 5:
             raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
@@ -695,7 +695,7 @@ class PostForm(forms.ModelForm):
         spaces = cleaned_data.get('spaces')
         if not (body or title or spaces):
             raise forms.ValidationError('You need thiings')
-        if cleaned_data.get('dictionaries').count() > 5:
+        if len(cleaned_data.get('dictionaries')) > 5:
             raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
