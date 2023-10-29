@@ -185,13 +185,13 @@ def fontypes(value, words):
 			wordsponsordiv = ''
 			if wordsponsor:
 				if wordsponsor.url2:
-					wordsponsordiv += '<div><a href="{}" ><p style="z-index: 1; color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':word.author.username, 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
+					wordsponsordiv += '<div><a href="{}" ><p style="z-index: 1; color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':word.author.username, 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
 				else:
-					wordsponsordiv += '<div><a href="https://www.predictionary.us" ><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
+					wordsponsordiv += '<div><a href="https://www.predictionary.us" ><p style="color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
 			attribute_div1 = '<div class=dropdown-menu-1><style>.dropdown-menu-1 { position: absolute; background-color: green; width: fit-content; opacity: 0; display: none; } .inner-' + str(word.id) + '-' + str(wordlen) + ':hover, .inner-' + str(word.id) + '-' + str(wordlen) + '.active, .dropdown-menu-1:hover, .dropdown-menu-1.active { opacity: 1; display: block; transform: translateY(0px); pointer-events: auto;}</style>'
 			for att1 in word.attributes.order_by('?'):
 				for def1 in att1.definitions.order_by('?'):
-					attribute_div1 += '<div style="width: 4em;">'+def1.the_definition_itself+'</div>'
+					attribute_div1 += '<div style="width: 16em;">'+def1.the_definition_itself+'</div>'
 			attribute_div1 += wordsponsordiv + '</div>'
 
 

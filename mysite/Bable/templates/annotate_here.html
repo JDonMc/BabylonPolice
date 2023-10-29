@@ -1,0 +1,359 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% if count %}
+BabylonPolice.com - incentivised-ascento-secrecy {{ count }}
+{% else %}
+BabylonPolice.com - incentivised-ascento-secrecy
+{% endif %}
+{% endblock %}
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="BabylonPolice - Incentivised-Ascento-Secrecy - Police yourself to police others AKA please yourself to please others. User-Choice Definitions. Create your own code words, or buy them and gain access to income that you can spend on deeper secrets granting you deeper income.">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+
+{% block authenticatedposts %}
+<style>
+	body { width: fit-content; }
+</style>
+
+<div class=displaybanner>
+	<div style="float: right;">
+		<a href="{% url 'Bable:delete_annotation_url' search.id %}">X</a>
+	</div>
+	<form id="search_input" action="{% url 'Bable:search' 0 %}" method="get" accept-charset="utf-8" style="display: inline-block; position: relative; top: -1px; border-width: 0px; margin-left: 1px;">
+	  <input class="searchfield" id="searchbox" name="q" type="text" placeholder="URL" style="width: 85vw; padding: 0px; border: 0px; height: 1.7em" value="{{ search.url }}">
+	  <script type="text/javascript">
+          if ($('#search_input').width() < "400") {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            } else {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            };
+          $(window).resize(function() {
+            if ($('#search_input').width() < "400") {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            } else {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            };
+          });
+        </script>
+	</form>
+	<div id=right style="float: right; padding-left: 3px; background-color: #2f2f2f;">
+		<div id=check onclick="check();" style="display: inline-block; position: relative; top: 2px; left: -2px;">
+			<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+		</div>
+		<div id=google onclick="google();" style="display: inline-block; position: relative; top: 2px; left: -2px;">
+			<img src="{% static 'download.png' %}" style="height: 1.2em; width: 1.2em;">
+		</div>
+		<div id=plus onclick="plus();" style="display: inline-block; position: relative; top: 2px; left: -4px;">
+			<img id=plusexpand src="{% static 'Circle_Plus_Expand_Icon.png' %}" style="height: 1.2em; width: 1.2em; filter: invert(100%);">
+		</div>
+		<div id=comments onmouseover="comments();" style="display: inline-block; position: relative; top: 2px; left: -7px;">
+			<img id=comment src="{% static 'icons8-comments-96.png' %}" style="height: 1.2em; width: 1.2em; filter: invert(100%);">
+		</div>
+	</div>
+	<div id=commentdropdown style="display: none; z-index: 1; position: absolute; height: 100%; width: 100%; background-color: white; filter: opacity(0.5);">
+		{% if search.public %}
+			{% if search.comment_locations.count %}
+				{% for com in search.comment_locations.all %}
+					<div class=com style="position: absolute; top: {{ com.from_top }}px; left: {{ com.from_left }}px;">
+						{% for comment in com.comments.all %}
+						<div class=body>
+							{{ comment.body }}
+						</div>
+						<div style="float: right;">
+							<a href="{% url 'Bable:annotate_url_comment_delete' search.id comment.id %}">X</a>
+						</div>
+						
+						<div class=author>
+							{{ comment.author.username }}
+						</div>
+						{% endfor %}
+						<form style="margin-top: 25px;" id=postcomment method="post" action="{% url 'Bable:annotate_url_post_comment_location' search.id com.id %}">
+						{% csrf_token %}
+						{{ commentform }}
+						<button style="display: block;" type=submit>Add Comment</button>
+					</form>
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+		<form style="margin-top: 25px;" id=postcomment method="post" action="{% url 'Bable:annotate_url_post_comment' search.id %}">
+			<input id="from_top" name="from_top">
+			<input id="from_left" name="from_left">
+			{% csrf_token %}
+			{{ commentform }}
+			<button style="display: block;" type=submit>Add Comment</button>
+		</form>
+	</div>
+<iframe id="encoder_iframe" src="{{ search.url }}" style="display: block; width: 1000px; height: 2000px;">
+</iframe>
+
+<form style="width: 12em; margin:auto;" method="post" action="{% url 'Bable:annotate_url_post_edits' search.id %}">
+	{% csrf_token %}
+	{{ searchform }}
+	<button type=submit>Update Annotation</button>
+</form>
+
+<script type="text/javascript">
+function check() {
+	var elem = document.getElementById("encoder_iframe");
+	var input = document.getElementById("searchbox")
+	elem.src =input.value;
+}
+
+function google() {
+	var elem = document.getElementById("encoder_iframe");
+	elem.src ="https://www.google.com/webhp?igu=1";
+}
+
+function create_comment(event) {
+	document.getElementById("from_top").value = event.clientY;
+	document.getElementById("from_left").value = event.clientX;
+	document.getElementById("postcomment").style.display = "block";
+	document.getElementById("postcomment").style.position = "relative";
+	document.getElementById("postcomment").style.top = event.clientY + 'px';
+}
+
+
+function addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
+    target.addEventListener(type, function fn(event) {
+        target.removeEventListener(type, fn, removeOptions);
+        listener.apply(this, arguments);
+    }, addOptions);
+}
+
+function plus() {
+	if(document.getElementById('encoder_iframe').data == 1) {
+	body = document.getElementById("commentdropdown");
+	body.style.display = "none";
+	body.style.cursor = "pointer";
+	document.getElementById('encoder_iframe').data = 0;
+	document.getElementById('plusexpand').style.webkitFilter = "invert(100%)";
+	
+} else {
+	body = document.getElementById("commentdropdown");
+	body.style.display = "block";
+	body.style.cursor = "crosshair";	
+	document.getElementById('encoder_iframe').data = 1;
+	document.getElementById('plusexpand').style.webkitFilter = "invert(100%) opacity(0.5) drop-shadow(0 0 0 blue)";
+	document.getElementById("postcomment").style.display = "none";
+	addEventListenerOnce(body, "click", function (event) {
+    create_comment(event);
+});
+}
+}
+
+function comments() {
+	if(document.getElementById('comment').data == 1) {
+		document.getElementById('comment').style.webkitFilter = "invert(100%)";
+		document.getElementById('comment').data = 0;
+		body = document.getElementById("commentdropdown");
+		body.style.display = "none";
+	
+	} else {
+		document.getElementById('comment').style.webkitFilter = "invert(100%) opacity(0.5) drop-shadow(0 0 0 blue)";
+		document.getElementById('comment').data = 1;
+		body = document.getElementById("commentdropdown");
+		document.getElementById("postcomment").style.display = "none";
+		body.style.display = "block";
+	
+	};
+}
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<style>
+	body { width: fit-content; }
+</style>
+
+<div class=displaybanner>
+	<form id="search_input" action="{% url 'Bable:search' 0 %}" method="get" accept-charset="utf-8" style="display: inline-block; position: relative; top: -1px; border-width: 0px; margin-left: 1px;">
+	  <input class="searchfield" id="searchbox" name="q" type="text" placeholder="URL" style="width: 85vw; padding: 0px; border: 0px; height: 1.7em" value="{{ search.url }}">
+	  <script type="text/javascript">
+          if ($('#search_input').width() < "400") {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            } else {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            };
+          $(window).resize(function() {
+            if ($('#search_input').width() < "400") {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            } else {
+              $('#search_input').css('width', '100%').css('width', '-=18.8em');
+            };
+          });
+        </script>
+	</form>
+	<div id=right style="float: right; padding-left: 3px; background-color: #2f2f2f;">
+		<div id=check onclick="check();" style="display: inline-block; position: relative; top: 2px; left: -2px;">
+			<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+		</div>
+		<div id=google onclick="google();" style="display: inline-block; position: relative; top: 2px; left: -2px;">
+			<img src="{% static 'download.png' %}" style="height: 1.2em; width: 1.2em;">
+		</div>
+		<div id=plus onclick="plus();" style="display: inline-block; position: relative; top: 2px; left: -4px;">
+			<img id=plusexpand src="{% static 'Circle_Plus_Expand_Icon.png' %}" style="height: 1.2em; width: 1.2em; filter: invert(100%);">
+		</div>
+		<div id=comments onmouseover="comments();" style="display: inline-block; position: relative; top: 2px; left: -7px;">
+			<img id=comment src="{% static 'icons8-comments-96.png' %}" style="height: 1.2em; width: 1.2em; filter: invert(100%);">
+		</div>
+	</div>
+	<div id=commentdropdown style="display: none; z-index: 1; position: absolute; height: 100%; width: 100%; background-color: white; filter: opacity(0.5);">
+		{% if search.public %}
+			{% if search.comment_locations.count %}
+				{% for com in search.comment_locations.all %}
+					<div class=com style="position: absolute; top: {{ com.from_top }}px; left: {{ com.from_left }}px;">
+						{% for comment in com.comments.all %}
+						<div class=body>
+							{{ comment.body }}
+						</div>
+						<div class=author>
+							{{ comment.author.username }}
+						</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+		
+	</div>
+<iframe id="encoder_iframe" src="{{ search.url }}" style="display: block; width: 1000px; height: 2000px;">
+</iframe>
+
+
+<script type="text/javascript">
+function check() {
+	var elem = document.getElementById("encoder_iframe");
+	var input = document.getElementById("searchbox")
+	elem.src =input.value;
+}
+
+function google() {
+	var elem = document.getElementById("encoder_iframe");
+	elem.src ="https://www.google.com/webhp?igu=1";
+}
+
+function create_comment(event) {
+	document.getElementById("from_top").value = event.clientY;
+	document.getElementById("from_left").value = event.clientX;
+	document.getElementById("postcomment").style.display = "block";
+	document.getElementById("postcomment").style.position = "relative";
+	document.getElementById("postcomment").style.top = event.clientY + 'px';
+}
+
+
+function addEventListenerOnce(target, type, listener, addOptions, removeOptions) {
+    target.addEventListener(type, function fn(event) {
+        target.removeEventListener(type, fn, removeOptions);
+        listener.apply(this, arguments);
+    }, addOptions);
+}
+
+function plus() {
+	if(document.getElementById('encoder_iframe').data == 1) {
+	body = document.getElementById("commentdropdown");
+	body.style.display = "none";
+	body.style.cursor = "pointer";
+	document.getElementById('encoder_iframe').data = 0;
+	document.getElementById('plusexpand').style.webkitFilter = "invert(100%)";
+	
+} else {
+	body = document.getElementById("commentdropdown");
+	body.style.display = "block";
+	body.style.cursor = "crosshair";	
+	document.getElementById('encoder_iframe').data = 1;
+	document.getElementById('plusexpand').style.webkitFilter = "invert(100%) opacity(0.5) drop-shadow(0 0 0 blue)";
+	document.getElementById("postcomment").style.display = "none";
+	addEventListenerOnce(body, "click", function (event) {
+    create_comment(event);
+});
+}
+}
+
+function comments() {
+	if(document.getElementById('comment').data == 1) {
+		document.getElementById('comment').style.webkitFilter = "invert(100%)";
+		document.getElementById('comment').data = 0;
+	} else {
+		document.getElementById('comment').style.webkitFilter = "invert(100%) opacity(0.5) drop-shadow(0 0 0 blue)";
+		document.getElementById('comment').data = 1;
+	};
+}
+
+
+
+</script>
+
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+
+
+	</script>
+{% endblock %}

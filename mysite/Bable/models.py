@@ -634,6 +634,15 @@ class Votes(models.Model):
 	def to_source(self):
 		return Votes_Source.objects.get(author=author, the_vote_name__the_word_itself=the_vote_name)
 
+
+class Votings(models.Model):
+	votes = models.ManyToManyField(Votes, default=None)
+	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
+	sponsor = models.ManyToManyField(Sponsor, default=None)
+	ip = models.CharField(max_length=15, default="")
+	creation_date = models.DateTimeField(default=timezone.now)
+
+
 # of difference
 class Analysis(models.Model):
 	the_critique_itself = models.ManyToManyField(Word, default=None)
@@ -992,8 +1001,46 @@ class Price(models.Model):
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
 
+class CommentLocations(models.Model):
+	comments = models.ManyToManyField(Comment, default=None)
+
+	from_top = models.IntegerField(default=0)
+	from_left = models.IntegerField(default=0)
 
 
+
+class SearchURL(models.Model):
+	name = models.CharField(max_length=400, default='')
+	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
+	url = models.URLField(max_length=2000)
+	comment_locations = models.ManyToManyField(CommentLocations, default=None)
+	comment_height = models.IntegerField(default=0)
+	comment_width = models.IntegerField(default=0)
+	sum_comments = models.IntegerField(default=0)
+	sponsors = models.ManyToManyField(Sponsor, default=None)
+	sum_sponsors = models.IntegerField(default=0)
+	viewcount = models.IntegerField(default=0)
+	change_count = models.IntegerField(default=0)
+	latest_change_date = models.DateTimeField(default=timezone.now)
+	pub_date = models.DateTimeField(default=timezone.now)
+	public = models.BooleanField(default=1)
+	allowed_to_view_authors = models.ManyToManyField(Author, default=None, related_name='search_allowed')
+	votes = models.ManyToManyField(Votes, default=None)
+	votes_count = models.IntegerField(default=0)
+	post_allowed = models.ManyToManyField(Author, default=None, related_name='search_allowed_authors')
+	cc = models.CharField(max_length=400, default='')
+	img = models.URLField(max_length=2000, blank=True, default='')
+	stripe_price_id = models.CharField(max_length=100, default='')
+	stripe_product_id = models.CharField(max_length=100, default='')
+	price = models.IntegerField(default=0)  # cents
+
+	monthly = models.BooleanField(default=False)
+
+
+    
+
+	
+	
 
 class Post(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
@@ -1032,6 +1079,7 @@ class Post(models.Model):
 	post_allowed = models.ManyToManyField(Author, default=None, related_name='post_allowed_authors')
 	post_source = models.CharField(max_length=400, default='')
 	cc = models.CharField(max_length=400, default='')
+	search_urls = models.ManyToManyField(SearchURL, default=None)
 
 	shuffle = models.IntegerField(default=0)
 	attention = models.IntegerField(default=99999999)
@@ -1418,8 +1466,9 @@ class Anon(models.Model):
 	applied_votestyles = models.ManyToManyField(Votes, default=None, related_name='applied_votestyles')
 	excluded_votestyles = models.ManyToManyField(Votes, default=None, related_name='excluded_votestyles')
 
-	past_votes = models.ManyToManyField(Votes, default=None, related_name='past_votes')
+	past_votes = models.ManyToManyField(Votings, default=None, related_name='past_votes')
 	sum_past_votes = models.IntegerField(default=0)
+	search_urls = models.ManyToManyField(SearchURL, default=None)
 	
 	monero_wallet = models.CharField(max_length=200, default='')
 	false_wallet = models.IntegerField(default=0)

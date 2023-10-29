@@ -3065,7 +3065,288 @@ def users_space_edit(request, space):
 def roadmap(request):
 	return render(request, 'roadmap.html')
 
+def annotate_url_post_comment(request, search_url_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	
 
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			searchform = SearchURLForm(instance=search)
+		else:
+			searchform = ''
+
+		commentform = CommentForm(request, request.POST)
+		if commentform.is_valid():
+			if commentform.cleaned_data['dictionaries'] == 0:
+				new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
+			else:
+				new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
+				for dic in commentform.cleaned_data['dictionaries']:
+					new_com.dictionaries.add(loggedinanon.purchased_dictionaries.get(the_dictionary_itself=dic))
+				new_com.sum_dictionaries = new_com.dictionaries.count()
+				new_com.save()
+			comment_location, x = CommentLocations.objects.get_or_create(from_top=request.POST.get('from_top'), from_left=request.POST.get('from_left'))
+			comment_location.comments.add(new_com)
+			comment_location.save()
+			search.comment_locations.add(comment_location)
+			search.save()
+		
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+def annotate_url_post_comment_location(request, search_url_id, location_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	
+
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			searchform = SearchURLForm(instance=search)
+		else:
+			searchform = ''
+
+		commentform = CommentForm(request, request.POST)
+		if commentform.is_valid():
+			if commentform.cleaned_data['dictionaries'] == 0:
+				new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
+			else:
+				new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
+				for dic in commentform.cleaned_data['dictionaries']:
+					new_com.dictionaries.add(loggedinanon.purchased_dictionaries.get(the_dictionary_itself=dic))
+				new_com.sum_dictionaries = new_com.dictionaries.count()
+				new_com.save()
+			comment_location, x = CommentLocations.objects.get(id=int(location_id))
+			comment_location.comments.add(new_com)
+			comment_location.save()
+			search.comment_locations.add(comment_location)
+			search.save()
+		
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+
+
+def annotate_url_comment_delete(request, search_url_id, comment_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	comment = Comment.objects.get(id=int(comment_id))
+	
+
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			searchform = SearchURLForm(instance=search)
+		else:
+			searchform = ''
+
+		if loggedinauthor == search.author or loggedinauthor == comment.author:
+			comment.delete()
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+def annotate_url_post_edits(request, search_url_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	
+
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			searchform = SearchURLForm(request.POST)
+			if searchform.is_valid():
+				searchform.save()
+			searchform = SearchURLForm(instance=search)
+		else:
+			searchform = ''
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+def annotate_url(request, search_url_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	
+
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			searchform = SearchURLForm(instance=search)
+		else:
+			searchform = ''
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+
+
+def delete_annotation_url(request, search_url_id):
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+	
+	search = SearchURL.objects.get(id=int(search_url_id))
+	
+
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		if loggedinauthor == search.author:
+			search.delete()
+			searchform = SearchURLForm()
+		else:
+			searchform = ''
+
+		commentform = CommentForm(request)
+		
+		the_response = render(request, 'annotate_here.html', {"commentform": commentform, "searchform": searchform, "search": search, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, 'annotate_here.html', {"query_string": query_string, "search": search, 'loginform': loginform, 'registerform': registerform, })
+	
+	the_response.set_cookie('current', 'annotate_url')
+	return the_response
+
+
+import validators
+from django.utils import dateformat, timezone
 def search(request, count):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
 	registerform = UserCreationForm()
@@ -3080,6 +3361,15 @@ def search(request, count):
 		mcount = count - 25
 	if ('q' in request.GET) and request.GET['q'].strip():
 		query_string = request.GET['q']
+		if validators.url(query_string):
+			if request.user.is_authenticated:
+				loggedinuser = User.objects.get(username=request.user.username)
+				loggedinanon = Anon.objects.get(username=loggedinuser)
+				searcher = SearchURL.objects.create(name='/u/'+request.user.username+'/'+dateformat.format(timezone.now(), 'Y-m-d H:i:s'), url=query_string, author=Author.objects.get(username=request.user.username))
+				loggedinanon.search_urls.add(searcher)
+				return redirect('Bable:annotate_url', search_url_id=searcher.id)
+
+
 
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
@@ -3098,9 +3388,11 @@ def search(request, count):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 		search_post = Post.objects.filter(title__icontains=query_string).filter(Q(public=True)|Q(allowed_to_view_authors=loggedinauthor)).order_by('-latest_change_date')[count:count100]
 		search_space = Space.objects.filter(the_space_itself__the_word_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
+		search_words = Word.objects.filter(the_word_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
+		search_dics = Dictionary.objects.filter(the_dictionary_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
 		posts_by_viewcount = search_post
 		
-		the_response = render(request, 'tob_search.html', {"query_string": query_string, "loggedinanon": loggedinanon, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, "spaces": search_space, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
+		the_response = render(request, 'tob_search.html', {"query_string": query_string, "loggedinanon": loggedinanon, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, "spaces": search_space, "words": search_words, "dics": search_dics, 'loginform': loginform, 'registerform': registerform,  'word_form': word_form, 'dic_form':dic_form, 'space_form': space_form, "post_form": post_form, 'task_form': task_form, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		search_post = Post.objects.filter(title__icontains=query_string).filter(public=True)[count:count100]

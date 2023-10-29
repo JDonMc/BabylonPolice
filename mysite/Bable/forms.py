@@ -663,7 +663,21 @@ class ProductForm(forms.ModelForm):
         model = Price
         fields = ('name', 'stripe_price_id', 'stripe_product_id', 'price', 'url2purchase', 'description2purchase', 'description2helpsell', 'img', 'monthly',)
 
+ 
+       
+
+class SearchURLForm(forms.ModelForm):
+    class Meta:
+        model = SearchURL
+        fields = ('name', 'public', 'img', 'stripe_product_id', 'stripe_price_id', 'price', 'monthly', 'cc')
         
+    def clean(self):
+        cleaned_data = super(SearchURLForm, self).clean()
+        
+    def __init__(self, *args, **kwargs):
+        super(SearchURLForm, self).__init__(*args, **kwargs)
+       
+
 
 class PostForm(forms.ModelForm):
     class Meta:
