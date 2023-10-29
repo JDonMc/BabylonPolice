@@ -1027,6 +1027,8 @@ class SearchURL(models.Model):
 	allowed_to_view_authors = models.ManyToManyField(Author, default=None, related_name='search_allowed')
 	votes = models.ManyToManyField(Votes, default=None)
 	votes_count = models.IntegerField(default=0)
+	has_voted = models.ManyToManyField(Author, related_name="search_has_voted", default=None)
+	views = models.IntegerField(default=0)
 	post_allowed = models.ManyToManyField(Author, default=None, related_name='search_allowed_authors')
 	cc = models.CharField(max_length=400, default='')
 	img = models.URLField(max_length=2000, blank=True, default='')

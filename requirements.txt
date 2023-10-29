@@ -11,7 +11,6 @@ Automat==0.8.0
 base58==2.1.1
 beautifulsoup4==4.7.1
 bitarray==2.6.2
-bleach==5.0.0
 boto==2.49.0
 cachetools==3.0.0
 certifi==2023.7.22
@@ -79,6 +78,7 @@ mock==2.0.0
 multiaddr==0.0.9
 multidict==6.0.4
 netaddr==0.8.0
+nh3==0.2.14
 numpy==1.26.0
 packaging==23.0
 parsel==1.5.1

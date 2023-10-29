@@ -133,6 +133,8 @@ class Comment_SourceForm(forms.ModelForm):
         dictionaries = cleaned_data.get('dictionaries')
         if not body:
             raise forms.ValidationError('What the fuck you trynna say?')
+        if cleaned_data.get('dictionaries').count() > 5:
+            raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(Comment_SourceForm, self).__init__(*args, **kwargs)
         if Author.objects.get(username=request.user.username):
@@ -381,7 +383,7 @@ class FontForm(forms.ModelForm):
 class CreateVotesForm(forms.ModelForm):
     class Meta:
         model = Votes
-        fields = ('the_vote_style', 'url2',)
+        fields = ('the_vote_name', 'the_vote_style', 'url2',)
     def clean(self):
         cleaned_data = super(CreateVotesForm, self).clean()
         the_vote_style = cleaned_data.get('the_vote_style')
@@ -391,7 +393,7 @@ class CreateVotesForm(forms.ModelForm):
         super(CreateVotesForm, self).__init__(*args, **kwargs)
         loggedinuser = User.objects.get(username=request.user.username)
         loggedinanon = Anon.objects.get(username=loggedinuser)
-        self.fields['the_vote_style'] = forms.MultipleChoiceField(choices=[(e, e) for e in SpaceSource.objects.all().filter(allowed_to_view_authors=Author.objects.get(username=request.user.username)).order_by('the_space_itself__the_word_itself').values_list('the_space_itself__the_word_itself', flat=True)])
+        self.fields['the_vote_style'] = forms.MultipleChoiceField(choices=[(e, e) for e in Space.objects.filter(saved_spaces=loggedinanon).order_by('the_space_itself__the_word_itself').values_list('the_space_itself__the_word_itself', flat=True)])
         
 
 class ApplyVotestyleForm(forms.ModelForm):
@@ -649,6 +651,8 @@ class CommentForm(forms.ModelForm):
         body = cleaned_data.get('body')
         if not body:
             raise forms.ValidationError('You need a comment')
+        if cleaned_data.get('dictionaries').count() > 5:
+            raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
         if Author.objects.get(username=request.user.username):
@@ -691,6 +695,8 @@ class PostForm(forms.ModelForm):
         spaces = cleaned_data.get('spaces')
         if not (body or title or spaces):
             raise forms.ValidationError('You need thiings')
+        if cleaned_data.get('dictionaries').count() > 5:
+            raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
         if Author.objects.get(username=request.user.username):

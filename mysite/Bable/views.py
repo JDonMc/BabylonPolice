@@ -129,11 +129,11 @@ from django.http import HttpResponseRedirect, JsonResponse
 def grabvoteid(request):
 	if request.GET.get('name'):
 		q = request.GET['name']
-		if Votes.objects.filter(the_vote_style__the_space_itself__the_word_itself__startswith=q):
-			data = Votes.objects.get(the_vote_style__the_space_itself__the_word_itself__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
-			json = list(data)
+		if Votes.objects.filter(the_vote_name__startswith=q):
+			data = Votes.objects.filter(the_vote_name__startswith=q).order_by('-creation_date').values_list('id',flat=True).first()
+			json = data
 			return JsonResponse(json, safe=False)
-		return JsonResponse([])
+		return JsonResponse([], safe=False)
 	else:
 		data = Votes.objects.all().order_by('-creation_date').values_list('id',flat=True).first()
 		json = list(data)
@@ -144,8 +144,8 @@ def grabvoteid(request):
 def autocomplete_votestyles(request):
 	if request.GET.get('q'):
 		q = request.GET.get('q')
-		if Votes.objects.filter(the_vote_style__the_space_itself__the_word_itself__startswith=q):
-			data = Votes.objects.get(the_vote_style__the_space_itself__the_word_itself__startswith=q).order_by('-creation_date').values_list('the_vote_name',flat=True)
+		if Votes.objects.filter(the_vote_name__startswith=q):
+			data = Votes.objects.filter(the_vote_name__startswith=q).order_by('-creation_date').values_list('the_vote_name',flat=True)
 			json = list(data)
 			return JsonResponse(json, safe=False)
 		return JsonResponse([], safe=False)
@@ -1013,10 +1013,10 @@ def apply_votes(request):
 		loggedinauthor = Author.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=request.user)
 		create_votes_form = CreateVotesForm(request, data=request.POST)
-		the_votes = Votes.objects.create(the_vote_name=request.POST.get('the_vote_style'), author=loggedinauthor)
+		the_votes, x = Votes.objects.get_or_create(the_vote_name=request.POST.get('the_vote_name'), author=loggedinauthor, url2=request.POST.get('url2'))
 		the_vote_styles_space = Space.objects.filter(saved_spaces=loggedinanon).filter(the_space_itself__the_word_itself=request.POST.get('the_vote_style'))
 		for space in the_vote_styles_space:
-			the_votes.the_vote_style.add(space.to_source())
+			the_votes.the_vote_style = space.to_source()
 			the_votes_source = Votes_Source.objects.create(author=space.to_source().author, the_vote_name=space.to_source().the_space_itself)
 			the_votes_source.the_vote_style.add(Word_Source.objects.get(the_word_itself=space.to_source().the_space_itself.the_word_itself, home_dictionary=space.to_source().dictionary.to_full().the_dictionary_itself, author=loggedinauthor))
 			the_votes_source.save()
@@ -2680,6 +2680,31 @@ def votewvotestyle(request, source_type, source_id):
 					source_obj.has_voted.remove(user_author)
 			source_obj.save()
 
+	if source_type == 'search':
+		if SearchURL.objects.get(id=source_id):
+			source_obj = SearchURL.objects.get(id=source_id)
+			for vote in user_anon.applied_votestyles.all():
+				if vote in source_obj.votes.all():
+					voters = vote.voters.all()
+					if user_author in voters:
+						vote.voters.remove(user_author)
+						vote.votes -= 1
+						vote.save()
+					else:
+						vote.voters.add(user_author)
+						vote.votes += 1
+						vote.save()
+						voted = True
+				else:
+					source_obj.votes.add(vote)
+					vote.voters.add(user_author)
+					vote.votes += 1
+					vote.save()
+					voted = True
+			if user_author in source_obj.has_voted.all():
+				if not voted:
+					source_obj.has_voted.remove(user_author)
+			source_obj.save()
 
 	if source_type == 'def':
 		if Definition.objects.get(id=source_id):
@@ -3227,6 +3252,7 @@ def annotate_url_post_edits(request, search_url_id):
 	loginform = AuthenticationForm()
 	
 	search = SearchURL.objects.get(id=int(search_url_id))
+
 	
 
 	if request.user.is_authenticated:
@@ -3249,6 +3275,8 @@ def annotate_url_post_edits(request, search_url_id):
 			searchform = SearchURLForm(request.POST)
 			if searchform.is_valid():
 				searchform.save()
+				search.latest_change_date = timezone.now()
+				search.save()
 			searchform = SearchURLForm(instance=search)
 		else:
 			searchform = ''
@@ -3559,8 +3587,6 @@ async def stripe_webhook(request):
 def tower_of_bable(request):
 	#recently_modified_post = Post.objects.order_by('-latest_change_date')[:100]
 	registerform = UserCreationForm()
-	for vot in Votes.objects.all():
-		vot.delete()
 	loginform = AuthenticationForm()
 
 	buyadvertisingform = BuyAdvertisingForm()
@@ -9705,7 +9731,7 @@ def tob_save_space(request, user, space):
 		author = Author.objects.get(username=user)
 		saving_space = Space.objects.get(author=author, the_space_itself__the_word_itself=space)
 
-		if saving_space in loggedinanon.purchased_spaces.all():
+		if saving_space in loggedinanon.purchased_spaces.all() or saving_space in loggedinanon.spaces.all():
 			loggedinanon.saved_spaces.add(saving_space)
 	return base_redirect(request, 0)
 

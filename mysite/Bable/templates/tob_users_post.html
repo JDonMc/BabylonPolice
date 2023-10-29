@@ -242,7 +242,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
 				</a>
 			{% endif %}
-			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name 0 %}">{{ vote.the_vote_name }}</a>
+			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
 		</div>
 		<div class=postchange>

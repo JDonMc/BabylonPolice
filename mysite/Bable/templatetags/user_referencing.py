@@ -3,7 +3,7 @@ from django import template
 from django.urls import reverse
 from datetime import datetime
 from Bable import models
-import bleach
+import nh3
 
 register = template.Library()
 
@@ -78,12 +78,12 @@ def clickthrough(value, author):
 
 @register.filter(is_safe=True)
 def safety_clean(value):
-	return	bleach.clean(value)				
+	return	nh3.clean(value)				
 
 
 @register.filter(is_safe=True)
 def safety_check(value):
-	return bleach.clean(value, tags=['a', 'div', 'style', 'img', 'video'], attributes=['class', 'src', 'height', 'width', 'style'])
+	return nh3.clean(value)
 
 @register.filter(is_safe=True)
 def nodic_word_up(value):

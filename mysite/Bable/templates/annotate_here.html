@@ -96,14 +96,52 @@ BabylonPolice.com - incentivised-ascento-secrecy
 			<button style="display: block;" type=submit>Add Comment</button>
 		</form>
 	</div>
+	<div>
+		{% for sponsor in search.sponsors.all|slice:"4" %}
+		<div>
+			<a href="{% url 'Bable:clickthrough' search.author.username sponsor.id %}"><img src="{{ sponsor.img }}" style="height: 8em; width: 8em;">
+					<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
+					</div>
+				</a>
+		</div>
+		{% endfor %}
+	</div>
 <iframe id="encoder_iframe" src="{{ search.url }}" style="display: block; width: 1000px; height: 2000px;">
 </iframe>
-
+<div>
+	<div>
+		Annotation Name: <a href="{% url 'Bable:annotate_url' search.id %}">{{ search.name }}</a>
+	</div>
+	<div>
+		User: <a href="{% url 'Bable:tob_user_view' search.author.username %}">{{ search.author.username }}</a>
+	</div>
+	<div>
+		URL: <a href="{{ search.url }}">{{ search.url }}</a>
+	</div>
+	<a href="{% url 'Bable:votewvotestyle' 'search' search.id %}">Votes: </a>
+	{% for vote in search.votes.all|slice:"10" %}
+		<div style="display:inline-block;">
+			{% if vote.url2 %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">{{vote.votes}}
+				</a>
+			{% else %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">{{vote.votes}}
+				</a>
+			{% endif %}
+			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+		</div>
+	{% endfor %}
+</div>
+	
+{% if loggedinauthor == search.author %}
 <form style="width: 12em; margin:auto;" method="post" action="{% url 'Bable:annotate_url_post_edits' search.id %}">
 	{% csrf_token %}
 	{{ searchform }}
 	<button type=submit>Update Annotation</button>
 </form>
+{% endif %}
 
 <script type="text/javascript">
 function check() {
@@ -236,8 +274,45 @@ function comments() {
 		{% endif %}
 		
 	</div>
+<div>
+		{% for sponsor in search.sponsors.all|slice:"4" %}
+		<div>
+			<a href="{% url 'Bable:clickthrough' search.author.username sponsor.id %}"><img src="{{ sponsor.img }}" style="height: 8em; width: 8em;">
+					<div style="width: fit-content; position: relative; top: -2em; color: blue; background-color: white;">Ad
+					</div>
+				</a>
+		</div>
+		{% endfor %}
+	</div>
 <iframe id="encoder_iframe" src="{{ search.url }}" style="display: block; width: 1000px; height: 2000px;">
 </iframe>
+<div>
+	<div>
+		Annotation Name: <a href="{% url 'Bable:annotate_url' search.id %}">{{ search.name }}</a>
+	</div>
+	<div>
+		User: <a href="{% url 'Bable:tob_user_view' search.author.username %}">{{ search.author.username }}</a>
+	</div>
+	<div>
+		URL: <a href="{{ search.url }}">{{ search.url }}</a>
+	</div>
+
+	<a href="{% url 'Bable:votewvotestyle' 'search' search.id %}">Votes: </a>
+	{% for vote in search.votes.all|slice:"10" %}
+		<div style="display:inline-block;">
+			{% if vote.url2 %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">{{vote.votes}}
+				</a>
+			{% else %}
+				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">{{vote.votes}}
+				</a>
+			{% endif %}
+			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+		</div>
+	{% endfor %}
+</div>
 
 
 <script type="text/javascript">

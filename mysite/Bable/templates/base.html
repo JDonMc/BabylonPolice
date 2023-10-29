@@ -297,24 +297,25 @@
 						<button type="submit">Submit</button>
 					</form>
 					<script src="https://cdn.rawgit.com/xcash/bootstrap-autocomplete/3de7ad37/dist/latest/bootstrap-autocomplete.js"></script>
-    <script type="text/javascript">
-    	$('.AutoComplete').autoComplete({minLength: 0});
-      	$('.dropdown-menu').css({'top': 'auto', 'left': 'auto'});
-      	var search = document.getElementById('searchforvote');
-      	search.addEventListener('click', function() {
-	      	var vote_name = $('.AutoComplete').val()
-	      	$.ajax({
-			  url: "{% url 'Bable:grabvoteid' %}",
-			  data: {
-			    format: 'json',
-			    name: vote_name,
-			  },
-			  success: function(data) {
-			  	$('#id_the_vote_style').html(data)
-			  }
-			});
-	      });
-    </script>
+				    <script type="text/javascript">
+				    	$('.AutoComplete').autoComplete({minLength: 0});
+				      	$('.dropdown-menu').css({'top': 'auto', 'left': 'auto'});
+				      	var search = document.getElementById('searchforvote');
+				      	search.addEventListener('click', function() {
+					      	var vote_name = $('.AutoComplete').val()
+					      	$.ajax({
+							  url: "{% url 'Bable:grabvoteid' %}",
+							  data: {
+							    format: 'json',
+							    name: vote_name,
+							  },
+							  success: function(data) {
+							  	console.log(data)
+							  	$("#id_the_vote_style").val(parseInt(data));
+							  }
+							});
+					      });
+				    </script>
 				</div>
 				<div id="apply_votes">
 					<form action="{% url 'Bable:apply_votes' %}" method="post">
