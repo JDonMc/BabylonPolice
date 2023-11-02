@@ -4891,7 +4891,10 @@ def tob_users_sponsor(request, user, sponsor):
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	
-
+	users_sponsors = Sponsor.objects.filter(author=user_author)
+	users_sponsor = False
+	if not int(sponsor) == 0:
+		users_sponsor = Sponsor.objects.get(id=int(sponsor))
 
 
 
