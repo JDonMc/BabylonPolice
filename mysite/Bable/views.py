@@ -928,9 +928,9 @@ def sort_words(words, sort, count, length):
 		return words.annotate(q_votes=Count('votes', distinct=True)).order_by('-q_votes')[count:count+length]
 	return words.order_by('-viewcount')[count:count+length]
 
-def tob_vote(vote_id):
-	the_votes = Votes.objects.get(id=vote_id)
-	return redirect('Bable:tob_users_votes', user=the_votes.author.username, votes=the_votes.the_vote_name)
+def tob_vote(request, vote_id):
+	the_votes = Votes.objects.get(id=int(vote_id))
+	return redirect('Bable:tob_users_vote', user=the_votes.author.username, vote=the_votes.id)
 
 
 def tob_wallet(request, vote_id):
@@ -6310,18 +6310,18 @@ def tob_users_vote(request, user, vote):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
-		if int(votes) == 0:
+		if int(vote) == 0:
 			the_votes = None
 		else:
-			the_votes = Votes.objects.get(id=int(votes))
+			the_votes = Votes.objects.get(id=int(vote))
 			create_votes_form = CreateVotesForm(request, instance=the_votes)
-		the_response = render(request, "tob_users_votes.html", {"loggedinanon": loggedinanon, "user_anon": user_anon, "votes": votes,"the_votes": the_votes, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_votes.html", {"loggedinanon": loggedinanon, "user_anon": user_anon, "votes": vote,"the_votes": the_votes, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_votes.html", {"user_anon": user_anon, "users_dic": users_dic, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_users_votes')
 	the_response.set_cookie('viewing_user', user)
-	the_response.set_cookie('votes', votes)
+	the_response.set_cookie('votes', vote)
 	return the_response
 
 @login_required

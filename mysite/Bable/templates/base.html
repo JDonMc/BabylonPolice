@@ -165,7 +165,7 @@
 							{% if loggedinanon.applied_votestyles.count %}
 								Applied Votestyles:
 								{% for vote in loggedinanon.applied_votestyles.all %}
-									<a href="{% url 'Bable:tob_vote' vote.id %}" style="color: #e3dac9;">{{ vote.the_vote_name }}; {{ vote.id }}</a>, 
+									<a href="{% url 'Bable:tob_vote' vote.id %}" style="color: #e3dac9;">{{ vote.the_vote_name|fontype:vote.the_vote_style.the_space_itself.to_full|safe }}; {{ vote.id }}</a>, 
 								{% endfor %}
 							{% else %}
 								No Applied Votestyles.
