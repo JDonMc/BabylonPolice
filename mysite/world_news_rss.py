@@ -5,9 +5,13 @@ import time
 import feedparser
 from requests import get
 
+
+
+
+
 base = ""
 urls = ["http://feeds.bbci.co.uk/news/world/rss.xml", "http://www.aljazeera.com/xml/rss/all.xml", 
-    "https://topthesaurus.com/index.php/feed/", "http://rss.cnn.com/rss/edition_world.rss", 
+    "http://rss.cnn.com/rss/edition_world.rss", 
     "https://timesofindia.indiatimes.com/rssfeeds/296589292.cms", 
     "https://www.cnbc.com/id/100727362/device/rss/rss.html", 
     "https://feeds.washingtonpost.com/rss/world", "https://www.rt.com/rss/news/", 
@@ -39,7 +43,7 @@ for rss_url in urls:
     # To disable limit simply do not provide the argument or use None
     feed = feedparser.parse(xml)
     # Print out feed meta data
-    print(feed.feed.title_detail.language)
+    #print(feed.feed.title_detail.language)
     
     # Iteratively print feed items
     for item in feed.entries:
@@ -50,6 +54,7 @@ for rss_url in urls:
         print(r.status_code)
         print(r.text)
 
+        
 
 
 
