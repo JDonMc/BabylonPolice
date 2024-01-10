@@ -1,6 +1,6 @@
 # BabylonPolice the SourceAvailable proof of transparency for BabylonPolice.com
 
-## Preamble
+## Preambling
 
 We believe in a reverse-KYC policy, meaning that any potentially-skeptical potentially-anonymous potential-client is less likely to want to use your products and services if you implement KYC, and further less likely if you do not implement reverse KYC, meaning at the very least SourceAvailable, or OpenSource.
 
