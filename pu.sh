@@ -14,6 +14,7 @@ git commit -m "auto"
 sleep 1 
 git push --set-upstream origin main
 sleep 1 
+heroku login
 git push heroku main:main -f
 sleep 1 
 mv mysite/mysite/settings.py mysite/mysite/herokusettings.py
