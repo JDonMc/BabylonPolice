@@ -8723,8 +8723,7 @@ def word_attributess(request):
 	
 		
 
-	word_attributes = Attribute.objects.all()
-
+	word_attributes = Attribute.objects.all().order_by('-latest_change_date')[0:100]
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:

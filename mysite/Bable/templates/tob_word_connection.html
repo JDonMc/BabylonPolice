@@ -2,7 +2,6 @@
 {% load user_referencing %}
 {% load humanize %}
 {% load mptt_tags %}
-{% load markdownify %}
 
 {% block inserts %}
 <meta name="viewport" content="width=device-width">
@@ -171,7 +170,7 @@ Word ({{word.id}}): {{ word.the_word_itself }}'s Connection - Dream Cloud Middle
 						{% for rela in dics_word.relations.all %}
 							<div class=wordrelation>
 								<div class=relationitself>
-									Relation: {{ rela.the_relation_itself|markdownify }}
+									Relation: {{ rela.the_relation_itself }}
 								</div>
 								<div class=relalatest>
 									Latest: {{ rela.latest_change_date }}

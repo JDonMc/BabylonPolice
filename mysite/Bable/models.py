@@ -1319,41 +1319,58 @@ ANON_SORT_CHOICES = (
 
 
 import gpg_lite as gpg
-gpg_store = gpg.GPGStore()
+import os
+if os.name =="nt":
+	class Message(models.Model):
+		sender = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_sender')
+		receiver = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_receiver')
+		encrypted_message = models.TextField(max_length=10000, default='')
+		key_fingerprint = models.CharField(max_length=1000, default='')
 
+		
 
-class Message(models.Model):
-	sender = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_sender')
-	receiver = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_receiver')
-	encrypted_message = models.TextField(max_length=10000, default='')
-	key_fingerprint = models.CharField(max_length=1000, default='')
-
-	def set_fingerprint():
-		self.key_fingerprint = str(gpg_store.gen_key(key_type='RSA', key_length=4096, full_name=self.sender.username, email=self.sender.to_anon().email, passphrase=self.sender.to_anon().password))
-
-	def encrypt_message(message):
-		encrypted_file = '/gpg/'+self.key_fingerprint
-		with open(encrypted_file, "w") as f:
-			gpg_store.encrypt(
-				source=message,
-				recipients=[self.receiver.to_anon().email],
-				output=f,
-				sign=self.sender.to_anon().email,
-				passphrase=self.sender.to_anon().password)
-		with open(encrypted_file, "rb") as f:
-			message = f.read()
+		def encrypt_message(message):
 			self.encrypted_message = message
-			return self.encrypted_message
+			return message
 
-	def decrypt_message():
-		encrypted_file = '/gpg/'+self.key_fingerprint
-		decrypted_file = '/gpg/'+self.receiver.username
-		with open(encrypted_file, "rb") as f, open(decrypted_file, "w") as f_out:
-			gpg_store.decrypt(
-				source=f,
-				output=f_out,
-				passphrase=self.receiver.to_anon().password)
-			return f_out.read()
+		def decrypt_message():
+			return self.encrypted_message
+			
+else:
+	gpg_store = gpg.GPGStore()
+	class Message(models.Model):
+		sender = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_sender')
+		receiver = models.OneToOneField(Author, on_delete=models.CASCADE, related_name='author_receiver')
+		encrypted_message = models.TextField(max_length=10000, default='')
+		key_fingerprint = models.CharField(max_length=1000, default='')
+
+		def set_fingerprint():
+			self.key_fingerprint = str(gpg_store.gen_key(key_type='RSA', key_length=4096, full_name=self.sender.username, email=self.sender.to_anon().email, passphrase=self.sender.to_anon().password))
+
+		def encrypt_message(message):
+			encrypted_file = '/gpg/'+self.key_fingerprint
+			with open(encrypted_file, "w") as f:
+				gpg_store.encrypt(
+					source=message,
+					recipients=[self.receiver.to_anon().email],
+					output=f,
+					sign=self.sender.to_anon().email,
+					passphrase=self.sender.to_anon().password)
+			with open(encrypted_file, "rb") as f:
+				message = f.read()
+				self.encrypted_message = message
+				return self.encrypted_message
+
+		def decrypt_message():
+			encrypted_file = '/gpg/'+self.key_fingerprint
+			decrypted_file = '/gpg/'+self.receiver.username
+			with open(encrypted_file, "rb") as f, open(decrypted_file, "w") as f_out:
+				gpg_store.decrypt(
+					source=f,
+					output=f_out,
+					passphrase=self.receiver.to_anon().password)
+				return f_out.read()
+
 
 ANON_SORT_CHOICES_CHAR = (
 	("-sum_dictionaries", "Most Dictionaries"),

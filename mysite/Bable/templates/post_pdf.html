@@ -3,7 +3,6 @@
 {% load humanize %}
 {% load mptt_tags %}
 {% load static %}
-{% load markdownify %}
 
 <div class=usersusername>
 	<h2>
@@ -23,7 +22,7 @@
 		</div>
 		{% endif %}
 		<div class=postbody>
-			{{ users_post.body|word_up:users_post.dictionaries.all|safe|markdownify|linebreaks }}
+			{{ users_post.body|word_up:users_post.dictionaries.all|safe|linebreaks }}
 		</div>
 		<div class=postsponsors>
 			{% if users_post.sponsors.count %}
