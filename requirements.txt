@@ -9,7 +9,7 @@ async-timeout==4.0.2
 attrs==22.2.0
 Automat==0.8.0
 base58==2.1.1
-beautifulsoup4==4.7.1
+beautifulsoup4==4.9.0
 bitarray==2.6.2
 boto==2.49.0
 cachetools==3.0.0
@@ -72,7 +72,7 @@ parsimonious==0.9.0
 Pillow==10.0.1
 pipenv==2022.1.8
 plotly==5.17.0
-protobuf==3.20.3
+protobuf==4.21.6
 pyasn1==0.4.5
 pyasn1-modules==0.2.3
 pycparser==2.19
@@ -91,7 +91,6 @@ requests==2.31.0
 rlp==4.0.0
 rsa==4.7
 scipy==1.11.4
-Scrapy==2.9.0
 service-identity==18.1.0
 sgmllib3k==1.0.0
 six==1.16.0
@@ -101,7 +100,7 @@ stripe==3.4.0
 tenacity==8.1.0
 termcolor==1.1.0
 toolz==0.12.0
-tqdm==4.31.1
+tqdm==4.42.1
 Twisted==23.10.0rc1
 typing_extensions==4.4.0
 tzdata==2022.7
@@ -117,7 +116,7 @@ w3lib==1.19.0
 webencodings==0.5.1
 webkit2png==0.8.2
 webpreview==1.7.2
-websockets==9.1
+websockets==10.0
 Werkzeug==2.3.8
 whitenoise==5.3.0
 zope.interface==5.4.0
