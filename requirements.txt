@@ -119,4 +119,3 @@ webpreview==1.7.2
 websockets==10.0
 Werkzeug==2.3.8
 whitenoise==5.3.0
-zope.interface==5.4.0
