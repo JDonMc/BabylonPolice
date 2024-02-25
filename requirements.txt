@@ -1,5 +1,5 @@
 absl-py==0.12.0
-aiohttp==3.9.0
+aiohttp==3.9.2
 aiosignal==1.3.1
 APScheduler==3.9.1
 asgiref==3.6.0
@@ -22,14 +22,14 @@ constantly==15.1.0
 contourpy==1.0.6
 coreapi==2.3.3
 coreschema==0.0.4
-cryptography==41.0.6
+cryptography==42.0.4
 cssselect==1.0.3
 cycler==0.11.0
 cytoolz==0.12.2
 discord==2.3.2
 dj-database-url==0.5.0
 dj3-cloudinary-storage==0.0.6
-Django==3.2.23
+Django==3.2.24
 django-ckeditor==6.5.1
 django-environ==0.9.0
 django-heroku==0.3.1
@@ -69,7 +69,7 @@ numpy==1.26.0
 packaging==23.0
 parsel==1.5.1
 parsimonious==0.9.0
-Pillow==10.0.1
+Pillow==10.2.0
 pipenv==2022.1.8
 plotly==5.17.0
 protobuf==4.21.6
