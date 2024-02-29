@@ -2025,10 +2025,19 @@ def register_view(request):
 	page_views.views += 1
 	page_views.save()
 	total = 0
+
+	base_product, created = Price.objects.get_or_create(id=1)
+	if created:
+		base_product.name = "Donate - Predictionary.us"
+		base_product.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
+		base_product.anon_user_id = 1
+		base_product.stripe_product_id = "prod_OS2pk9gZWam5Ye"
+		base_product.price = 500
+		base_product.save()
 		
 	for page in Pageviews.objects.all():
 		total += page.views
-	the_response = render(request, 'tower_of_bable.html', {"basic_price": Product.objects.get(id=1), "viewsponsor": viewsponsor, "register_error":register_error, "login_error":login_error, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
+	the_response = render(request, 'tower_of_bable.html', {"basic_price": base_product, "viewsponsor": viewsponsor, "register_error":register_error, "login_error":login_error, "total": total, "count": count, "mcount": mcount, "count100": count100, "posts": posts_by_viewcount, 'loginform': loginform, 'registerform': registerform, })
 	
 	the_response.set_cookie('current', 'tower_of_bable')
 	return base_redirect(request, 0)

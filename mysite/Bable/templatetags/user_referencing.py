@@ -49,6 +49,10 @@ def random_int(a, b=None):
         a = 0
     return random.randint(a, b)
 
+@register.filter(is_safe=True)
+def left_over(a, b):
+    return a%b
+
 
 
 @register.filter(is_safe=True)
