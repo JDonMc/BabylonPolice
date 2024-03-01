@@ -3605,8 +3605,10 @@ def tower_of_bable(request):
 	mcount = 0
 
 	
-	basic_price, x = Price.objects.get_or_create(name="Donate - Predictionary.us", anon_user_id=1)
+	basic_price, x = Price.objects.get_or_create(id=1)
 	if not basic_price.stripe_price_id:
+		basic_price.name="Donate - Predictionary.us"
+		basic_price.anon_user_id=1
 		basic_price.stripe_price_id = "price_1Nf8jMIDEcA7LIBjpnt385yZ"
 
 		basic_price.stripe_product_id = "prod_OS2pk9gZWam5Ye"
