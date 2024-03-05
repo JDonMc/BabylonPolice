@@ -296,7 +296,7 @@ $(document).ready(function() {
 				</div>
 				{% endif %}
 			<div class=postbody style="margin-right: 0.5em;">
-				{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:111|safe }}
+				{{ post.body|safety_check|truncatechars:111|safe }}
 			</div>
 			<div class=postcount style="font-size: 1em;">
 				<a href="{% url 'Bable:votewvotestyle' 'post' post.id %}">Voters: {{ post.votes_uniques }}</a>
@@ -569,7 +569,7 @@ $(document).ready(function() {
 					{% endif %}
 				
 				<div class=postbody style="margin-right: 0.5em;">
-					{{ post.body|safety_check|usernames|spaces|urlize|truncatechars:111|safe }}
+					{{ post.body|safety_check|truncatechars:111|safe }}
 				</div>
 				<div class=postcount style="font-size: 1em;" onclick="showregister();">
 					Voters: {{ post.votes_uniques }}
