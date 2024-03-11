@@ -2438,21 +2438,25 @@ def create_comment(request, source_type, source, com):
 			if commentform.cleaned_data['dictionaries'] == 0:
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
-				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
+				else:
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
 
 			else:
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
-				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, the_dictionary_itself=commentform.cleaned_data['dictionaries'])
+				else:
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, the_dictionary_itself=commentform.cleaned_data['dictionaries'])
 		else:
 			if commentform.cleaned_data['dictionaries'] == 0:
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
-				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
+				else:
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
 			else:
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
-				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
+				else:
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
 			comments_dic = Dictionary_Source.objects.get(the_dictionary_itself=commentform.cleaned_data['dictionaries'], author=loggedinauthor)
 			new_com.dictionaries.add(comments_dic)
 		if source_type == 'att_def':
