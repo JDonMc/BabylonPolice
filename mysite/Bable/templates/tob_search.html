@@ -118,9 +118,10 @@ BabylonPolice.com - Search - {{ query_string }}
 </div>
 
 <div class=spaces>
+	<h3>Spaces: </h3>
 		<div class=spaces>
-			{% if spaces %} 
-				{% for space in spaces %}
+			{% if search_space %} 
+				{% for space in search_space %}
 				<div class=space>
 					<div class=space_itself>
 						<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
@@ -168,6 +169,38 @@ BabylonPolice.com - Search - {{ query_string }}
 			{% else %}
 			<div class=space>
 				This user has no space.
+			</div>
+			{% endif %}
+		</div>
+</div>
+
+<div class=words>
+	<h3>Words: </h3>
+		<div class=words>
+			{% if search_words %} 
+				{% for word in search_words %}
+				<div class=word>
+					<div class=word_itself>
+						<a href="{% url 'Bable:tob_word' word.id %}">{{ word.the_word_itself }}</a>
+					</div>
+					<div class=word_author style="padding-left: 2px; border-left: solid 1px;">
+						Author: <a href="{% url 'Bable:tob_user_view_count' word.author.username 0 %}">{{ word.author.username }}</a>
+					</div>
+					<div class=word_viewcount style="padding-left: 2px; border-left: solid 1px;">
+						Views: {{ word.viewcount }}
+					</div>
+					<div class=word_latest style="padding-left: 2px; border-left: solid 1px;">
+						Changed: {{ word.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+						Home Dictionary: <a href="{% url 'Bable:tob_dic' word.home_dictionary.to_full.id %}">{{ word.home_dictionary.the_dictionary_itself }}</a>
+					</div>
+					
+				</div>
+				{% endfor %}
+			{% else %}
+			<div class=word>
+				There are no words here.
 			</div>
 			{% endif %}
 		</div>
@@ -243,6 +276,95 @@ BabylonPolice.com - Search - {{ query_string }}
 			There are no posts.
 		</div>
 	{% endif %}
+</div>
+
+<div class=spaces>
+	<h3>Spaces: </h3>
+		<div class=spaces>
+			{% if search_space %} 
+				{% for space in search_space %}
+				<div class=space>
+					<div class=space_itself>
+						<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+					</div>
+					<div class=space_author style="padding-left: 2px; border-left: solid 1px;">
+						Author: <a href="{% url 'Bable:tob_user_view_count' space.author.username 0 %}">{{ space.author.username }}</a>
+					</div>
+					<div class=space_viewcount style="padding-left: 2px; border-left: solid 1px;">
+						Views: {{ space.viewcount }}
+					</div>
+					<div class=space_latest style="padding-left: 2px; border-left: solid 1px;">
+						Changed: {{ space.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+						Posts: {{ space.posts.count }}
+					</div>
+					<div class=space_votes style="padding-left: 2px; border-left: solid 1px;">
+						Votes: {{ space.votes.count }}
+					</div>
+					<div class=space_sponsors style="padding-left: 2px; border-left: solid 1px;">
+						Sponsors: {{ space.sponsors.count }}
+					</div>
+					<div class=space_voters style="padding-left: 2px; border-left: solid 1px;">
+						Approved Voters: {{ space.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
+						Intro: {{ space.sidebar|urlize }}
+					</div>
+					<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
+						{% if space.public %}
+						Price: Free
+						{% else %}
+						Price: {{ space.entry_fee }} + {{ space.the_space_itself.home_dictionary.price }}
+						{% endif %}
+					</div>
+					<div class=space_source style="padding-left: 2px; border-left: solid 1px;">
+						<a href="{% url 'Bable:tob_users_dic' space.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ space.the_space_itself.dictionary.the_dictionary_itself }}</a>
+					</div>
+					<div class=space_save style="padding-left: 2px; border-left: solid 1px;">
+						<!-- if user isn't authenticated, open signup/login button -->
+						<a href="{% url 'Bable:tob_buy_space' space.author.username space.the_space_itself.the_word_itself %}">save</a>
+					</div>
+				</div>
+				{% endfor %}
+			{% else %}
+			<div class=space>
+				This user has no space.
+			</div>
+			{% endif %}
+		</div>
+</div>
+
+<div class=words>
+	<h3>Words: </h3>
+		<div class=words>
+			{% if search_words %} 
+				{% for word in search_words %}
+				<div class=word>
+					<div class=word_itself>
+						<a href="{% url 'Bable:tob_word' word.id %}">{{ word.the_word_itself }}</a>
+					</div>
+					<div class=word_author style="padding-left: 2px; border-left: solid 1px;">
+						Author: <a href="{% url 'Bable:tob_user_view_count' word.author.username 0 %}">{{ word.author.username }}</a>
+					</div>
+					<div class=word_viewcount style="padding-left: 2px; border-left: solid 1px;">
+						Views: {{ word.viewcount }}
+					</div>
+					<div class=word_latest style="padding-left: 2px; border-left: solid 1px;">
+						Changed: {{ word.latest_change_date|naturaltime }}
+					</div>
+					<div class=space_posts style="padding-left: 2px; border-left: solid 1px;">
+						Home Dictionary: <a href="{% url 'Bable:tob_dic' word.home_dictionary.to_full.id %}">{{ word.home_dictionary.the_dictionary_itself }}</a>
+					</div>
+					
+				</div>
+				{% endfor %}
+			{% else %}
+			<div class=word>
+				There are no words here.
+			</div>
+			{% endif %}
+		</div>
 </div>
 <div class=pageno>
 	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
