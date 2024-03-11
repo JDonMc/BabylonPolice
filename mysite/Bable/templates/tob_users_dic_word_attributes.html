@@ -391,7 +391,7 @@
 																	<button type=submit>what've I got to lose?</button>
 																</form>
 															</div>
-														{% recursetree ant.comment_sources.all %}
+														{% recursetree ant.ant_com %}
 																<div class=antcoms>
 																	<div class=comclose onclick="comCollapse('{{node.id}}')">
 																		-:
@@ -499,7 +499,7 @@
 																	<button type=submit>what've I got to lose?</button>
 																</form>
 															</div>
-														{% recursetree hom.comment_sources.all %}
+														{% recursetree hom.hom_com %}
 															<!-- CAN make it purchase first apply second, or apply second purchase first
 															 for dic in com.dictionaries.all cant seem to work it out today. need to be stoned.
 															 if dic in loggedinanon.purchased_dictionaries.all  -->
