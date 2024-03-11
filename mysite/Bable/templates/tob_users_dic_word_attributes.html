@@ -186,7 +186,7 @@
 														</form>
 													</div>
 													<div class=defcom>
-														{% recursetree def.def_com.all %}
+														{% recursetree def.def_com %}
 															<div class=defcoms>
 																<div class=comclose onclick="comCollapse('{{node.id}}')">
 																	-:
@@ -293,7 +293,7 @@
 																	<button type=submit>what've I got to lose?</button>
 																</form>
 															</div>
-														{% recursetree syn.comment_sources.all %}
+														{% recursetree syn.syn_com %}
 															<div class=syncoms>
 																<div class=comclose onclick="comCollapse('{{node.id}}')">
 																	-:

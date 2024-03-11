@@ -133,7 +133,7 @@ class Comment_SourceForm(forms.ModelForm):
         dictionaries = cleaned_data.get('dictionaries')
         if not body:
             raise forms.ValidationError('What the fuck you trynna say?')
-        if len(cleaned_data.get('dictionaries')) > 5:
+        if cleaned_data.get('dictionaries').count('dictionaries') > 5:
             raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(Comment_SourceForm, self).__init__(*args, **kwargs)

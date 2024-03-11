@@ -60,13 +60,21 @@ def sponsor(value, dictionaries):
 	pricemax = 0
 	top_sponsor = 0
 	contained_dic = 0
-	for dic in dictionaries:
-		for word in dic.words.all():
+	if type(dictionaries) == list:
+		for dic in dictionaries:
+			for word in dic.words.all():
+				for spon in word.sponsors.all():
+					if spon.price_limit > pricemax:
+						pricemax = spon.price_limit
+						top_sponsor = spon
+						contained_dic = dic
+	else:
+		for word in dictionaries.words.all():
 			for spon in word.sponsors.all():
 				if spon.price_limit > pricemax:
 					pricemax = spon.price_limit
 					top_sponsor = spon
-					contained_dic = dic
+					contained_dic = dictionaries
 	if not top_sponsor:
 		if not contained_dic:
 			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase), '<a class=plain href="{}" onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough', kwargs={'author': 'replacewclickthrough', 'sponsor_id':top_sponsor.id}), top_sponsor.id, top_sponsor.img, top_sponsor.id, top_sponsor.id, top_sponsor.the_sponsorship_phrase, top_sponsor.the_sponsorship_phrase))

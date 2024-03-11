@@ -261,7 +261,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 																		id: {{node.id}}
 																	</div>
 																	<div class=defcomsbody>
-																		{{ node.body|usernames|spaces|sponsor:"users_dic"|clickthrough:"node.author.username" }}
+																		{{ node.body|usernames|spaces|sponsor:users_dic|clickthrough:node.author.username }}
 																	</div>
 																	<div class=defcomsvotes>
 																		<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
@@ -1161,7 +1161,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 												</div>
 												{% if loggedinanon == user_anon %}
 												<div class=dictionary-delete>
-													<a href="{% url 'Bable:delete_own_stor' user_anon.username.username users_dic.the_dictionary_itself stor.id %}"><h4>X</h4></a>
+													<a href="{% url 'Bable:delete_own_stor' user_anon.username.username users_dic.the_dictionary_itself dics_word.the_word_itself stor.id %}"><h4>X</h4></a>
 												</div>
 												{% endif %}
 												<div class=storchange>

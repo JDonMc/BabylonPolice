@@ -2445,7 +2445,7 @@ def create_comment(request, source_type, source, com):
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
 				else:
-					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, the_dictionary_itself=commentform.cleaned_data['dictionaries'])
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
 		else:
 			if commentform.cleaned_data['dictionaries'] == 0:
 				if new_com:
@@ -2459,6 +2459,7 @@ def create_comment(request, source_type, source, com):
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
 			comments_dic = Dictionary_Source.objects.get(the_dictionary_itself=commentform.cleaned_data['dictionaries'], author=loggedinauthor)
 			new_com.dictionaries.add(comments_dic)
+			print(new_com)
 		if source_type == 'att_def':
 			if Definition.objects.get(id=source):
 				Definition.objects.get(id=source).comment_sources.add(new_com)
