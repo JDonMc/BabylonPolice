@@ -120,8 +120,8 @@ BabylonPolice.com - Search - {{ query_string }}
 <div class=spaces>
 	<h3>Spaces: </h3>
 		<div class=spaces>
-			{% if search_space %} 
-				{% for space in search_space %}
+			{% if spaces %} 
+				{% for space in spaces %}
 				<div class=space>
 					<div class=space_itself>
 						<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
@@ -177,8 +177,8 @@ BabylonPolice.com - Search - {{ query_string }}
 <div class=words>
 	<h3>Words: </h3>
 		<div class=words>
-			{% if search_words %} 
-				{% for word in search_words %}
+			{% if words %} 
+				{% for word in words %}
 				<div class=word>
 					<div class=word_itself>
 						<a href="{% url 'Bable:tob_word' word.id %}">{{ word.the_word_itself }}</a>
@@ -281,8 +281,8 @@ BabylonPolice.com - Search - {{ query_string }}
 <div class=spaces>
 	<h3>Spaces: </h3>
 		<div class=spaces>
-			{% if search_space %} 
-				{% for space in search_space %}
+			{% if spaces %} 
+				{% for space in spaces %}
 				<div class=space>
 					<div class=space_itself>
 						<a href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
@@ -338,8 +338,8 @@ BabylonPolice.com - Search - {{ query_string }}
 <div class=words>
 	<h3>Words: </h3>
 		<div class=words>
-			{% if search_words %} 
-				{% for word in search_words %}
+			{% if words %} 
+				{% for word in words %}
 				<div class=word>
 					<div class=word_itself>
 						<a href="{% url 'Bable:tob_word' word.id %}">{{ word.the_word_itself }}</a>
