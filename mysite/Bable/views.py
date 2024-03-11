@@ -3425,7 +3425,7 @@ def search(request, count):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 		search_post = Post.objects.filter(title__icontains=query_string).filter(Q(public=True)|Q(allowed_to_view_authors=loggedinauthor)).order_by('-latest_change_date')[count:count100]
 		search_space = Space.objects.filter(the_space_itself__the_word_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
-		search_words = Word.objects.filter(the_word_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
+		search_words = Word.objects.filter(the_word_itself__icontains=query_string).order_by('-latest_change_date')[count:count100]
 		search_dics = Dictionary.objects.filter(the_dictionary_itself__icontains=query_string).filter(Q(public=True)|Q(approved_voters=loggedinauthor)).order_by('-latest_change_date')[count:count100]
 		posts_by_viewcount = search_post
 		
