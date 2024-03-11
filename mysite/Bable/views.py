@@ -2443,7 +2443,7 @@ def create_comment(request, source_type, source, com):
 			else:
 				if new_com:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
-				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
+				new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, the_dictionary_itself=commentform.cleaned_data['dictionaries'])
 		else:
 			if commentform.cleaned_data['dictionaries'] == 0:
 				if new_com:
