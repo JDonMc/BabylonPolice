@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'mptt',
     'Bable',
     'paypal.standard.ipn', # django-paypal
-    'markdownify',
     'rest_framework',
     'rest_framework.authtoken',
     'coreapi',
