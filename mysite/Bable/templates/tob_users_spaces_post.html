@@ -13,6 +13,15 @@
 <meta name="viewport" content="width=device-width">
 <meta name="description" content="{{ spaces_post.title }} - Babylon Police - ID: {{ spaces_post.id }}">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	elements = document.getElementsByClassName("csrf");
+	for (var i=0;  i< elements.length; i++) {
+		elements[i].name = "csrfmiddlewaretoken";
+		elements[i].type = "hidden";
+		elements[i].value = "{{ csrf_token }}";
+	};})
+</script>
 {% endblock %}
 
 
@@ -109,7 +118,7 @@
 						{% endif %}
 					</div>
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_spaces_post' post.author.username post.id 0 %}"><h4>{{ post.title|word_up:post.dictionaries }}</h4></a>
+						<a href="{% url 'Bable:tob_spaces_post' post.author.username post.id 0 %}"><h4>{{ post.title|word_up:post.dictionaries|safe }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
@@ -118,7 +127,14 @@
 					{% endif %}
 					
 					{% if post.max_sponsor %}
-						<a href="{% url 'Bable:clickthrough' post.author.username post.max_sponsor.id %}"><img src="{{ post.max_sponsor.img.url2 }}" style="height: 4em; width: 4em; float:right;"></a> <!-- if no sponsor input default ad -->
+						<form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ post.author.username }}" readonly>
+							<input type=hidden value="{{ post.max_sponsor.id }}" readonly>
+							<button type=submit>
+								<img src="{{ post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+							</button>
+						</form> <!-- if no sponsor input default ad -->
 					{% endif %}
 				
 				</div>
@@ -191,11 +207,18 @@
 								</div>
 								<div class=postcomsbodyad>
 									{% if node.dictionaries.all.sponsors.count %}
-									<a href="{% url 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
+									<form action="{% url 'Bable:clickthrough' %}" method=POST>
+										{% csrf_token %}
+										<input type=hidden value="{{ node.author.username }}" readonly>
+										<input type=hidden value="{{ node.dictionaries.max_sponsor.id }}" readonly>
+										<button type=submit>
+											<img src="{{ post.max_sponsor.img.url2 }}" style="height: 4em; width: 4em; float:right;">
+										</button>
+									</form>
+									
 										<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
 										</div>
 
-									</a>
 									{% else %}
 										<a href="https://www.jackdonmclovin.com/"><img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
 									{% endif %}
@@ -265,7 +288,7 @@
 {% block unauthenticated_posts %}
 <div class=usersusername>
 	<h2>
-	<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username %}">User: {{ user_anon.username.username }}</a>
+	<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>
 	</h2>
 </div>
 <div class=usersspaces>

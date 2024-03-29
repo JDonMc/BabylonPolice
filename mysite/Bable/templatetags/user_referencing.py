@@ -41,7 +41,6 @@ def subset(value, subset):
 	return False
 
 
-
 @register.filter(is_safe=True)
 def random_int(a, b=None):
     if b is None:
@@ -75,9 +74,9 @@ def sponsor(value, dictionaries):
 					pricemax = spon.price_limit
 					top_sponsor = spon
 					contained_dic = dictionaries
-	if not top_sponsor:
+	if top_sponsor:
 		if not contained_dic:
-			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase), '<a class=plain href="{}" onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough', kwargs={'author': 'replacewclickthrough', 'sponsor_id':top_sponsor.id}), top_sponsor.id, top_sponsor.img, top_sponsor.id, top_sponsor.id, top_sponsor.the_sponsorship_phrase, top_sponsor.the_sponsorship_phrase))
+			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase), '<form action="{}" method=POST onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough'),'replacewclickthrough', top_sponsor.id), top_sponsor.id, top_sponsor.img, top_sponsor.id, top_sponsor.id, top_sponsor.the_sponsorship_phrase, top_sponsor.the_sponsorship_phrase)
 	return value
 
 @register.filter(is_safe=True)
@@ -113,7 +112,7 @@ def nodic_word_up(value):
 					replaced = False
 					wordsponsor = word.random_sponsor()
 					if wordsponsor.url:
-						wordsponsordiv = '<div><a href="{}" ><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':'test', 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
+						wordsponsordiv = '<div><form action="{}" method=POST onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form> <p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough'), 'test', wordsponsor.id) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
 					else:
 						wordsponsordiv = '<div><a href="https://www.babylonpolice.com" ><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
 					attribute_div1 = '<div class=dropdown-menu-1><style>.dropdown-menu-1 { opacity: 0; display: none; } .inner-' + str(word.id) + '-' + str(wordlen) + ':hover, .inner-' + str(word.id) + '-' + str(wordlen) + '.active, .dropdown-menu-1:hover, .dropdown-menu-1.active { opacity: 1; display: block; transform: translateY(0px); pointer-events: auto;}</style>'
@@ -130,7 +129,6 @@ def nodic_word_up(value):
 	return value
 
 
-
 @register.filter(is_safe=True)
 def word_up(value, dictionaries):
 	if len(value) < 280:
@@ -143,8 +141,8 @@ def word_up(value, dictionaries):
 					if word.the_word_itself not in exclude:
 						replaced = False
 						wordsponsor = word.random_sponsor()
-						if wordsponsor.url:
-							wordsponsordiv = '<div><a href="{}" ><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':word.author.username, 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
+						if wordsponsor.url2:
+							wordsponsordiv = '<div><form action="{}" method=POST><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough'), word.author.username, wordsponsor.id, wordsponsor.img) + wordsponsor.the_sponsorship_phrase + '</p></div>'
 						else:
 							wordsponsordiv = '<div><a href="https://www.babylonpolice.com" ><p style="color: white; position: absolute; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
 						attribute_div1 = '<div class=dropdown-menu-1><style>.dropdown-menu-1 { opacity: 0; display: none; } .inner-' + str(word.id) + '-' + str(wordlen) + ':hover, .inner-' + str(word.id) + '-' + str(wordlen) + '.active, .dropdown-menu-1:hover, .dropdown-menu-1.active { opacity: 1; display: block; transform: translateY(0px); pointer-events: auto;}</style>'
@@ -197,7 +195,7 @@ def fontypes(value, words):
 			wordsponsordiv = ''
 			if wordsponsor:
 				if wordsponsor.url2:
-					wordsponsordiv += '<div><a href="{}" ><p style="z-index: 1; color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':word.author.username, 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
+					wordsponsordiv += '<div><form action="{}" method=POST><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><p style="z-index: 1; color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough'),word.author.username, wordsponsor.id, wordsponsor.img) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
 				else:
 					wordsponsordiv += '<div><a href="https://www.predictionary.us" ><p style="color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
 			attribute_div1 = '<div class=dropdown-menu-1><style>.dropdown-menu-1 { position: absolute; background-color: green; width: fit-content; opacity: 0; display: none; } .inner-' + str(word.id) + '-' + str(wordlen) + ':hover, .inner-' + str(word.id) + '-' + str(wordlen) + '.active, .dropdown-menu-1:hover, .dropdown-menu-1.active { opacity: 1; display: block; transform: translateY(0px); pointer-events: auto;}</style>'
@@ -226,7 +224,7 @@ def fontype(value, word):
 		wordsponsordiv = ''
 		if wordsponsor:
 			if wordsponsor.url2:
-				wordsponsordiv += '<div><a href="{}" ><p style="z-index: 1; color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough', kwargs={'author':word.author.username, 'sponsor_id':wordsponsor.id})) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</a></div>'
+				wordsponsordiv += '<div><form action="{}" method=POST><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><p style="z-index: 1; color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">'.format(reverse('Bable:clickthrough'), word.author.username, wordsponsor.id) + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" >' + '</div>'
 			else:
 				wordsponsordiv += '<div><a href="https://www.predictionary.us" ><p style="color: white; top: 3em; background: rgba(0,0,0,0.5); width: -webkit-fill-available;">' + wordsponsor.the_sponsorship_phrase + '</p><img style="height: 4em; width: 4em; position: absolute;" src="' + wordsponsor.img + '" ></a></div>'
 		attribute_div1 = '<div class=dropdown-menu-1><style>.dropdown-menu-1 { position: absolute; background-color: green; width: fit-content; opacity: 0; display: none; } .inner-' + str(word.id) + '-' + str(wordlen) + ':hover, .inner-' + str(word.id) + '-' + str(wordlen) + '.active, .dropdown-menu-1:hover, .dropdown-menu-1.active { opacity: 1; display: block; transform: translateY(0px); pointer-events: auto;}</style>'

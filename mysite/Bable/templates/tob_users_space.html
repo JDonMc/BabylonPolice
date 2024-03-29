@@ -13,6 +13,15 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 <meta name="viewport" content="width=device-width">
 <meta name="description" content="User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.the_word_itself }}">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	elements = document.getElementsByClassName("csrf");
+	for (var i=0;  i< elements.length; i++) {
+		elements[i].name = "csrfmiddlewaretoken";
+		elements[i].type = "hidden";
+		elements[i].value = "{{ csrf_token }}";
+	};})
+</script>
 {% endblock %}
 
 
@@ -49,7 +58,14 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 			{% for spon in users_space.sponsors.all %}
 				<div class=spaces_sponsor>
 					<div class=the_sponsorship_phrase>
-						Phrase: <a href="{% url 'Bable:clickthrough' spon.author.username spon.id %}">{{ spon.the_sponsorship_phrase }}</a>
+						Phrase: <form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ spon.author.username }}" readonly>
+							<input type=hidden value="{{ spon.id }}" readonly>
+							<button type=submit>
+								{{ spon.the_sponsorship_phrase }}
+							</button>
+						</form>
 					</div>
 					<div class=spon-id>
 						ID: {{ spon.id }}
@@ -121,7 +137,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 							<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 						{% endif %}
 					</div><div class=posttitle>
-						<a href="{% url 'Bable:tob_users_spaces_post' post.author.username users_space.id post.id %}"><h4>{{ post.title|word_up:post.dictionaries }}</h4></a>
+						<a href="{% url 'Bable:tob_users_spaces_post' post.author.username users_space.id post.id %}"><h4>{{ post.title|word_up:post.dictionaries|safe }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
@@ -130,7 +146,14 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 					{% endif %}
 					<div class=postsponsors>
 					{% if post.max_sponsor %}
-						<a href="{% url 'Bable:clickthrough' post.author.username post.max.id %}"><img src="{{ post.max.img.url2 }}" style="height: 4em; width: 4em; float:right;"></a> <!-- if no sponsor input default ad -->
+						<form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ post.author.username }}" readonly>
+							<input type=hidden value="{{ post.max_sponsor.id }}" readonly>
+							<button type=submit>
+								<img src="{{ post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+							</button>
+						</form> <!-- if no sponsor input default ad -->
 					{% else %}
 						<a href="https://www.babylonpolice.com/"><img src="{% static 'babylonpolice.com.gif' %}" style="height: 4em; width: 4em; float:right;"></a>
 					{% endif %}

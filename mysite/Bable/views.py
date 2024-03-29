@@ -5325,9 +5325,8 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 	user_themself = User.objects.get(username=user)
 	user_anon = Anon.objects.get(username=user_themself)
 	
-	
 	registerform = UserCreationForm()
-	
+	count = int(count)
 		
 	
 	loginform = AuthenticationForm()
@@ -5339,26 +5338,25 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 	user_author = Author.objects.get(username=user)
 
 	space_viewable = False
-	spaces_post = Post.objects.get(space__author=user_author, space__the_space_itself__the_word_itself=space, title=post)
-	posts_comments = spaces_post.comments.count()
+	spaces_post = Post.objects.get(space__author=user_author, space__the_space_itself__the_word_itself=space, id=post)
+	#posts_comments = spaces_post.comments.count()
 	users_space = Space.objects.get(author=user_author, the_space_itself__the_word_itself=space)
-	if posts_comments:
-		if request.user.is_authenticated:
-			if not users_space.public:
-				if len(users_space.filter(approved_voters__username=request.user.username))>0:
-					space_viewable = True
-					posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort)[count:100]
-				else:
-					space_viewable = False
-			else:
+	if request.user.is_authenticated:
+		if not users_space.public:
+			if len(users_space.filter(approved_voters__username=request.user.username))>0:
 				space_viewable = True
-				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort)[count:100]
-		else:
-			if users_space.public:
-				space_viewable = True
-				posts_comments = spaces_post.comments.order_by('latest_change_date')[count:100]
+				posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[count:count+100]
 			else:
 				space_viewable = False
+		else:
+			space_viewable = True
+			posts_comments = spaces_post.comments.order_by(loggedinanon.comment_sort_char)[count:count+100]
+	else:
+		if users_space.public:
+			space_viewable = True
+			posts_comments = spaces_post.comments.order_by('latest_change_date')[count:count+100]
+		else:
+			space_viewable = False
 	
 	#General
 	if request.user.is_authenticated:
@@ -5375,13 +5373,12 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 	#Specific
-	comment_form = CommentForm()
+	comment_form = CommentForm(request)
 	if request.user.is_authenticated:
 		comment_form.fields["dictionaries"].queryset = loggedinanon.purchased_dictionaries
-		comment_form.fields['words'].queryset = Word.objects.filter(dictionary__saved_dictionaries=loggedinanon)
-
+		
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_spaces_post.html", {"loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_spaces_post.html", {"space":space,"space_viewable": space_viewable,"loggedinanon": loggedinanon, "user_anon": user_anon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_spaces_post.html", {"spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
@@ -8617,10 +8614,17 @@ def tob_dics_count(request, count):
 	return the_response
 
 
-def clickthrough(request, author, sponsor_id):
+def clickthrough(request):
 	##3 charge
+	form = ClichtroughForm(request.POST)
+	sponsor_id = 1
+	author = 'test'
+	if form.is_valid():
+		sponsor_id = form.sponsor_id
+		author = form.author
 	clicked_sponsor = Sponsor.objects.get(id=int(sponsor_id))
 	parked_author = Author.objects.get(username=author)
+
 
 	parked_anon = parked_author.to_anon()
 	if author == request.user.username:
@@ -8633,8 +8637,9 @@ def clickthrough(request, author, sponsor_id):
 				clicked_sponsor.allowable_expenditure -= clicked_sponsor.price_limit
 				clicked_anon = clicked_sponsor.author.to_anon()
 				clicked_anon.false_wallet -= clicked_sponsor.price_limit
-				parked_anon.false_wallet += clicked_sponsor.price_limit
-				parked_anon.save()
+				if parked_anon in available_request_agents:
+					parked_anon.false_wallet += clicked_sponsor.price_limit
+					parked_anon.save()
 				clicked_anon.save()
 				clicked_sponsor.save()
 			else:
@@ -9297,6 +9302,73 @@ def tob_pronunciations(request, word_id):
 
 	return redirect('Bable:tob_users_dic_word_count', word.home_dictionary.author, word.home_dictionary.the_dictionary_itself, word.the_word_itself, 0)
 
+
+
+@login_required
+def tob_loan(request, loan_id, self_dic_word, dictionary_source):
+	dictionary_source = int(dictionary_source)
+	loan = 0
+	loan_form = 0
+	if dictionary_source:
+		dictionary_source = Dictionary_Source.objects.get(id=dictionary_source)
+	loan_id = int(loan_id)
+	if self_dic_word == "word":
+		loan = Word_Loan.objects.get(id=loan_id)
+		loan_form = WordLoanForm(request, dictionary_source, instance=loan)
+	if self_dic_word == "self":
+		loan = Loan.objects.get(id=loan_id)
+		loan_form = LoanForm(request, instance=loan)
+	if self_dic_word == "dic":
+		loan = Dictionary_Loan.objects.get(id=loan_id)
+		loan_form = DictionaryLoanForm(request, instance=loan)
+
+	registerform = UserCreationForm()
+	loginform = AuthenticationForm()
+
+	loggedinuser = User.objects.get(username=request.user.username)
+	loggedinanon = Anon.objects.get(username=loggedinuser)
+
+	dic_form = DictionaryForm()
+	space_form = SpaceForm(request)
+	post_form = PostForm(request)
+	task_form = TaskForm()
+	word_form = WordForm(request)
+
+	apply_votestyle_form = ApplyVotestyleForm(request)
+	create_votes_form = CreateVotesForm(request)
+	exclude_votes_form = ExcludeVotesForm(request)
+	apply_dic_form = ApplyDictionaryForm(request)
+	exclude_dic_form = ExcludeDictionaryAuthorForm()
+	
+	return render(request, "tob_loan.html", {"loan": loan, "loan_form": loan_form, "registerform": registerform,
+		"loginform": loginform, "loggedinanon": loggedinanon, "loggedinuser": loggedinuser, "dic_form": dic_form,
+		"space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "apply_votestyle_form": apply_votestyle_form,
+		"apply_dic_form": apply_dic_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form,
+		"exclude_dic_form": exclude_dic_form})
+
+def tob_create_loan(request, self_dic_word):
+	dictionary_source = 0
+	if self_dic_word == "self":
+		form = LoanForm(request.POST)
+		if form.is_valid():
+			form.save()
+			for space in form.spaces.all():
+				space.space_wallet += form.amount_total//form.spaces.count()
+	if self_dic_word == "dic":
+		form = DictionaryLoanForm(request.POST)
+		if form.is_valid():
+			form.save()
+			for dictionary in form.dictionaries.all():
+				dictionary.dictionary_wallet += form.amount_total//form.dictionaries.count()
+	if self_dic_word == "word":
+		form = WordLoanForm(request.POST)
+		dictionary_source = form.dictionary_source.id
+		if form.is_valid():
+			form.save()
+			for word in form.words.all():
+				word.word_wallet += form.amount_total//form.words.count()
+
+	return redirect('Bable:tob_loan', form.instance.id, self_dic_word, dictionary_source)
 
 import requests
 import ipfshttpclient

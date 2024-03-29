@@ -7,6 +7,40 @@ from Bable.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 
+
+class ClickthroughForm(forms.Form):
+    author = forms.CharField(required=True)
+    sponsor_id = forms.CharField(required=True)
+
+class WordLoanForm(forms.ModelForm):
+    class Meta:
+        model = Word_Loan
+        fields = ("amount_total", "repayment_term", "repayment_rates", "words")
+    def __init__(self, request, dictionary_source, *args, **kwargs):
+        super(WordLoanForm, self).__init__(*args, **kwargs)
+        self.fields['words'] = forms.MultipleChoiceField(choices=[(e, e) for e in Word.objects.filter(author=Author.objects.get(username=request.user.username)).filter(home_dictionary=dictionary_source).order_by('the_word_itself').values_list('the_word_itself', flat=True)])
+
+
+class DictionaryLoanForm(forms.ModelForm):
+    class Meta:
+        model = Dictionary_Loan
+        fields = ("amount_total", "repayment_term", "repayment_rates", "dictionaries")
+    def __init__(self, request, *args, **kwargs):
+        super(DictionaryLoanForm, self).__init__(*args, **kwargs)
+        self.fields['dictionaries'] = forms.MultipleChoiceField(choices=[(e, e) for e in Dictionary.objects.filter(author=Author.objects.get(username=request.user.username)).order_by('the_dictionary_itself').values_list('the_dictionary_itself', flat=True)])
+
+
+class LoanForm(forms.ModelForm):
+    class Meta:
+        model = Loan
+        fields = ("amount_total", "repayment_term", "repayment_rates", "spaces")
+    def __init__(self, request, *args, **kwargs):
+        super(LoanForm, self).__init__(*args, **kwargs)
+        self.fields['spaces'] = forms.MultipleChoiceField(choices=[(e, e) for e in Space.objects.filter(author=Author.objects.get(username=request.user.username)).order_by('the_space_itself').values_list('the_space_itself', flat=True)])
+
+
+
+
 class UserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 

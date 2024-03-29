@@ -15,6 +15,15 @@
 <meta name="viewport" content="width=device-width">
 <meta property="og:description" content="{{ users_post.title }} - Babylon Police">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	elements = document.getElementsByClassName("csrf");
+	for (var i=0;  i< elements.length; i++) {
+		elements[i].name = "csrfmiddlewaretoken";
+		elements[i].type = "hidden";
+		elements[i].value = "{{ csrf_token }}";
+	};})
+</script>
 {% endblock %}
 
 
@@ -255,11 +264,14 @@
 						</div>
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
-							<a href="{% url 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
-								<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
-								</div>
-
-							</a>
+							<form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ node.author.username }}" readonly>
+							<input type=hidden value="{{ node.dictionaries.max_sponsor.id }}" readonly>
+							<button type=submit>
+								<img src="{{ node.dictionaries.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+							</button>
+						</form>
 							{% else %}
 								<a href="https://www.jackdonmclovin.com/"><img src="{% static 'jackdonmclovin.svg' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
 							{% endif %}
@@ -495,11 +507,14 @@
 						</div>
 						<div class=postcomsbodyad>
 							{% if node.dictionaries.all.sponsors.count %}
-								<a href="{% url 'Bable:clickthrough' node.author.username node.max_sponsor.id %}"><img src="{{ node.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
-									<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
-									</div>
-
-								</a>
+								<form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ node.author.username }}" readonly>
+							<input type=hidden value="{{ node.max_sponsor.id }}" readonly>
+							<button type=submit>
+								<img src="{{ node.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+							</button>
+						</form>
 							{% else %}
 								<a href="https://www.jackdonmclovin.com/"><img src="{% static 'jackdonmclovin.svg' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
 							{% endif %}

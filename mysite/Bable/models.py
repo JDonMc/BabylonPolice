@@ -191,6 +191,21 @@ class Comment_Source(MPTTModel):
 	class MPTTMeta:
 		order_insertion_by = ['votes_count']
 
+
+
+class SpaceSource(models.Model):
+	the_space_itself = models.ForeignKey(Word_Source, on_delete=models.CASCADE, default=None)
+	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, related_name='space_source_author')
+	dictionary = models.ForeignKey(Dictionary_Source, on_delete=models.CASCADE, default=None)
+	allowed_to_view_authors = models.ManyToManyField(Author, default=None, related_name='space_source_allowed')
+	votessource = models.ManyToManyField(Votes_Source, default=None)
+
+	def to_full(self):
+		return Space.objects.get(author=self.author, the_space_itself=self.the_space_itself.to_full())
+
+
+
+
 class Sponsor(models.Model):
 	the_sponsorship_phrase = models.CharField(max_length=200, default='')
 	latest_change_date = models.DateTimeField(default=timezone.now)
@@ -208,6 +223,7 @@ class Sponsor(models.Model):
 	views = models.IntegerField(default=0)
 	requested_agents = models.ManyToManyField(Requested_Agent, default=None)
 
+	
 class Advertising(models.Model):
 	email = models.EmailField(max_length=144, default='', null=True)
 	allowable_expenditure = models.IntegerField(default=0)
@@ -409,16 +425,6 @@ class Relation(models.Model):
 	views = models.IntegerField(default=0)
 	comment_sources = models.ManyToManyField(Comment_Source, related_name="rel_com", default=None)
 
-class SpaceSource(models.Model):
-	the_space_itself = models.ForeignKey(Word_Source, on_delete=models.CASCADE, default=None)
-	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, related_name='space_source_author')
-	dictionary = models.ForeignKey(Dictionary_Source, on_delete=models.CASCADE, default=None)
-	allowed_to_view_authors = models.ManyToManyField(Author, default=None, related_name='space_source_allowed')
-	votessource = models.ManyToManyField(Votes_Source, default=None)
-
-	def to_full(self):
-		return Space.objects.get(author=self.author, the_space_itself=self.the_space_itself.to_full())
-
 
 SPONSOR_SORT_CHOICES = (
 	(0, "alphabetical"),
@@ -473,6 +479,8 @@ class Word(models.Model):
 	fontype = models.TextField(max_length=14400, default='')
 
 	word_source = models.CharField(max_length=400, default='')
+
+	word_wallet = models.IntegerField(default=0)
 	
 	class Meta:
 		unique_together = (('home_dictionary', 'the_word_itself'),)
@@ -488,31 +496,10 @@ class Word(models.Model):
 
 
 	def random_sponsor(self):
-		counter = 0
 		if self.sponsors.count():
-			prob = [None] * self.sponsors.count()
-			for sponsor in self.sponsors.all():
-				prob[counter] = sponsor.price_limit
-				counter += 1
-			su = 0
-			for pro in prob:
-				su += pro
-			prob2 = []
-			for pro in range(0, len(prob)):
-				prob2.append(float(prob[pro])/su)
-			random_obj = choice(self.sponsors.all(), p=prob2)
+			return self.sponsors.all().order_by('?').first()
 		else:
-			pks = Sponsor.objects.values_list('pk', flat=True)
-			prob = Sponsor.objects.values_list('price_limit', flat=True)
-			su = 0
-			for pro in prob:
-				su += pro
-			prob2 = []
-			for pro in range(0, len(prob)):
-				prob2.append(float(prob[pro])/su)
-			random_pk = choice(pks, p=prob2)
-			random_obj = Sponsor.objects.get(pk=random_pk)
-		return random_obj
+			return Sponsor.objects.get(id=1)
 		
 
 
@@ -706,6 +693,25 @@ class Purchase_Order(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	last_paid = models.DateTimeField(default=timezone.now)
 
+
+REPAYMENT_RATES = (
+	("hourly", "Hourly"),
+	("daily", "Daily"),
+	("weekly", "Weekly"),
+	("monthly", "Monthly"),
+	("yearly", "Yearly"),
+)
+
+class Word_Loan(models.Model):
+	amount_total = models.IntegerField(default=0)
+	amount_owing = models.IntegerField(default=0)
+	repayment_term = models.DateTimeField(default=timezone.now)
+	pro_rata = models.FloatField(default=0.08)
+	repayment_rates = models.CharField(default="hourly", choices=REPAYMENT_RATES, max_length=144)
+	total_repayments_remaining = models.IntegerField(default=1)
+	total_repayments = models.IntegerField(default=1)
+	words = models.ManyToManyField(Word, default=None)
+
 class Dictionary(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, related_name='dicauthor')
 	public = models.BooleanField(default=False)
@@ -744,6 +750,9 @@ class Dictionary(models.Model):
 
 
 	dictionary_source = models.CharField(max_length=400, default='')
+
+	word_loans = models.ManyToManyField(Word_Loan, default=None)
+	dictionary_wallet = models.IntegerField(default=0)
 	
 	class Meta:
 		unique_together = (('author', 'the_dictionary_itself'),)
@@ -949,7 +958,7 @@ COMMENT_SORT_CHOICES = (
 )
 
 COMMENT_SORT_CHOICES_CHAR = (
-	("sum_dctionaries", "Generalist"),
+	("sum_dictionaries", "Generalist"),
 	("-sum_dictionaries", "Broadness"),
 	("sum_words", "Less Complex"),
 	("-sum_words", "More Intelligent"),
@@ -978,8 +987,47 @@ class Edit(models.Model):
 	post_source = models.ForeignKey(PostSource, on_delete=models.PROTECT, default=None)
 
 
+PRODUCT_CHOICES = (
 
-    
+	("unspecified", "Unspecified"),
+	("package_post", "Posted Package"),
+	("package_courier", "Courier Routes Package"),
+	("package_direct", "Choose A Courier"),
+	("package_pick_up", "Pick Up Yourself (with a pick-up)"),
+	("package_collect", "Collect Yourself (by hand)"),
+	("link", "Collect Links"),
+	("poem", "Just Words"),
+	("tickets", "Event Tickets"),
+	("other", "Other Deal"),
+)
+ 
+
+class Sale(models.Model):
+	user = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
+	deliver_to_address = models.CharField(max_length=200, default="Digital Product")
+	deliver_to_instructions = models.CharField(max_length=1440, default="Leave By Postbox")
+	courier_select = models.ManyToManyField(Author, default=None, related_name="courier_select")
+	courier_order = models.CharField(max_length=1440, default="")
+	courier_fees = models.CharField(max_length=1440, default="1")
+	courier_1_to_2_drop_location = models.CharField(max_length=1440, default="")#manufacturer
+	courier_2_to_3_drop_location = models.CharField(max_length=1440, default="")#supplier
+	courier_3_to_4_drop_location = models.CharField(max_length=1440, default="")#distributer
+	courier_4_to_5_drop_location = models.CharField(max_length=1440, default="")#dealer
+	courier_5_to_6_drop_location = models.CharField(max_length=1440, default="")#runner
+	courier_6_to_7_drop_location = models.CharField(max_length=1440, default="")#pusher
+	courier_1_to_2_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_1_to_2_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_2_to_3_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_2_to_3_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_3_to_4_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_3_to_4_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_4_to_5_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_4_to_5_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_5_to_6_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_5_to_6_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_6_to_7_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_6_to_7_drop_update = models.CharField(max_length=1440, default="")#pusher
+	
 
 class Price(models.Model):
     name = models.CharField(max_length=200, default='')
@@ -997,6 +1045,11 @@ class Price(models.Model):
     sum_comments = models.IntegerField(default=0)
     invoices = models.ManyToManyField(Invoice, default=None)
     sum_invoices = models.IntegerField(default=0)
+
+    location_of_product = models.CharField(max_length=200, default='Remote')
+    point_of_sale = models.ManyToManyField(Sale, default=None)
+
+    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
     
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
@@ -1201,6 +1254,33 @@ POST_SORT_CHOICES_CHAR = (
 
 )
 
+class Dictionary_Loan(models.Model):
+	amount_total = models.IntegerField(default=0)
+	amount_owing = models.IntegerField(default=0)
+	repayment_term = models.DateTimeField(default=timezone.now)
+	pro_rata = models.FloatField(default=0.08)
+	repayment_rates = models.CharField(default="Hourly", choices=REPAYMENT_RATES, max_length=144)
+	total_repayments_remaining = models.IntegerField(default=1)
+	total_repayments = models.IntegerField(default=1)
+	dictionaries = models.ManyToManyField(Dictionary, default=None)
+
+
+class Terms(models.Model):
+	conditionees = models.ManyToManyField(Author, default=None, related_name="conditionees")
+	conditioners = models.ManyToManyField(Author, default=None, related_name="conditioners")
+	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh")
+	accostings = models.TextField(max_length=6660000, default="You've been accounted for as for the following")
+	primation_fee = models.IntegerField(default=1000) # price up for grabs if you violate certain conditions as punishment (how much you have to keep in your account to pay if you lose your job)
+	primation_reference = models.ManyToManyField(Author, default=None, related_name="reference") # who judges the paying of the primation fee, who you have to impress to keep your balance / job. # I'll put 10k on the line to prove to you that I can sell his product. Etc.
+
+class Chapters(models.Model):
+	title = models.CharField(max_length=220, default="Chapter X")
+	verses = models.TextField(max_length=14400, default="In the beginning")
+	side_notes = models.TextField(max_length=144000, default="About this text") # by legislative
+	external_commentary = models.TextField(max_length=144000, default="You've heard about this text") # by administrative
+	execution_prose = models.TextField(max_length=144000, default="You hear this text better when we say") # by executive
+	judiciary_feedback = models.TextField(max_length=144000, default="You said this last time") # by executive
+
 
 class Space(models.Model):
 	the_space_itself = models.ForeignKey(Word, on_delete=models.CASCADE, default=00000) # check pre-requisite dictionary acquired
@@ -1226,15 +1306,44 @@ class Space(models.Model):
 	entry_fee = models.IntegerField(default=1)
 	continuation_fee = models.IntegerField(default=1)
 
+	space_wallet = models.IntegerField(default=0)
+
 	invite_only = models.BooleanField(default=False)
 	invite_active = models.BooleanField(default=False)
 	invite_code = models.CharField(max_length=200, default='')
+
+	dictionary_loans = models.ManyToManyField(Dictionary_Loan, default=None)
+
+	elected_legislative = models.BooleanField(default=False) # writes the rule book for the space
+	elected_admnisitrative = models.BooleanField(default=False) # decides how to interpret the rules for a given breach
+	elected_executive = models.BooleanField(default=False) # apprehends publicly
+	elected_judiciary = models.BooleanField(default=False) # designates appropriate punishment
+
+	elected_legislative = models.BooleanField(default=False) # writes the rule book for the space
+	elected_admnisitrative = models.BooleanField(default=False) # decides how to interpret the rules for a given breach
+	elected_executive = models.BooleanField(default=False) # apprehends publicly
+	elected_judiciary = models.BooleanField(default=False) # designates appropriate punishment
+
+	legislative_members = models.ManyToManyField(Author, default=None, related_name="legislative_members")
+	administrative_members = models.ManyToManyField(Author, default=None, related_name="administrative_members")
+	executive_members = models.ManyToManyField(Author, default=None, related_name="executive_members")
+	judiciary_members = models.ManyToManyField(Author, default=None, related_name="judiciary_members")
+
+	legislation = models.ManyToManyField(Chapters, default=None, related_name="legislation")
+	legislating_terms = models.ManyToManyField(Terms, default=None, related_name="legislating")
+	administration = models.ManyToManyField(Chapters, default=None, related_name="administration")
+	administrating_terms = models.ManyToManyField(Terms, default=None, related_name="administrating")
+	execution = models.ManyToManyField(Chapters, default=None, related_name="execution")
+	executing_terms = models.ManyToManyField(Terms, default=None, related_name="executing")
+	adjudication = models.ManyToManyField(Chapters, default=None, related_name="adjudication")
+	adjudicating_terms = models.ManyToManyField(Terms, default=None, related_name="adjudicating")
+	
 
 	class Meta:
 		unique_together = (('author', 'the_space_itself'),)
 
 	def __str__(self):
-		return self.the_space_itself
+		return self.the_space_itself.the_word_itself
 
 	def get_absolute_url(self):
 		return reverse("Bable:space", kwargs={"id": self.id})
@@ -1416,7 +1525,45 @@ class Page_Density(models.Model):
 	duration = models.IntegerField(default=2)
 
 
+class Loan(models.Model):
+	amount_total = models.IntegerField(default=0)
+	amount_owing = models.IntegerField(default=0)
+	repayment_term = models.DateTimeField(default=timezone.now)
+	pro_rata = models.FloatField(default=0.08)
+	repayment_rates = models.CharField(default="hourly", choices=REPAYMENT_RATES, max_length=144)
+	total_repayments_remaining = models.IntegerField(default=1)
+	total_repayments = models.IntegerField(default=1)
+
+	spaces = models.ManyToManyField(Space, default=None)
+
+
+class Storefront(models.Model):
+	logo = models.OneToOneField(Word, default=None, on_delete=models.PROTECT)
+	disclaimer = models.TextField(max_length=1440, default="")
+	image_1 = models.URLField(max_length=2000, default="")
+	image_2 = models.URLField(max_length=2000, default="")
+	image_3 = models.URLField(max_length=2000, default="")
+	image_4 = models.URLField(max_length=2000, default="")
+	image_5 = models.URLField(max_length=2000, default="")
+	textblock_1  = models.TextField(max_length=14400, default="")
+	textblock_2  = models.TextField(max_length=14400, default="")
+	textblock_3  = models.TextField(max_length=14400, default="")
+	textblock_4  = models.TextField(max_length=14400, default="")
+	products = models.ManyToManyField(Price, default=None)
+	sales = models.ManyToManyField(Sale, default=None)
+	business_admin = models.ManyToManyField(Author, default=None)
+
+
+class Availability(models.Model):
+	concerning = models.TextField(max_length=140, default="All")
+	location = models.TextField(max_length=140, default="Zoom/Meets/Messenger/WhatsApp/Instagram/Discord")
+	words = models.ManyToManyField(Word, default=None) # for styling the block on the calendar
+	start_time = models.DateTimeField(timezone.now)
+	end_time = models.DateTimeField(timezone.now)
+	available = models.BooleanField(default=False) #mark either when you're availabilities are, or your unavailabilities are. "I can do any time from X" vs "I can't do these times"
+
 class Anon(models.Model):
+	storefronts = models.ManyToManyField(Storefront, default=None)
 	products = models.ManyToManyField(Price, related_name="anon_product", default=None)
 	purchases = models.ManyToManyField(Price, related_name="anon_purchase", default=None)
 	stripe_private_key = models.CharField(max_length=600, default='', null=True)
@@ -1499,6 +1646,13 @@ class Anon(models.Model):
 	public_files = models.ManyToManyField(File, default=None, related_name="public_files")
 
 	notifications = models.ManyToManyField(Notification, default=None)
+
+	availabilities = models.ManyToManyField(Availability, default=None)
+	students = models.ManyToManyField(Author, default=None, related_name="students")
+	student_of = models.ManyToManyField(Author, default=None, related_name="student_of")
+
+	loans = models.ManyToManyField(Loan, default=None)
+
 
 	def __unicode__(self):
 		return unicode(self.username) or u''
