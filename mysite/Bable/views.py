@@ -2244,7 +2244,8 @@ def create_post(request):
 			for word in post_form.cleaned_data['spaces']:
 				wordle = Word.objects.get(the_word_itself=word, dictionary__purchased_dictionaries=loggedinanon, spaces__the_space_itself__the_word_itself=word)
 				space = SpaceSource.objects.filter(the_space_itself=wordle.to_source(), allowed_to_view_authors=loggedinauthor).first()
-				new_post.spaces.add(space)
+				if space:
+					new_post.spaces.add(space)
 			new_post.sum_spaces = new_post.spaces.count()
 			pre_body = post_form.cleaned_data['body']
 			exclude = ''
