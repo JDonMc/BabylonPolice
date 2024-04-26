@@ -137,14 +137,14 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 							<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 						{% endif %}
 					</div><div class=posttitle>
-						<a href="{% url 'Bable:tob_users_spaces_post' post.author.username users_space.id post.id %}"><h4>{{ post.title|word_up:post.dictionaries|safe }}</h4></a>
+						<a href="{% url 'Bable:tob_users_spaces_post' post.author.username users_space.id post.id %}"><h4>{{ post.title }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
 						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
 					</div>
 					{% endif %}
-					<div class=postsponsors>
+					<div class=postsponsors style="position: absolute; right: 3em;">
 					{% if post.max_sponsor %}
 						<form action="{% url 'Bable:clickthrough' %}" method=POST>
 							{% csrf_token %}
@@ -161,7 +161,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 				
 				</div>
 				<div class=postbody>
-					<a href="{% url 'Bable:tob_users_spaces_post_count' user_anon.username.username users_space.the_space_itself.the_word_itself post.id 0 %}">{{ post.body|usernames|spaces|urlize|truncatechars:144 }}</a>
+					<a href="{% url 'Bable:tob_users_spaces_post_count' user_anon.username.username users_space.the_space_itself.the_word_itself post.id 0 %}">{{ post.body|truncatechars:144|usernames|spaces|urlize }}</a>
 				</div>
 				<div class=postauthor>
 					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>

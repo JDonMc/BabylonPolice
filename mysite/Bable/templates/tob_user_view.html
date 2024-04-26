@@ -838,6 +838,21 @@ User: {{ user_anon.username.username }} - Babylon Police
 							<a href="{% url 'Bable:tob_post' post.id %}"><h4>{{ post.title }}</h4></a>
 							{% endif %}
 						</div>
+
+						<div class=postsponsors style="position: absolute; right: 3em;">
+					{% if post.max_sponsor %}
+						<form action="{% url 'Bable:clickthrough' %}" method=POST>
+							{% csrf_token %}
+							<input type=hidden value="{{ post.author.username }}" readonly>
+							<input type=hidden value="{{ post.max_sponsor.id }}" readonly>
+							<button type=submit>
+								<img src="{{ post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+							</button>
+						</form> <!-- if no sponsor input default ad -->
+					{% else %}
+						<a href="https://www.babylonpolice.com/"><img src="{% static 'babylonpolice.com.gif' %}" style="height: 4em; width: 4em; float:right;"></a>
+					{% endif %}
+					</div>
 						{% if post.author.username == user_anon.username.username %}
 						<div class=postdel>
 							<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>

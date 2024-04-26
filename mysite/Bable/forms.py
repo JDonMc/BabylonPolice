@@ -12,10 +12,55 @@ class ClickthroughForm(forms.Form):
     author = forms.CharField(required=True)
     sponsor_id = forms.CharField(required=True)
 
+
+class AddOrRemoveTermsForm(forms.ModelForm):
+    class Meta:
+        model = Terms
+        fields = ("chapter", "conditionees", "conditioners", "conditions", "accostings", "primation_fee", "primation_reference", 'delete',)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(TermsForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+        self.fields['conditionees'] = forms.MultipleChoiceField(choices=[(e, e) for e in terms.space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+        self.fields['condtioners'] = forms.MultipleChoiceField(choices=[(e, e) for e in terms.space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+        self.fields['primation_reference'] = forms.MultipleChoiceField(choices=[(e, e) for e in terms.space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+
+
+class VoteForLegislativeForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("legislative_members",)
+    def __init__(self, space, *args, **kwargs):
+        super(VoteForLegislativeForm, self).__init__(*args, **kwargs)
+        self.fields['legislative_members'] = forms.ChoiceField(choices=[(e, e) for e in space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+
+class VoteForAdministrativeForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("administrative_members",)
+    def __init__(self, space, *args, **kwargs):
+        super(VoteForAdministrativeForm, self).__init__(*args, **kwargs)
+        self.fields['administrative_members'] = forms.ChoiceField(choices=[(e, e) for e in space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+
+class VoteForExecutiveForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("executive_members",)
+    def __init__(self, space, *args, **kwargs):
+        super(VoteForExecutiveForm, self).__init__(*args, **kwargs)
+        self.fields['executive_members'] = forms.ChoiceField(choices=[(e, e) for e in space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+
+class VoteForJudiciaryForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("judiciary_members",)
+    def __init__(self, space, *args, **kwargs):
+        super(VoteForJudiciaryForm, self).__init__(*args, **kwargs)
+        self.fields['judiciary_members'] = forms.ChoiceField(choices=[(e, e) for e in space.approved_voters.all().order_by('username').values_list('username', flat=True)])
+
 class WordLoanForm(forms.ModelForm):
     class Meta:
         model = Word_Loan
-        fields = ("amount_total", "repayment_term", "repayment_rates", "words")
+        fields = ("amount_total", "repayment_term", "repayment_rates", "words",)
     def __init__(self, request, dictionary_source, *args, **kwargs):
         super(WordLoanForm, self).__init__(*args, **kwargs)
         self.fields['words'] = forms.MultipleChoiceField(choices=[(e, e) for e in Word.objects.filter(author=Author.objects.get(username=request.user.username)).filter(home_dictionary=dictionary_source).order_by('the_word_itself').values_list('the_word_itself', flat=True)])
@@ -24,7 +69,7 @@ class WordLoanForm(forms.ModelForm):
 class DictionaryLoanForm(forms.ModelForm):
     class Meta:
         model = Dictionary_Loan
-        fields = ("amount_total", "repayment_term", "repayment_rates", "dictionaries")
+        fields = ("amount_total", "repayment_term", "repayment_rates", "dictionaries",)
     def __init__(self, request, *args, **kwargs):
         super(DictionaryLoanForm, self).__init__(*args, **kwargs)
         self.fields['dictionaries'] = forms.MultipleChoiceField(choices=[(e, e) for e in Dictionary.objects.filter(author=Author.objects.get(username=request.user.username)).order_by('the_dictionary_itself').values_list('the_dictionary_itself', flat=True)])
@@ -33,7 +78,7 @@ class DictionaryLoanForm(forms.ModelForm):
 class LoanForm(forms.ModelForm):
     class Meta:
         model = Loan
-        fields = ("amount_total", "repayment_term", "repayment_rates", "spaces")
+        fields = ("amount_total", "repayment_term", "repayment_rates", "spaces",)
     def __init__(self, request, *args, **kwargs):
         super(LoanForm, self).__init__(*args, **kwargs)
         self.fields['spaces'] = forms.MultipleChoiceField(choices=[(e, e) for e in Space.objects.filter(author=Author.objects.get(username=request.user.username)).order_by('the_space_itself').values_list('the_space_itself', flat=True)])
@@ -46,7 +91,7 @@ class UserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "password1", "password2")
+        fields = ("username", "password1", "password2",)
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
@@ -744,7 +789,7 @@ class PostForm(forms.ModelForm):
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
-        fields = ('the_space_itself', 'sidebar', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
+        fields = ('the_space_itself', 'sidebar', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
 
     def clean(self):
         cleaned_data = super(SpaceForm, self).clean()

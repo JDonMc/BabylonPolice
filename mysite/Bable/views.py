@@ -2231,7 +2231,7 @@ def create_post(request):
 	loggedinauthor = Author.objects.get(username=request.user.username)
 	post_form = PostForm(request, data=request.POST)
 	if post_form.is_valid():
-		if Post.objects.filter(spaces__the_space_itself__the_word_itself=post_form.cleaned_data['spaces'], author=loggedinauthor, title=post_form.cleaned_data['title'], dictionaries__the_dictionary_itself=post_form.cleaned_data['dictionaries']).count():
+		if Post.objects.filter(spaces__the_space_itself__the_word_itself=[(e,e) for e in post_form.cleaned_data['spaces']], author=loggedinauthor, title=post_form.cleaned_data['title'], dictionaries__the_dictionary_itself=[(e, e) for e in post_form.cleaned_data['dictionaries']]).count():
 			return base_redirect(request, 'duplicate post')
 		else:
 			if post_form.cleaned_data['url2']:
@@ -4050,6 +4050,8 @@ def tob_space_view_count(request, space, count):
 		exclude_votes_form = ExcludeVotesForm(request)
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+
 	
 	particular_space = Space.objects.get(id=space)
 	users_space = Space.objects.get(id=space)
@@ -4096,15 +4098,211 @@ def tob_space_view_count(request, space, count):
 
 
 	if request.user.is_authenticated:
-		the_response = render(request, 'tob_space_view.html', { "user_anon": user_anon, "users_sponsors": users_sponsors, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform,  'registerterms': registerterms, 'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
+		vote_for_legislative_form = VoteForLegislativeForm(users_space)
+		vote_for_administrative_form = VoteForAdministrativeForm(users_space)
+		vote_for_executive_form = VoteForExecutiveForm(users_space)
+		vote_for_judiciary_form = VoteForJudiciaryForm(users_space)
+		the_response = render(request, 'tob_space_view.html', {"loggedinauthor": loggedinauthor, "vote_for_legislative_form": vote_for_legislative_form, "vote_for_administrative_form": vote_for_administrative_form, "vote_for_executive_form": vote_for_executive_form, "vote_for_judiciary_form": vote_for_judiciary_form, "user_anon": user_anon, "users_sponsors": users_sponsors, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, "loggedinanon": loggedinanon, 'loginform': loginform, 'registerform': registerform, 'postform': post_form, 'spaceform': space_form, "post_form": post_form, 'taskform': task_form, 
 			"sponsorform": sponsor_form, "apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
-		the_response = render(request, 'tob_space_view.html', { "user_anon": user_anon, "users_sponsors": users_sponsors, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, 'loginform': loginform, 'registerform': registerform, 'registerterms': registerterms})
+		the_response = render(request, 'tob_space_view.html', { "user_anon": user_anon, "users_sponsors": users_sponsors, "users_space": users_space, "space_viewable": space_viewable, "spaces_posts": spaces_posts, 'loginform': loginform, 'registerform': registerform})
 
 	the_response.set_cookie('current', 'tob_space_view_count')
 	the_response.set_cookie('space', space)
 	the_response.set_cookie('count', count)
 	return the_response
+
+
+@login_required
+def vote_for_legislative(request, space):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		users_space = Space.objects.get(id=int(space))
+		
+		if request.method == "POST":
+			vote_for_legislative_form = VoteForLegislativeForm(users_space, data=request.POST)
+			if vote_for_legislative_form.is_valid():
+				vote_member = Author.objects.get(username=vote_for_legislative_form.cleaned_data['legislative_members'])
+				if loggedinauthor in users_space.approved_voters.all():
+					if users_space.legislative_votes.filter(voter=loggedinauthor).count():
+						membervotes = users_space.legislative_votes.filter(voter=loggedinauthor)[0]
+						member_votes.vote_member = vote_member
+						member_votes.save()
+					else:
+						membervotes = MemberVotes.objects.create(voter=loggedinauthor, space=users_space.to_source(), vote_type="legislative", vote_member=member_votes)
+						users_space.legislative_votes.add(membervotes)
+						users_space.save()
+				elif loggedinauthor == users_space.author:
+					for membervotes in users_space.legislative_votes.all():
+						membervotes.delete()
+					users_space.legislative_votes.add(vote_member)
+				for member in users_space.legislative_members.all():
+					users_space.legislative_members.remove(member)
+				for author in users_space.legislative_votes.all():
+					author_count = []
+					count = []
+					if author in author_count:
+						count[author_count.index(author.voter)] += 1
+					else:
+						author_count.append(author.voter)
+						count.append(1)
+
+					idx = np.array(count).argsort()[::-1][:5]
+					for x in idx:
+						users_space.legislative_members.add(author_count[x])
+					users_space.save()
+			else:
+				return HttpResponse(vote_for_legislative_form.errors)
+	
+	return base_redirect(request, 0)
+
+
+@login_required
+def vote_for_administrative(request, space):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		users_space = Space.objects.get(id=int(space))
+		
+		if request.method == "POST":
+			vote_for_administrative_form = VoteForAdministrativeForm(users_space, data=request.POST)
+			if vote_for_administrative_form.is_valid():
+				vote_member = Author.objects.get(username=vote_for_administrative_form.cleaned_data['administrative_members'])
+				if loggedinauthor in users_space.approved_voters.all():
+					if users_space.administrative_votes.filter(voter=loggedinauthor).count():
+						membervotes = users_space.administrative_votes.filter(voter=loggedinauthor)[0]
+						member_votes.vote_member = vote_member
+						member_votes.save()
+					else:
+						membervotes = MemberVotes.objects.create(voter=loggedinauthor, space=users_space.to_source(), vote_type="administrative", vote_member=member_votes)
+						users_space.administrative_votes.add(membervotes)
+						users_space.save()
+				elif loggedinauthor == users_space.author:
+					for membervotes in users_space.administrative_votes.all():
+						membervotes.delete()
+					users_space.administrative_votes.add(vote_member)
+				for member in users_space.administrative_members.all():
+					users_space.administrative_members.remove(member)
+				for author in users_space.administrative_votes.all():
+					author_count = []
+					count = []
+					if author in author_count:
+						count[author_count.index(author.voter)] += 1
+					else:
+						author_count.append(author.voter)
+						count.append(1)
+
+					idx = np.array(count).argsort()[::-1][:5]
+					for x in idx:
+						users_space.administrative_members.add(author_count[x])
+					users_space.save()
+			else:
+				return HttpResponse(vote_for_administrative_form.errors)
+	
+	return base_redirect(request, 0)
+
+
+@login_required
+def vote_for_executive(request, space):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		users_space = Space.objects.get(id=int(space))
+		
+		if request.method == "POST":
+			vote_for_executive_form = VoteForExecutiveForm(users_space, data=request.POST)
+			if vote_for_executive_form.is_valid():
+				vote_member = Author.objects.get(username=vote_for_executive_form.cleaned_data['executive_members'])
+				if loggedinauthor in users_space.approved_voters.all():
+					if users_spaceexecuative_votes.filter(voter=loggedinauthor).count():
+						membervotes = users_space.executive_votes.filter(voter=loggedinauthor)[0]
+						member_votes.vote_member = vote_member
+						member_votes.save()
+					else:
+						membervotes = MemberVotes.objects.create(voter=loggedinauthor, space=users_space.to_source(), vote_type="executive", vote_member=member_votes)
+						users_space.executive_votes.add(membervotes)
+						users_space.save()
+				elif loggedinauthor == users_space.author:
+					for membervotes in users_space.executive_votes.all():
+						membervotes.delete()
+					users_space.executive_votes.add(vote_member)
+				for member in users_space.executive_members.all():
+					users_space.executive_members.remove(member)
+				for author in users_space.executive_votes.all():
+					author_count = []
+					count = []
+					if author in author_count:
+						count[author_count.index(author.voter)] += 1
+					else:
+						author_count.append(author.voter)
+						count.append(1)
+
+					idx = np.array(count).argsort()[::-1][:5]
+					for x in idx:
+						users_space.executive_members.add(author_count[x])
+					users_space.save()
+			else:
+				return HttpResponse(vote_for_executive_form.errors)
+	
+	return base_redirect(request, 0)
+
+
+@login_required
+def vote_for_judiciary(request, space):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		users_space = Space.objects.get(id=int(space))
+		
+		if request.method == "POST":
+			vote_for_judiciary_form = VoteForJudiciaryForm(users_space, data=request.POST)
+			if vote_for_judiciary_form.is_valid():
+				vote_member = Author.objects.get(username=vote_for_judiciary_form.cleaned_data['judiciary_members'])
+				if loggedinauthor in users_space.approved_voters.all():
+					if users_space.judiciary_votes.filter(voter=loggedinauthor).count():
+						member_votes = users_space.judiciary_votes.filter(voter=loggedinauthor)[0]
+						member_votes.vote_member = vote_member
+						member_votes.save()
+					else:
+						membervotes = MemberVotes.objects.create(voter=loggedinauthor, space=users_space.to_source(), vote_type="judiciary", vote_member=vote_member)
+						users_space.judiciary_votes.add(membervotes)
+						users_space.save()
+				elif loggedinauthor == users_space.author:
+					for membervotes in users_space.judiciary_votes.all():
+						membervotes.delete()
+					users_space.judiciary_votes.add(vote_member)
+				for member in users_space.judiciary_members.all():
+					users_space.judiciary_members.remove(member)
+				for author in users_space.judiciary_votes.all():
+					author_count = []
+					count = []
+					if author in author_count:
+						count[author_count.index(author.voter)] += 1
+					else:
+						author_count.append(author.voter)
+						count.append(1)
+
+					idx = np.array(count).argsort()[::-1][:5]
+					for x in idx:
+						users_space.judiciary_members.add(author_count[x])
+					users_space.save()
+
+			else:
+				return HttpResponse(vote_for_judiciary_form.errors)
+	
+	return base_redirect(request, 0)
+
+
+
 
 
 def tob_post(request, post):
@@ -5307,10 +5505,11 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
 		comment_form = CommentForm(request)
+		sponsor_form = SponsorForm()
 		#translation_dictionaries_queryset = loggedinanon.applied_dictionaries
 		#translation_words_queryset = Word.objects.filter(home_dictionary=loggedinanon.applied_dictionaries[0])
 
-		the_response = render(request, "tob_users_spaces_post.html", {"space_viewable": space_viewable, "latest_edit": latest_edit, "user_anon": user_anon, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_spaces_post.html", {"sponsor_form": sponsor_form, "comment_form": comment_form, "space_viewable": space_viewable, "latest_edit": latest_edit, "user_anon": user_anon, "loggedinanon": loggedinanon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_spaces_post.html", {"space_viewable": space_viewable, "latest_edit": latest_edit, "spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})
@@ -5372,13 +5571,16 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
+		sponsor_form = SponsorForm()
+
+
 	#Specific
 	comment_form = CommentForm(request)
 	if request.user.is_authenticated:
 		comment_form.fields["dictionaries"].queryset = loggedinanon.purchased_dictionaries
 		
 	if request.user.is_authenticated:
-		the_response = render(request, "tob_users_spaces_post.html", {"space":space,"space_viewable": space_viewable,"loggedinanon": loggedinanon, "user_anon": user_anon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_users_spaces_post.html", {"sponsor_form": sponsor_form,"space":space,"space_viewable": space_viewable,"loggedinanon": loggedinanon, "user_anon": user_anon, "spaces_post": spaces_post, "users_space": users_space, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_users_spaces_post.html", {"spaces_post": spaces_post, "users_space": users_space, "registerform": registerform,  "loginform": loginform})

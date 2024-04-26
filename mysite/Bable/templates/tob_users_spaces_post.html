@@ -30,86 +30,32 @@
 		<h2>
 		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>; <a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}">Space: {{ users_space.the_space_itself.the_word_itself }}</a>
 		</h2>
-		{% if users_space.author.username == request.user.username %}
-		<div class=space_edit>
-			<form action="{% url 'Bable:users_space_edit' users_space.id %}" method=post>
-				{% csrf_token %}
-				{{ space_edit_form }}
-				<button type=submit>Apply</button>
-			</form>
-		</div>
-		<div class=space_delete>
-			<a href="{% url 'Bable:delete_own_spac' request.user.username users_space.to_source.dictionary.the_dictionary_itself users_space.the_space_itself.the_word_itself users_space.id %}">X</a>
-		</div>
-		{% endif %}
+
+		
 		<div class=space_sponsor>
-			<form action="{% url 'Bable:tob_users_spaces_sponsor' user_anon.username users_space.id 0 %}" method=post>
+			<div class=sponsor_me onclick="var id = document.getElementById('sponsor_form'); if (id.style.display == 'block') {id.style.display = 'none';} else {id.style.display = 'block';};" style="cursor: pointer;">
+				Sponsor +
+			</div>
+			<form id="sponsor_form" action="{% url 'Bable:tob_users_spaces_sponsor' user_anon.username users_space.id 0 %}" method=post>
 				{% csrf_token %}
 				{{ sponsor_form }}
 				<button type=submit>Sponsor</button>
 			</form>
+			<style>
+				#sponsor_form {
+					display: none;
+				}
+			</style>
 		</div>
 	</div>
 	<div class=spacesposts>
-		<div class=sectiontitle>
-			<a href="{% url 'Bable:tob_users_space' user_anon.username.username users_space.id 0 %}"><h3>Posts:</h3></a>
-		</div>
-		<div class=possectionsort>
-			<div id=possortnav>
-				Sort: {{ user_anon.get_post_sort_display }}
-			</div>
-			<div class=dropdown-content-pos-sort>
-				<div class=popular>
-					<div class=viral>
-						<a href="{% url 'Bable:change_post_sort' 'viral' %}">Viral</a>
-					</div>
-					<div class="early">
-						<a href="{% url 'Bable:change_post_sort' 'early' %}">Early</a>
-					</div>
-					<div class="freshest">
-						<a href="{% url 'Bable:change_post_sort' 'freshest' %}">Freshest</a>
-					</div>
-					<div class="eldest">
-						<a href="{% url 'Bable:change_post_sort' 'eldest' %}">Eldest</a>
-					</div>
-					<div class="uniques">
-						<a href="{% url 'Bable:change_post_sort' 'uniques' %}">Uniques</a>
-					</div>
-					<div class="voters">
-						<a href="{% url 'Bable:change_post_sort' 'voters' %}">Voters</a>
-					</div>
-					<div class=unvoted>
-						<a href="{% url 'Bable:change_post_sort' 'unvoted' %}">Unvoted</a>
-					</div>
-				</div>
-				<div class=stats>
-					<div class=starter>
-						<a href="{% url 'Bable:change_post_sort' 'broadness' %}">Broadness</a>
-					</div>
-					<div class=useful>
-						<a href="{% url 'Bable:change_post_sort' 'intricacy' %}">Intricacy</a>
-					</div>
-					<div class=encourage>
-						<a href="{% url 'Bable:change_post_sort' 'talkative' %}">Talkative</a>
-					</div>
-					<div class=synched>
-						<a href="{% url 'Bable:change_post_sort' 'homes' %}">Homes</a>
-					</div>
-					<div class=synched>
-						<a href="{% url 'Bable:change_post_sort' 'encouraged' %}">Encouraged</a>
-					</div>
-					<div class=synched>
-						<a href="{% url 'Bable:change_post_sort' 'votes' %}">Votes</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 		
 		<div class=posts>
 		{% if space_viewable %} 
 			{% with spaces_post as post %}
 			<div class=post>
-				<div class=posttitle>
+				<div class=posttitle style="vertical-align: top;">
 					<div class=postpreview>
 						{% if post.url2 %}
 							<a href="{{ post.url2 }}"><img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;"></a>
@@ -118,7 +64,7 @@
 						{% endif %}
 					</div>
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_spaces_post' post.author.username post.id 0 %}"><h4>{{ post.title|word_up:post.dictionaries|safe }}</h4></a>
+						<a href="{% url 'Bable:tob_spaces_post' post.author.username post.id 0 %}"><h4>{{ post.title }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
@@ -283,6 +229,8 @@
 		{% endif %}
 		</div>
 	</div>
+
+
 {% endblock %}
 
 {% block unauthenticated_posts %}
@@ -310,4 +258,36 @@
 	</div>
 </div>
 
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+	function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+	function openCommentThread(starter, com) {
+		var element = document.getElementById(starter).getElementById(com);
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+
+	function comCollapse(node) {
+		var element = document.getElementById(node)
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+</script>
 {% endblock %}

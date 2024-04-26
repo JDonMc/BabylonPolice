@@ -77,10 +77,117 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 			Sponsors: {{ users_space.sponsors.count }}
 		</div>
 		<div class=space_voters style="padding-left: 2px; border-left: solid 1px;">
-			Approved Voters: {{ users_space.latest_change_date|naturaltime }}
+			Approved Voters: 
+			{% for voter in users_space.approved_voters.all %}
+				{{ voter.username }}, 
+			{% endfor %}
 		</div>
 		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
 			Intro: {{ users_space.sidebar|urlize }}
+		</div>
+		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
+			<b>Elected:</b> 
+			<br/>
+			|Legislative:
+			{% if users_space.elected_legislative %}
+				{% for author in users_space.legislative_members.all %}
+					The Elected {{ author.username }}, 
+				{% endfor %}
+				Voting Live:
+				{% if loggedinauthor in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_legislative_form }}
+					</form>
+				{% endif %}
+			{% else %}
+				{% for author in users_space.legislative_members.all %}
+					The Chosen {{ author.username }}, 
+				{% endfor %}
+				{% if loggedinauthor == users_space.author %}
+					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_legislative_form }}
+						<button type=submit>Submit</button>
+					</form>
+				{% endif %}
+			{% endif %}
+			<br/>
+			|Administrative:
+			{% if users_space.elected_administrative %}
+				{% for author in users_space.administrative_members.all %}
+					The Elected {{ author.username }}, 
+				{% endfor %}
+				Voting Live:
+				{% if loggedinauthor in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_administrative_form }}
+					</form>
+				{% endif %}
+			{% else %}
+				{% for author in users_space.administrative_members.all %}
+					The Chosen {{ author.username }}, 
+				{% endfor %}
+				{% if loggedinauthor == users_space.author %}
+					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_administrative_form }}
+						<button type=submit>Submit</button>
+					</form>
+				{% endif %}
+			{% endif %}
+			<br/>
+			|Executive:
+			{% if users_space.elected_executive %}
+				{% for author in users_space.executive_members.all %}
+					The Elected {{ author.username }}, 
+				{% endfor %}
+				Voting Live:
+				{% if loggedinauthor in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_executive_form }}
+					</form>
+				{% endif %}
+			{% else %}
+				{% for author in users_space.executive_members.all %}
+					The Primary Appointed {{ author.username }}, 
+				{% endfor %}
+				{% if loggedinauthor == users_space.author %}
+					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_executive_form }}
+						<button type=submit>Submit</button>
+					</form>
+				{% endif %}
+			{% endif %}
+			<br/>
+			|Judiciary:
+			{% if users_space.elected_judiciary %}
+				{% for author in users_space.judiciary_members.all %}
+					The Honourable {{ author.username }}, 
+				{% endfor %}
+				Voting Live:
+				{% if loggedinauthor in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_judiciary_form }}
+					</form>
+				{% endif %}
+			{% else %}
+				{% for author in users_space.judiciary_members.all %}
+					The Secondarily Appointed {{ author.username }}, 
+				{% endfor %}
+				{% if loggedinauthor == users_space.author %}
+					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id %}">
+						{% csrf_token %}
+						{{ vote_for_judiciary_form }}
+						<button type=submit>Submit</button>
+					</form>
+				{% endif %}
+			{% endif %}
+
 		</div>
 		<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
 			{% if users_space.for_sale %}
@@ -93,15 +200,18 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 			<a href="{% url 'Bable:tob_users_dic' users_space.the_space_itself.home_dictionary.author.username users_space.the_space_itself.home_dictionary.the_dictionary_itself 0 %}">{{ users_space.the_space_itself.dictionary.the_dictionary_itself }}</a>
 		</div>
 		<div class=space_save style="padding-left: 2px; border-left: solid 1px;">
-			{% if space in loggedinanon.purchased_spaces %}
+			{% if users_space in loggedinanon.purchased_spaces.all %}
 			<a style="background-color: grey;" href="{% url 'Bable:tob_remove_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Remove</a>
 			{% else %}
-			<form action="{% url 'Bable:submit_buy_space_form' users_space.id %}" method=post>
-				{% csrf_token %}
-				<button type=submit>Buy</button>
-			</form>
+				{% if users_space in loggedinanon.spaces.all %}
+				{% else %}
+					<form action="{% url 'Bable:submit_buy_space_form' users_space.id %}" method=post>
+						{% csrf_token %}
+						<button type=submit>Buy</button>
+					</form>
+				{% endif %}
 			{% endif %}
-			{% if space in loggedinanon.saved_spaces %}
+			{% if users_space in loggedinanon.saved_spaces.all %}
 			<a style="background-color: grey;" href="{% url 'Bable:tob_unsave_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Unsave</a>
 			{% else %}
 			<a style="background-color: grey;" href="{% url 'Bable:tob_save_space' users_space.author.username users_space.the_space_itself.the_word_itself %}">Save</a>
@@ -201,7 +311,7 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 				<div class=postwords>
 					Words:
 					{% for word in post.words.all %}
-					<a href="{% url 'Bable:tob_users_dic_word' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+					<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
 						{{ word.the_word_itself }}
 					</a>
 					{% endfor %}

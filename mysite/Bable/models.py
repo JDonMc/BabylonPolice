@@ -998,6 +998,8 @@ PRODUCT_CHOICES = (
 	("link", "Collect Links"),
 	("poem", "Just Words"),
 	("tickets", "Event Tickets"),
+	("classes", "Classes"),
+	("class_material", "Class Material"),
 	("other", "Other Deal"),
 )
  
@@ -1266,11 +1268,13 @@ class Dictionary_Loan(models.Model):
 
 
 class Terms(models.Model):
-	conditionees = models.ManyToManyField(Author, default=None, related_name="conditionees")
-	conditioners = models.ManyToManyField(Author, default=None, related_name="conditioners")
-	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh")
-	accostings = models.TextField(max_length=6660000, default="You've been accounted for as for the following")
+	chapter = models.CharField(max_length=160, default='')
+	conditionees = models.ManyToManyField(Author, default=None, related_name="conditionees") # must stake primation fee to accept, under certain conditions, votes on edits to chapters, chosen by precessive council members
+	conditioners = models.ManyToManyField(Author, default=None, related_name="conditioners") # votes on edits to conditions, includes precessive council members
+	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh") # changed by conditioners, judged by primation reference, written by precessive council members
+	accostings = models.TextField(max_length=6660000, default="You've been accounted for as for the following") # written by terms council members
 	primation_fee = models.IntegerField(default=1000) # price up for grabs if you violate certain conditions as punishment (how much you have to keep in your account to pay if you lose your job)
+	delete = models.BooleanField(default=False)
 	primation_reference = models.ManyToManyField(Author, default=None, related_name="reference") # who judges the paying of the primation fee, who you have to impress to keep your balance / job. # I'll put 10k on the line to prove to you that I can sell his product. Etc.
 
 class Chapters(models.Model):
@@ -1281,6 +1285,19 @@ class Chapters(models.Model):
 	execution_prose = models.TextField(max_length=144000, default="You hear this text better when we say") # by executive
 	judiciary_feedback = models.TextField(max_length=144000, default="You said this last time") # by executive
 
+
+MEMBER_VOTE_TYPE_CHAR = (
+	("legislative", "Legislative"),
+	("administrative", "Administrative"),
+	("executive", "Executive"),
+	("judiciary", "Judiciary"),
+)
+
+class MemberVotes(models.Model):
+	voter = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="voter")
+	space = models.ForeignKey(SpaceSource, on_delete=models.CASCADE)
+	vote_type = models.CharField(max_length=144, choices=MEMBER_VOTE_TYPE_CHAR, default="legislative")
+	vote_member = models.OneToOneField(Author, on_delete=models.PROTECT, default=None, related_name="vote_member")
 
 class Space(models.Model):
 	the_space_itself = models.ForeignKey(Word, on_delete=models.CASCADE, default=00000) # check pre-requisite dictionary acquired
@@ -1315,19 +1332,18 @@ class Space(models.Model):
 	dictionary_loans = models.ManyToManyField(Dictionary_Loan, default=None)
 
 	elected_legislative = models.BooleanField(default=False) # writes the rule book for the space
-	elected_admnisitrative = models.BooleanField(default=False) # decides how to interpret the rules for a given breach
-	elected_executive = models.BooleanField(default=False) # apprehends publicly
-	elected_judiciary = models.BooleanField(default=False) # designates appropriate punishment
-
-	elected_legislative = models.BooleanField(default=False) # writes the rule book for the space
-	elected_admnisitrative = models.BooleanField(default=False) # decides how to interpret the rules for a given breach
+	elected_administrative = models.BooleanField(default=False) # decides how to interpret the rules for a given breach
 	elected_executive = models.BooleanField(default=False) # apprehends publicly
 	elected_judiciary = models.BooleanField(default=False) # designates appropriate punishment
 
 	legislative_members = models.ManyToManyField(Author, default=None, related_name="legislative_members")
+	legislative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="legislative_votes")
 	administrative_members = models.ManyToManyField(Author, default=None, related_name="administrative_members")
+	administrative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="administrative_votes")
 	executive_members = models.ManyToManyField(Author, default=None, related_name="executive_members")
+	executive_votes = models.ManyToManyField(MemberVotes, default=None, related_name="executive_votes")
 	judiciary_members = models.ManyToManyField(Author, default=None, related_name="judiciary_members")
+	judiciary_votes = models.ManyToManyField(MemberVotes, default=None, related_name="judiciary_votes")
 
 	legislation = models.ManyToManyField(Chapters, default=None, related_name="legislation")
 	legislating_terms = models.ManyToManyField(Terms, default=None, related_name="legislating")
@@ -1647,9 +1663,12 @@ class Anon(models.Model):
 
 	notifications = models.ManyToManyField(Notification, default=None)
 
-	availabilities = models.ManyToManyField(Availability, default=None)
+	availabilities = models.ManyToManyField(Availability, default=None, related_name="availabilities")
+	shared_with_availabilities = models.ManyToManyField(Availability, default=None, related_name="shared_with_availabilities")
 	students = models.ManyToManyField(Author, default=None, related_name="students")
 	student_of = models.ManyToManyField(Author, default=None, related_name="student_of")
+	employees = models.ManyToManyField(Author, default=None, related_name="employees")
+	employed_by = models.ManyToManyField(Author, default=None, related_name="employed_by")
 
 	loans = models.ManyToManyField(Loan, default=None)
 
