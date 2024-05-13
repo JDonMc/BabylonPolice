@@ -3084,6 +3084,9 @@ def users_space_edit(request, space):
 		actual_source_space = actual_space.to_source()
 
 		actual_space.sidebar = request.POST.get('sidebar')
+		actual_space.values = request.POST.get('values')
+		actual_space.vision = request.POST.get('vision')
+		actual_space.mission = request.POST.get('mission')
 		if request.POST.get('public') == 'on':
 			actual_space.public = True
 		if request.POST.get('for_sale') == 'on':

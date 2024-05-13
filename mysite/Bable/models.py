@@ -1303,6 +1303,10 @@ class Space(models.Model):
 	the_space_itself = models.ForeignKey(Word, on_delete=models.CASCADE, default=00000) # check pre-requisite dictionary acquired
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	sidebar = models.TextField(max_length=1000, default='')
+	values = models.TextField(max_length=1000, default='Values')
+	vision = models.TextField(max_length=1000, default='Vision')
+	mission = models.TextField(max_length=1000, default='Mission')
+
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='author', default=None)
 	viewcount = models.IntegerField(default=0)
 	posts_viewcount = models.IntegerField(default=0)
@@ -1578,7 +1582,70 @@ class Availability(models.Model):
 	end_time = models.DateTimeField(timezone.now)
 	available = models.BooleanField(default=False) #mark either when you're availabilities are, or your unavailabilities are. "I can do any time from X" vs "I can't do these times"
 
+
+
+
+class MoveTo(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+
+class LineTo(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+
+class QuadraticCurveTo(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+	p1 = models.IntegerField(default=0)
+	p2 = models.IntegerField(default=0)
+	#context.quadraticCurveTo(x, y, p1, p2)
+
+class BezierCurveTo(models.Model):
+	x1 = models.IntegerField(default=0)
+	y1 = models.IntegerField(default=0)
+	x2 = models.IntegerField(default=0)
+	y2 = models.IntegerField(default=0)
+	x3 = models.IntegerField(default=0)
+	y3 = models.IntegerField(default=0)
+	#context.bezierCurveTo(x1, y1, x2, y2, x3, y3)
+
+
+
+class Movement(models.Model):
+	move_to = models.OneToOneField(MoveTo, default=None, on_delete=models.CASCADE)
+	line_to = models.OneToOneField(LineTo, default=None, on_delete=models.CASCADE)
+	quadratic_curve_to = models.OneToOneField(QuadraticCurveTo, default=None, on_delete=models.CASCADE)
+	line_width = models.FloatField(default=5.0)
+	stroke_style = models.TextField(max_length=2000, default="black")
+	stroke = models.BooleanField(default=False)
+	fill_style = models.TextField(max_length=2000, default="black")
+	fill = models.BooleanField(default=False)
+	order = models.IntegerField(default=0)
+
+class Path(models.Model):
+	movements = models.ManyToManyField(Movement, default=None)
+
+
+
+class Rectangle(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+	width = models.IntegerField(default=0)
+	height = models.IntegerField(default=0)
+	paste = models.TextField(max_length=150, default="var x = 150;var y = 50;var width = 200;var height = 250;context.strokeRect(x, y, width, height);")
+	filled = models.BooleanField(default=False)#canvas.fillRect(150, 50, 200, 250);
+	clear = models.BooleanField(default=False)#canvas.clearRect(150, 50, 200, 250);
+
+class Drawing(models.Model):
+	name = models.CharField(max_length=140, default="Builder Owners Project")
+	author = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
+	created_date = models.DateTimeField(timezone.now)
+	latest_change_date = models.DateTimeField(timezone.now)
+	rectangles = models.ManyToManyField(Rectangle, default=None)
+	init = models.TextField(max_length=20000, default="<script>function rectangle() {var canvas = document.getElementById('canvas');var context = canvas.getContext('2d');}</script>")
+
 class Anon(models.Model):
+	drawings = models.ManyToManyField(Drawing, default=None)
 	storefronts = models.ManyToManyField(Storefront, default=None)
 	products = models.ManyToManyField(Price, related_name="anon_product", default=None)
 	purchases = models.ManyToManyField(Price, related_name="anon_purchase", default=None)

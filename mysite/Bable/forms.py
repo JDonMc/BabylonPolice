@@ -789,7 +789,7 @@ class PostForm(forms.ModelForm):
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
-        fields = ('the_space_itself', 'sidebar', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
+        fields = ('the_space_itself', 'sidebar', 'values', 'vision', 'mission', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
 
     def clean(self):
         cleaned_data = super(SpaceForm, self).clean()
