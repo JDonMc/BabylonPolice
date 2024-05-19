@@ -13,12 +13,74 @@ class ClickthroughForm(forms.Form):
     sponsor_id = forms.CharField(required=True)
 
 
+class MembersSelectPrimationReference(forms.ModelForm):
+    class Meta:
+        model = Terms
+        fields = ("primation_reference",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(MembersSelectPrimationReference, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class AddOrRemoveLegislatingTermsForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("legislating_terms",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(AddOrRemoveLegislatingTermsForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class AddOrRemoveAdministratingTermsForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("administrating_terms",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(AddOrRemoveAdministratingTermsForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class AddOrRemoveExecutingTermsForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("executing_terms",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(AddOrRemoveExecutingTermsForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class AddOrRemoveAdjudicatingTermsForm(forms.ModelForm):
+    class Meta:
+        model = Space
+        fields = ("adjudicating_terms",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(AddOrRemoveAdjudicatingTermsForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class PrimationConditionersSelectorFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Terms
+        fields = ("conditioners",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(PrimationConditionersSelectorFeedbackForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
+
+class PrimationConditioneesSelectorFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Terms
+        fields = ("conditionees",)
+    def __init__(self, request, terms, *args, **kwargs):
+        super(PrimationConditioneesSelectorFeedbackForm, self).__init__(*args, **kwargs)
+        self.instance = terms
+
 class AddOrRemoveTermsForm(forms.ModelForm):
     class Meta:
         model = Terms
         fields = ("chapter", "conditionees", "conditioners", "conditions", "accostings", "primation_fee", "primation_reference", 'delete',)
     def __init__(self, request, terms, *args, **kwargs):
-        super(TermsForm, self).__init__(*args, **kwargs)
+        super(AddOrRemoveTermsForm, self).__init__(*args, **kwargs)
         self.instance = terms
         self.fields['conditionees'] = forms.MultipleChoiceField(choices=[(e, e) for e in terms.space.approved_voters.all().order_by('username').values_list('username', flat=True)])
         self.fields['condtioners'] = forms.MultipleChoiceField(choices=[(e, e) for e in terms.space.approved_voters.all().order_by('username').values_list('username', flat=True)])
@@ -789,7 +851,7 @@ class PostForm(forms.ModelForm):
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
-        fields = ('the_space_itself', 'sidebar', 'values', 'vision', 'mission', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
+        fields = ('the_space_itself', 'sidebar', 'values', 'vision', 'mission', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'successive', 'progressive', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
 
     def clean(self):
         cleaned_data = super(SpaceForm, self).clean()

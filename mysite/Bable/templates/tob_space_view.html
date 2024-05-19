@@ -85,6 +85,15 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
 			Intro: {{ users_space.sidebar|urlize }}
 		</div>
+		<div class=space_values style="padding-left: 2px; border-left: solid 1px;">
+			Values: {{ users_space.values|urlize }}
+		</div>
+		<div class=space_vision style="padding-left: 2px; border-left: solid 1px;">
+			Vision: {{ users_space.vision|urlize }}
+		</div>
+		<div class=space_mission style="padding-left: 2px; border-left: solid 1px;">
+			Mission: {{ users_space.mission|urlize }}
+		</div>
 		<div class=space_intro style="padding-left: 2px; border-left: solid 1px;">
 			<b>Elected:</b> 
 			<br/>
@@ -188,6 +197,12 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 				{% endif %}
 			{% endif %}
 
+		</div>
+		<div class=unelected>
+			Unelected:
+			{% for author in users_space.approved_voters.all %}
+			{{ author.username }}: <form action='{% url "Bable:kick_vote_for_member" users_space.id author.username %}' method=post>{% csrf_token %}<button type=submit>Kick</button></form> <form action='{% url "Bable:vote_for_member" users_space.id author.username %}' method=post>{% csrf_token %}<button type=submit>Elevate</button></form>
+			{% endfor %}
 		</div>
 		<div class=space_price style="padding-left: 2px; border-left: solid 1px;">
 			{% if users_space.for_sale %}

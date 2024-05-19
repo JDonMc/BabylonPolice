@@ -1340,13 +1340,20 @@ class Space(models.Model):
 	elected_executive = models.BooleanField(default=False) # apprehends publicly
 	elected_judiciary = models.BooleanField(default=False) # designates appropriate punishment
 
+	successive = models.BooleanField(default=False) # each higher level of government can kick the lower levels
+	progressive = models.BooleanField(default=False) # each lower level of government can vote to elevate to higher levels
+
 	legislative_members = models.ManyToManyField(Author, default=None, related_name="legislative_members")
-	legislative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="legislative_votes")
+	legislative_level = models.IntegerField(default=0) # designates how many members there are to be max.
+	legislative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="legislative_votes") #who's been voted to be included in this group
 	administrative_members = models.ManyToManyField(Author, default=None, related_name="administrative_members")
+	administrative_level = models.IntegerField(default=0)
 	administrative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="administrative_votes")
 	executive_members = models.ManyToManyField(Author, default=None, related_name="executive_members")
+	executive_level = models.IntegerField(default=0)
 	executive_votes = models.ManyToManyField(MemberVotes, default=None, related_name="executive_votes")
 	judiciary_members = models.ManyToManyField(Author, default=None, related_name="judiciary_members")
+	judiciary_level = models.IntegerField(default=0)
 	judiciary_votes = models.ManyToManyField(MemberVotes, default=None, related_name="judiciary_votes")
 
 	legislation = models.ManyToManyField(Chapters, default=None, related_name="legislation")
@@ -1588,10 +1595,12 @@ class Availability(models.Model):
 class MoveTo(models.Model):
 	x = models.IntegerField(default=0)
 	y = models.IntegerField(default=0)
+	#context.moveTo(x, y)
 
 class LineTo(models.Model):
 	x = models.IntegerField(default=0)
 	y = models.IntegerField(default=0)
+	#context.lineTo(x, y)
 
 class QuadraticCurveTo(models.Model):
 	x = models.IntegerField(default=0)
@@ -1599,6 +1608,15 @@ class QuadraticCurveTo(models.Model):
 	p1 = models.IntegerField(default=0)
 	p2 = models.IntegerField(default=0)
 	#context.quadraticCurveTo(x, y, p1, p2)
+
+class ArcTo(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+	radius = models.IntegerField(default=0)
+	start_angle = models.IntegerField(default=0) #0
+	end_angle = models.IntegerField(default=0) # Math.PI
+	counter_clockwise = models.BooleanField(default=False) # false
+	# context.arc(x, y, radius, start_angle, end_angle, counter_clockwise)
 
 class BezierCurveTo(models.Model):
 	x1 = models.IntegerField(default=0)
@@ -1615,6 +1633,7 @@ class Movement(models.Model):
 	move_to = models.OneToOneField(MoveTo, default=None, on_delete=models.CASCADE)
 	line_to = models.OneToOneField(LineTo, default=None, on_delete=models.CASCADE)
 	quadratic_curve_to = models.OneToOneField(QuadraticCurveTo, default=None, on_delete=models.CASCADE)
+	arc_to = models.OneToOneField(ArcTo, default=None, on_delete=models.CASCADE)
 	line_width = models.FloatField(default=5.0)
 	stroke_style = models.TextField(max_length=2000, default="black")
 	stroke = models.BooleanField(default=False)

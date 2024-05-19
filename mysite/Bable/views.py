@@ -3072,6 +3072,301 @@ def votewvotestyle(request, source_type, source_id):
 
 	return base_redirect(request, 0)
 
+@login_required
+def kick_vote_for_member(request, space_id, author_username):
+	loggedinanon = Anon.objects.get(username=request.user)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+
+	if request.method == "POST":
+		author = Author.objects.get(username=author_username)
+		space = Space.objects.get(id=int(space_id))
+		if loggedinauthor in space.legislative_members:
+			# legislative moderates administrative
+			if author in space.administrative_members.all():
+				space.administrative_members.remove(author)
+			# if successive is checked
+			if space.successive:
+				if author in space.executive_members.all():
+					space.executive_members.remove(author)
+				if author in space.judiciary_members.all():
+					space.judiciary_members.remove(author)
+			if author in space.approved_voters.all():
+				space.approved_voters.remove(author)
+
+
+@login_required		
+def vote_for_legislative(request, space_id, username):
+	loggedinanon = Anon.objects.get(username=request.user)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+
+	if request.method == "POST":
+		author = Author.objects.get(username=username)
+		space = Space.objects.get(id=int(space_id))
+		if loggedinauthor in space.approved_voters.all():
+			if space.elected_legislative:
+				if space.progressive:
+					if loggedinauthor in space.administrative_members.all():
+						if author in space.administrative_members.all():
+							space.legislative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.legislative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							if space.legislative_votes.all().count() > space.legislative_level:
+								for i in range(space.space.legislative_members.all().count(), space.legislative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.legislative_members.all().count() < space.legislative_level:
+										space.administrative_members.remove(max_user)
+										space.legislative_members.add(max_user)
+				else:
+					if loggedinauthor in space.approved_voters.all():
+						if author in space.approved_voters.all():
+							space.legislative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.legislative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							if space.legislative_votes.all().count() > space.legislative_level:
+								for i in range(space.space.legislative_members.all().count(), space.legislative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.legislative_members.all().count() < space.legislative_level:
+										space.legislative_members.add(max_user)
+			else:
+				if space.author == loggedinauthor:
+					space.legislative_members.add(author)
+	return base_redirect(request, 0)	
+			
+
+def vote_for_administrative(request, space_id, username):
+	loggedinanon = Anon.objects.get(username=request.user)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+
+	if request.method == "POST":
+		author = Author.objects.get(username=username)
+		space = Space.objects.get(id=int(space_id))
+		if loggedinauthor in space.approved_voters.all():
+			if space.elected_administrative:
+				if space.progressive:
+					if loggedinauthor in space.executive_members.all():
+						if author in space.executive_members.all():
+							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.administrative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							if space.administrative_votes.all().count() > space.administrative_level:
+								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.administrative_members.all().count() < space.administrative_level:
+										space.executive_members.remove(max_user)
+										space.administrative_members.add(max_user)
+				else:
+					if loggedinauthor in space.approved_voters.all():
+						if author in space.approved_voters.all():
+							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.administrative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							if space.administrative_votes.all().count() > space.administrative_level:
+								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.administrative_members.all().count() < space.administrative_level:
+										space.administrative_members.add(max_user)
+			else:
+				if space.author == loggedinauthor:
+					space.administrative_members.add(author)
+
+	return base_redirect(request, 0)
+
+
+					
+def vote_for_executive(request, space_id, username):
+	loggedinanon = Anon.objects.get(username=request.user)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+
+	if request.method == "POST":
+		author = Author.objects.get(username=username)
+		space = Space.objects.get(id=int(space_id))
+		if loggedinauthor in space.approved_voters.all():
+			if space.elected_executive:
+				if space.progressive:
+					######## UP TO HERE vote_for ---> renaming _votes _members, need to include conditionees, ers, and primation reference #######
+					if loggedinauthor in space.judiciary_members.all():
+						if author in space.judiciary_members.all():
+							space.executive_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.executive_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							if space.executive_votes.all().count() > space.executive_level:
+								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.administrative_members.all().count() < space.administrative_level:
+										space.executive_members.remove(max_user)
+										space.administrative_members.add(max_user)
+				else:
+					if loggedinauthor in space.approved_voters.all():
+						if author in space.approved_voters.all():
+							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.administrative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							
+							if space.executive_votes.all().count() > space.executive_level:
+								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+									for user in usernames:
+										if count[usernames.index(user)] > max_count:
+											max_count = count[usernames.index(user)]
+											max_user = user
+									if space.administrative_members.all().count() < space.administrative_level:
+										space.administrative_members.add(max_user)
+			else:
+				if space.author == loggedinauthor:
+					space.administrative_members.add(author)
+
+	return base_redirect(request, 0)
+
+
+
+def vote_for_administrative(request, space_id, username):
+	loggedinanon = Anon.objects.get(username=request.user)
+	loggedinauthor = Author.objects.get(username=request.user.username)
+
+	if request.method == "POST":
+		author = Author.objects.get(username=username)
+		space = Space.objects.get(id=int(space_id))
+		if loggedinauthor in space.approved_voters.all():
+			if space.elected_administrative:
+				if space.progressive:
+					if loggedinauthor in space.executive_members.all():
+						if author in space.executive_members.all():
+							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.administrative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+								for user in usernames:
+									if count[usernames.index(user)] > max_count:
+										max_count = count[usernames.index(user)]
+										max_user = user
+								if space.administrative_members.all().count() < space.administrative_level:
+									space.executive_members.remove(max_user)
+									space.administrative_members.add(max_user)
+				else:
+					if loggedinauthor in space.approved_voters.all():
+						if author in space.approved_voters.all():
+							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							usernames = []
+							count = []
+							for member in space.administrative_votes.all():
+								if usernames.index(member.vote_member) != -1:
+									count[usernames.index(member.vote_member)] += 1
+								else:
+									count.append(1)
+									usernames.append(member.vote_member)
+							
+							for user in usernames:
+								if count[usernames.index(user)] > max_count:
+									max_count = count[usernames.index(user)]
+									max_user = user
+							for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+								for user in usernames:
+									if count[usernames.index(user)] > max_count:
+										max_count = count[usernames.index(user)]
+										max_user = user
+								if space.administrative_members.all().count() < space.administrative_level:
+									space.administrative_members.add(max_user)
+			else:
+				if space.author == loggedinauthor:
+					space.administrative_members.add(author)
+
+	return base_redirect(request, 0)
+
+
+				
+
+
 
 
 @login_required
