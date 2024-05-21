@@ -796,6 +796,7 @@ class CommentForm(forms.ModelForm):
             raise forms.ValidationError("You can only have 5 dictionaries")
     def __init__(self, request, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
+        #self.instance == post_or_barcode
         if Author.objects.get(username=request.user.username):
             self.fields['dictionaries'] = forms.MultipleChoiceField(choices=[(e, e) for e in Dictionary.objects.all().filter(purchased_dictionaries=Anon.objects.get(username__username=request.user.username)).order_by('the_dictionary_itself').values_list('the_dictionary_itself', flat=True)])
         else:

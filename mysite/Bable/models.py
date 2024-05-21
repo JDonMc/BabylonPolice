@@ -914,6 +914,7 @@ class Comment(MPTTModel):
 	has_voted = models.ManyToManyField(Author, default=None, related_name='comment_has_voted')
 	sum_has_voted = models.IntegerField(default=0)
 	parent = TreeForeignKey('self', on_delete=models.CASCADE, default=None, null=True, blank=True, related_name='children', db_index=True)
+	children_count = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.body
@@ -931,7 +932,7 @@ class Comment(MPTTModel):
 		return True
 
 	class MPTTMeta:
-		order_insertion_by = ['votes_count', 'children']
+		order_insertion_by = ['votes_count', 'children_count']
 
 	
 

@@ -2419,8 +2419,14 @@ def create_comment(request, source_type, source, com):
 					new_com.save()
 			else:
 				if commentform.cleaned_data['dictionaries'] == 0:
+					parent_comment = Comment.objects.get(id=com)
+					parent_comment.children_count += 1
+					parent_comment.save()
 					new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment.objects.get(id=com))
 				else:
+					parent_comment = Comment.objects.get(id=com)
+					parent_comment.children_count += 1
+					parent_comment.save()
 					new_com = Comment.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment.objects.get(id=com))
 					for dic in commentform.cleaned_data['dictionaries']:
 						new_com.dictionaries.add(loggedinanon.purchased_dictionaries.get(the_dictionary_itself=dic))
@@ -2443,19 +2449,28 @@ def create_comment(request, source_type, source, com):
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
 
 			else:
-				if new_com:
-					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
+				if com:
+					parent_comment = Comment.objects.get(id=com)
+					parent_comment.children_count += 1
+					parent_comment.save()
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=com)
 				else:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor)
 		else:
 			if commentform.cleaned_data['dictionaries'] == 0:
-				if new_com:
-					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
+				if com:
+					parent_comment = Comment.objects.get(id=com)
+					parent_comment.children_count += 1
+					parent_comment.save()
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=com)
 				else:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
 			else:
-				if new_com:
-					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=new_com.id)
+				if com:
+					parent_comment = Comment.objects.get(id=com)
+					parent_comment.children_count += 1
+					parent_comment.save()
+					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, original=com)
 				else:
 					new_com = Comment_Source.objects.create(body=commentform.cleaned_data['body'], author=loggedinauthor, parent=Comment_Source.objects.get(id=com))
 			comments_dic = Dictionary_Source.objects.get(the_dictionary_itself=commentform.cleaned_data['dictionaries'], author=loggedinauthor)
@@ -3092,6 +3107,24 @@ def kick_vote_for_member(request, space_id, author_username):
 					space.judiciary_members.remove(author)
 			if author in space.approved_voters.all():
 				space.approved_voters.remove(author)
+
+
+
+@login_required
+def vote_on_edits_to_conditions(request, space_id, username):
+	return base_redirect(request, 0)
+
+@login_required
+def vote_on_edits_to_conditioners(request, space_id, username):
+	return base_redirect(request, 0)
+
+@login_required
+def vote_on_edits_to_conditionees(request, space_id, username):
+	return base_redirect(request, 0)
+
+@login_required
+def vote_on_edits_to_primate(request, space_id, username):
+	return base_redirect(request, 0)
 
 
 @login_required		
@@ -5337,11 +5370,11 @@ def tob_user_view_count(request, user, count=0):
 		#for dic in loggedinanon.dictionaries.all: 
 		#	dic_names += [dic.the_dictionary_itself]
 		#word_form.fields["home_dictionary"].queryset = Dictionary_Source.objects.filter(author=loggedinauthor).values_list('the_dictionary_itself', flat=True)	# Specific
-		comment_form = CommentForm(request) # Make in template {% if loggedin %}
+		#comment_form = CommentForm(request, value_from_object) # Make in template {% if loggedin %}
 	
 	if request.user.is_authenticated:
 		the_response = render(request, "tob_user_view.html", {"post_sort_form": post_sort_form, "file_form": file_form, "email_form": email_form, "wallet_form": wallet_form, "total": total, "loggedinanon": loggedinanon, "users_posts": users_posts, "users_spaces": users_spaces, "user_anon": user_anon, 
-			"bread_form": bread_form,"dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "apply_votes_form": apply_votes_form, "comment_form": comment_form, "registerform": registerform,  "loginform": loginform, 
+			"bread_form": bread_form,"dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "apply_votes_form": apply_votes_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_user_view.html", {"total": total, "users_posts": users_posts, "users_spaces": users_spaces, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
