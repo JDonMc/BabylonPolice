@@ -178,22 +178,23 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 					The Honourable {{ author.username }}, 
 				{% endfor %}
 				Voting Live:
-				{% if loggedinauthor in users_space.approved_voters.all %}
-					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id %}">
+				{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_judiciary_form }}
+						<button type=submit>{{ author.username }}</button>
 					</form>
-				{% endif %}
+				{% endfor %}
 			{% else %}
 				{% for author in users_space.judiciary_members.all %}
 					The Secondarily Appointed {{ author.username }}, 
 				{% endfor %}
 				{% if loggedinauthor == users_space.author %}
-					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id %}">
+					{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_judiciary_form }}
-						<button type=submit>Submit</button>
+						<button type=submit>{{ author.username }}</button>
 					</form>
+					{% endfor %}
 				{% endif %}
 			{% endif %}
 

@@ -931,7 +931,7 @@ class Comment(MPTTModel):
 		return True
 
 	class MPTTMeta:
-		order_insertion_by = ['votes_count']
+		order_insertion_by = ['votes_count', 'children']
 
 	
 
@@ -1095,12 +1095,33 @@ class SearchURL(models.Model):
 
 
     
-
+class Barcode(models.Model):
+	barcode_value = models.IntegerField(default=0)
+	barcode_meaning = models.TextField(default='', max_length=144)
+	barcode_definition = models.TextField(default='', max_length=1440)
+	barcode_story = models.TextField(default='', max_length=14400)
+	has_commented = models.ManyToManyField(Author, default=None, related_name='barcode_has_commented')
+	sum_has_commented = models.IntegerField(default=0)
+	has_viewed = models.ManyToManyField(Author, default=None, related_name='barcode_has_viewed')
+	sum_has_viewed = models.IntegerField(default=0)
+	has_voted = models.ManyToManyField(Author, default=None, related_name='barcode_has_voted')
+	sum_has_voted = models.IntegerField(default=0)
+	votes_uniques = models.IntegerField(default=0)
+	comments = models.ManyToManyField(Comment, default=None)
+	sum_comments = models.IntegerField(default=0)
+	sponsors = models.ManyToManyField(Sponsor, default=None)
+	sum_sponsors = models.IntegerField(default=0)
+	viewcount = models.IntegerField(default=0)
+	change_count = models.IntegerField(default=0)
+	latest_change_date = models.DateTimeField(default=timezone.now)
+	
+	
 	
 	
 
 class Post(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
+	barcodes = models.ManyToManyField(Barcode, default=None)
 	edits = models.ManyToManyField(Edit, default=None)
 	products = models.ManyToManyField(Price, default=None)
 	title = models.CharField(max_length=200, default='')
@@ -1269,6 +1290,8 @@ class Dictionary_Loan(models.Model):
 
 class Terms(models.Model):
 	chapter = models.CharField(max_length=160, default='')
+	conditionees_select_primate = models.BooleanField(default=False)
+	conditioners_select_external = models.BooleanField(default=False)
 	conditionees = models.ManyToManyField(Author, default=None, related_name="conditionees") # must stake primation fee to accept, under certain conditions, votes on edits to chapters, chosen by precessive council members
 	conditioners = models.ManyToManyField(Author, default=None, related_name="conditioners") # votes on edits to conditions, includes precessive council members
 	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh") # changed by conditioners, judged by primation reference, written by precessive council members
@@ -1346,16 +1369,28 @@ class Space(models.Model):
 	legislative_members = models.ManyToManyField(Author, default=None, related_name="legislative_members")
 	legislative_level = models.IntegerField(default=0) # designates how many members there are to be max.
 	legislative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="legislative_votes") #who's been voted to be included in this group
+	legislative_blind = models.BooleanField(default=False)
+	legislative_conditionees_select_primate = models.BooleanField(default=False)
+	legislative_conditioners_select_external = models.BooleanField(default=False)
 	administrative_members = models.ManyToManyField(Author, default=None, related_name="administrative_members")
 	administrative_level = models.IntegerField(default=0)
 	administrative_votes = models.ManyToManyField(MemberVotes, default=None, related_name="administrative_votes")
+	administrative_blind = models.BooleanField(default=False)
+	administrative_conditionees_select_primate = models.BooleanField(default=False)
+	administrative_conditioners_select_external = models.BooleanField(default=False)
 	executive_members = models.ManyToManyField(Author, default=None, related_name="executive_members")
 	executive_level = models.IntegerField(default=0)
 	executive_votes = models.ManyToManyField(MemberVotes, default=None, related_name="executive_votes")
+	executive_blind = models.BooleanField(default=False)
+	executive_conditionees_select_primate = models.BooleanField(default=False)
+	executive_conditioners_select_external = models.BooleanField(default=False)
 	judiciary_members = models.ManyToManyField(Author, default=None, related_name="judiciary_members")
 	judiciary_level = models.IntegerField(default=0)
 	judiciary_votes = models.ManyToManyField(MemberVotes, default=None, related_name="judiciary_votes")
-
+	judiciary_blind = models.BooleanField(default=False)
+	judiciary_conditionees_select_primate = models.BooleanField(default=False)
+	judiciary_conditioners_select_external = models.BooleanField(default=False)
+	
 	legislation = models.ManyToManyField(Chapters, default=None, related_name="legislation")
 	legislating_terms = models.ManyToManyField(Terms, default=None, related_name="legislating")
 	administration = models.ManyToManyField(Chapters, default=None, related_name="administration")

@@ -3257,21 +3257,21 @@ def vote_for_executive(request, space_id, username):
 									max_count = count[usernames.index(user)]
 									max_user = user
 							if space.executive_votes.all().count() > space.executive_level:
-								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+								for i in range(space.space.executive_members.all().count(), space.executive_level):	
 									for user in usernames:
 										if count[usernames.index(user)] > max_count:
 											max_count = count[usernames.index(user)]
 											max_user = user
-									if space.administrative_members.all().count() < space.administrative_level:
-										space.executive_members.remove(max_user)
-										space.administrative_members.add(max_user)
+									if space.executive_members.all().count() < space.executive_level:
+										space.judiciary_members.remove(max_user)
+										space.executive_members.add(max_user)
 				else:
 					if loggedinauthor in space.approved_voters.all():
 						if author in space.approved_voters.all():
-							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							space.executive_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
 							usernames = []
 							count = []
-							for member in space.administrative_votes.all():
+							for member in space.executive_votes.all():
 								if usernames.index(member.vote_member) != -1:
 									count[usernames.index(member.vote_member)] += 1
 								else:
@@ -3284,13 +3284,13 @@ def vote_for_executive(request, space_id, username):
 									max_user = user
 							
 							if space.executive_votes.all().count() > space.executive_level:
-								for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+								for i in range(space.space.executive_members.all().count(), space.executive_level):	
 									for user in usernames:
 										if count[usernames.index(user)] > max_count:
 											max_count = count[usernames.index(user)]
 											max_user = user
-									if space.administrative_members.all().count() < space.administrative_level:
-										space.administrative_members.add(max_user)
+									if space.executive_members.all().count() < space.executive_level:
+										space.executive_votes.add(max_user)
 			else:
 				if space.author == loggedinauthor:
 					space.administrative_members.add(author)
@@ -3299,7 +3299,7 @@ def vote_for_executive(request, space_id, username):
 
 
 
-def vote_for_administrative(request, space_id, username):
+def vote_for_judiciary(request, space_id, username):
 	loggedinanon = Anon.objects.get(username=request.user)
 	loggedinauthor = Author.objects.get(username=request.user.username)
 
@@ -3309,12 +3309,12 @@ def vote_for_administrative(request, space_id, username):
 		if loggedinauthor in space.approved_voters.all():
 			if space.elected_administrative:
 				if space.progressive:
-					if loggedinauthor in space.executive_members.all():
-						if author in space.executive_members.all():
-							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+					if loggedinauthor in space.approved_voters.all():
+						if author in space.approved_voters.all():
+							space.judiciary_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
 							usernames = []
 							count = []
-							for member in space.administrative_votes.all():
+							for member in space.judiciary_votes.all():
 								if usernames.index(member.vote_member) != -1:
 									count[usernames.index(member.vote_member)] += 1
 								else:
@@ -3325,21 +3325,20 @@ def vote_for_administrative(request, space_id, username):
 								if count[usernames.index(user)] > max_count:
 									max_count = count[usernames.index(user)]
 									max_user = user
-							for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+							for i in range(space.judiciary_members.all().count(), space.judiciary_level):	
 								for user in usernames:
 									if count[usernames.index(user)] > max_count:
 										max_count = count[usernames.index(user)]
 										max_user = user
-								if space.administrative_members.all().count() < space.administrative_level:
-									space.executive_members.remove(max_user)
-									space.administrative_members.add(max_user)
+								if space.judiciary_members.all().count() < space.judiciary_level:
+									space.judiciary_members.add(max_user)
 				else:
 					if loggedinauthor in space.approved_voters.all():
 						if author in space.approved_voters.all():
-							space.administrative_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
+							space.judiciary_votes.add(MemberVote.objects.create(voter=loggedinauthor, space=space.to_source(), vote_type='legislative', vote_member=author))
 							usernames = []
 							count = []
-							for member in space.administrative_votes.all():
+							for member in space.judiciary_votes.all():
 								if usernames.index(member.vote_member) != -1:
 									count[usernames.index(member.vote_member)] += 1
 								else:
@@ -3350,16 +3349,17 @@ def vote_for_administrative(request, space_id, username):
 								if count[usernames.index(user)] > max_count:
 									max_count = count[usernames.index(user)]
 									max_user = user
-							for i in range(space.space.administrative_members.all().count(), space.administrative_level):	
+							for i in range(space.space.judiciary_members.all().count(), space.judiciary_level):	
 								for user in usernames:
 									if count[usernames.index(user)] > max_count:
 										max_count = count[usernames.index(user)]
 										max_user = user
-								if space.administrative_members.all().count() < space.administrative_level:
-									space.administrative_members.add(max_user)
+								if space.judiciary_members.all().count() < space.judiciary_level:
+									space.judiciary_members.add(max_user)
+
 			else:
 				if space.author == loggedinauthor:
-					space.administrative_members.add(author)
+					space.judiciary_members.add(author)
 
 	return base_redirect(request, 0)
 
