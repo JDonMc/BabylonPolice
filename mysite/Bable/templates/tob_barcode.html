@@ -95,6 +95,7 @@ check();
 <!-- Let's simply display the barcode data and have "Waiting..." as placeholder. -->
 <p id="barcode">Waiting...</p>
 <script>
+
 	//  WebAssembly polyfill for some browsers
 try { window['BarcodeDetector'].getSupportedFormats() } 
 catch { window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill }
@@ -103,10 +104,14 @@ catch { window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyf
 const barcodeDetector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
 
 // Get a stream for the rear camera, else the front (or side?) camera.
-document.querySelector('video').srcObject = await navigator.getUserMedia({ video: { facingMode: 'environment' } });
 
-// Let's scan barcodes forever
+async function check() {
+	// Let's scan barcodes forever
+document.querySelector('video').srcObject = await navigator.mediaDevices.getUserMedia({ video: true });
+var video = document.querySelector('video');
 while(true) {
+	const barcodeDetector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
+
     // Try to detect barcodes in the current video frame.
     var barcodes = await barcodeDetector.detect(video);
 
@@ -122,7 +127,7 @@ while(true) {
     // We expect a single barcode.
     // It's possible to compare X/Y coordinates to get the center-most one.
     // One can also do "preferred symbology" logic here.
-    document.getElemntById("barcode").innerText = barcodes[0].rawValue;
+    document.getElementById("barcode").innerText = barcodes[0].rawValue;
     
     // Notify user that a barcode has been found.
     navigator.vibrate(200);
@@ -130,6 +135,9 @@ while(true) {
     // Give the user time to find another product to scan
     await new Promise(r => setTimeout(r, 1000));
 }
+}
+check();
+
 </script>
 {% endblock %}
 
