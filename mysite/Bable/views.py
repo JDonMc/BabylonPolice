@@ -6717,6 +6717,12 @@ def drawing(request, author, name):
 
 
 def barcode(request):
+	registerform = UserCreationForm()
+	
+		
+	
+	loginform = AuthenticationForm()
+	
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
