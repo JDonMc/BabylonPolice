@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{{ users_post.title }} - {{ request.META.HTTP_HOST|stripwww }}
+{% endblock %}
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="{{ users_post.title }} - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	elements = document.getElementsByClassName("csrf");
+	for (var i=0;  i< elements.length; i++) {
+		elements[i].name = "csrfmiddlewaretoken";
+		elements[i].type = "hidden";
+		elements[i].value = "{{ csrf_token }}";
+	};})
+</script>
+
+{% endblock %}
+
+
+{% block authenticatedposts %}
+<script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.15/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@undecaf/barcode-detector-polyfill@0.9.20/dist/index.js"></script>
+
+<!-- Show the camera feed to help the user capture the barcode -->
+<video autoplay></video>
+
+<!-- Let's simply display the barcode data and have "Waiting..." as placeholder. -->
+<p id="barcode">Waiting...</p>
+<script>
+
+	//  WebAssembly polyfill for some browsers
+try { window['BarcodeDetector'].getSupportedFormats() } 
+catch { window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill }
+
+// Create a BarcodeDetector for simple retail operations.
+const barcodeDetector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
+
+// Get a stream for the rear camera, else the front (or side?) camera.
+
+async function check() {
+	// Let's scan barcodes forever
+document.querySelector('video').srcObject = await navigator.mediaDevices.getUserMedia({ video: true });
+var video = document.querySelector('video');
+while(true) {
+	const barcodeDetector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
+
+    // Try to detect barcodes in the current video frame.
+    var barcodes = await barcodeDetector.detect(video);
+
+    // Continue loop if no barcode was found.
+    if (barcodes.length == 0)
+    {
+        // Scan interval 50 ms like in other barcode scanner demos.
+        // The higher the interval the longer the battery lasts.
+        await new Promise(r => setTimeout(r, 50));
+        continue;
+    }
+
+    // We expect a single barcode.
+    // It's possible to compare X/Y coordinates to get the center-most one.
+    // One can also do "preferred symbology" logic here.
+    document.getElementById("barcode").innerText = barcodes[0].rawValue;
+    
+    // Notify user that a barcode has been found.
+    navigator.vibrate(200);
+
+    // Give the user time to find another product to scan
+    await new Promise(r => setTimeout(r, 1000));
+}
+}
+check();
+
+</script>
+
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.15/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@undecaf/barcode-detector-polyfill@0.9.20/dist/index.js"></script>
+
+<!-- Show the camera feed to help the user capture the barcode -->
+<video autoplay></video>
+
+<!-- Let's simply display the barcode data and have "Waiting..." as placeholder. -->
+<p id="barcode">Waiting...</p>
+<script>
+	//  WebAssembly polyfill for some browsers
+try { window['BarcodeDetector'].getSupportedFormats() } 
+catch { window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill }
+
+// Create a BarcodeDetector for simple retail operations.
+const barcodeDetector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e"] });
+
+// Get a stream for the rear camera, else the front (or side?) camera.
+document.querySelector('video').srcObject = await navigator.getUserMedia({ video: { facingMode: 'environment' } });
+
+// Let's scan barcodes forever
+while(true) {
+    // Try to detect barcodes in the current video frame.
+    var barcodes = await barcodeDetector.detect(video);
+
+    // Continue loop if no barcode was found.
+    if (barcodes.length == 0)
+    {
+        // Scan interval 50 ms like in other barcode scanner demos.
+        // The higher the interval the longer the battery lasts.
+        await new Promise(r => setTimeout(r, 50));
+        continue;
+    }
+
+    // We expect a single barcode.
+    // It's possible to compare X/Y coordinates to get the center-most one.
+    // One can also do "preferred symbology" logic here.
+    document.getElemntById("barcode").innerText = barcodes[0].rawValue;
+    
+    // Notify user that a barcode has been found.
+    navigator.vibrate(200);
+
+    // Give the user time to find another product to scan
+    await new Promise(r => setTimeout(r, 1000));
+}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+	function openCommentThread(starter, com) {
+		var element = document.getElementById(starter).getElementById(com);
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+
+	function comCollapse(node) {
+		var element = document.getElementById(node)
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+</script>
+{% endblock %}

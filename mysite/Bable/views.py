@@ -3111,19 +3111,19 @@ def kick_vote_for_member(request, space_id, author_username):
 
 
 @login_required
-def vote_on_edits_to_conditions(request, space_id, username):
+def vote_on_edits_to_conditions(request, space_id, term_id, username):
 	return base_redirect(request, 0)
 
 @login_required
-def vote_on_edits_to_conditioners(request, space_id, username):
+def vote_on_edits_to_conditioners(request, space_id, term_id, username):
 	return base_redirect(request, 0)
 
 @login_required
-def vote_on_edits_to_conditionees(request, space_id, username):
+def vote_on_edits_to_conditionees(request, space_id, term_id, username):
 	return base_redirect(request, 0)
 
 @login_required
-def vote_on_edits_to_primate(request, space_id, username):
+def vote_on_edits_to_primate(request, space_id, term_id, username):
 	return base_redirect(request, 0)
 
 
@@ -5217,7 +5217,7 @@ def tob_user_view(request, user, count=0):
 		file_form = FileForm()
 		email_form = EmailForm()
 		post_sort_form = PostSortForm(request)
-		
+
 
 		#dic_names = []
 		#for dic in loggedinanon.dictionaries.all: 
@@ -6678,17 +6678,82 @@ def checkout_ads(request):
 	# return JsonResponse({'data': checkout_session})
 	return JsonResponse({'sessionId': checkout_session.id})
 
+from svg_to_gcode.svg_parser import parse_file
+from svg_to_gcode.compiler import Compiler, interfaces
+
+from django.core.files.storage import default_storage
+
+@login_required
+def svg_to_gcode(request):
+	# Instantiate a compiler, specifying the interface type and the speed at which the tool should move. pass_depth controls
+	# how far down the tool moves after every pass. Set it to 0 if your machine does not support Z axis movement.
+	gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
+	if request.method == "POST":
+		file = request.FILES['svg_file']
+		default_storage.save("drawing.svg", file)
+		curves = parse_file("drawing.svg") # Parse an svg file into geometric curves
+
+		gcode_compiler.append_curves(curves) 
+		gcode_compiler.compile_to_file("drawing.gcode", passes=2)
+		g = open("drawing.gcode", "r")
+		return HttpResponse(g)
+	return base_redirect(request, 0)
+
+
+def drawing(request, author, name):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		dic_form = DictionaryForm()
+		space_form = SpaceForm(request)
+		post_form = PostForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+		return render(request, 'tob_drawing.html', { "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, })
+
+	return render(request, 'tob_drawing.html', {  "registerform": registerform,  "loginform": loginform})
+
+
+def barcode(request):
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+		dic_form = DictionaryForm()
+		space_form = SpaceForm(request)
+		post_form = PostForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+		return render(request, 'tob_barcode.html', { "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, })
+
+	return render(request, 'tob_barcode.html', {  "registerform": registerform,  "loginform": loginform})
+
+
 
 @csrf_exempt
 @login_required
-def create_checkout_session(request, price):
+def create_checkout_session(request, price, post_id, storefront_id):
 	loggedinuser = User.objects.get(username=request.user.username)
 	loggedinanon = Anon.objects.get(username=loggedinuser)
-	if price == 0:
-		if request.method == 'POST':
-			bread_form = BreadForm(request.POST)
-			if bread_form.is_valid():
-				price = bread_form.cleaned_data['amount']
+	if request.method == 'POST':
+		sale_form = SaleForm(request.POST)
+		if sale_form.is_valid():
+			sale = sale_form.save()
+			if int(post_id):
+				post = Post.objects.get(id=int(post_id))
+				post.sales.add(sale)
+				post.save()
+			if int(storefront_id):
+				storefront = Storefront.objects.get(id=int(storefront_id))
+				storefront.sales.add(sale)
+				storefront.save()
+			loggedinanon.sales.add(sale)
+			loggedinanon.save()
+
+
 
 	stripe.api_key = loggedinanon.stripe_private_key
 	checkout_session = stripe.checkout.Session.create(
@@ -6965,8 +7030,9 @@ def tob_users_dic(request, user, dictionary, count):
 			sentence_form = SentenceForm(users_dic)
 			# rendition_form = RenditionForm(users_dic) - needs to be for sentence view
 			analysis_form = AnalysisForm(users_dic)
+			storefront_form = StorefrontForm(users_dic)
 
-			the_response = render(request, "tob_users_dic.html", {"loggedinanon": loggedinanon, "user_anon": user_anon, "users_dic": users_dic, "dics_words": dics_words, "dic_owners_form": dic_owners_form, "dic_prereq_form": dic_prereq_form, "wordgroup_form": wordgroup_form, "sentence_form": sentence_form, "translation_form": translation_form, "analysis_form": analysis_form, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+			the_response = render(request, "tob_users_dic.html", {"loggedinanon": loggedinanon, "storefront_form": storefront_form, "user_anon": user_anon, "users_dic": users_dic, "dics_words": dics_words, "dic_owners_form": dic_owners_form, "dic_prereq_form": dic_prereq_form, "wordgroup_form": wordgroup_form, "sentence_form": sentence_form, "translation_form": translation_form, "analysis_form": analysis_form, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 		else:
 			the_response = render(request, "tob_users_dic.html", {"loggedinanon": loggedinanon, "user_anon": user_anon, "users_dic": users_dic, "dics_words": dics_words, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform})
@@ -6977,6 +7043,32 @@ def tob_users_dic(request, user, dictionary, count):
 	the_response.set_cookie('dictionary', dictionary)
 	the_response.set_cookie('count', count)
 	return the_response
+
+
+def storefront(request, author, storefront_title):
+	user_anon = Anon.objects.get(username=User.objects.get(username=author))
+	user_storefront = user_anon.storefronts.filter(title=storefront_title).first()
+	user_products = user_storefront.products.all()
+	editing = False
+	if request.user.username == author:
+		editing = True
+
+	sale_form = SaleForm()
+
+	the_response = render(request, "tob_storefront.html", {"editing": editing, "user_anon": user_anon, "user_storefront": user_storefront, "user_products": user_products})
+	the_response.set_cookie('current', 'tob_users_dic')
+	the_response.set_cookie('viewing_user', user)
+	the_response.set_cookie('dictionary', dictionary)
+	the_response.set_cookie('count', count)
+	return the_response
+
+
+
+@login_required
+def create_storefront(request):
+
+	return base_redirect(request, 0)
+
 
 @login_required
 def submit_dic_prereq(request):

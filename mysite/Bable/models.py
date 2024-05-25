@@ -1007,6 +1007,7 @@ PRODUCT_CHOICES = (
 
 class Sale(models.Model):
 	user = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
+	price_id = models.CharField(max_length=200, default="")
 	deliver_to_address = models.CharField(max_length=200, default="Digital Product")
 	deliver_to_instructions = models.CharField(max_length=1440, default="Leave By Postbox")
 	courier_select = models.ManyToManyField(Author, default=None, related_name="courier_select")
@@ -1162,6 +1163,7 @@ class Post(models.Model):
 
 	shuffle = models.IntegerField(default=0)
 	attention = models.IntegerField(default=99999999)
+	sales = models.ManyToManyField(Sale, default=None)
 
 	def __str__(self):
 		return self.title
@@ -1288,14 +1290,25 @@ class Dictionary_Loan(models.Model):
 	total_repayments = models.IntegerField(default=1)
 	dictionaries = models.ManyToManyField(Dictionary, default=None)
 
+class ConditionEdit(models.Model):
+	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh")
+	votes = models.ManyToManyField(Author, default=None)
+
+
+class ConditionalVote(models.Model):
+	votee = models.OneToOneField(Author, default=None, on_delete=models.PROTECT, related_name='conditional_votee')
+	votes = models.ManyToManyField(Author, default=None, related_name='conditional_votes')
 
 class Terms(models.Model):
 	chapter = models.CharField(max_length=160, default='')
 	conditionees_select_primate = models.BooleanField(default=False)
 	conditioners_select_external = models.BooleanField(default=False)
 	conditionees = models.ManyToManyField(Author, default=None, related_name="conditionees") # must stake primation fee to accept, under certain conditions, votes on edits to chapters, chosen by precessive council members
+	conditionee_votes = models.ManyToManyField(ConditionalVote, default=None, related_name="conditionee_votes")
 	conditioners = models.ManyToManyField(Author, default=None, related_name="conditioners") # votes on edits to conditions, includes precessive council members
+	conditioner_votes = models.ManyToManyField(ConditionalVote, default=None, related_name="conditioner_votes")
 	conditions = models.TextField(max_length=1666000, default="Pay Attention 3000 Pounds of Flesh") # changed by conditioners, judged by primation reference, written by precessive council members
+	condition_edits = models.ManyToManyField(ConditionEdit, default=None) # changed by conditioners, judged by primation reference, written by precessive council members
 	accostings = models.TextField(max_length=6660000, default="You've been accounted for as for the following") # written by terms council members
 	primation_fee = models.IntegerField(default=1000) # price up for grabs if you violate certain conditions as punishment (how much you have to keep in your account to pay if you lose your job)
 	delete = models.BooleanField(default=False)
@@ -1601,20 +1614,32 @@ class Loan(models.Model):
 
 
 class Storefront(models.Model):
+	author = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
 	logo = models.OneToOneField(Word, default=None, on_delete=models.PROTECT)
+	title = models.TextField(max_length=144, default="")
+	preview_text = models.TextField(max_length=1440, default="")
 	disclaimer = models.TextField(max_length=1440, default="")
 	image_1 = models.URLField(max_length=2000, default="")
 	image_2 = models.URLField(max_length=2000, default="")
 	image_3 = models.URLField(max_length=2000, default="")
 	image_4 = models.URLField(max_length=2000, default="")
 	image_5 = models.URLField(max_length=2000, default="")
+	template_section_size_1_1 = models.IntegerField(default=0)
+	template_section_size_1_2 = models.IntegerField(default=0)
+	template_section_size_1_3 = models.IntegerField(default=0)
+	template_section_size_2_1 = models.IntegerField(default=0)
+	template_section_size_2_2 = models.IntegerField(default=0)
+	template_section_size_2_3 = models.IntegerField(default=0)
+	template_section_size_3_1 = models.IntegerField(default=0)
+	template_section_size_3_2 = models.IntegerField(default=0)
+	template_section_size_3_3 = models.IntegerField(default=0)
 	textblock_1  = models.TextField(max_length=14400, default="")
 	textblock_2  = models.TextField(max_length=14400, default="")
 	textblock_3  = models.TextField(max_length=14400, default="")
 	textblock_4  = models.TextField(max_length=14400, default="")
 	products = models.ManyToManyField(Price, default=None)
 	sales = models.ManyToManyField(Sale, default=None)
-	business_admin = models.ManyToManyField(Author, default=None)
+	business_admin = models.ManyToManyField(Author, default=None, related_name="business_admin")
 
 
 class Availability(models.Model):
@@ -1644,7 +1669,7 @@ class QuadraticCurveTo(models.Model):
 	p1 = models.IntegerField(default=0)
 	p2 = models.IntegerField(default=0)
 	#context.quadraticCurveTo(x, y, p1, p2)
-
+#circle
 class ArcTo(models.Model):
 	x = models.IntegerField(default=0)
 	y = models.IntegerField(default=0)
@@ -1680,6 +1705,54 @@ class Movement(models.Model):
 class Path(models.Model):
 	movements = models.ManyToManyField(Movement, default=None)
 
+class Triangle(models.Model):
+	a = models.IntegerField(default=0)
+	b = models.IntegerField(default=0)
+	c = models.IntegerField(default=0)
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+	theta = models.FloatField(default=0)
+	fill_style = models.CharField(default='blue', max_length=14)
+
+#var ctx = canvas.getContext('2d');
+#ctx.beginPath();
+#ctx.moveTo(50, 100);
+#ctx.lineTo(100, 50);
+#ctx.lineTo(150, 100);
+#ctx.lineTo(50, 100);
+#ctx.fillStyle = "blue";
+#ctx.fill()
+
+
+class Star(models.Model):
+	x = models.IntegerField(default=0)
+	y = models.IntegerField(default=0)
+	r = models.IntegerField(default=0)
+	n = models.IntegerField(default=5)
+
+
+	'''function star(R, X, Y, N) {
+            ctx.beginPath();
+            ctx.moveTo(X + R, Y);
+            for (var i = 1; i <= N * 2; i++) {
+               if (i % 2 == 0) {
+                  var theta = i * (Math.PI * 2) / (N * 2);
+                  var x = X + (R * Math.cos(theta));
+                  var y = Y + (R * Math.sin(theta));
+               } else {
+                  var theta = i * (Math.PI * 2) / (N * 2);
+                  var x = X + ((R / 2) * Math.cos(theta));
+                  var y = Y + ((R / 2) * Math.sin(theta));
+               }
+               ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.fillStyle = "green";
+            ctx.stroke();
+         }
+'''
 
 
 class Rectangle(models.Model):
@@ -1702,6 +1775,7 @@ class Drawing(models.Model):
 class Anon(models.Model):
 	drawings = models.ManyToManyField(Drawing, default=None)
 	storefronts = models.ManyToManyField(Storefront, default=None)
+	saless = models.ManyToManyField(Sale, default=None)
 	products = models.ManyToManyField(Price, related_name="anon_product", default=None)
 	purchases = models.ManyToManyField(Price, related_name="anon_purchase", default=None)
 	stripe_private_key = models.CharField(max_length=600, default='', null=True)

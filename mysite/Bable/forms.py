@@ -13,6 +13,66 @@ class ClickthroughForm(forms.Form):
     sponsor_id = forms.CharField(required=True)
 
 
+class ArcToForm(forms.ModelForm):
+    class Meta:
+        model = ArcTo
+        fields = ("x", "y", "radius", "start_angle", "end_angle", "counter_clockwise",)
+    def __init__(self, *args, **kwargs):
+        super(ArcToForm, self).__init__(*args, **kwargs)
+
+class QuadraticCurveToForm(forms.ModelForm):
+    class Meta:
+        model = QuadraticCurveTo
+        fields = ("x", "y", "p1", "p2", )
+    def __init__(self, *args, **kwargs):
+        super(QuadraticCurveToForm, self).__init__(*args, **kwargs)
+        
+class BezierCurveToForm(forms.ModelForm):
+    class Meta:
+        model = BezierCurveTo
+        fields = ("x1", "y1", "x2", "y2", "x3", "y3",)
+    def __init__(self, *args, **kwargs):
+        super(BezierCurveToForm, self).__init__(*args, **kwargs)
+
+class MoveToForm(forms.ModelForm):
+    class Meta:
+        model = MoveTo
+        fields = ("x", "y", )
+    def __init__(self, *args, **kwargs):
+        super(MoveToForm, self).__init__(*args, **kwargs)
+
+class LineToForm(forms.ModelForm):
+    class Meta:
+        model = LineTo
+        fields = ("x", "y",)
+    def __init__(self, *args, **kwargs):
+        super(LineToForm, self).__init__(*args, **kwargs)
+
+class MovementForm(forms.ModelForm):
+    class Meta:
+        model = Movement
+        fields = ("move_to", "line_to", "quadratic_curve_to", "arc_to", "line_width", "stroke_style", "stroke", "fill_style", "fill", "order",)
+    def __init__(self, *args, **kwargs):
+        super(MovementForm, self).__init__(*args, **kwargs)
+
+class StorefrontForm(forms.ModelForm):
+    class Meta:
+        model = Storefront
+        fields = ("logo", "title", "preview_text", "disclaimer", "image_1", "image_2", "image_3", "image_4", "image_5", "template_section_size_1_1","template_section_size_1_2","template_section_size_1_3", "template_section_size_2_1", "template_section_size_2_2", "template_section_size_2_3", "template_section_size_3_1", "template_section_size_3_2", "template_section_size_3_3", "textblock_1","textblock_2","textblock_3","textblock_4",)
+    def __init__(self, dictionary, *args, **kwargs):
+        super(StorefrontForm, self).__init__(*args, **kwargs)
+        self.fields['logo'] = forms.ChoiceField(choices=[(e, e) for e in dictionary.words.all()]) 
+
+
+class SaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ("deliver_to_address", "deliver_to_instructions", "courier_select", "courier_order", "courier_fees", "courier_1_to_2_drop_location", "courier_2_to_3_drop_location", "courier_3_to_4_drop_location",  "courier_4_to_5_drop_location", "courier_5_to_6_drop_location","courier_6_to_7_drop_location",)
+    def __init__(self, *args, **kwargs):
+        super(Sale, self).__init__(*args, **kwargs)
+        self.fields['courier_select'] = forms.MultipleChoiceField(choices=[(e, e) for e in Author.objects.all()]) 
+
+
 class MembersSelectPrimationReference(forms.ModelForm):
     class Meta:
         model = Terms

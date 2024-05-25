@@ -7,19 +7,15 @@
 {% load i18n %}
 
 {% block title %}
-User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon Police
+{{ users_post.title }} - {{ request.META.HTTP_HOST|stripwww }}
 {% endblock %}
 
 
 {% block inserts %}
 <meta name="viewport" content="width=device-width">
-<meta name="description" content="User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Dream Cloud Middle Men">
+<meta property="og:description" content="{{ users_post.title }} - Babylon Police">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
-
-<link rel="stylesheet" href="{% static 'css/classa.education.css' %}">
-
-<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'canvas2svg.js' %}"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
 	elements = document.getElementsByClassName("csrf");
@@ -28,89 +24,39 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		elements[i].type = "hidden";
 		elements[i].value = "{{ csrf_token }}";
 	};})
+
+	var ctx = new C2S(500,500);
+
+	//draw your canvas like you would normally
+	ctx.fillStyle="red";
+	ctx.fillRect(100,100,100,100);
+	//etc...
+
+	//serialize your SVG
+	var mySerializedSVG = ctx.getSerializedSvg(); //true here, if you need to convert named to numbered entities.
+
+	//If you really need to you can access the shadow inline SVG created by calling:
+	var svg = ctx.getSvg();
+
+	document.getElementById("file").value = svg;
 </script>
+<form action="{% url 'Bable:svg_to_gcode' %}" method="post" enctype='multipart/form-data'>
+	<b>Convert to Gcode</b><br>
+	{% csrf_token %}
+	<input type="file" id="file" name="svg_file">
+	<button type="submit">Submit</button>
+</form>
 {% endblock %}
 
+
 {% block authenticatedposts %}
-<div class=usersusername>
-	<h2>
-	<a href="{% url 'Bable:tob_user_view_count' user_author.username 0 %}">User: {{ user_author.username }}</a>
-	</h2>
-</div>
-<div class=userspost>
+<div class=users_drawing>
 	{% if users_post %}
 		<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
 				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
-		<div class="row pt-5 pricing-table">
-            <div class="col-12 mx-auto">
-                <div class="card-deck pricing-table">
-
-			            {% for price in users_post.products.all %}
-
-                     <div class="card">
-			            <hr />
-			            
-			            <a href="{% url 'Bable:tob_product' price.id %}"><h3>{{ price.name }}</h3></a>
-			            {% if price.img %}
-			            <img src="{{ price.img }}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
-			            {% else %}
-			            <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
-			            {% endif %}
-			            <div>
-			                <h5>${{ price.get_display_price }} AUD {% if price.monthly %}per month{% endif %}</h5>
-			                <form action="{% url 'Bable:api_checkout_session' price.id users_post.id 0 %}" method="POST">
-			                    {% csrf_token %}
-			                    <div onclick="openComment('saleform')">
-			                    Address+
-			                	</div>
-			                	<div id=saleform>
-			                    {{ sale_form }}
-			                	</div>
-			                	<style>
-			                		#saleform {
-			                			display:none;
-			                		}
-			                	</style>
-			                    <button type="submit">Checkout</button>
-			                </form>
-			            </div>
-
-			        </div>
-			            {% endfor %}
-                </div>
-            </div>
-        </div>
-		{% if users_post.author.username == request.user.username %}
-		<form action="{% url 'Bable:create_product_w_price' users_post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
-
-		<div class="row pt-5 pricing-table">
-            <div class="col-12 mx-auto">
-                <div class="card-deck pricing-table">
-		{% for price in loggedinanon.products.all %}
-			            
-     <div class="card">
-        <hr />
-        
-        <a href="{% url 'Bable:tob_product' price.id %}"><h3>{{ price.name }}</h3></a>
-        <img src="{{ price.img }}" style="width: 200px; height: 200px; margin: auto; width: fit-content;">
-        <div>
-            <h5>${{ price.get_display_price }} AUD {% if price.monthly %}per month{% endif %}</h5>
-            <form action="{% url 'Bable:keyup-checkout-session' price.id users_post.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit">Add to post</button>
-            </form>
-        </div>
-
-    </div>
-        {% endfor %}
-    </div></div></div>
-		<div class=postdel>
-			<a href="{% url 'Bable:delete_own_post' users_post.author.username users_post.id %}">X</a>
-		</div>
-		{% endif %}
 		<style>
 			.block {
 			position:relative;
@@ -169,14 +115,16 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 			{% endif %}
         </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<div id=flashreadbody style="text-align: center;">
-			<p id=flashreadword>Click here to flash read.</p>
-			<div id=postbodyread style="display:none">
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
+			<div id=flashpostbody style="display:none;">
 				{{ users_post.body|safety_check }}
+			</div>
+			<p id=flashreadword>Click here to flash read.</p>
+			<div>
 			</div>
 			<script>
 				$("#flashreadbody").click(async () => {
-				  var posttext = $("#postbodyread").text();
+				  var posttext = $("#flashpostbody").text();
 				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
 				  for (var i = 0; i < postwords.length; i++) {
 				    console.log(postwords);
@@ -187,27 +135,23 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				});
 			</script>
 		</div>
-		<style type="text/css">
-			#postbody p {
-				display: inline;
-			}
-		</style>
 		{% if users_post.dictionaries.count %}
 		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
-			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
+			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|linebreaks }}
 		</div>
 		{% else %}
 		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
-			{{ users_post.body|safety_check|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
+			{{ users_post.body|safety_check|usernames|spaces|linebreaks }}
 		</div>
 		{% endif %}
-		<div id=speakpostbody>
+		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
+			
 			<script type="text/javascript">
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbodyread');
+		        const content = document.getElementById('flashpostbody');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);
@@ -232,51 +176,53 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		      };
 			</script>
 		</div>
-		<div class=postsponsors>
-			{% if users_post.sponsors.count %}
-
-				<form action="{% url 'Bable:clickthrough' %}" method=POST>
-							{% csrf_token %}
-							<input type=hidden value="{{ users_post.author.username }}" readonly>
-							<input type=hidden value="{{ users_post.max_sponsor.id }}" readonly>
-							<button type=submit>
-								<img src="{{ users_post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
-							</button>
-						</form>
-			{% else %}
-				<img src="{% static 'babylonpolice.com.gif' %}" style="height: 8em; width: 8em;">
-			{% endif %}
-		</div>
 		<div class=postviewers>
-			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.sum_has_viewed }}
+			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
+		</div>
+		<div class=postvoters>
+			Unique Voters: {{ users_post.has_voted.count }}
 		</div>
 		<div class=postcount>
-			<a class=yellow href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">Voters: {{ users_post.votes_uniques }}</a>
+			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+				Total Votes: {{ users_post.votes.count }}
+			</a>
 		</div>
 		<div class=postvotes>
 			Votes:
-			{% for vote in users_post.votes.all|slice:"10" %}
-			<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
-			{% if vote.url2 %}
-				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-					<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
-				</a>
-			{% else %}
-				<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
-					<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
-				</a>
-			{% endif %}
-			<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
 			{% endfor %}
+			
 		</div>
 		<div class=postchange>
 			Latest Change: {{ users_post.latest_change_date }}
 			Changes: {{ users_post.changes }}
 		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
+		</div>
 		<div class=postdictionaries>
 			Dictionaries: 
 			{% if users_post.dictionaries.count %}
-				{% for dic in users_post.dictionaries.all|slice:"5" %}
+				{% for dic in users_post.dictionaries.all %}
 					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
 				{% endfor %}
 			{% endif %}
@@ -284,7 +230,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<div class=postwords>
 			Words: 
 			{% if users_post.words.count %}
-				{% for word in users_post.words.all|slice:"20" %}
+				{% for word in users_post.words.all %}
 					<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
 				{% endfor %}
 			{% endif %}
@@ -297,7 +243,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				{% endfor %}
 			{% endif %}
 		</div>
-		<div class=postviews style="display: block;">
+		<div class=postviews>
 			Views: {{ users_post.viewcount }}
 		</div>
 		<div class=postcc>
@@ -312,7 +258,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		<div class=postcomments>
 			Comments: {{ users_post.comments.count }}
 			<div class=comsubmit>
-				<div id=postcomlist onclick="openComment('postcomlist')">
+				<div id=postcomlist onclick="openComment('postcomlist')" style="cursor: pointer;">
 					Newcom
 				</div>
 				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
@@ -345,7 +291,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 							<input type=hidden value="{{ node.author.username }}" readonly>
 							<input type=hidden value="{{ node.dictionaries.max_sponsor.id }}" readonly>
 							<button type=submit>
-								<img src="{{ post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+								<img src="{{ node.dictionaries.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
 							</button>
 						</form>
 							{% else %}
@@ -408,66 +354,31 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		This post is concealed by private dictionaries.
 	{% endif %}
 </div>
-<div class=pageno>
-	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
-</div>
-
-
 {% endblock %}
 
 {% block unauthenticated_posts %}
-<div class=usersusername>
-	<h2>
-	<a href="{% url 'Bable:tob_user_view_count' user_author.username 0 %}">User: {{ user_author.username }}</a>
-	</h2>
-</div>
 <div class=userspost>
 	<div class=post>
 		{% if users_post %}
-			<div class=posttitle style="display: block;">
+		<div class=posttitle style="display: block;">
 			<h3 style="display: block;">
 				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
 			</h3>
 		</div>
-		<div class="row pt-5 pricing-table">
-            <div class="col-12 mx-auto">
-                <div class="card-deck pricing-table">
-					{% for price in users_post.products.all %}
-					<div class="card">
-			            <hr />
-			            
-			            <a href="{% url 'Bable:tob_product' price.id %}"><h3>{{ price.name }}</h3></a>
-			            {% if price.img %}
-			            <img src="{{ price.img }}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
-			            {% else %}
-			            <img src="{% static 'babylonpolice.jpg' %}" style="width: 200px !important; max-height: 200px; margin: auto; width: fit-content;">
-			            {% endif %}
-			            <div>
-			                <h5>${{ price.get_display_price }} AUD {% if price.monthly %}per month{% endif %}</h5>
-			                <form action="{% url 'Bable:create-checkout-session' price.id %}" method="POST">
-			                    {% csrf_token %}
-			                    <button type="submit">Checkout</button>
-			                </form>
-			            </div>
-			        </div>
-			        {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div>
-        	{% if users_post.img %}
+		<div>
+			{% if users_post.img %}
         	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
 			{% endif %}
         </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<div id=flashreadbody style="text-align: center;">
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
 			<p id=flashreadword>Click here to flash read.</p>
-			<div id=postbodyread style="display:none">
-				{{ users_post.body|safety_check }}
+			<div id=flashpostbody style="display: none;">
+				{{ users_post.body|safety_check|safe|linebreaks }}
 			</div>
 			<script>
 				$("#flashreadbody").click(async () => {
-				  var posttext = $("#postbodyread").text();
+				  var posttext = $("#flashpostbody").text();
 				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
 				  for (var i = 0; i < postwords.length; i++) {
 				    console.log(postwords);
@@ -478,16 +389,17 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				});
 			</script>
 		</div>
-		<div id=postbody class=postbody style="display: inline-block; widdth: -webkit-fill-available;">
-			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
+		<div id=postbody class=postbody>
+			{{ users_post.body|fontypes:users_post.words.all|safety_check|safe|linebreaks }}
 		</div>
-		<div id=speakpostbody>
+		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
+			
 			<script type="text/javascript">
 
 				window.onload = () => {
 		        const button = document.getElementById('speakpostbody');
-		        const content = document.getElementById('postbodyread');
+		        const content = document.getElementById('flashpostbody');
 		        content.setAttribute('allow', 'fullscreen'); // must be 1st
 				content.setAttribute('allowFullScreen', '');
 				var msg = new SpeechSynthesisUtterance(content.innerText);
@@ -512,31 +424,46 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		      };
 			</script>
 		</div>
-		<div class=postsponsors>
-			{% if users_post.sponsors.count %}
-				<form action="{% url 'Bable:clickthrough' %}" method=POST>
-							{% csrf_token %}
-							<input type=hidden value="{{ users_post.author.username }}" readonly>
-							<input type=hidden value="{{ users_post.max_sponsor.id }}" readonly>
-							<button type=submit>
-								<img src="{{ users_post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
-							</button>
-						</form>
-						
-			{% else %}
-				<img src="{% static 'babylonpolice.com.gif' %}" style="height: 8em; width: 8em;">
-			{% endif %}
-		</div>
-		
 		<div class=postviewers>
 			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
 		</div>
+		<div class=postvoters>
+			Unique Voters: {{ users_post.has_voted.count }}
+		</div>
+		<div class=postcount>
+			Total Votes: {{ users_post.votes.count }}
+		</div>
 		<div class=postvotes>
-			Voters: {{ users_post.sum_has_voted }}
+			Votes:
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+			{% endfor %}
+			
 		</div>
 		<div class=postchange>
 			Latest Change: {{ users_post.latest_change_date }}
 			Changes: {{ users_post.changes }}
+		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
 		</div>
 		<div class=postdictionaries>
 			Dictionaries: 
@@ -562,17 +489,24 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 				{% endfor %}
 			{% endif %}
 		</div>
+		<div class=postviews>
+			Views: {{ users_post.viewcount }}
+		</div>
+		<div class=postcc>
+			CC:
+			<br/>
+			{% if users_post.cc %}
+			{{ users_post.cc|safe }}
+			{% else %}
+				No creative common's license
+			{% endif %}
+		</div>
 		<div class=postcomments>
 			Comments:
 			<div class=comsubmit>
-				<div id=postcomlist onclick="openComment('postcomlist')">
-					Newcom
+				<div id=postcomlist style="cursor: pointer;">
+					<button type=submit>Sign in/up to comment</button>
 				</div>
-				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
-					{% csrf_token %}
-					{{ comment_form }}
-					<button type=submit>what've I got to lose?</button>
-				</form>
 			</div>
 			{% if users_post.comments.count %}
 				{% recursetree users_post.comments.all %}
@@ -603,7 +537,6 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 								<img src="{{ node.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
 							</button>
 						</form>
-						
 							{% else %}
 								<a href="https://www.jackdonmclovin.com/"><img src="{% static 'jackdonmclovin.svg' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
 							{% endif %}
@@ -644,11 +577,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 		{% endif %}
 	</div>
 </div>
-<div class=pageno>
-	<a href="{% url 'Bable:tower_of_bable_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tower_of_bable_count' count100 %}">></a>
-</div>
 {% endblock %}
-
 
 {% block scripts %}
 <script>

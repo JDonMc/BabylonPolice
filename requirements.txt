@@ -97,6 +97,7 @@ six==1.16.0
 soupsieve==1.6.2
 sqlparse==0.4.4
 stripe==3.4.0
+svg-to-gcode==1.5.4
 tenacity==8.1.0
 termcolor==1.1.0
 toolz==0.12.0
