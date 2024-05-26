@@ -146,7 +146,15 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 					</form>
 				</div>
 				<div class=create-storefront>
-					<form action="{% url 'Bable:create_storefront' %}" method=post>
+					<div onclick="openComment('storefront_form')">
+                    Create Storefront+
+                	</div>
+                	<style>
+                		#storefront_form {
+                			display:none;
+                		}
+                	</style>
+					<form id=storefront_form action="{% url 'Bable:create_storefront' %}" method=post>
 						{% csrf_token %}
 						{{ storefront_form }}
 						<button type=submit>Add StoreFront</button>
@@ -775,4 +783,22 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 		{% endif %}
 	</div>
 
+{% endblock %}
+
+
+
+
+
+
+{% block scripts %}
+<script>
+	function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+</script>
 {% endblock %}

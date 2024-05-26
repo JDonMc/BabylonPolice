@@ -54,14 +54,14 @@ User: {{ user_anon.username.username }} - Babylon Police
 		<div class=userself>
 
 			<div class=monerowalletform>
-			<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
-		</div>
+				<form action="{% url 'Bable:submit_wallet' 0 %}" method='POST'>{% csrf_token %}{{ wallet_form }}<button type="submit">Submit </button></form>
+			</div>
 
 			<div class=userbalance>
 				Balance: {{ user_anon.false_wallet }} purchase more (1000 = $1): (amounts in USD) 
 				<form action="{% url 'Bable:home_view' %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Coinbase</button></form>
 				<form action="{% url 'Bable:buy_bread' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Paypal</button></form>
-				<form action="{% url 'Bable:api_checkout_session' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Card</button></form>
+				<form action="{% url 'Bable:api_checkout_bread_session' 0 %}" method='POST'>{% csrf_token %}{{ bread_form }}<button type="submit">Pay For It with Card</button></form>
 				(Card requires email)
 				<form action="{% url 'Bable:submit_email' %}" method='POST'>{% csrf_token %}{{ email_form }}<button type="submit">Submit Email</button></form>
 			</div>
@@ -109,7 +109,7 @@ User: {{ user_anon.username.username }} - Babylon Police
 				</div>
 				{% endfor %}
 			{% endif %}
-		</div>
+			</div>
 			<div class=titlesentmessages>
 				<h3>Sent Messages:</h3>
 			</div>
@@ -428,8 +428,28 @@ User: {{ user_anon.username.username }} - Babylon Police
 				</div>
 			{% endif %}
 
+		<div id=storefronts>
+			<h3>Storefronts:</h3>
+			{% for storefront in user_anon.storefronts.all %}
+			<div class=storefront>
+				<div class=storefront_title>
+					<a href="{% url 'Bable:storefront' user_anon.user.username storefront.title %}">{{ storefront.title }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 		</div>
 	{% else %}
+		<div id=storefronts>
+			<h3>Storefronts:</h3>
+			{% for storefront in user_anon.storefronts.all %}
+			<div class=storefront>
+				<div class=storefront_title>
+					<a href="{% url 'Bable:storefront' user_anon.user.username storefront.title %}">{{ storefront.title }}</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 		<div class=userother>
 			<div class=sendmessage>
 				Send Message:

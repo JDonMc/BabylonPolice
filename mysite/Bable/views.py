@@ -6741,7 +6741,7 @@ def barcode(request):
 
 @csrf_exempt
 @login_required
-def create_checkout_session(request, price, post_id, storefront_id):
+def create_checkout_session(request, price_id, post_id, storefront_id):
 	loggedinuser = User.objects.get(username=request.user.username)
 	loggedinanon = Anon.objects.get(username=loggedinuser)
 	if request.method == 'POST':
@@ -6758,6 +6758,60 @@ def create_checkout_session(request, price, post_id, storefront_id):
 				storefront.save()
 			loggedinanon.sales.add(sale)
 			loggedinanon.save()
+			if int(price_id):
+				price = Price.objects.get(id=int(price_id))
+				price.user = Author.objects.get(username=request.user.username)
+				price.point_of_sale.add(sale)
+				price.save()
+
+
+
+			stripe.api_key = loggedinanon.stripe_private_key
+			checkout_session = stripe.checkout.Session.create(
+			    # Customer Email is optional,
+			    # It is not safe to accept email directly from the client side
+				customer_email = loggedinanon.email,
+				payment_method_types=['card'],
+				line_items=[
+					{
+						'price_data': {
+						'currency': 'usd',
+						'product_data': {
+						'name': "Bread",
+					},
+						'unit_amount': price.price,
+					},
+						'quantity': 1,
+					}
+				],
+				mode='payment',
+				success_url=request.build_absolute_uri(
+					base_redirect(request, 'success')
+				) + "?session_id={CHECKOUT_SESSION_ID}",
+				cancel_url=request.build_absolute_uri(base_redirect(request, 'cancelled')),
+			)
+
+			# OrderDetail.objects.create(
+			#     customer_email=email,
+			#     product=product, ......
+			# )
+			Invoice.objects.create(amount=int(price), item_name="Bread", author=Author.objects.get(username=request.user.username), success=True)
+
+			# return JsonResponse({'data': checkout_session})
+			return JsonResponse({'sessionId': checkout_session.id})
+	return base_redirect(request, 0)
+
+@csrf_exempt
+@login_required
+def create_checkout_bread_session(request, price):
+	loggedinuser = User.objects.get(username=request.user.username)
+	loggedinanon = Anon.objects.get(username=loggedinuser)
+	if request.method == 'POST':
+		if int(price) == 0:
+			bread_form = BreadForm(request.POST)
+			if bread_form.is_valid():
+				price = bread_form.cleaned_data['amount']
+
 
 
 
@@ -7072,6 +7126,14 @@ def storefront(request, author, storefront_title):
 
 @login_required
 def create_storefront(request):
+	if request.method == "POST":
+		storefront_form = StorefrontForm(request.POST)
+		if storefront_form.is_valid():
+			storefront = storefront_form.save()
+			loggedinanon = Anon.objects.get(username=request.user)
+			loggedinanon.storefronts.add(storefront)
+			return redirect("Bable:storefront", request.user.username, storefront.title)
+
 
 	return base_redirect(request, 0)
 
