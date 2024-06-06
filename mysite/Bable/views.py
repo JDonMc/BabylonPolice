@@ -9248,15 +9248,15 @@ def tob_dics(request):
 		dic_sort_form = DicSortForm(request)
 		word_sort_form = WordSortForm(request)
 		if loggedinanon.dictionary_sort_char == "0":
-			loggedinanon.dictionary_sort_char = "views"
+			loggedinanon.dictionary_sort_char = "-views"
 			loggedinanon.save()
 
-		dics = Dictionary.objects.order_by(loggedinanon.dictionary_sort_char)[:25]
+		dics = Dictionary.objects.all().order_by(loggedinanon.dictionary_sort_char)[:25]
 		the_response = render(request, "tob_dics.html", {"word_sort_form": word_sort_form, "dic_sort_form": dic_sort_form, "loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 		the_response.set_cookie('current', 'tob_dics')
 		return the_response
-	dics = Dictionary.objects.order_by('-latest_change_date')[:25]
+	dics = Dictionary.objects.all().order_by('-latest_change_date')[:25]
 	the_response = render(request, "tob_dics.html", {"dics": dics, "registerform": registerform,  "loginform": loginform})
 	the_response.set_cookie('current', 'tob_dics')
 	return the_response
