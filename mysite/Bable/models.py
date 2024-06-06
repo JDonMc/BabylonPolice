@@ -847,8 +847,8 @@ DICTIONARY_SORT_CHOICES = (
 DICTIONARY_SORT_CHOICES_CHAR = (
 	("-latest_change_date", "Most Recent Change"),
 	("latest_change_date", "Least Recent Change"),
-	("-views", "Most Viewed"),
-	("views", "Least Viewed"),
+	("-viewcount", "Most Viewed"),
+	("viewcount", "Least Viewed"),
 	("-price", "Most Expensive"),
 	("price", "Least Expensive"),
 	("-creation_date", "Oldest"),
