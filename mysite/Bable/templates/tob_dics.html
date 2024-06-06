@@ -24,14 +24,14 @@ Dics - Babylon Police
 	</h3>
 </div>
 <div class=possectionsort>
-	<form name=dic_sort action="{% url 'Bable:change_dic_sort_char' %}" method=post>
+	<form name=dic_sort action="{% url 'Bable:change_dic_sort_char' %}" method=POST>
 		{% csrf_token %}
 		{{ dic_sort_form }}
 	</form>
 	<script>
-		var form = document.querySelector('form[name="dic_sort"]');
-		form.addEventListener('change', function() {
-		    form.submit();
+		var form1 = document.querySelector('form[name="dic_sort"]');
+		form1.addEventListener('change', function() {
+		    form1.submit();
 		});
 	</script>
 </div>

@@ -1919,6 +1919,11 @@ def base_redirect(request, error):
 		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], dictionary=request.COOKIES['dictionary'], count=count)
 		response.set_cookie('error', error)
 		return response
+	elif request.COOKIES['current'] == ('tob_dics'):
+		count = 0
+		response = redirect("Bable:"+request.COOKIES['current'])
+		response.set_cookie('error', error)
+		return response
 	elif request.COOKIES['current'] == ('tob_users_dic_word_count'):
 		response = redirect("Bable:"+request.COOKIES['current'], user=request.COOKIES['viewing_user'], dictionary=request.COOKIES['dictionary'], word=request.COOKIES['word'], count=request.COOKIES['count'])
 		response.set_cookie('error', error)
@@ -9247,10 +9252,7 @@ def tob_dics(request):
 
 		dic_sort_form = DicSortForm(request)
 		word_sort_form = WordSortForm(request)
-		if loggedinanon.dictionary_sort_char == "0":
-			loggedinanon.dictionary_sort_char = "-views"
-			loggedinanon.save()
-
+		
 		dics = Dictionary.objects.all().order_by(loggedinanon.dictionary_sort_char)[:25]
 		the_response = render(request, "tob_dics.html", {"word_sort_form": word_sort_form, "dic_sort_form": dic_sort_form, "loggedinanon": loggedinanon, "dics": dics, "dic_form": dic_form, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
