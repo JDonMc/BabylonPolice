@@ -770,7 +770,7 @@ class Price(models.Model):
     price = models.IntegerField(default=0)  # cents
 
     monthly = models.BooleanField(default=False)
-    #comments = models.ManyToManyField(Comment_Source, default=None)
+    comments = models.ManyToManyField(Comment_Source, default=None)
     sum_comments = models.IntegerField(default=0)
     invoices = models.ManyToManyField(Invoice, default=None)
     sum_invoices = models.IntegerField(default=0)
