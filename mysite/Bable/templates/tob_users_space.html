@@ -190,6 +190,14 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 				
 			</div>
 			{% endfor %}
+			<div class=storefronts>
+				<h4>Storefronts</h4>
+				{% for storefront in users_space.storefronts.all %}
+					<div class=storefront>
+						<a href="{% url 'Bable:storefront' users_space.author.username storefront.logo.home_dictionary.to_full.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
+					</div>
+				{% endfor %}
+			</div>
 		{% else %}
 			<div class=post>
 				This user either has not marked their post, or you can't smell what's under your nose, iykwim.

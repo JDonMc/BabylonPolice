@@ -853,6 +853,7 @@ class Dictionary(models.Model):
 	dictionary_source = models.CharField(max_length=400, default='')
 
 	word_loans = models.ManyToManyField(Word_Loan, default=None)
+	storefronts = models.ManyToManyField(Storefront, default=None)
 	dictionary_wallet = models.IntegerField(default=0)
 	
 	class Meta:

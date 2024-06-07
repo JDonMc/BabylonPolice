@@ -569,6 +569,14 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 			</div>
 		{% endif %}
 	</div>
+	<div class=storefronts>
+		<h4>Storefronts</h4>
+		{% for storefront in users_dic.storefronts.all %}
+			<div class=storefront>
+				<a href="{% url 'Bable:storefront' users_dic.author.username users_dic.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}
 
 {% block unauthenticated_posts %}
