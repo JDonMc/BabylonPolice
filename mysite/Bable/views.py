@@ -7110,23 +7110,38 @@ def tob_users_dic(request, user, dictionary, count):
 	return the_response
 
 
-def storefront(request, author, storefront_title):
+def storefront(request, author, dictionary_id, storefront_title):
 	user_anon = Anon.objects.get(username=User.objects.get(username=author))
 	user_storefront = user_anon.storefronts.filter(title=storefront_title).first()
 	user_products = user_storefront.products.all()
+	user_dic = user_anon.purchased_dictionaries.filter(id=int(dictionary_id))
 	editing = False
 	if request.user.username == author:
 		editing = True
 
 	sale_form = SaleForm()
-
+	storefront_form = StorefrontForm(user_dic, instance=user_storefront)
 	the_response = render(request, "tob_storefront.html", {"editing": editing, "user_anon": user_anon, "user_storefront": user_storefront, "user_products": user_products})
-	the_response.set_cookie('current', 'tob_users_dic')
-	the_response.set_cookie('viewing_user', user)
-	the_response.set_cookie('dictionary', dictionary)
-	the_response.set_cookie('count', count)
+	the_response.set_cookie('current', 'storefront')
+	the_response.set_cookie('viewing_user', request.user)
+	the_response.set_cookie('dictionary', user_dic)
 	return the_response
 
+def checkout(request, author, dictionary_id, storefront_title):
+	user_anon = Anon.objects.get(username=User.objects.get(username=author))
+	user_storefront = user_anon.storefronts.filter(title=storefront_title).first()
+	user_products = user_storefront.products.all()
+	user_dic = user_anon.purchased_dictionaries.filter(id=int(dictionary_id))
+	editing = False
+	if request.user.username == author:
+		editing = True
+	purchasing_form = PurchasingForm(instance=user_storefront)
+	sale_form = SaleForm()
+	the_response = render(request, "tob_checkout.html", {"purchasing_form": purchasing_form, "editing": editing, "user_anon": user_anon, "user_storefront": user_storefront, "user_products": user_products})
+	the_response.set_cookie('current', 'checkout')
+	the_response.set_cookie('viewing_user', request.user)
+	the_response.set_cookie('dictionary', user_dic)
+	return the_response
 
 
 @login_required

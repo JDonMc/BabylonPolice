@@ -104,21 +104,26 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 				{% endfor %}
 				Voting Live:
 				{% if loggedinauthor in users_space.approved_voters.all %}
-					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id %}">
+				{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_legislative_form }}
+						/u/{{ author.username }}
+						<button type=submit>Vote</button>
 					</form>
+				{% endfor %}
 				{% endif %}
 			{% else %}
 				{% for author in users_space.legislative_members.all %}
 					The Chosen {{ author.username }}, 
 				{% endfor %}
 				{% if loggedinauthor == users_space.author %}
-					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id %}">
+					{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_legislative' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_legislative_form }}
-						<button type=submit>Submit</button>
+						{{ author.username }}
+						<button type=submit>Elect</button>
 					</form>
+					{% endfor %}
 				{% endif %}
 			{% endif %}
 			<br/>
@@ -129,21 +134,25 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 				{% endfor %}
 				Voting Live:
 				{% if loggedinauthor in users_space.approved_voters.all %}
-					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id %}">
+				{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_administrative_form }}
+						{{ author.username }}<button type=submit>Vote</button>
 					</form>
+				{% endfor %}
 				{% endif %}
 			{% else %}
 				{% for author in users_space.administrative_members.all %}
 					The Chosen {{ author.username }}, 
 				{% endfor %}
 				{% if loggedinauthor == users_space.author %}
-					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id %}">
+				{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_administrative' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_administrative_form }}
-						<button type=submit>Submit</button>
+						{{ author.username }}
+						<button type=submit>Vote</button>
 					</form>
+				{% endfor %}
 				{% endif %}
 			{% endif %}
 			<br/>
@@ -154,21 +163,26 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 				{% endfor %}
 				Voting Live:
 				{% if loggedinauthor in users_space.approved_voters.all %}
-					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id %}">
+				{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_executive_form }}
+						{{ author.username }}
+						<button type=submit>Vote</button>
 					</form>
+				{% endfor %}
 				{% endif %}
 			{% else %}
 				{% for author in users_space.executive_members.all %}
 					The Primary Appointed {{ author.username }}, 
 				{% endfor %}
 				{% if loggedinauthor == users_space.author %}
-					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id %}">
+					{% for author in users_space.approved_voters.all %}
+					<form method=post action="{% url 'Bable:vote_for_executive' users_space.id author.username %}">
 						{% csrf_token %}
-						{{ vote_for_executive_form }}
-						<button type=submit>Submit</button>
+						{{ author.username }}
+						<button type=submit>Vote</button>
 					</form>
+					{% endfor %}
 				{% endif %}
 			{% endif %}
 			<br/>
@@ -192,7 +206,8 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 					{% for author in users_space.approved_voters.all %}
 					<form method=post action="{% url 'Bable:vote_for_judiciary' users_space.id author.username %}">
 						{% csrf_token %}
-						<button type=submit>{{ author.username }}</button>
+						{{ author.username }}
+						<button type=submit>Vote</button>
 					</form>
 					{% endfor %}
 				{% endif %}
@@ -202,7 +217,7 @@ Space: {{ users_space.the_space_itself.the_word_itself }} from User: {{ user_ano
 		<div class=unelected>
 			Unelected:
 			{% for author in users_space.approved_voters.all %}
-			{{ author.username }}: <form action='{% url "Bable:kick_vote_for_member" users_space.id author.username %}' method=post>{% csrf_token %}<button type=submit>Kick</button></form> <form action='{% url "Bable:vote_for_member" users_space.id author.username %}' method=post>{% csrf_token %}<button type=submit>Elevate</button></form>
+			{{ author.username }}: <form action='{% url "Bable:kick_vote_for_member" users_space.id author.username %}' method=post>{% csrf_token %}{{ author.username }}<button type=submit>Kick</button></form>
 			{% endfor %}
 		</div>
 		<div class=space_price style="padding-left: 2px; border-left: solid 1px;">

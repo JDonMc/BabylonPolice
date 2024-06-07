@@ -712,6 +712,107 @@ class Word_Loan(models.Model):
 	total_repayments = models.IntegerField(default=1)
 	words = models.ManyToManyField(Word, default=None)
 
+
+PRODUCT_CHOICES = (
+
+	("unspecified", "Unspecified"),
+	("package_post", "Posted Package"),
+	("package_courier", "Courier Routes Package"),
+	("package_direct", "Choose A Courier"),
+	("package_pick_up", "Pick Up Yourself (with a pick-up)"),
+	("package_collect", "Collect Yourself (by hand)"),
+	("link", "Collect Links"),
+	("poem", "Just Words"),
+	("tickets", "Event Tickets"),
+	("classes", "Classes"),
+	("class_material", "Class Material"),
+	("other", "Other Deal"),
+)
+ 
+
+class Sale(models.Model):
+	user = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
+	price_id = models.CharField(max_length=200, default="")
+	deliver_to_address = models.CharField(max_length=200, default="Digital Product")
+	deliver_to_instructions = models.CharField(max_length=1440, default="Leave By Postbox")
+	courier_select = models.ManyToManyField(Author, default=None, related_name="courier_select")
+	courier_order = models.CharField(max_length=1440, default="")
+	courier_fees = models.CharField(max_length=1440, default="1")
+	courier_1_to_2_drop_location = models.CharField(max_length=1440, default="")#manufacturer
+	courier_2_to_3_drop_location = models.CharField(max_length=1440, default="")#supplier
+	courier_3_to_4_drop_location = models.CharField(max_length=1440, default="")#distributer
+	courier_4_to_5_drop_location = models.CharField(max_length=1440, default="")#dealer
+	courier_5_to_6_drop_location = models.CharField(max_length=1440, default="")#runner
+	courier_6_to_7_drop_location = models.CharField(max_length=1440, default="")#pusher
+	courier_1_to_2_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_1_to_2_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_2_to_3_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_2_to_3_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_3_to_4_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_3_to_4_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_4_to_5_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_4_to_5_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_5_to_6_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_5_to_6_drop_update = models.CharField(max_length=1440, default="")#pusher
+	courier_6_to_7_drop_eta = models.CharField(max_length=1440, default="")#pusher
+	courier_6_to_7_drop_update = models.CharField(max_length=1440, default="")#pusher
+	
+
+class Price(models.Model):
+    name = models.CharField(max_length=200, default='')
+    anon_user_id = models.CharField(max_length=256, default='')
+    url2purchase = models.URLField(max_length=2000, blank=True, default='')
+    description2purchase = models.TextField(max_length=144000, default='')
+    description2helpsell = models.TextField(max_length=144000, default='')
+    img = models.URLField(max_length=2000, blank=True, default='')
+    stripe_price_id = models.CharField(max_length=100, default='')
+    stripe_product_id = models.CharField(max_length=100, default='')
+    price = models.IntegerField(default=0)  # cents
+
+    monthly = models.BooleanField(default=False)
+    comments = models.ManyToManyField(Comment_Source, default=None)
+    sum_comments = models.IntegerField(default=0)
+    invoices = models.ManyToManyField(Invoice, default=None)
+    sum_invoices = models.IntegerField(default=0)
+
+    location_of_product = models.CharField(max_length=200, default='Remote')
+    point_of_sale = models.ManyToManyField(Sale, default=None)
+
+    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
+    
+    def get_display_price(self):
+        return "{0:.2f}".format(self.price / 100)
+
+class Storefront(models.Model):
+	author = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
+	logo = models.OneToOneField(Word, default=None, on_delete=models.PROTECT)
+	title = models.TextField(max_length=144, default="")
+	preview_text = models.TextField(max_length=1440, default="")
+	disclaimer = models.TextField(max_length=1440, default="")
+	image_1 = models.URLField(max_length=2000, default="")
+	image_2 = models.URLField(max_length=2000, default="")
+	image_3 = models.URLField(max_length=2000, default="")
+	image_4 = models.URLField(max_length=2000, default="")
+	image_5 = models.URLField(max_length=2000, default="")
+	template_section_size_1_1 = models.IntegerField(default=0)
+	template_section_size_1_2 = models.IntegerField(default=0)
+	template_section_size_1_3 = models.IntegerField(default=0)
+	template_section_size_2_1 = models.IntegerField(default=0)
+	template_section_size_2_2 = models.IntegerField(default=0)
+	template_section_size_2_3 = models.IntegerField(default=0)
+	template_section_size_3_1 = models.IntegerField(default=0)
+	template_section_size_3_2 = models.IntegerField(default=0)
+	template_section_size_3_3 = models.IntegerField(default=0)
+	textblock_1  = models.TextField(max_length=14400, default="")
+	textblock_2  = models.TextField(max_length=14400, default="")
+	textblock_3  = models.TextField(max_length=14400, default="")
+	textblock_4  = models.TextField(max_length=14400, default="")
+	products = models.ManyToManyField(Price, default=None)
+	sales = models.ManyToManyField(Sale, default=None)
+	business_admin = models.ManyToManyField(Author, default=None, related_name="business_admin")
+
+
+
 class Dictionary(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, related_name='dicauthor')
 	public = models.BooleanField(default=False)
@@ -988,75 +1089,8 @@ class Edit(models.Model):
 	post_source = models.ForeignKey(PostSource, on_delete=models.PROTECT, default=None)
 
 
-PRODUCT_CHOICES = (
 
-	("unspecified", "Unspecified"),
-	("package_post", "Posted Package"),
-	("package_courier", "Courier Routes Package"),
-	("package_direct", "Choose A Courier"),
-	("package_pick_up", "Pick Up Yourself (with a pick-up)"),
-	("package_collect", "Collect Yourself (by hand)"),
-	("link", "Collect Links"),
-	("poem", "Just Words"),
-	("tickets", "Event Tickets"),
-	("classes", "Classes"),
-	("class_material", "Class Material"),
-	("other", "Other Deal"),
-)
- 
 
-class Sale(models.Model):
-	user = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
-	price_id = models.CharField(max_length=200, default="")
-	deliver_to_address = models.CharField(max_length=200, default="Digital Product")
-	deliver_to_instructions = models.CharField(max_length=1440, default="Leave By Postbox")
-	courier_select = models.ManyToManyField(Author, default=None, related_name="courier_select")
-	courier_order = models.CharField(max_length=1440, default="")
-	courier_fees = models.CharField(max_length=1440, default="1")
-	courier_1_to_2_drop_location = models.CharField(max_length=1440, default="")#manufacturer
-	courier_2_to_3_drop_location = models.CharField(max_length=1440, default="")#supplier
-	courier_3_to_4_drop_location = models.CharField(max_length=1440, default="")#distributer
-	courier_4_to_5_drop_location = models.CharField(max_length=1440, default="")#dealer
-	courier_5_to_6_drop_location = models.CharField(max_length=1440, default="")#runner
-	courier_6_to_7_drop_location = models.CharField(max_length=1440, default="")#pusher
-	courier_1_to_2_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_1_to_2_drop_update = models.CharField(max_length=1440, default="")#pusher
-	courier_2_to_3_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_2_to_3_drop_update = models.CharField(max_length=1440, default="")#pusher
-	courier_3_to_4_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_3_to_4_drop_update = models.CharField(max_length=1440, default="")#pusher
-	courier_4_to_5_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_4_to_5_drop_update = models.CharField(max_length=1440, default="")#pusher
-	courier_5_to_6_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_5_to_6_drop_update = models.CharField(max_length=1440, default="")#pusher
-	courier_6_to_7_drop_eta = models.CharField(max_length=1440, default="")#pusher
-	courier_6_to_7_drop_update = models.CharField(max_length=1440, default="")#pusher
-	
-
-class Price(models.Model):
-    name = models.CharField(max_length=200, default='')
-    anon_user_id = models.CharField(max_length=256, default='')
-    url2purchase = models.URLField(max_length=2000, blank=True, default='')
-    description2purchase = models.TextField(max_length=144000, default='')
-    description2helpsell = models.TextField(max_length=144000, default='')
-    img = models.URLField(max_length=2000, blank=True, default='')
-    stripe_price_id = models.CharField(max_length=100, default='')
-    stripe_product_id = models.CharField(max_length=100, default='')
-    price = models.IntegerField(default=0)  # cents
-
-    monthly = models.BooleanField(default=False)
-    comments = models.ManyToManyField(Comment, default=None)
-    sum_comments = models.IntegerField(default=0)
-    invoices = models.ManyToManyField(Invoice, default=None)
-    sum_invoices = models.IntegerField(default=0)
-
-    location_of_product = models.CharField(max_length=200, default='Remote')
-    point_of_sale = models.ManyToManyField(Sale, default=None)
-
-    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
-    
-    def get_display_price(self):
-        return "{0:.2f}".format(self.price / 100)
 
 class CommentLocations(models.Model):
 	comments = models.ManyToManyField(Comment, default=None)
@@ -1613,33 +1647,6 @@ class Loan(models.Model):
 	spaces = models.ManyToManyField(Space, default=None)
 
 
-class Storefront(models.Model):
-	author = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)
-	logo = models.OneToOneField(Word, default=None, on_delete=models.PROTECT)
-	title = models.TextField(max_length=144, default="")
-	preview_text = models.TextField(max_length=1440, default="")
-	disclaimer = models.TextField(max_length=1440, default="")
-	image_1 = models.URLField(max_length=2000, default="")
-	image_2 = models.URLField(max_length=2000, default="")
-	image_3 = models.URLField(max_length=2000, default="")
-	image_4 = models.URLField(max_length=2000, default="")
-	image_5 = models.URLField(max_length=2000, default="")
-	template_section_size_1_1 = models.IntegerField(default=0)
-	template_section_size_1_2 = models.IntegerField(default=0)
-	template_section_size_1_3 = models.IntegerField(default=0)
-	template_section_size_2_1 = models.IntegerField(default=0)
-	template_section_size_2_2 = models.IntegerField(default=0)
-	template_section_size_2_3 = models.IntegerField(default=0)
-	template_section_size_3_1 = models.IntegerField(default=0)
-	template_section_size_3_2 = models.IntegerField(default=0)
-	template_section_size_3_3 = models.IntegerField(default=0)
-	textblock_1  = models.TextField(max_length=14400, default="")
-	textblock_2  = models.TextField(max_length=14400, default="")
-	textblock_3  = models.TextField(max_length=14400, default="")
-	textblock_4  = models.TextField(max_length=14400, default="")
-	products = models.ManyToManyField(Price, default=None)
-	sales = models.ManyToManyField(Sale, default=None)
-	business_admin = models.ManyToManyField(Author, default=None, related_name="business_admin")
 
 
 class Availability(models.Model):

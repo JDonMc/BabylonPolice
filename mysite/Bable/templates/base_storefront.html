@@ -1,0 +1,343 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% load static %}
+{% load user_referencing %}
+
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="trustpilot-one-time-domain-verification-id" content="07fa587e-30dc-46f4-9742-48bab051eb45"/>
+	<title>
+        {% block title %}
+    	{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/babylonpolice.css' %}">
+    <link rel="icon" href="{% static 'towerofbable.png' %}">
+    <link rel="stylesheet" href="{% static 'awesomplete-gh-pages/awesomplete.css' %}">
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+    {% block inserts %}
+    {% endblock %}
+    <script>
+    	function dropdown(i) {
+    		var elem = document.querySelector(`.dropdown[data="${i}"]`);
+      		if (elem.style.display == "block") {
+      			elem.style.display = "none";
+      		} else {
+      			elem.style.display = "block";
+      		}
+    	};
+    </script>
+    <style>
+    	label {
+    		display: block;
+    	}
+    </style>
+</head>
+<body id="body">
+	<div id="siteWrapper">
+		<header id="header" class="show-on-scroll" role="banner">
+			{% block header_inner %}
+			{% endblock %}
+		</header>
+		<div class="forum">
+			<div id="leftsidenav" class="leftsidenav" style="margin-top: 3em;">
+				<a href="javascript:void(0)" class="leftclosebtn" onclick="closeleftNav()">&times;</a>
+				<div class=gooddoggo>
+					{% block left_sidenav %}
+					{% endblock %}
+				</div>
+			</div>
+			<div id="sidenav" class="sidenav">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<div id="logs">
+					{% block logs %}
+					{% endblock %}
+				</div>
+				
+			</div>
+			<div id="postindex" style="position:relative; top: 50px;">
+				<div id=registerterms>
+					<div class=terms>
+						<a href="{% url 'Bable:about' %}">Terms and Conditions</a>
+						<button type=submit onclick="hideregister()">Accept</button>
+					</div>
+				</div>
+				{% block unauthenticated_posts %}
+				{% endblock %}
+			</div>
+		</div>
+		<footer id="footer" style="position: relative; top: 50px; padding-bottom: 100px;">
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="{% url 'Bable:feedback' %}">Feedback</a>
+					</div>
+					<div class="about">
+						<a href="{% url 'Bable:about' %}">About</a>
+					</div>
+					<div class="about">
+						<a href="{% url 'Bable:management' %}">Under New Management</a>
+					</div>
+					
+				</div>
+			</div>
+			<div class="footer-inner">
+				<p style="color: #e3dac9;">
+				Find us also at:
+			</p>
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.predictionary.us">Predictionary.us</a>
+					</div>
+					<div class="about">
+						<a href="https://www.privatedictionary.com">PrivateDictionary.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.privatethesaurus.com">PrivateThesaurus.com</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.spellsell.com">Spellsell.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.synchronicitystudier.com">SynchronicityStudier.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.the-rosetta-stone.com">The-Rosetta-Stone.com</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.thinknot.art">ThinkNot.art</a>
+					</div>
+					<div class="about">
+						<a href="https://www.timeisnttalk.com">TimeIsntTalk.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.babylonpolice.com">BabylonPolice.com</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.buildadictionary.com">BuildADictionary.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.cunninglinguisticists.com">CunningLinguisticists.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.customisedictionary.com">CustomiseDictionary.com</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.defineurself.com">DefineUrself.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.diydictionary.com">DIYDictionary.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.jargontrader.com">JargonTrader.com</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="feedback">
+						<a href="https://www.lingotraders.com">LingoTraders.com</a>
+					</div>
+					<div class="about">
+						<a href="https://www.litspit.com">LitSpit.com</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<script>
+		function closeNav() {
+		    document.getElementById("sidenav").style.width = "0px";
+		    document.getElementById("logs").style.display = "none";
+		    document.getElementById("searchindex").style.display = "none";
+		    document.getElementById("submitindex").style.display = "none";
+		    document.getElementById("spaceform").style.display = "none";
+		    document.getElementById("wordform").style.display = "none";
+		    document.getElementById("dicform").style.display = "none";
+		    document.getElementById("apply_votes").style.display = "none";
+		    document.getElementById("apply_votestyle").style.display = "none";
+		    document.getElementById("apply_dic").style.display = "none";
+		    document.getElementById("exclude_dic").style.display = "none";
+		    document.getElementById("exclude_votes").style.display = "none";
+		}
+		function closeleftNav() {
+		    document.getElementById("leftsidenav").style.width = "0px";
+		}
+		function showhideleft() {
+		    document.getElementById("leftsidenav").style.width = "350px";
+		}
+
+		function openNav() {
+		    document.getElementById("sidenav").style.width = "450px";
+		}
+
+		function showregister() { 
+		    var element = document.getElementById("registerterms");
+		    element.style.display = "inline-block";
+		    window.scrollTo(0, 0);
+		}
+
+		function hideregister() { 
+		    var element = document.getElementById("registerterms");
+		    element.style.display = "none";
+		    var element = document.getElementById("logs");
+		    element.style.display = "inline-block";
+		    openNav()
+		        
+		}
+
+		function showhidelogin() { 
+		    var element = document.getElementById("logs");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		        openNav();
+		    }
+		}
+		function showhidesearch() { 
+		    openNav();
+		    var element = document.getElementById("searchindex");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidesubmit() { 
+		    openNav();
+		    var element = document.getElementById("submitindex");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidespace() { 
+		    openNav();
+		    var element = document.getElementById("spaceform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideword() {
+			openNav(); 
+		    var element = document.getElementById("wordform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidedic() { 
+			openNav();
+		    var element = document.getElementById("dicform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhidetask() { 
+			openNav();
+		    var element = document.getElementById("taskform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideapplyvotes() { 
+			openNav();
+		    var element = document.getElementById("apply_votes");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideapplyvotestyle() { 
+			openNav();
+		    var element = document.getElementById("apply_votestyle");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideapplydic() { 
+			openNav();
+		    var element = document.getElementById("apply_dic");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideexcludedic() { 
+			openNav();
+		    var element = document.getElementById("exclude_dic");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideexcludevotes() { 
+			openNav();
+		    var element = document.getElementById("exclude_votes");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		function showhideuploadfile() { 
+			openNav();
+		    var element = document.getElementById("fileform");
+		    if (element.style.display === "inline-block") {
+		        element.style.display = "none";
+		        closeNav();
+		    } else {
+		        element.style.display = "inline-block";
+		    }
+		}
+		
+
+		/* Set the width of the side navigation to 0 */
+		
+	</script>
+	{% block scripts %}
+	{% endblock %}
+</body>

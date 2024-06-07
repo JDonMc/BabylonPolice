@@ -55,6 +55,14 @@ class MovementForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MovementForm, self).__init__(*args, **kwargs)
 
+class PurchasingForm(forms.ModelForm):
+    class Meta:
+        model = Storefront
+        fields = ("products",)
+    def __init__(self, *args, **kwargs):
+        super(PurchasingForm, self).__init__(*args, **kwargs)
+        self.fields['products'] = forms.MultipleChoiceField(choices=[(e, e) for e in self.instance.products]) 
+
 class StorefrontForm(forms.ModelForm):
     class Meta:
         model = Storefront
@@ -912,7 +920,7 @@ class PostForm(forms.ModelForm):
 class SpaceForm(forms.ModelForm):
     class Meta:
         model = Space
-        fields = ('the_space_itself', 'sidebar', 'values', 'vision', 'mission', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'elected_administrative', 'elected_executive', 'elected_judiciary', 'successive', 'progressive', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
+        fields = ('the_space_itself', 'sidebar', 'values', 'vision', 'mission', 'public', 'for_sale', 'free_sponsorships', 'anyone_can_edit', 'elected_sponsorships', 'elected_legislative', 'legislative_level', 'elected_administrative', 'administrative_level', 'elected_executive', 'executive_level', 'elected_judiciary', 'judiciary_level', 'successive', 'progressive', 'entry_fee', 'continuation_fee', 'invite_only', 'invite_active', 'invite_code')
 
     def clean(self):
         cleaned_data = super(SpaceForm, self).clean()
