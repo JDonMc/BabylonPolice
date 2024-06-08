@@ -3977,6 +3977,13 @@ def tower_of_bable(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tower_of_bable", anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
 		space_form = SpaceForm(request)
@@ -4024,7 +4031,7 @@ def landingpage(request):
 	buyadvertisingform = BuyAdvertisingForm()
 
 
-	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable")
+	page_views, created = Pageviews.objects.get_or_create(page="landingpage")
 	page_views.views += 1
 	page_views.save()
 
@@ -4043,6 +4050,13 @@ def landingpage(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="landingpage", anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
 		space_form = SpaceForm(request)
@@ -4106,6 +4120,13 @@ def change_password(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="change_password", anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
 		space_form = SpaceForm(request)
@@ -4172,6 +4193,13 @@ def tower_of_bable_count(request, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tower_of_bable"+str(count), anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
 		posts_by_viewcount = Post.objects.order_by(loggedinanon.post_sort_char)[count:count100]
 	
 	
@@ -4213,6 +4241,14 @@ def tob_view_spaces(request):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="spaces", anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
+		
 		spaces = Space.objects.order_by(loggedinanon.space_sort_char)[0:100]
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
@@ -4254,6 +4290,14 @@ def tob_view_spaces_count(request, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tob_view_spaces_count__"+str(count), anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
+		
 	
 	
 	if request.user.is_authenticated:
@@ -4292,6 +4336,14 @@ def tob_space_view(request, space):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tob_space_view__"+space, anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
+		
 	
 	particular_space = Space.objects.get(id=space)
 	users_space = Space.objects.get(id=space)
@@ -4375,6 +4427,14 @@ def tob_space_view_count(request, space, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tob_space_view_count__"+space+"__"+str(count), anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		pages_view.previous_view_id = previous_view.id
+		pages_view.previous_page = previous_view.page_view
+		pages_view.previous_view_date = previous_view.view_date
+		pages_view.previous_view_time_between_pages = datetime.timedelta(timezone.now - previous_view.view_date)
+		
 		dic_form = DictionaryForm()
 		post_form = PostForm(request)
 		space_form = SpaceForm(request)

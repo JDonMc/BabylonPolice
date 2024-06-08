@@ -21,7 +21,7 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from random import choice
 # from resizeimage import resizeimage
 
@@ -775,10 +775,10 @@ class Price(models.Model):
     invoices = models.ManyToManyField(Invoice, default=None)
     sum_invoices = models.IntegerField(default=0)
 
-    location_of_product = models.CharField(max_length=200, default='Remote')
+    #location_of_product = models.CharField(max_length=200, default='Remote')
     point_of_sale = models.ManyToManyField(Sale, default=None)
 
-    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
+    #product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
     
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
@@ -1882,9 +1882,20 @@ class Anon(models.Model):
 	def __unicode__(self):
 		return unicode(self.username) or u''
 
+import datetime
+class UserViews(models.Model):
+	anon = models.OneToOneField(Anon, default=None, on_delete=models.PROTECT)
+	view_date = models.DateTimeField(default=timezone.now)
+	page_view = models.CharField(max_length=200, default='')
+	previous_view_id = models.CharField(max_length=144, default='')
+	previous_page = models.CharField(max_length=200, default='')
+	previous_view_date = models.DateTimeField(default=timezone.now)
+	previous_view_time_between_pages = models.DurationField(default=datetime.timedelta(days=0, seconds=1))
+
 class Pageviews(models.Model):
 	page = models.CharField(max_length=200, default='')
 	views = models.IntegerField(default=0)
+	user_views = models.ManyToManyField(UserViews, default=None)
 	translation = models.CharField(max_length=2, default='en')
 
 
