@@ -85,6 +85,9 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 			<div class=dictionary_analyses>
 				Analyses: {{ users_dic.analyses.count }}
 			</div>
+			<div class=purchasers>
+				Purchasers: {{ users_dic.purchase_orders.count }}
+			</div>
 			<div class=dictionary_price>
 				{% if users_dic.public %}
 				Price: {{ users_dic.entry_fee }}
