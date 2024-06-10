@@ -1884,7 +1884,7 @@ class Anon(models.Model):
 
 import datetime
 class UserViews(models.Model):
-	anon = models.OneToOneField(Anon, default=None, on_delete=models.PROTECT)
+	anon = models.ForeignKey(Anon, default=None, on_delete=models.PROTECT)
 	view_date = models.DateTimeField(default=timezone.now)
 	page_view = models.CharField(max_length=200, default='')
 	previous_view_id = models.CharField(max_length=144, default='')
