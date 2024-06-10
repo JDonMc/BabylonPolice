@@ -188,7 +188,7 @@ a, a:link, a:visited, a:focus, a:hover, a:active {
 	display: none;
 	background-color: #e3dac9;
 	margin-left:1em;
-	width: 200px;
+	width: 400px;
 }
 
 #apply_votes {
@@ -316,7 +316,7 @@ select {
 	display: none;
 	background-color: #e3dac9;
 	margin-left: 1em;
-	width: 200px;
+	width: 400px;
 }
 
 #dicform form, #spaceform form, #taskform form, #wordform form {
@@ -327,7 +327,7 @@ select {
 	display: none;
 	background-color: #e3dac9;
 	margin-left: 1em;
-	width: 200px;
+	width: 400px;
 }
 
 #taskform {
@@ -341,7 +341,7 @@ select {
 	display: none;
 	background-color: #e3dac9;
 	margin-left: 1em;
-	width: 200px;
+	width: 400px;
 }
 
 .submit_new_post {
