@@ -71,7 +71,7 @@ class StorefrontForm(forms.ModelForm):
         fields = ("logo", "title", "preview_text", "disclaimer", "image_1", "image_2", "image_3", "image_4", "image_5", "template_section_size_1_1","template_section_size_1_2","template_section_size_1_3", "template_section_size_2_1", "template_section_size_2_2", "template_section_size_2_3", "template_section_size_3_1", "template_section_size_3_2", "template_section_size_3_3", "textblock_1","textblock_2","textblock_3","textblock_4",)
     def __init__(self, dictionary, *args, **kwargs):
         super(StorefrontForm, self).__init__(*args, **kwargs)
-        self.fields['logo'] = forms.ChoiceField(choices=[(e, e) for e in dictionary.words.all()]) 
+        self.fields['logo'] = forms.ChoiceField(choices=[(e, e) for e in dictionary.words.all().values_list("the_word_itself", flat=True)]) 
 
 
 class SaleForm(forms.ModelForm):
