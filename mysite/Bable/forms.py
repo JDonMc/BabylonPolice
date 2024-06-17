@@ -55,6 +55,8 @@ class MovementForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MovementForm, self).__init__(*args, **kwargs)
 
+
+
 class PurchasingForm(forms.ModelForm):
     class Meta:
         model = Storefront
