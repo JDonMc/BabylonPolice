@@ -154,7 +154,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
                 			display:none;
                 		}
                 	</style>
-					<form id=storefront_form action="{% url 'Bable:create_storefront' %}" method=post>
+					<form id=storefront_form action="{% url 'Bable:create_storefront' users_dic.id %}" method=post>
 						{% csrf_token %}
 						{{ storefront_form }}
 						<button type=submit>Add StoreFront</button>
