@@ -83,12 +83,27 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
                 </div>
             </div>
         </div>
+        
 		{% if users_post.author.username == request.user.username %}
-		<form action="{% url 'Bable:create_product_w_price' users_post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
-
+		<div onclick="openComment('new_product_')">
+        	Add New Product +
+        </div>
+        <style>
+        	#new_product_form {
+        		display: none;
+        	}
+        	#new_products_form {
+        		display: none;
+        	}
+        </style>
+        <form id="new_product_form" action="{% url 'Bable:create_product_w_price' users_post.id %}" method='POST'>{% csrf_token %}{{ product_form }}<button type="submit">Submit </button></form>
+		<div onclick="openComment('new_products_')">
+			Add Old Products +
+		</div>
 		<div class="row pt-5 pricing-table">
             <div class="col-12 mx-auto">
                 <div class="card-deck pricing-table">
+		<div id=new_products_form>
 		{% for price in loggedinanon.products.all %}
 			            
      <div class="card">
@@ -106,6 +121,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
 
     </div>
         {% endfor %}
+    </div>
     </div></div></div>
 		<div class=postdel>
 			<a href="{% url 'Bable:delete_own_post' users_post.author.username users_post.id %}">X</a>

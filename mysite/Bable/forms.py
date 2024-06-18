@@ -63,7 +63,7 @@ class PurchasingForm(forms.ModelForm):
         fields = ("products",)
     def __init__(self, *args, **kwargs):
         super(PurchasingForm, self).__init__(*args, **kwargs)
-        self.fields['products'] = forms.MultipleChoiceField(choices=[(e, e) for e in self.instance.products]) 
+        self.fields['products'] = forms.MultipleChoiceField(choices=[(e, e) for e in self.instance.products.values_list("name", flat=True)]) 
 
 class StorefrontForm(forms.ModelForm):
     class Meta:
