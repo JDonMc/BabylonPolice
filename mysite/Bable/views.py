@@ -5115,7 +5115,10 @@ def tob_view_users(request):
 	registerform = UserCreationForm()
 	
 	user_anons_count = Anon.objects.count()
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_view_users")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -5175,6 +5178,9 @@ def tob_view_users_count(request, count):
 	registerform = UserCreationForm()
 	
 	user_anons_count = Anon.objects.count()
+	page_views, created = Pageviews.objects.get_or_create(page="tob_view_users_count")
+	page_views.views += 1
+	page_views.save()	
 	
 	
 	loginform = AuthenticationForm()
@@ -6189,12 +6195,14 @@ def tob_users_post(request, user, post, count=0):
 		users_post.viewcount += 1
 		page_views, created = Pageviews.objects.get_or_create(page="tob_users_post")
 		page_views.views += 1
+		page_views.save()
 		users_post.save()
 	else:
 		user_author, created = Author.objects.get_or_create(username=user)
 		users_post = Post.objects.get(id=int(post))
 		page_views, created = Pageviews.objects.get_or_create(page="tob_users_post")
 		page_views.views += 1
+		page_views.save()
 		users_post.viewcount += 1
 		users_post.save()
 	
@@ -6272,7 +6280,9 @@ def tob_users_posts(request, user, count):
 	
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_posts")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -6325,7 +6335,10 @@ def tob_users_posts_comment(request, user, post, comment):
 	
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_posts_comment")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -6367,6 +6380,9 @@ def tob_users_examples(request, user, count):
 	
 	registerform = UserCreationForm()
 	
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_examples")
+	page_views.views += 1
+	page_views.save()	
 		
 	
 	loginform = AuthenticationForm()
@@ -6414,6 +6430,9 @@ def tob_users_examples_count(request, user, count):
 	registerform = UserCreationForm()
 	
 		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_examples_count")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -6452,7 +6471,10 @@ def tob_users_dics(request, user, count):
 	
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dics")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -7187,6 +7209,9 @@ def tob_users_dic(request, user, dictionary, count):
 	registerform = UserCreationForm()
 	
 		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -7250,6 +7275,10 @@ def storefront(request, author, dictionary_id, storefront_title):
 
 	sale_form = SaleForm()
 	storefront_form = StorefrontForm(user_dic, instance=user_storefront)
+	page_views, created = Pageviews.objects.get_or_create(page="storefront")
+	page_views.views += 1
+	page_views.save()	
+	
 	the_response = render(request, "tob_storefront.html", {"editing": editing, "user_anon": user_anon, "user_storefront": user_storefront, "user_products": user_products})
 	the_response.set_cookie('current', 'storefront')
 	the_response.set_cookie('viewing_user', request.user)
@@ -7316,6 +7345,7 @@ def tob_users_dic_word_count(request, user, dictionary, word, count):
 	dics_word.viewcount += 1
 	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_count")
 	page_views.views += 1
+	page_views.save()
 	dics_word.trickle()
 	dics_word.update_sponsors()
 	dics_word.trickle()
@@ -7497,6 +7527,9 @@ def tob_users_dic_word_pronunciations(request, user, dictionary, word, pronuncia
 	registerform = UserCreationForm()
 	
 		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_pronunciations")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -7575,6 +7608,9 @@ def tob_word_pronunciation(request, word_id, pronunciation_id):
 	registerform = UserCreationForm()
 	
 		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_word_pronunciation")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -7641,13 +7677,16 @@ def tob_word_pronunciation(request, word_id, pronunciation_id):
 	return the_response
 
 
-def tob_word_pronunciation(request, pronunciation_id):
+def tob_pronunciation(request, pronunciation_id):
 	
 	calculate_sponsor_price(dics_word)
 	
 	registerform = UserCreationForm()
 	
 		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_pronunciation")
+	page_views.views += 1
+	page_views.save()	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -7733,6 +7772,9 @@ def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
 	
 	registerform = UserCreationForm()
 
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_attribute")
+	page_views.views += 1
+	page_views.save()	
 	
 		
 	
@@ -7919,6 +7961,9 @@ def tob_word_attribute(request, word_id, attribute_id):
 	word = Word.objects.filter(id=int(word_id)).filter(author=None).first()
 	
 	registerform = UserCreationForm()
+	page_views, created = Pageviews.objects.get_or_create(page="tob_word_attribute")
+	page_views.views += 1
+	page_views.save()	
 	
 		
 	
@@ -8111,7 +8156,10 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 	
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_similarity")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -8214,7 +8262,10 @@ def tob_users_dic_word_translation(request, user, dictionary, word, translation)
 	
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_dic_word_translation")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
