@@ -124,7 +124,7 @@ User: {{ user_anon.username.username }}'s Post: {{ users_post.title }} - Babylon
     </div>
     </div></div></div>
 		<div class=postdel>
-			<a href="{% url 'Bable:delete_own_post' users_post.author.username users_post.id %}">X</a>
+			<a href="{% url 'Bable:delete_own_post' users_post.author.to_full.username.id users_post.id %}">X</a>
 		</div>
 		{% endif %}
 		<style>
