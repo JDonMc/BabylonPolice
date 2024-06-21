@@ -4853,10 +4853,11 @@ def tob_product(request, product_id):
 
 
 
-def tob_spaces_post(request, space, post):
+def tob_spaces_post(request, space, post, count):
 	tob_space = Spaces.objects.get(id=space)[:100]
 	tob_post = tob_space.posts.get(id=post)[:100]
-	posts_comments = tob_post.comments.order_by('viewcount')[:100]
+	count = int(count)
+	posts_comments = tob_post.comments.order_by('viewcount')[count:count+100]
 	user_themself = User.objects.get(username=user)
 	user_anon = Anon.objects.get(username=user_themself)
 	
@@ -5323,6 +5324,9 @@ def tob_user_view(request, user, count=0):
 			So may aswell force 'migrate' to run 'migrate --run-syncdb' and 'makemigrations' beforehand.
 	'''
 	
+	page_views, created = Pageviews.objects.get_or_create(page="tob_user_view")
+	page_views.views += 1
+	page_views.save()	
 	
 	total = 0
 	for page in Pageviews.objects.all():
@@ -5384,7 +5388,10 @@ def tob_user_view_count(request, user, count=0):
 	count = int(count)
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_user_view_count")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
@@ -5531,7 +5538,10 @@ def tob_users_spaces(request, user, count):
 
 	registerform = UserCreationForm()
 	
-		
+	page_views, created = Pageviews.objects.get_or_create(page="tob_users_spaces")
+	page_views.views += 1
+	page_views.save()	
+	
 	
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
