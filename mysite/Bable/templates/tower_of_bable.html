@@ -290,13 +290,13 @@ $(document).ready(function() {
 				{% endwith %}
 			<div class=posttop style="display: inline-block; vertical-align: top;">
 				
-				{% if post.author__username %}
+				{% if post.author.to_full().username.id %}
 				<div class=posttitle>
-					<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+					<a href="{% url 'Bable:tob_users_post' post.author.to_full().username.id post.id 0 %}"><h4>{{ post.title }}</h4></a>
 				</div>
-				{% if post.author__username == loggedinanon.username.username %}
+				{% if post.author.to_full().username.id == loggedinanon.username.username %}
 				<div class=postdel>
-					<a href="{% url 'Bable:delete_own_post' post.author__username post.id %}">X</a>
+					<a href="{% url 'Bable:delete_own_post' post.author.to_full().username.id post.id %}">X</a>
 				</div>
 				{% endif %}
 				{% else %}
@@ -316,9 +316,9 @@ $(document).ready(function() {
 			<div class=postlatest style="font-size: 1em;">
 				Latest: {{ post.latest_change_date }}
 			</div>
-			{% if post.author__username %}
+			{% if post.author.to_full().username.id %}
 			<div class=postauthor style="font-size: 1em;">
-				<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
+				<a href="{% url 'Bable:tob_user_view_count' post.author.to_full().username.id 0 %}">/u/{{ post.author.to_full().username.id }}</a>
 			</div>
 			{% else %}
 			<div class=postauthor style="font-size: 1em;">
@@ -585,9 +585,9 @@ $(document).ready(function() {
 					{% endwith %}
 				<div class=posttop style="display: inline-block; width: 60%; margin-left: 10px;">
 					
-					{% if post.author__username %}
+					{% if post.author.to_full().username.id %}
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_users_post' post.author__username post.id 0 %}"><h4>{{ post.title }}</h4></a>
+						<a href="{% url 'Bable:tob_users_post' post.author.to_full().username.id post.id 0 %}"><h4>{{ post.title }}</h4></a>
 					</div>
 					{% else %}
 					<div class=posttitle>
@@ -607,9 +607,9 @@ $(document).ready(function() {
 				<div class=postlatest style="font-size: 1em;">
 					Latest: {{ post.latest_change_date }}
 				</div>
-				{% if post.author__username %}
+				{% if post.author.to_full().username.id %}
 				<div class=postauthor style="font-size: 1em;">
-					<a href="{% url 'Bable:tob_user_view_count' post.author__username 0 %}">/u/{{ post.author__username }}</a>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.to_full().username.id 0 %}">/u/{{ post.author.to_full().username.id }}</a>
 				</div>
 				{% else %}
 				<div class=postauthor style="font-size: 1em;">
