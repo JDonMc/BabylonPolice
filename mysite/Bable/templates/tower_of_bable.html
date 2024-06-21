@@ -277,7 +277,7 @@ $(document).ready(function() {
 							{% if max.img %}
 								<img src="{{ post.max_sponsor.img }}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
 							{% else %}
-								<img src="{% static 'babylonpolice.com.gif' %}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
+								<img src="{% static 'towerofbable2.png' %}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
 							{% endif %}
 							{% if max.url %}
 								<a href="{{ post.max_sponsor.url }}" style="font-size: 12px; display: block;">Post Sponsor</a>
@@ -565,6 +565,24 @@ $(document).ready(function() {
 						{% endif %}
 						{% endwith %}
 					{% endif %}
+					{% with 0|random_int:25 as rando %}
+							{% if rando|left_over:5 == 0 %}
+							{% with post.max_sponsor as max %}
+							<div style="display: block; width: min-content; margin-right: 10px;">
+								{% if max.img %}
+									<img src="{{ post.max_sponsor.img }}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
+								{% else %}
+									<img src="{% static 'towerofbable2.png' %}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
+								{% endif %}
+								{% if max.url %}
+									<a href="{{ post.max_sponsor.url }}" style="font-size: 12px; display: block;">Post Sponsor</a>
+								{% else %}
+									<a href='https://checkout.stripe.com/c/pay/cs_live_a1x7OSQ8kdxh80lSQaX1vL3YQob2w5ALso6hjg5BRU6bpiNfTYMbYzeFix#fidkdWxOYHwnPyd1blppbHNgWjA0Tl8zUTxMQUBmRDJJTEdvMDYzVzFLQHdXVmtWcDVMdEh0cWdRYX1xQTROf19xMjV8b3NPNH1fNXx2REZ8TUAxSFR9bFFuXzEzVWJIYmdAd2A0cl9WQmF0NTVDc2Z2U2xCQycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl' style="font-size: 12px; display: block;">Donate</a>
+								{% endif %}
+							</div>
+							{% endwith %}
+							{% endif %}
+					{% endwith %}
 				<div class=posttop style="display: inline-block; width: 60%; margin-left: 10px;">
 					
 					{% if post.author__username %}

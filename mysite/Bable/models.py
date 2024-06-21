@@ -1241,13 +1241,13 @@ class Post(models.Model):
 	def max_sponsor(self):
 		max_sponsor = self.sponsors.order_by('-price_limit').first()
 		if not max_sponsor:
-			return Sponsor.objects.get(id=1)
+			return Sponsor.objects.all().order_by('-price_limit').first()
 		return max_sponsor
 
 	def max(self):
 		max_sponsor = self.sponsors.order_by('-price_limit').first()
 		if not max_sponsor:
-			return Sponsor.objects.get(id=1)
+			return Sponsor.objects.all().order_by('-price_limit').first()
 		return max_sponsor
 
 	def first_sorted_comment(self, anon):
