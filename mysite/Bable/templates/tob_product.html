@@ -62,6 +62,12 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 				{% else %}
 					<img src="{% static 'babylonpolice.com.gif' %}" style="height: 8em; width: 8em;">
 				{% endif %}
+				<form method=post action="{% url 'Bable:tob_sponsor_product' users_product.id %}">
+					{% csrf_token %}
+					{{ sponsor_form }}
+					<button type=submit>Entice
+					</button>
+				</form>
 	        </div>
 	        {% if users_product in loggedinanon.products.all %}
 	        <div class=product_description2purchase>

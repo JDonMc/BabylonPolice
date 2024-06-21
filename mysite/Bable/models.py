@@ -777,10 +777,10 @@ class Price(models.Model):
 
     sponsors = models.ManyToManyField(Sponsor, default=None)
 
-    location_of_product = models.CharField(max_length=200, default='Remote')
+    #location_of_product = models.CharField(max_length=200, default='Remote')
     point_of_sale = models.ManyToManyField(Sale, default=None)
 
-    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
+    #product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
     
     def author(self):
     	return Author.objects.get(username=Anon.objects.get(id=anon_user_id).username.username)

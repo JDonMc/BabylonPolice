@@ -4785,6 +4785,106 @@ def tob_post(request, post):
 	the_response.set_cookie('count', 0)
 	return the_response
 
+@login_required
+def tob_sponsor_product(request, product_id):
+	users_product = Price.objects.get(id=int(product_id))
+	if not users_product.anon_user_id:
+
+		user_anon = Anon.objects.filter(products=int(product_id)).first()
+	else:
+		user_anon = Anon.objects.get(id=users_product.anon_user_id)
+	
+	
+	page_views, created = Pageviews.objects.get_or_create(page="tob_sponsor_product")
+	page_views.views += 1
+	page_views.save()
+
+	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+	if x_forwarded_for:
+		x_forwarded_for = x_forwarded_for.split(',')[0]
+	ip = request.META.get('REMOTE_ADDR')
+
+
+	registerform = UserCreationForm()
+	
+		
+	
+	loginform = AuthenticationForm()
+	if request.user.is_authenticated:
+		loggedinuser = User.objects.get(username=request.user.username)
+		loggedinanon = Anon.objects.get(username=loggedinuser)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+
+
+		if request.method == "POST":
+			sponsor_form = SponsorForm(request.POST)
+			insert_sponsor_form = InsertSponsorForm(request, request.POST)
+			if sponsor_form.is_valid():
+				if sponsor_form.cleaned_data["allowable_expenditure"] <= loggedinanon.false_wallet:
+					loggedinanon.false_wallet -= sponsor_form.cleaned_data["allowable_expenditure"]
+					new_spon = Sponsor.objects.create(payperview=sponsor_form.cleaned_data['payperview'], allowable_expenditure=sponsor_form.cleaned_data["allowable_expenditure"], the_sponsorship_phrase=sponsor_form.cleaned_data['the_sponsorship_phrase'], img=sponsor_form.cleaned_data['img'], url2=sponsor_form.cleaned_data['url2'], price_limit=sponsor_form.cleaned_data['price_limit'], author=loggedinauthor)
+					users_product.sponsors.add(new_spon)
+					users_product.save()
+					request.COOKIES['current'] = 'tob_users_spaces_sponsor'
+					request.COOKIES['viewing_user'] = user
+					request.COOKIES['space_id'] = users_space.id
+					request.COOKIES['sponsor'] = new_spon.id
+				elif insert_sponsor_form.is_valid():
+					if insert_sponsor_form.cleaned_data['identifier'] != 0:
+						new_spon = Sponsor.objects.get(id=insert_sponsor_form.cleaned_data['identifier'])
+						if new_spon.author == request.user.username:
+							users_product.sponsors.add(new_spon)
+							users_product.save()
+				else:
+					return HttpResponse("not enough balance")
+				#return base_redirect(request, 0)
+			print('here')
+			if insert_sponsor_form.is_valid():
+				if not Sponsor.objects.get(id=insert_sponsor_form.cleaned_data["identifier"]):
+					return HttpResponse("not a sponsor id.")
+				old_spon = Sponsor.objects.get(id=insert_sponsor_form.cleaned_data["identifier"])
+				users_product.sponsors.add(old_spon)
+				users_product.save()
+				request.COOKIES['current'] = 'tob_product'
+				request.COOKIES['viewing_user'] = user
+				request.COOKIES['product'] = users_product.id
+				request.COOKIES['sponsor'] = old_spon.id
+				
+				#return base_redirect(request, 0)
+		
+		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
+		pages_view = UserViews.objects.create(page_view="tob_sponsor_product__"+product_id, anon=loggedinanon)
+		page_views.user_views.add(pages_view)
+		if previous_view:
+			pages_view.previous_view_id = previous_view.id
+			pages_view.previous_page = previous_view.page_view
+			pages_view.previous_view_date = previous_view.view_date
+			pages_view.previous_view_time_between_pages = datetime.datetime.now(timezone.utc) - previous_view.view_date
+		
+
+		dic_form = DictionaryForm()
+		post_form = PostForm(request)
+		space_form = SpaceForm(request)
+		task_form = TaskForm()
+		word_form = WordForm(request)
+	
+		apply_votestyle_form = ApplyVotestyleForm(request)
+		create_votes_form = CreateVotesForm(request)
+		exclude_votes_form = ExcludeVotesForm(request)
+		apply_dic_form = ApplyDictionaryForm(request)
+		exclude_dic_form = ExcludeDictionaryAuthorForm()
+
+		file_form = FileForm() 
+		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
+	else:
+		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
+	the_response.set_cookie('current', 'tob_post')
+	the_response.set_cookie('post', product_id)
+	the_response.set_cookie('count', 0)
+	return the_response
+
+
 
 def tob_product(request, product_id):
 	users_product = Price.objects.get(id=int(product_id))
@@ -4793,7 +4893,6 @@ def tob_product(request, product_id):
 		user_anon = Anon.objects.filter(products=int(product_id)).first()
 	else:
 		user_anon = Anon.objects.get(id=users_product.anon_user_id)
-	
 	
 	page_views, created = Pageviews.objects.get_or_create(page="tob_product")
 	page_views.views += 1
@@ -4837,8 +4936,10 @@ def tob_product(request, product_id):
 		apply_dic_form = ApplyDictionaryForm(request)
 		exclude_dic_form = ExcludeDictionaryAuthorForm()
 
+		sponsor_form = SponsorForm()
+	
 		file_form = FileForm() 
-		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
+		the_response = render(request, "tob_product.html", {"sponsor_form":sponsor_form,"ip": ip, "x_forwarded_for": x_forwarded_for, "file_form": file_form, "loggedinanon": loggedinanon, "user_anon": user_anon, "users_product": users_product, "space_form": space_form, "post_form": post_form, "task_form": task_form, "word_form": word_form, "registerform": registerform,  "loginform": loginform, 
 			"apply_votestyle_form": apply_votestyle_form, "create_votes_form": create_votes_form, "exclude_votes_form": exclude_votes_form, "apply_dic_form": apply_dic_form, "exclude_dic_form": exclude_dic_form})
 	else:
 		the_response = render(request, "tob_product.html", {"ip": ip, "x_forwarded_for": x_forwarded_for, "users_product": users_product, "user_anon": user_anon, "registerform": registerform,  "loginform": loginform})
