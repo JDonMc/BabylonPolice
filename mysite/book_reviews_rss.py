@@ -6,7 +6,8 @@ import feedparser
 from requests import get
 
 base = "http://export.arxiv.org/rss/"
-urls = ["https://bookriot.com/feed/", "https://www.kirkusreviews.com/feeds/rss/", "https://cointelegraph.com/rss", "https://bitcoinist.com/feed/", "https://www.newsbtc.com/feed/", "https://www.coinspeaker.com/news/feed/"]
+urls = ["https://bookriot.com/feed/", "https://www.kirkusreviews.com/feeds/rss/", "https://cointelegraph.com/rss", "https://bitcoinist.com/feed/", "https://www.newsbtc.com/feed/", "https://www.coinspeaker.com/news/feed/",
+"https://cryptopotato.com/feed/", "https://crypto.news/feed/"]
 
 
 for rss_url in urls:

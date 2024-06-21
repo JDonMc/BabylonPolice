@@ -7,13 +7,13 @@
 {% load static %}
 
 {% block title %}
-User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men
+User: {{ user_anon.username.id }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men
 {% endblock %}
 
 
 {% block inserts %}
 <meta name="viewport" content="width=device-width">
-<meta property="og:description" content="User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men">
+<meta property="og:description" content="User: {{ user_anon.username.id }}'s Dic: {{ users_dic.the_dictionary_itself }} - Dream Cloud Middle Men">
 <meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
 {% endblock %}
 
@@ -21,20 +21,20 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 {% block authenticatedposts %}
 	<div class=usersusername>
 		<h2>
-		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">
-			User: {{ user_anon.username.username }}
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.id 0 %}">
+			User: {{ user_anon.username.id }}
 		</a>
 		</h2>
 	</div>
 	<div class=single_dictionary>
 		<div class=dictionary_itself>
 			<h3>
-				<a href="{% url 'Bable:tob_users_dics' user_anon.username.username 0 %}">Dictionary</a>: <a href="{% url 'Bable:tob_users_dic' user_anon.username.username users_dic.the_dictionary_itself 0 %}">{{ users_dic.the_dictionary_itself }}</a>
+				<a href="{% url 'Bable:tob_users_dics' user_anon.username.id 0 %}">Dictionary</a>: <a href="{% url 'Bable:tob_users_dic' user_anon.username.id users_dic.the_dictionary_itself 0 %}">{{ users_dic.the_dictionary_itself }}</a>
 			</h3>
 		</div>
-		{% if request.user.username == user_anon.username.username %}
+		{% if request.user.id == user_anon.username.id %}
 			<div class=dictionary-delete>
-				<a href="{% url 'Bable:delete_own_dic' user_anon.username.username users_dic.the_dictionary_itself %}"><h4>X</h4></a>
+				<a href="{% url 'Bable:delete_own_dic' user_anon.username.id users_dic.the_dictionary_itself %}"><h4>X</h4></a>
 			</div>
 		{% endif %}
 		<div class=dictionary-top>
@@ -85,7 +85,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				{% endif %}
 			</div>
 		</div>
-		{% if request.user.username == user_anon.username.username %}
+		{% if request.user.id == user_anon.username.id %}
 			<h4>Owner's options:</h4>
 			<div class=dictionary-owners-current-options>
 				<div class=docopublic>
@@ -166,7 +166,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 	<div class=single_dictionarys_words>
 		<div class=dics_word_section>
 			<div class=sectiontitle>
-				<a href="{% url 'Bable:tob_users_dic_words' user_anon.username.username users_dic.the_dictionary_itself 0 %}"><h4>Dic's wordentries:</h4></a>
+				<a href="{% url 'Bable:tob_users_dic_words' user_anon.id users_dic.the_dictionary_itself 0 %}"><h4>Dic's wordentries:</h4></a>
 			</div>
 			<div class=wordsectionsort>
 				<div class=wordsortnav>
@@ -236,16 +236,16 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				</div>
 			</div>
 		</div>
-		{% if users_dic.public or request.user.username == user_anon.username.username or request.user.username == 'test' %}
+		{% if users_dic.public or request.user.id == user_anon.username.id or request.user.id == 'test' %}
 		<div class=words>
 			Words:
 			{% if dics_words.count %}
 				{% for word in dics_words %}
 					<div class=word>
 						<div class=words_itself>
-							<b>Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a></b>
+							<b>Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a></b>
 						</div>
-						{% if request.user.username == user_anon.username.username or request.user.username == 'test' %}
+						{% if request.user.id == user_anon.username.id or request.user.id == 'test' %}
 							<div class=dictionary-delete>
 								<a href="{% url 'Bable:delete_own_word_id' word.id %}"><h4>X</h4></a>
 							</div>
@@ -255,35 +255,35 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 							Latest Change: {{ word.latest_change_date }}
 						</div>
 						<div class=words_pronunciations>
-							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Pronunciations: {{ word.pronunciations.count }}</a>
 						</div>
 						<div class=words_attributes>
-							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Attributes: {{ word.attributes.count }}</a>
 						</div>
 						<div class=words_similarities>
-							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Similarities: {{ word.similarities.count }}</a>
 						</div>
 						<div class=words_translations>
-							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Translations: {{ word.translations.count }}</a>
 						</div>
 						<div class=words_examples>
-							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Examples: {{ word.examples.count }}</a>
 						</div>
 						<div class=words_stories>
-							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Stories: {{ word.stories.count }}</a>
 						</div>
 						<div class=words_relations>
-							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Relations: {{ word.relations.count }}</a>
 						</div>
 						<div class=words_sponsors>
-							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Sponsors: {{ word.sponsors.count }}</a>
 						</div>
 						<div class=words_price>
@@ -293,7 +293,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 							Viewcount: {{ word.viewcount }}
 						</div>
 						<div class=words_spaces>
-							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Spaces: {{ word.spaces.count }}</a>
 						</div>
 						<div class=words_votes>
@@ -309,24 +309,24 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				</div>
 			{% endif %}
 		</div>
-			<div class=wordgroups><a href="{% url 'Bable:tob_users_dic_wordgroups' user_anon.username.username users_dic.the_dictionary_itself 0 %}">Wordgroups:</a>
+			<div class=wordgroups><a href="{% url 'Bable:tob_users_dic_wordgroups' user_anon.username.id users_dic.the_dictionary_itself 0 %}">Wordgroups:</a>
 				{% if users_dic.wordgroups.count %}
 					{% for wordg in users_dic.wordgroups.all %}
 						<div class=wordgroup>
 							<div class=wordg_itself>
-								<b>Grouping: <a href="{% url 'Bable:tob_users_dic_wordgroups' user_anon.username.username users_dic.the_dictionary_itself 0 %}">{{ wordg.grouping }}</a></b>
+								<b>Grouping: <a href="{% url 'Bable:tob_users_dic_wordgroups' user_anon.username.id users_dic.the_dictionary_itself 0 %}">{{ wordg.grouping }}</a></b>
 							</div>
 							<div class=wordg_words>
 								Words: 	{% if wordg.words.count %}
 											{% for word in wordg.words.all %}
-											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself 0 ">{{ word.the_word_itself }}
+											<a href="{% url 'Bable:tob_users_dic_word_count' word.author.to_full.username.id word.home_dictionary.the_dictionary_itself 0 ">{{ word.the_word_itself }}
 											{% endfor %}
 										{% else %}
 											None.
 										{% endif %}
 							</div>
 							<div class=wordg_author>
-								{{ wordg.author.username }}
+								{{ wordg.author.to_full.username.username }}
 							</div>
 						</div>
 					{% endfor %}
@@ -338,15 +338,15 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 					</div>
 				{% endif %}
 			</div>
-			<div class=translations><a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.username users_dic.the_dictionary_itself 0 %}">Translations:</a>
+			<div class=translations><a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.to_full.username.id users_dic.the_dictionary_itself 0 %}">Translations:</a>
 				{% if users_dic.translations.count %}
 					{% for trans in users_dic.translations.all %}
 						<div class=translation>
 							<div class=trans_itself>
-								Before: <a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.username users_dic.the_dictionary_itself 0 %}">{{ trans.the_translation_before }}</a>
+								Before: <a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.to_full.username.id users_dic.the_dictionary_itself 0 %}">{{ trans.the_translation_before }}</a>
 							</div>
 							<div class=trans_after>
-								After: <a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.username users_dic.the_dictionary_itself 0 %}">{{ trans.the_translation_after }}</a>
+								After: <a href="{% url 'Bable:tob_users_dic_translations' users_dic.author.to_full.username.id users_dic.the_dictionary_itself 0 %}">{{ trans.the_translation_after }}</a>
 							</div>
 							<div class=trans_latest>
 								Latest: {{ trans.latest_change_date }}
@@ -357,7 +357,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 										{% for vote in anal.votes.all %}
 											{% if vote in loggedinanon.applied_votestyles.to_source %}
 											<div class=transvotess>
-												<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
+												<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.to_full.username.id vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
 											</div>
 											{% endif %}
 										{% endfor %}
@@ -378,12 +378,12 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 					</div>
 				{% endif %}
 			</div>
-			<div class=sentences><a href="{% url 'Bable:tob_users_dic_sentences' user_anon.username.username users_dic.the_dictionary_itself 0 %}">Sentences:</a>
+			<div class=sentences><a href="{% url 'Bable:tob_users_dic_sentences' user_anon.username.id users_dic.the_dictionary_itself 0 %}">Sentences:</a>
 				{% if users_dic.sentences.count %}
 					{% for sent in users_dic.sentences.all %}
 						<div class=sentence>
 							<div class=sent_itself>
-								<b>Sentence: <a href="{% url 'Bable:tob_users_dic_sentences' sent.author.username users_dic.the_dictionary_itself 0 %}">{{ sent.the_sentence_itself }}</a></b>
+								<b>Sentence: <a href="{% url 'Bable:tob_users_dic_sentences' sent.author.to_full.username.id users_dic.the_dictionary_itself 0 %}">{{ sent.the_sentence_itself }}</a></b>
 							</div>
 							<div class=sent_latest>
 								Latest Change: {{ sent.latest_change_date }}
@@ -399,7 +399,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 								{% endif %}
 							</div>
 							<div class=sent_author>
-								<a href="{% url 'Bable:tob_users_view' sent.author.username 0 %}">
+								<a href="{% url 'Bable:tob_users_view' sent.author.to_full.username.id 0 %}">
 								Author: {{ sent.author.username }}</a>
 							</div>
 							<div class=sent_views>
@@ -415,14 +415,14 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 					</div>
 				{% endif %}
 			</div>
-			<div class=analyses><a href="{% url 'Bable:tob_users_dic_analyses' user_anon.username.username users_dic.the_dictionary_itself 0 %}">Analyses:</a>
+			<div class=analyses><a href="{% url 'Bable:tob_users_dic_analyses' user_anon.username.id users_dic.the_dictionary_itself 0 %}">Analyses:</a>
 				{% if users_dic.analyses.count %}
 					{% for anal in users_dic.analyses.all %}
 						<div class=analysis>
 							<div class=anal_itself>
 								<b>Words: </b>
 									{% for crit in anal.the_critique_itself %}
-									<a href="{% url 'Bable:tob_users_dic_word_count' crit.author.username crit.home_dictionary.the_dictionary_itself crit.the_word_itself 0 %}">{{ crit.the_word_itself }}</a>
+									<a href="{% url 'Bable:tob_users_dic_word_count' crit.author.to_full.username.id crit.home_dictionary.the_dictionary_itself crit.the_word_itself 0 %}">{{ crit.the_word_itself }}</a>
 									{% endfor %}
 							</div>
 							<div class=anal_views>
@@ -432,7 +432,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 								Latest Change: {{ anal.latest_change_date }}
 							</div>
 							<div class=anal_author>
-								<a href="{% url 'Bable:tob_users_view' crit.author.username 0 %}">
+								<a href="{% url 'Bable:tob_users_view' crit.author.to_full.username.id 0 %}">
 								Author: {{ anal.author }}</a>
 							</div>
 							<div class=anal_count>
@@ -444,7 +444,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 									{% for vote in anal.votes.all %}
 										{% if vote in loggedinanon.applied_votestyles.to_source %}
 										<div class=analvotess>
-											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
+											<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.to_full.username.id vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_name.the_word_itself }}</a>
 										</div>
 										{% endif %}
 									{% endfor %}
@@ -464,13 +464,13 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 					{% for prereq in users_dic.prerequisite_dics.all %}
 						<div class=prerequisite>
 							<div class=prereq_itself>
-								<b>Dic: <a href="{% url 'Bable:tob_users_dic' prereq.author.username prereq.the_dictionary_itself 0 %}">{{ prereq.the_dictionary_itself }}</a></b>
+								<b>Dic: <a href="{% url 'Bable:tob_users_dic' prereq.author.to_full.username.id prereq.the_dictionary_itself 0 %}">{{ prereq.the_dictionary_itself }}</a></b>
 							</div>
 							<div class=prereq_words>
 								Words: {{ prereq.words.count }}
 							</div>
 							<div class=prereq_author>
-								<a href="{% url 'Bable:tob_user_view_count' prereq.author.username 0 %}">
+								<a href="{% url 'Bable:tob_user_view_count' prereq.author.to_full.username.id 0 %}">
 								Author: {{ prereq.author.username }}</a>
 							</div>
 							<div class=prereq_votes>
@@ -502,46 +502,46 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 				{% endif %}
 			</div>
 			
-		{% elif users_dic.author.username == request.user.username or request.user.username == 'test' %}
+		{% elif users_dic.author.to_full.username.id == request.user.id or request.user.id == 'test' %}
 			<div class=words>
 				{% for word in dics_words %}
 					<div class=word>
 						<div class=words_itself>
-							<b>Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a></b>
+							<b>Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a></b>
 						</div>
 						<div class=words_latest>
 							Latest Change: {{ word.latest_change_date }}
 						</div>
 						<div class=words_pronunciations>
-							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Pronunciations: {{ word.pronunciations.count }}</a>
 						</div>
 						<div class=words_attributes>
-							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Attributes: {{ word.attributes.count }}</a>
 						</div>
 						<div class=words_similarities>
-							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Similarities: {{ word.similarities.count }}</a>
 						</div>
 						<div class=words_translations>
-							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Translations: {{ word.translations.count }}</a>
 						</div>
 						<div class=words_examples>
-							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Examples: {{ word.examples.count }}</a>
 						</div>
 						<div class=words_stories>
-							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Stories: {{ word.stories.count }}</a>
 						</div>
 						<div class=words_relations>
-							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Relations: {{ word.relations.count }}</a>
 						</div>
 						<div class=words_sponsors>
-							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Sponsors: {{ word.sponsors.count }}</a>
 						</div>
 						<div class=words_price>
@@ -551,7 +551,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 							Viewcount: {{ word.viewcount }}
 						</div>
 						<div class=words_spaces>
-							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Spaces: {{ word.spaces.count }}</a>
 						</div>
 						<div class=words_votes>
@@ -573,7 +573,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 		<h4>Storefronts</h4>
 		{% for storefront in users_dic.storefronts.all %}
 			<div class=storefront>
-				<a href="{% url 'Bable:storefront' users_dic.author.username users_dic.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
+				<a href="{% url 'Bable:storefront' users_dic.author.to_full.username.id users_dic.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
 			</div>
 		{% endfor %}
 	</div>
@@ -582,14 +582,14 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 {% block unauthenticated_posts %}
 <div class=usersusername>
 		<h2>
-		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">
-			User: {{ user_anon.username.username }}
+		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.id 0 %}">
+			User: {{ user_anon.username.id }}
 		</a>
 		</h2>
 	</div>
 	<div class=single_dictionary>
 		<div class=dictionary_itself>
-			<a href="{% url 'Bable:tob_users_dic' user_anon.username.username users_dic.the_dictionary_itself 0 %}"><h4>
+			<a href="{% url 'Bable:tob_users_dic' user_anon.username.id users_dic.the_dictionary_itself 0 %}"><h4>
 				Dictionary: {{ users_dic.the_dictionary_itself }}
 			</h4></a>
 		</div>
@@ -653,7 +653,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 	<div class=single_dictionarys_words>
 		<div class=dics_word_section>
 			<div class=sectiontitle>
-				<a href="{% url 'Bable:tob_users_dic_words' user_anon.username.username users_dic.the_dictionary_itself 0 %}"><h4>Dic's wordentries:</h4></a>
+				<a href="{% url 'Bable:tob_users_dic_words' user_anon.username.id users_dic.the_dictionary_itself 0 %}"><h4>Dic's wordentries:</h4></a>
 			</div>
 			<div class=wordsectionsort>
 				<div class=wordsortnav>
@@ -724,46 +724,46 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 			</div>
 		</div>
 		
-		{% if users_dic.public or request.user.username == 'test' %}
+		{% if users_dic.public or request.user.id == 'test' %}
 			<div class=words>
 				{% for word in dics_words %}
 					<div class=word>
 						<div class=words_itself>
-							Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>; ID: {{ word.id }}
+							Word: <a href="{% url 'Bable:tob_users_dic_word_count' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>; ID: {{ word.id }}
 						</div>
 						<div class=words_latest>
 							Latest Change: {{ word.latest_change_date }}
 						</div>
 						<div class=words_pronunciations>
-							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_pronunciations' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Pronunciations: {{ word.pronunciations.count }}</a>
 						</div>
 						<div class=words_attributes>
-							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_attribute' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Attributes: {{ word.attributes.count }}</a>
 						</div>
 						<div class=words_similarities>
-							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_similarity' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Similarities: {{ word.similarities.count }}</a>
 						</div>
 						<div class=words_translations>
-							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_translation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Translations: {{ word.translations.count }}</a>
 						</div>
 						<div class=words_examples>
-							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_example' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Examples: {{ word.examples.count }}</a>
 						</div>
 						<div class=words_stories>
-							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_story' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Stories: {{ word.stories.count }}</a>
 						</div>
 						<div class=words_relations>
-							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_relation' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Relations: {{ word.relations.count }}</a>
 						</div>
 						<div class=words_sponsors>
-							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_sponsor' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Sponsors: {{ word.sponsors.count }}</a>
 						</div>
 						<div class=words_price>
@@ -773,7 +773,7 @@ User: {{ user_anon.username.username }}'s Dic: {{ users_dic.the_dictionary_itsel
 							Viewcount: {{ word.viewcount }}
 						</div>
 						<div class=words_spaces>
-							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.username users_dic.the_dictionary_itself word.the_word_itself 0 %}">
+							<a href="{% url 'Bable:tob_users_dic_word_space' user_anon.username.id users_dic.the_dictionary_itself word.the_word_itself 0 %}">
 							Spaces: {{ word.spaces.count }}</a>
 						</div>
 						<div class=words_votes>

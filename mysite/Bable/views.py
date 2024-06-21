@@ -1279,8 +1279,8 @@ def create_space(request):
 
 
 # Safe
-def delete_own_dic(request, user, dictionary):
-	user_themself = User.objects.get(username=user)
+def delete_own_dic(request, user_id, dictionary):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first() # or the_dictionary_itself=
 
@@ -1339,8 +1339,8 @@ def delete_own_dic(request, user, dictionary):
 
 
 
-def delete_bought_dic(request, user, dictionary):
-	user_themself = User.objects.get(username=user)
+def delete_bought_dic(request, user_id, dictionary):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.purchased_dictionaries.all().filter(the_dictionary_itself=dictionary).first() # or the_dictionary_itself=
 
@@ -1396,8 +1396,8 @@ def delete_bought_dic(request, user, dictionary):
 	return base_redirect(request, 0)
 
 ###
-def delete_own_word(request, user, dictionary, word):
-	user_themself = User.objects.get(username=user)
+def delete_own_word(request, user_id, dictionary, word):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first() # or the_dictionary_itself=
@@ -1453,8 +1453,8 @@ def delete_own_com(request, com, which):
 	return redirect('Bable:tob_user_view_count', user=request.user.username, count=0)
 
 
-def delete_own_attr(request, user, dic, word, attr):
-	user_themself = User.objects.get(username=user)
+def delete_own_attr(request, user_id, dic, word, attr):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1475,8 +1475,8 @@ def delete_own_attr(request, user, dic, word, attr):
 	return redirect('Bable:tob_users_dic_word_attribute', user=user, dictionary=dic, word=word, attribute=0)
 
 
-def delete_own_attr_def(request, user, dic, word, attr, defin):
-	user_themself = User.objects.get(username=user)
+def delete_own_attr_def(request, user_id, dic, word, attr, defin):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1499,8 +1499,8 @@ def delete_own_attr_def(request, user, dic, word, attr, defin):
 	return redirect('Bable:tob_users_dic_word_attribute', user=user, dictionary=dic, word=word)
 
 
-def delete_own_attr_syn(request, user, dic, word, attr, syn):
-	user_themself = User.objects.get(username=user)
+def delete_own_attr_syn(request, user_id, dic, word, attr, syn):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1523,8 +1523,8 @@ def delete_own_attr_syn(request, user, dic, word, attr, syn):
 	return redirect('Bable:tob_users_dic_word_attribute', user=user, dictionary=dic, word=word)
 
 
-def delete_own_attr_ant(request, user, dic, word, attr, ant):
-	user_themself = User.objects.get(username=user)
+def delete_own_attr_ant(request, user_id, dic, word, attr, ant):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1548,8 +1548,8 @@ def delete_own_attr_ant(request, user, dic, word, attr, ant):
 
 
 #needs testing
-def delete_own_attr_hom(request, user, dic, word, attr, hom):
-	user_themself = User.objects.get(username=user)
+def delete_own_attr_hom(request, user_id, dic, word, attr, hom):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1571,8 +1571,8 @@ def delete_own_attr_hom(request, user, dic, word, attr, hom):
 
 	return redirect('Bable:tob_users_dic_word_attribute', user=user, dictionary=dic, word=word)
 
-def delete_own_pron(request, user, dic, word, pron):
-	user_themself = User.objects.get(username=user)
+def delete_own_pron(request, user_id, dic, word, pron):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1592,8 +1592,8 @@ def delete_own_pron(request, user, dic, word, pron):
 
 	return redirect('Bable:tob_users_dic_word_pronunciations', user=user, dictionary=dic, word=word, pronunciation=0)
 
-def delete_own_simi(request, user, dic, word, simi):
-	user_themself = User.objects.get(username=user)
+def delete_own_simi(request, user_id, dic, word, simi):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1613,8 +1613,8 @@ def delete_own_simi(request, user, dic, word, simi):
 	request.COOKIES['similarity'] = 0
 	return base_redirect(request, 0)
 
-def delete_own_conn(request, user, dic, word, simi, conn):
-	user_themself = User.objects.get(username=user)
+def delete_own_conn(request, user_id, dic, word, simi, conn):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1636,8 +1636,8 @@ def delete_own_conn(request, user, dic, word, simi, conn):
 	request.COOKIES['similarity'] = 0
 	return base_redirect(request, 0)
 
-def delete_own_trans(request, user, dic, word, trans):
-	user_themself = User.objects.get(username=user)
+def delete_own_trans(request, user_id, dic, word, trans):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1658,8 +1658,8 @@ def delete_own_trans(request, user, dic, word, trans):
 	return redirect('Bable:tob_users_dic_word_tranlsation', user=user, dictionary=dic, word=word, translation=0)
 
 
-def delete_own_exam(request, user, dic, word, exam):
-	user_themself = User.objects.get(username=user)
+def delete_own_exam(request, user_id, dic, word, exam):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1679,8 +1679,8 @@ def delete_own_exam(request, user, dic, word, exam):
 
 	return redirect('Bable:tob_users_dic_word_example', user=user, dictionary=dic, word=word, example=0)
 
-def save_own_exa(request, user, exa):
-	user_themself = User.objects.get(username=user)
+def save_own_exa(request, user_id, exa):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 
 	if request.user.is_authenticated:
@@ -1700,8 +1700,8 @@ def save_own_exa(request, user, exa):
 	return redirect('Bable:tob_users_examples', user=user, count=0)
 
 
-def delete_own_stor(request, user, dic, word, stor):
-	user_themself = User.objects.get(username=user)
+def delete_own_stor(request, user_id, dic, word, stor):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1721,8 +1721,8 @@ def delete_own_stor(request, user, dic, word, stor):
 
 	return redirect('Bable:tob_users_dic_word_story', user=user, dictionary=dic, word=word, story=0)
 
-def delete_own_rela(request, user, dic, word, rela):
-	user_themself = User.objects.get(username=user)
+def delete_own_rela(request, user_id, dic, word, rela):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1742,8 +1742,8 @@ def delete_own_rela(request, user, dic, word, rela):
 
 	return redirect('Bable:tob_users_dic_word_relations', user=user, dictionary=dic, word=word, relation=0)
 
-def delete_own_spon(request, user, dic, word, spon):
-	user_themself = User.objects.get(username=user)
+def delete_own_spon(request, user_id, dic, word, spon):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1777,8 +1777,8 @@ def delete_own_spons(request, spon):
 	return base_redirect(request, 0)
 
 
-def delete_own_spac(request, user, dic, word, spac):
-	user_themself = User.objects.get(username=user)
+def delete_own_spac(request, user_id, dic, word, spac):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dic).first() # or the_dictionary_itself=
 
@@ -1798,8 +1798,8 @@ def delete_own_spac(request, user, dic, word, spac):
 
 	return redirect('Bable:tob_users_dic_word_space', user=user, dictionary=dic, word=word, space=0)
 
-def delete_own_post(request, user, post):
-	user_themself = User.objects.get(username=user)
+def delete_own_post(request, user_id, post):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_post = Post.objects.get(id=post) # or the_dictionary_itself=
 
@@ -1817,8 +1817,8 @@ def delete_own_post(request, user, post):
 
 	return redirect('Bable:tob_user_view_count', user=user, count=0)
 
-def delete_own_space(request, user, space):
-	user_themself = User.objects.get(username=user)
+def delete_own_space(request, user_id, space):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_space = Space.objects.get(id=post) # or the_dictionary_itself=
 
@@ -2597,8 +2597,8 @@ def create_comment_thread(request, source_type, source, com):
 from coinbase_commerce.client import Client
 
 @login_required
-def buy_users_dic(request, user, dictionary):
-	user_themself = User.objects.get(username=user)
+def buy_users_dic(request, user_id, dictionary):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	if user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first():
 		users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first() # or the_dictionary_itself=
@@ -2644,8 +2644,8 @@ def buy_users_dic(request, user, dictionary):
 	return redirect('Bable:tob_users_dic', user=user_anon.username.username, dictionary=users_dic.the_dictionary_itself)
 
 @login_required
-def unpurchase_users_dic(request, user, dictionary):
-	user_themself = User.objects.get(username=user)
+def unpurchase_users_dic(request, user_id, dictionary):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	if user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first():
 		users_dic = user_anon.dictionaries.filter(the_dictionary_itself=dictionary).first() # or the_dictionary_itself=
@@ -4365,7 +4365,7 @@ def tob_space_view(request, space):
 	
 	particular_space = Space.objects.get(id=space)
 	users_space = Space.objects.get(id=space)
-	user = User.objects.get(username=users_space.author.username)
+	user = User.objects.get(id=int(users_space.author.to_full().username.id))
 	user_anon = Anon.objects.get(username=user)
 		
 	spaces_posts = particular_space.posts.all()
@@ -4471,7 +4471,7 @@ def tob_space_view_count(request, space, count):
 	
 	particular_space = Space.objects.get(id=space)
 	users_space = Space.objects.get(id=space)
-	user_anon = Anon.objects.get(username=User.objects.get(username=users_space.author.username))
+	user_anon = Anon.objects.get(username=User.objects.get(id=int(users_space.author.to_full().username.id)))
 	spaces_posts = particular_space.posts.all()
 	users_sponsors = users_space.sponsors.all()
 	try:
@@ -4959,7 +4959,7 @@ def tob_spaces_post(request, space, post, count):
 	tob_post = tob_space.posts.get(id=post)[:100]
 	count = int(count)
 	posts_comments = tob_post.comments.order_by('viewcount')[count:count+100]
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	
@@ -5047,7 +5047,7 @@ def tob_spaces_post_count(request, space, post, count):
 	return the_response
 
 def tob_spaces_posts_comment(request, space, post, comment):
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 
 	registerform = UserCreationForm()
@@ -5102,7 +5102,7 @@ def tob_spaces_posts_comment(request, space, post, comment):
 	return the_response
 
 def tob_spaces_posts_comment_count(request, space, post, comment, count):
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 
 	
@@ -5326,7 +5326,7 @@ def tob_view_users_count(request, count):
 	the_response.set_cookie('count', count)
 	return the_response
 
-def tob_user_view(request, user, count=0):
+def tob_user_view(request, user_id, count=0):
 	# Takes in the user object and collects lists to be displayed, totalling 100
 	# Each must be checked, if any exist, HTML doc displays an IF with a message for each
 	# if so, they are then ordered in the feasible ways saved for each anon
@@ -5481,7 +5481,7 @@ def tob_user_view(request, user, count=0):
 	the_response.set_cookie('count', count)
 	return the_response
 
-def tob_user_view_count(request, user, count=0):
+def tob_user_view_count(request, user_id, count=0):
 	# Takes in the user object and collects lists to be displayed, totalling 100
 	# Each must be checked, if any exist, HTML doc displays an IF with a message for each
 	# if so, they are then ordered in the feasible ways saved for each anon
@@ -5632,9 +5632,9 @@ def tob_user_view_count(request, user, count=0):
 	return the_response
 
 
-def tob_users_spaces(request, user, count):
+def tob_users_spaces(request, user_id, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 
 	registerform = UserCreationForm()
@@ -5649,7 +5649,7 @@ def tob_users_spaces(request, user, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 	
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	users_spaces = user_anon.spaces
@@ -5682,9 +5682,9 @@ def tob_users_spaces(request, user, count):
 	the_response.set_cookie('viewing_user', user)
 	return the_response
 
-def tob_users_sponsor(request, user, sponsor):
+def tob_users_sponsor(request, user_id, sponsor):
 	sponsor = int(sponsor)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	
@@ -5736,8 +5736,8 @@ def tob_users_sponsor(request, user, sponsor):
 	the_response.set_cookie('sponsor', sponsor)
 	return the_response
 
-def tob_users_sponsors(request, user, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_sponsors(request, user_id, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	
@@ -5789,10 +5789,10 @@ def tob_users_sponsors(request, user, count):
 	return the_response
 
 
-def tob_users_space(request, user, space_id, count):
+def tob_users_space(request, user_id, space_id, count):
 	count = int(count)
 	space_id = int(space_id)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	
@@ -5893,9 +5893,9 @@ def tob_users_space(request, user, space_id, count):
 	return the_response
 
 
-def tob_users_spaces_sponsor(request, user, space_id, sponsor):
+def tob_users_spaces_sponsor(request, user_id, space_id, sponsor):
 	sponsor = int(sponsor)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	user_author = Author.objects.get(username=user)
 	
@@ -6027,9 +6027,9 @@ def tob_users_spaces_sponsor(request, user, space_id, sponsor):
 	return the_response
 
 
-def tob_users_spaces_post(request, user, space_id, post_id):
+def tob_users_spaces_post(request, user_id, space_id, post_id):
 	space_id = int(space_id)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	registerform = UserCreationForm()
@@ -6103,8 +6103,8 @@ def tob_users_spaces_post(request, user, space_id, post_id):
 	return the_response
 	
 
-def tob_users_spaces_post_count(request, user, space, post, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_spaces_post_count(request, user_id, space, post, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	registerform = UserCreationForm()
@@ -6175,8 +6175,8 @@ def tob_users_spaces_post_count(request, user, space, post, count):
 	the_response.set_cookie('post', post)
 	return the_response
 
-def tob_users_spaces_post_comment(request, user, space, post, comment):
-	user_themself = User.objects.get(username=user)
+def tob_users_spaces_post_comment(request, user_id, space, post, comment):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_space = user_anon.spaces.get(id=space)
 	spaces_post = users_space.posts.get(id=post)
@@ -6286,11 +6286,11 @@ async def signature(request):     # noqa
 
 '''
 
-def tob_users_post(request, user, post, count=0):
+def tob_users_post(request, user_id, post, count=0):
 	if not User.objects.all().filter(username=user).count():
 		user_themself = User.objects.create(username=user, password="Password-2")
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_author, created = Author.objects.get_or_create(username=user)
 		user_anon = user_author.to_anon()
 
@@ -6384,9 +6384,9 @@ def tob_users_post(request, user, post, count=0):
 	the_response.set_cookie('count', count)
 	return the_response
 
-def tob_users_posts(request, user, count):
+def tob_users_posts(request, user_id, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	registerform = UserCreationForm()
@@ -6439,8 +6439,8 @@ def tob_users_posts(request, user, count):
 	return the_response
 
 
-def tob_users_posts_comment(request, user, post, comment):
-	user_themself = User.objects.get(username=user)
+def tob_users_posts_comment(request, user_id, post, comment):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_posts = user_anon.posts.order_by('-latest_change_date')[:100]
 	
@@ -6481,9 +6481,9 @@ def tob_users_posts_comment(request, user, post, comment):
 	the_response.set_cookie('comment', comment)
 	return the_response
 
-def tob_users_examples(request, user, count):
+def tob_users_examples(request, user_id, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dictionaries = user_anon.dictionaries.filter(for_sale=True)
 	if request.user.username == user:
@@ -6533,8 +6533,8 @@ def tob_users_examples(request, user, count):
 	the_response.set_cookie('count', count)
 	return the_response
 
-def tob_users_examples_count(request, user, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_examples_count(request, user_id, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dics = user_anon.dictionaries.order_by('-latest_change_date')[:100]
 	
@@ -6575,9 +6575,9 @@ def tob_users_examples_count(request, user, count):
 	the_response.set_cookie('count', count)
 	return the_response
 
-def tob_users_dics(request, user, count):
+def tob_users_dics(request, user_id, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	
 	registerform = UserCreationForm()
@@ -7207,7 +7207,7 @@ def failed_to_purchase_bread(request, amount):
 	return HttpResponse('Successfuly failed to purchase')
 
 @login_required
-def donate_to_other(request, user, amount):
+def donate_to_other(request, user_id, amount):
 	donate_to_auth = Author.objects.get(username=user)
 	donate_to_anon = Anon.objects.get(username__username=user)
 	loggedinanon = Anon.objects.get(username__username=request.user.username)
@@ -7221,7 +7221,7 @@ def donate_to_other(request, user, amount):
 	return base_redirect(request, 0)
 
 @login_required
-def tob_users_vote(request, user, vote):
+def tob_users_vote(request, user_id, vote):
 	registerform = UserCreationForm()
 	
 		
@@ -7233,7 +7233,7 @@ def tob_users_vote(request, user, vote):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 
-		user_themself = User.objects.get(username=user)
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 		user_author = Author.objects.get(username=user)
 
@@ -7264,7 +7264,7 @@ def tob_users_vote(request, user, vote):
 	return the_response
 
 @login_required
-def tob_users_votes(request, user, count):
+def tob_users_votes(request, user_id, count):
 	registerform = UserCreationForm()
 	
 		
@@ -7278,7 +7278,7 @@ def tob_users_votes(request, user, count):
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 
-		user_themself = User.objects.get(username=user)
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 		user_author = Author.objects.get(username=user)
 
@@ -7304,9 +7304,9 @@ def tob_users_votes(request, user, count):
 	the_response.set_cookie('votes', votes)
 	return the_response
 
-def tob_users_dic(request, user, dictionary, count):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic(request, user_id, dictionary, count):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -7439,9 +7439,9 @@ def submit_dic_prereq(request):
 			
 	return base_redirect(request, 0)
 
-def tob_users_dic_word_count(request, user, dictionary, word, count):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_count(request, user_id, dictionary, word, count):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -7616,9 +7616,9 @@ def calculate_sponsor_price(word):
 	word.save()
 	return top_sponsor
 
-def tob_users_dic_word_pronunciations(request, user, dictionary, word, pronunciation_id):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_pronunciations(request, user_id, dictionary, word, pronunciation_id):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -7862,9 +7862,9 @@ def tob_pronunciation(request, pronunciation_id):
 	return redirect('Bable:tob_users_dic_word_pronunciation', pronunciation.word.home_dictionary.author.username, pronunciation.word.home_dictionary.the_dictionary_itself, pronunciation.word.the_word_itself, pronunciation.id)
 
 
-def tob_users_dic_word_attribute(request, user, dictionary, word, attribute):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_attribute(request, user_id, dictionary, word, attribute):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8246,9 +8246,9 @@ def tob_word_attribute(request, word_id, attribute_id):
 
 
 
-def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_similarity(request, user_id, dictionary, word, similarity):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8352,9 +8352,9 @@ def tob_users_dic_word_similarity(request, user, dictionary, word, similarity):
 
 
 
-def tob_users_dic_word_translation(request, user, dictionary, word, translation):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_translation(request, user_id, dictionary, word, translation):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8521,9 +8521,9 @@ def tob_word_translation(request,  word_id, translation_id):
 	return the_response
 
 
-def tob_users_dic_word_example(request, user, dictionary, word, example):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_example(request, user_id, dictionary, word, example):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8611,8 +8611,8 @@ def tob_users_dic_word_example(request, user, dictionary, word, example):
 	return the_response
 
 def tob_word_example(request, word_id, example_id):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8699,9 +8699,9 @@ def tob_word_example(request, word_id, example_id):
 
 
 
-def tob_users_dic_word_story(request, user, dictionary, word, story):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_story(request, user_id, dictionary, word, story):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -8869,9 +8869,9 @@ def tob_word_story(request, word_id, story_id):
 
 
 
-def tob_users_dic_word_relation(request, user, dictionary, word, relation):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_relation(request, user_id, dictionary, word, relation):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -9020,9 +9020,9 @@ def tob_word_relation(request, word_id, relation_id):
 	the_response.set_cookie('relation', relation)
 	return the_response
 
-def tob_users_dic_word_sponsor(request, user, dictionary, word, sponsor):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_sponsor(request, user_id, dictionary, word, sponsor):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Invalid User")
@@ -9202,9 +9202,9 @@ def tob_word_sponsor(request, word_id, sponsor_id):
 	the_response.set_cookie('sponsor', sponsor)
 	return the_response
 
-def tob_users_dic_word_space(request, user, dictionary, word, space):
-	if User.objects.get(username=user):
-		user_themself = User.objects.get(username=user)
+def tob_users_dic_word_space(request, user_id, dictionary, word, space):
+	if User.objects.get(id=int(user_id)):
+		user_themself = User.objects.get(id=int(user_id))
 		user_anon = Anon.objects.get(username=user_themself)
 	else:
 		return HttpResponse("Incorrect User")
@@ -9263,8 +9263,8 @@ def tob_users_dic_word_space(request, user, dictionary, word, space):
 	the_response.set_cookie('space', space)
 	return the_response
 
-def tob_users_dic_words(request, user, dictionary, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_dic_words(request, user_id, dictionary, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(the_dictionary_itself=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9306,9 +9306,9 @@ def tob_users_dic_words(request, user, dictionary, count):
 	the_response.set_cookie('dictionary', dictionary)
 	return the_response
 
-def tob_users_dic_wordgroups(request, user, dictionary, count):
+def tob_users_dic_wordgroups(request, user_id, dictionary, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9343,9 +9343,9 @@ def tob_users_dic_wordgroups(request, user, dictionary, count):
 	the_response.set_cookie('word', word)
 	return the_response
 
-def tob_users_dic_votes(request, user, dictionary, count):
+def tob_users_dic_votes(request, user_id, dictionary, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9380,9 +9380,9 @@ def tob_users_dic_votes(request, user, dictionary, count):
 	the_response.set_cookie('word', word)
 	return the_response
 
-def tob_users_dic_translations(request, user, dictionary, count):
+def tob_users_dic_translations(request, user_id, dictionary, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9417,9 +9417,9 @@ def tob_users_dic_translations(request, user, dictionary, count):
 	the_response.set_cookie('word', word)
 	return the_response
 
-def tob_users_dic_sentences(request, user, dictionary, count):
+def tob_users_dic_sentences(request, user_id, dictionary, count):
 	count = int(count)
-	user_themself = User.objects.get(username=user)
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9454,8 +9454,8 @@ def tob_users_dic_sentences(request, user, dictionary, count):
 	the_response.set_cookie('word', word)
 	return the_response
 
-def tob_users_dic_renditions(request, user, dictionary, sentence, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_dic_renditions(request, user_id, dictionary, sentence, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -9492,8 +9492,8 @@ def tob_users_dic_renditions(request, user, dictionary, sentence, count):
 	the_response.set_cookie('word', word)
 	return the_response
 
-def tob_users_dic_analyses(request, user, dictionary, count):
-	user_themself = User.objects.get(username=user)
+def tob_users_dic_analyses(request, user_id, dictionary, count):
+	user_themself = User.objects.get(id=int(user_id))
 	user_anon = Anon.objects.get(username=user_themself)
 	users_dic = user_anon.dictionaries.get(dictionary_name=dictionary) # or the_dictionary_itself=
 	users_dic.update_purchases()
@@ -10405,7 +10405,7 @@ def upload_file(request):
 
 @login_required
 def tob_users_files(request, user):
-	viewing_user = User.objects.get(username=user)
+	viewing_user = User.objects.get(id=int(user_id))
 	viewing_anon = Anon.objects.get(username=viewing_user)
 	loggedinuser = User.objects.get(username=request.user.username)
 	loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10722,7 +10722,7 @@ def complementary_scholar(request):
 
 
 @login_required
-def tob_save_com(request, user, com):
+def tob_save_com(request, user_id, com):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10737,7 +10737,7 @@ def tob_save_com(request, user, com):
 	return base_redirect(request, 0)
 
 @login_required
-def tob_save_votestyle(request, user, votestyleid):
+def tob_save_votestyle(request, user_id, votestyleid):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10752,7 +10752,7 @@ def tob_save_votestyle(request, user, votestyleid):
 	return base_redirect(request, 0)
 
 @login_required
-def tob_buy_space(request, user, space):
+def tob_buy_space(request, user_id, space):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10798,7 +10798,7 @@ def submit_buy_space_form(request, space_id):
 	return base_redirect(request, 0)
 
 @login_required
-def tob_remove_space(request, user, space):
+def tob_remove_space(request, user_id, space):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10814,7 +10814,7 @@ def tob_remove_space(request, user, space):
 
 
 @login_required
-def tob_save_space(request, user, space):
+def tob_save_space(request, user_id, space):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
@@ -10829,7 +10829,7 @@ def tob_save_space(request, user, space):
 
 
 @login_required
-def tob_unsave_space(request, user, space):
+def tob_unsave_space(request, user_id, space):
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
 		loggedinanon = Anon.objects.get(username=loggedinuser)
