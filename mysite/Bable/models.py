@@ -775,13 +775,21 @@ class Price(models.Model):
     invoices = models.ManyToManyField(Invoice, default=None)
     sum_invoices = models.IntegerField(default=0)
 
-    #location_of_product = models.CharField(max_length=200, default='Remote')
+    sponsors = models.ManyToManyField(Sponsor, default=None)
+
+    location_of_product = models.CharField(max_length=200, default='Remote')
     point_of_sale = models.ManyToManyField(Sale, default=None)
 
-    #product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
+    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
     
+    def author(self):
+    	return Author.objects.get(username=Anon.objects.get(id=anon_user_id).username.username)
+
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
+
+    def max_sponsor(self):
+    	return self.sponsors.all().order_by('-price_limit').first() or Sponsor.all().order_by('-price_limit').first()
 
 class Storefront(models.Model):
 	author = models.OneToOneField(Author, default=None, on_delete=models.PROTECT)

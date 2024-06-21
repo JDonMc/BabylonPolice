@@ -48,11 +48,26 @@ Product {{ users_product.name }} - Dream Cloud Middle Men
 	                <button type="submit">Purchase</button>
 	            </form>
 	        </div>
+	        <div class=product_sponsor>
+	        	{% if users_product.sponsors.count %}
+
+					<form action="{% url 'Bable:clickthrough' %}" method=POST>
+								{% csrf_token %}
+								<input type=hidden value="{{ user_anon.username.username }}" readonly>
+								<input type=hidden value="{{ users_product.max_sponsor.id }}" readonly>
+								<button type=submit>
+									<img src="{{ users_product.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+								</button>
+							</form>
+				{% else %}
+					<img src="{% static 'babylonpolice.com.gif' %}" style="height: 8em; width: 8em;">
+				{% endif %}
+	        </div>
 	        {% if users_product in loggedinanon.products.all %}
-	        <div class=dictionary_words>
+	        <div class=product_description2purchase>
 				Description2Purchase: {{ users_product.description2purchase }}
 			</div>
-			<div class=dictionary_words>
+			<div class=product_url>
 				URL: {{ users_product.url }}
 			</div>
 			{% endif %}

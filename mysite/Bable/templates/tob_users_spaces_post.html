@@ -122,6 +122,19 @@
 						No creative common's license
 					{% endif %}
 				</div>
+				{% if spaces_post.sponsors.count %}
+
+					<form action="{% url 'Bable:clickthrough' %}" method=POST>
+								{% csrf_token %}
+								<input type=hidden value="{{ spaces_post.author.username }}" readonly>
+								<input type=hidden value="{{ spaces_post.max_sponsor.id }}" readonly>
+								<button type=submit>
+									<img src="{{ spaces_post.max_sponsor.img }}" style="height: 4em; width: 4em; float:right;">
+								</button>
+							</form>
+				{% else %}
+					<img src="{% static 'babylonpolice.com.gif' %}" style="height: 8em; width: 8em;">
+				{% endif %}
 				<div class=postcomments>
 					Comments: {{ spaces_post.comments.count }}
 					<div class=comsubmit>
