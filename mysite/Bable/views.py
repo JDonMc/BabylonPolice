@@ -4854,7 +4854,7 @@ def tob_product(request, product_id):
 
 
 def tob_spaces_post(request, space, post, count):
-	tob_space = Spaces.objects.get(id=space)[:100]
+	tob_space = Space.objects.get(id=space)[:100]
 	tob_post = tob_space.posts.get(id=post)[:100]
 	count = int(count)
 	posts_comments = tob_post.comments.order_by('viewcount')[count:count+100]
