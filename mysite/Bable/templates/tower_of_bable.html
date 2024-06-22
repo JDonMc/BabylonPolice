@@ -270,8 +270,6 @@ $(document).ready(function() {
 						{% endif %}
 						{% endwith %}
 				{% endif %}
-				{% with 0|random_int:25 as rando %}
-						{% if rando|left_over:5 == 0 %}
 						{% with post.max_sponsor as max %}
 						<div style="display: block; width: 20%; margin-right: 10px;">
 							{% if max.img %}
@@ -286,8 +284,7 @@ $(document).ready(function() {
 							{% endif %}
 						</div>
 						{% endwith %}
-						{% endif %}
-				{% endwith %}
+						
 			<div class=posttop style="display: inline-block; vertical-align: top;">
 				
 				{% if post.author.to_full.username.id %}
@@ -565,8 +562,6 @@ $(document).ready(function() {
 						{% endif %}
 						{% endwith %}
 					{% endif %}
-					{% with 0|random_int:25 as rando %}
-							{% if rando|left_over:5 == 0 %}
 							{% with post.max_sponsor as max %}
 							<div style="display: block; width: 20%; margin-right: 10px;">
 								{% if max.img %}
@@ -581,8 +576,6 @@ $(document).ready(function() {
 								{% endif %}
 							</div>
 							{% endwith %}
-							{% endif %}
-					{% endwith %}
 				<div class=posttop style="display: inline-block; width: 60%; margin-left: 10px;">
 					
 					{% if post.author.to_full.username.id %}
