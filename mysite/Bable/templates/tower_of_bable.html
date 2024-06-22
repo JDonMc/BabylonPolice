@@ -273,7 +273,7 @@ $(document).ready(function() {
 				{% with 0|random_int:25 as rando %}
 						{% if rando|left_over:5 == 0 %}
 						{% with post.max_sponsor as max %}
-						<div style="display: block; width: min-content; margin-right: 10px;">
+						<div style="display: block; width: 20%; margin-right: 10px;">
 							{% if max.img %}
 								<img src="{{ post.max_sponsor.img }}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
 							{% else %}
@@ -568,7 +568,7 @@ $(document).ready(function() {
 					{% with 0|random_int:25 as rando %}
 							{% if rando|left_over:5 == 0 %}
 							{% with post.max_sponsor as max %}
-							<div style="display: block; width: min-content; margin-right: 10px;">
+							<div style="display: block; width: 20%; margin-right: 10px;">
 								{% if max.img %}
 									<img src="{{ post.max_sponsor.img }}" style="max-height:100%; z-index: 0; width: 100%; box-shadow: 0 2px 10px grey; border-radius: 20px; vertical-align: top; margin-top: 10px; display: block;" alt="Please Others With A Gif">
 								{% else %}
