@@ -42,7 +42,7 @@ BabylonPolice - View Users {{ count }}
 		{% for user in user_anons.all %}
 		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
 			<div class=postauthor>
-				<a href="{% url 'Bable:tob_user_view_count' user.username.username 0 %}">/u/{{ user.username.username }}</a>
+				<a href="{% url 'Bable:tob_user_view_count' user.username.id 0 %}">/u/{{ user.username.username }}</a>
 			</div>
 			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
 				Dictionaries: {{ user.dictionaries.count }}
@@ -101,7 +101,7 @@ BabylonPolice - View Users {{ count }}
 		{% for user in user_anons.all %}
 		<div class=user style="margin-bottom: 2px; border-bottom: 1px; border-color: black;">
 			<div class=postauthor>
-				<a href="{% url 'Bable:tob_user_view_count' user.username.username 0 %}">/u/{{ user.username.username }}</a>
+				<a href="{% url 'Bable:tob_user_view_count' user.username.id 0 %}">/u/{{ user.username.username }}</a>
 			</div>
 			<div class=purchasesd_dictionaries style="margin-left:2px; border-left: 1px; border-color: black;">
 				Dictionaries: {{ user.dictionaries.count }}
