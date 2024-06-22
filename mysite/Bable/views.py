@@ -5501,12 +5501,12 @@ def tob_user_view_count(request, user_id, count=0):
 		loggedinauthor = Author.objects.get(username=request.user.username)
 
 	if User.objects.filter(username=user).count():
-		user_themself, created = User.objects.get_or_create(username=user[0:149])
-		user_author, created = Author.objects.get_or_create(username=user[0:149])
+		user_themself, created = User.objects.get_or_create(id=int(user_id))
+		user_author, created = Author.objects.get_or_create(username=user_themself.username)
 		user_anon = user_author.to_anon()
 	else:
-		user_themself, created = User.objects.get_or_create(username=user[0:149])
-		user_author, created = Author.objects.get_or_create(username=user[0:149])
+		user_themself, created = User.objects.get_or_create(id=int(user_id))
+		user_author, created = Author.objects.get_or_create(username=user_themself.username)
 		user_anon = user_author.to_anon()
 	
 	
