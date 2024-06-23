@@ -30,7 +30,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 		<h2>
 		<a href="{% url 'Bable:tob_user_view_count' user_anon.username.username 0 %}">User: {{ user_anon.username.username }}</a>; <a href="{% url 'Bable:tob_users_spaces' user_anon.username.username 0 %}">Space: {{ users_space.the_space_itself.the_word_itself }}</a>
 		</h2>
-		{% if users_space.author.to_full.username.id == request.user.id %}
+		{% if users_space.author.username == request.user.id %}
 		<div class=space_edit>
 			<form action="{% url 'Bable:users_space_edit' users_space.id %}" method=post>
 				{% csrf_token %}
@@ -43,7 +43,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 		</div>
 		{% endif %}
 		<div class=space_sponsor>
-			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.author.to_full.username.id users_space.id 0 %}" method=post>
+			<form action="{% url 'Bable:tob_users_spaces_sponsor' users_space.author.username users_space.id 0 %}" method=post>
 				{% csrf_token %}
 				{{ sponsor_form }}
 				<button type=submit>Sponsor</button>
@@ -73,7 +73,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 					<div class=spon_latest>
 						Latest: {{ spon.latest_change_date }}
 					</div>
-					{% if spon.author.to_full.username.id == request.user.id %}
+					{% if spon.author.username == request.user.id %}
 					<div class=spon-delete>
 						<a href="{% url 'Bable:delete_own_spons' spon.id %}"><h4>X</h4></a>
 					</div>
@@ -86,7 +86,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 						Allowable: {{ spon.allowable_expenditure }}
 					</div>
 					<div class=spon_author>
-						<a href="{% url 'Bable:tob_user_view_count' spon.author.to_full.username.id 0 %}">/u/{{ spon.author.username }}</a>
+						<a href="{% url 'Bable:tob_user_view_count' spon.author.username 0 %}">/u/{{ spon.author.username }}</a>
 					</div>
 					<div class=spon_votecount>
 						<a href="{% url 'Bable:votewvotestyle' 'spon' spon.id %}">Votes: {{ spon.votes.count }}</a>
@@ -96,7 +96,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 						{% for vote in spon.votes.all %}
 							{% if vote in loggedinanon.applied_votestyles.to_source %}
 							<div class=votess>
-								<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.to_full.username.id vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+								<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
 							</div>
 							{% endif %}
 						{% endfor %}
@@ -137,11 +137,11 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 							<img src="{% static 'babylonpolice.com.gif' %}" style="height: 6em; width: 6em;">
 						{% endif %}
 					</div><div class=posttitle>
-						<a href="{% url 'Bable:tob_users_spaces_post' post.author.to_full.username.id users_space.id post.id %}"><h4>{{ post.title }}</h4></a>
+						<a href="{% url 'Bable:tob_users_spaces_post' post.author.username users_space.id post.id %}"><h4>{{ post.title }}</h4></a>
 					</div>
-					{% if post.author.to_full.username.id == user_anon.username.username %}
+					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>
-						<a href="{% url 'Bable:delete_own_post' post.author.to_full.username.id post.id %}">X</a>
+						<a href="{% url 'Bable:delete_own_post' post.author.username post.id %}">X</a>
 					</div>
 					{% endif %}
 					<div class=postsponsors style="position: absolute; right: 3em;">
@@ -164,11 +164,11 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 					<a href="{% url 'Bable:tob_users_spaces_post_count' user_anon.username.username users_space.the_space_itself.the_word_itself post.id 0 %}">{{ post.body|truncatechars:144|usernames|spaces|urlize }}</a>
 				</div>
 				<div class=postauthor>
-					<a href="{% url 'Bable:tob_user_view_count' post.author.to_full.username.id 0 %}">/u/{{ post.author.username }}</a>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username 0 %}">/u/{{ post.author.username }}</a>
 				</div>
 				<div class=postwords>
 					{% for word in post.words.all|slice:"10" %}
-					<a href="{% url 'Bable:tob_users_dic_word_count' post.author.to_full.username.id word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
+					<a href="{% url 'Bable:tob_users_dic_word_count' post.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">
 						{{ word.the_word_itself }}
 					</a>
 					{% endfor %}
@@ -185,7 +185,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 					Latest: {{ post.latest_change_date }}
 				</div>
 				<div class=postauthor>
-					<a href="{% url 'Bable:tob_user_view_count' post.author.to_full.username.id ">/u/{{ post.author.username }}</a>
+					<a href="{% url 'Bable:tob_user_view_count' post.author.username ">/u/{{ post.author.username }}</a>
 				</div>
 				
 			</div>
@@ -194,7 +194,7 @@ User: {{ user_anon.username.username }}, Space: {{ users_space.the_space_itself.
 				<h4>Storefronts</h4>
 				{% for storefront in users_space.storefronts.all %}
 					<div class=storefront>
-						<a href="{% url 'Bable:storefront' users_space.author.to_full.username.id storefront.logo.home_dictionary.to_full.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
+						<a href="{% url 'Bable:storefront' users_space.author.username storefront.logo.home_dictionary.to_full.id storefront.title %}">{{ storefront.title }}</a>{{ storefront.logo|dics_word:users_dic }}
 					</div>
 				{% endfor %}
 			</div>
