@@ -5539,7 +5539,7 @@ def tob_user_view_count(request, user_id, count=0):
 			
 		else:
 			users_posts = user_anon.posts.order_by('viewcount')[count:count+25]
-	if request.user.username == user or request.user.username == 'test':
+	if request.user.id == int(user_id) or request.user.username == 'test':
 		users_posts = user_anon.posts.order_by(loggedinanon.post_sort_char)[count:25]
 	# Dictionary contains: author, for_sale, views, 
 	'''
