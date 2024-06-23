@@ -115,11 +115,11 @@
 		</div>
 		{% if users_post.dictionaries.count %}
 		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
-			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|linebreaks|safe }}
+			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
 		</div>
 		{% else %}
 		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
-			{{ users_post.body|safety_check|usernames|spaces|linebreaks|safe }}
+			{{ users_post.body|safety_check|usernames|spaces|safe|linebreaks }}
 		</div>
 		{% endif %}
 		<div id=speakpostbody style="cursor: pointer;">
@@ -368,7 +368,7 @@
 			</script>
 		</div>
 		<div id=postbody class=postbody>
-			{{ users_post.body|fontypes:users_post.words.all|safety_check|safe }}
+			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|safe|linebreaks }}
 		</div>
 		<div id=speakpostbody style="cursor: pointer;">
 			Click here to read this post out
