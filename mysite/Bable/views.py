@@ -5481,6 +5481,11 @@ def tob_user_view(request, user_id, count=0):
 	the_response.set_cookie('count', count)
 	return the_response
 
+
+def u(request, user):
+	user_id = User.objects.get(username=user)
+	return redirect('Bable:tob_user_view', user_id.id)
+
 def tob_user_view_count(request, user_id, count=0):
 	# Takes in the user object and collects lists to be displayed, totalling 100
 	# Each must be checked, if any exist, HTML doc displays an IF with a message for each

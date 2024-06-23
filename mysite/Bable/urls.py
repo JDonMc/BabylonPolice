@@ -238,6 +238,7 @@ urlpatterns = [
 	url(r'^skitzophrenia/$', views.barcode, name='barcode'),
 	url(r'^tob_users_files/(?P<user_id>[\w-]+)/$', views.tob_users_files, name='tob_users_files'),
     path('api/checkout-session/<price_id>/<post_id>/<storefront_id>/', views.create_checkout_session, name='api_checkout_session'),
+	path('u/<user>/', views.u, name='u'),
 	path('api/checkout-bread-session/<price>/', views.create_checkout_bread_session, name='api_checkout_bread_session'),
 	path('api/checkout_ads/', views.checkout_ads, name='checkout_ads'),
 ]
