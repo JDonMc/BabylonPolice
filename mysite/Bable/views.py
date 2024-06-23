@@ -5525,7 +5525,7 @@ def tob_user_view_count(request, user_id, count=0):
 	
 
 
-	anons_posts = Post.objects.all().filter(author=Author.objects.get(username=user[0:149]))
+	anons_posts = Post.objects.all().filter(author=user_author)
 	for post in anons_posts:
 		user_anon.posts.add(post)
 	
