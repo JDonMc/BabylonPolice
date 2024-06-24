@@ -5484,7 +5484,7 @@ def tob_user_view(request, user, count=0):
 
 def u(request, user):
 	user_id = User.objects.get(username=user)
-	return redirect('Bable:tob_user_view', user_id.id)
+	return redirect('Bable:tob_user_view', user_id.username)
 
 def tob_user_view_count(request, user, count=0):
 	# Takes in the user object and collects lists to be displayed, totalling 100
