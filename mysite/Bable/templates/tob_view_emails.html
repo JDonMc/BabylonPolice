@@ -36,7 +36,7 @@ BabylonPolice - View Emails {{ count }}
 	</div>
 	{% endfor %}
 <div class=pageno>
-	<a href="{% url 'Bable:tob_view_users_count' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_view_users_count' count100 %}">></a>
+	<a href="{% url 'Bable:tob_email' mcount %}"><</a>{{ count }}:{{ count100 }}<a href="{% url 'Bable:tob_email' count100 %}">></a>
 </div>
 
 {% endblock %}
