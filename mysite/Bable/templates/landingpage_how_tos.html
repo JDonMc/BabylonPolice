@@ -1,0 +1,547 @@
+<!-- # Copyright Aden Handasyde 2019 -->
+
+{% extends 'base.html' %}
+{% load user_referencing %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+Predictionary.us - You can't predict from what you don't know.
+{% endblock %}
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta content="X-Frame-Options: SAMEORIGIN">
+<meta property="og:description" content="Predictionary.us - You can't predict from what you don't know. Urban Dictionary with a twist, sell your slang, hide meaning behind meaning. Ulterior motives like it's a potion.">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+{% block authenticatedposts %}
+<style>
+	.multiexpimage {
+		width: 26.6em;
+	}
+	.framer-19un3sn, .framer-1r4ux0k {
+			top: -100px;
+		}
+	@media only screen {
+		.framer-19un3sn, .framer-1r4ux0k {
+			top: 0px;
+		}
+		
+	}
+
+	@media only screen and (max-width: 489px) {
+		.multiexpimage {
+		width: 100%;
+	}
+	}
+</style>
+<div class="pitch" style="width:fit-content; margin: auto;">
+	<div class="framer-64f1t2" data-framer-name="Hero" name="Hero" style="width: 100%;">
+		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: block;width: fit-content; margin: auto;">
+			<div class="framer-l4fk58" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; postition: relative; top: 100px;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/WTe1RB61eECaaPFpZaMd1jfyViA.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+				</div>
+			</div>
+			<div class="framer-19un3sn" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; position: relative; display: inline-block;">
+				<div class="framer-1tbkhbu" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Speak Up, Cash in.</h3>
+				</div>
+				<div class="framer-1qrt7fe" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: 'Manrope, sans-serif'; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">
+				Unleash your inner linguist and earn rewards by speaking the right words in the right spaces. Be the conversation commander you know you can be.</h3>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1zv4rq" data-framer-name="Wrapper" name="Wrapper" style="display: inline-block;align-items: center;">
+		<div class="framer-1r4ux0k" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; display: inline-block; position: relative;">
+			<div class="framer-1nup74" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector:R0Y7RWxzaWUtcmVndWxhcg==;font-family:&quot;Elsie&quot;, sans-serif;font-size:32px;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Open Source Trust</h3>
+			</div>
+			<div class="framer-1t0s49y" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: &quot;Manrope&quot;, sans-serif; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Safeguard your space. Our open-source foundation ensures full transparency so you always know what’s behind closed doors.</h3>
+			</div>
+		</div>
+		<div class="framer-ffcig2" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+			<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+				<img src="https://framerusercontent.com/images/NuQtJKBat8tTdmR3Rm22AHCrcY.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="framer-64f1t2" data-framer-name="Hero" name="Hero" style="width: 100%;">
+		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: block;width: fit-content; margin: auto;">
+			<div class="framer-l4fk58" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; postition: relative; top: 100px;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img class="multiexpimage" src="{% static '1-4036681.jpg' %}" alt="" srcset="" style="display:block;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+				</div>
+			</div>
+			<div class="framer-19un3sn" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; position: relative; display: inline-block;">
+				<div class="framer-1tbkhbu" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Multi-Exponential Growth</h3>
+				</div>
+				<div class="framer-1qrt7fe" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: 'Manrope, sans-serif'; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">
+				Dictionaries that require dictionaries, of words made of words that can be sponsored for increasing rates as the dictionaries get more expensive. Lift global incomes from the impact of worded texts.</h3>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1zv4rq" data-framer-name="Wrapper" name="Wrapper" style="display: inline-block;align-items: center;">
+		<div class="framer-1r4ux0k" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; display: inline-block; position: relative;">
+			<div class="framer-1nup74" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector:R0Y7RWxzaWUtcmVndWxhcg==;font-family:&quot;Elsie&quot;, sans-serif;font-size:32px;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Unique Word Enforcements</h3>
+			</div>
+			<div class="framer-1t0s49y" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: &quot;Manrope&quot;, sans-serif; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Definitions are attributed, not enforced, what you hold in your mind is what you see in the world. Synonyms, homonyms, and antonyms, are not essential, but are tied to the definition, not the word. Words can have many definitions, definitions can have many words. ie: The game and language is not set, while the mind and architecture is.</h3>
+			</div>
+		</div>
+		<div class="framer-ffcig2" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+			<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+				<img src="{% static 'giphy-16.gif' %}" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="framer-zybhmo" data-framer-name="Projects" name="Projects" style="margin: auto; width: fit-content; display: block;">
+	<div class="framer-1hyd9uh" style="margin: auto; width: fit-content;">
+		<div class="framer-15rjjqi" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-1vlwnvl" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-tyc339" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="font-family: 'Noto Emoji, Noto Emoji Placeholder, sans-serif'; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">📣</p>
+				</div>
+			</div>
+			<div class="framer-1yupkhd">
+				<div class="framer-al61wt" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Engaging Spaces</p>
+				</div>
+				<div class="framer-wp1t57" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="font-family:'Manrope, sans-serif';font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Custom language sets</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-mivbdw">
+				
+			</div>
+		</div>
+		<div class="framer-at4g3k" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-rrvk0q" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-tkyy96" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector: R0Y7Tm90byBFbW9qaS1yZWd1bGFy; font-family: &quot;Noto Emoji&quot;, &quot;Noto Emoji Placeholder&quot;, sans-serif; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">🔒</p>
+				</div>
+			</div>
+			<div class="framer-1tu0zaf">
+				<div class="framer-1prbstp" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Free Market Moderation</p>
+				</div>
+				<div class="framer-5i29wh" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Curate with confidence</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-14zy0j6">
+				
+			</div>
+		</div>
+		<div class="framer-1deklpz" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-9x6xyw" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-1s02t7c" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7Tm90byBFbW9qaS1yZWd1bGFy; font-family: &quot;Noto Emoji&quot;, &quot;Noto Emoji Placeholder&quot;, sans-serif; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">💰</p>
+				</div>
+			</div>
+			<div class="framer-1ksengx">
+				<div class="framer-zlxcvs" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Rewards Galore</p>
+				</div>
+				<div class="framer-a7ix8g" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Earn from your words</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-zb8026"></div>
+		</div>
+	</div>
+</div>
+<div class="framer-ifoed5" data-framer-name="Gallery" name="Gallery">
+	<div class="framer-h1r706" data-framer-name="Grid" name="Grid" style="display: inline-block; text-align: center;">
+		<div class="framer-2wtj6u" data-framer-name="Item" name="Item" style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-f95jnu" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/R8ntaayRmFwu0FllRJClXsiLg.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy">
+				</div>
+			</div>
+			<div class="framer-ufpk7g" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+				<div class="framer-267wp7" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Urban Chats</h2>
+				</div>
+				<div class="framer-zp2z5z" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Remix street slang in an urban haven fueled by custom language sets and rewards.</h3>
+				</div>
+			</div>
+		</div>
+		<div class="framer-1n6g3v9" data-framer-name="Item" name="Item"  style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-195xxgr" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/YBgm1PtGXbMhbqVSNNjBAXQuCkM.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy">
+				</div>
+			</div>
+			<div class="framer-1bdvr9z" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+				<div class="framer-1vjx485" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Eco Talks</h2>
+				</div>
+				<div class="framer-1nscgzm" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Venture into our eco-friendly spaces, promoting green thinking and rewarding sustainability speak.</h3>
+				</div>
+			</div>
+		</div>
+		<div class="framer-m8tyzb" data-framer-name="Item" name="Item"  style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-h9016g" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; vertical-align: middle;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/hirUh0JklDDJkavlroxsGh4FUo.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy"></div>
+				</div>
+				<div class="framer-b5qmn" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+					<div class="framer-1entnio" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+						<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Market Buzz</h2>
+					</div>
+					<div class="framer-t4zdlh" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+						<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Master the art of selling by mingling with other savvy sellers in a vibrant marketplace.</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1r1w4uy" data-framer-name="FAQ" name="FAQ">
+		<div class="framer-19nucb6" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+			<h2 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Questions &amp; Answers</h2>
+		</div>
+		<div class="framer-1q8t9l3" data-framer-name="Questions Row" name="Questions Row">
+			<div class="framer-1mxj24x" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-p83ya4" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How do moderators keep spaces safe?</h2>
+				</div>
+				<div class="framer-1wobjtd" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Moderators curate and enforce custom language sets, ensuring spaces are always a safe environment for users.</h2>
+				</div>
+			</div>
+			<div class="framer-dkznyp" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-wxq8xy" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How does the reward system work?</h2>
+				</div>
+				<div class="framer-173hvwj" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Users earn rewards based on the words they use and their ability to sell products within spaces.</h2>
+				</div>
+			</div>
+		</div>
+		<div class="framer-f91l8i" data-framer-name="Questions Row" name="Questions Row">
+			<div class="framer-xj9qo5" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-kkursp" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">What makes this platform stand out?</h2>
+				</div>
+				<div class="framer-1w80bj" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Our platform combines the best of Urban Dictionary and Reddit, creating a unique, open-source, and rewarding ecosystem.</h2>
+				</div>
+			</div>
+			<div class="framer-trcyb" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-1oz3ylt" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How can I create my own space?</h2>
+				</div>
+				<div class="framer-ic6tqt" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Sign up, choose your desired language set, and get started on creating and moderating your very own space.</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="framer-17nrxuq" data-framer-name="Footer" name="Footer">
+		<svg class="framer-dv1347" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer" viewBox="0 0 291 40">
+			<foreignObject width="100%" height="100%" transform="scale(1)" style="overflow:visible;transform-origin:center center"></foreignObject>
+		</svg>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block unauthenticated_posts %}
+<style>
+	.multiexpimage {
+		width: 26.6em;
+	}
+	.framer-19un3sn, .framer-1r4ux0k {
+			top: -100px;
+		}
+	@media only screen {
+		.framer-19un3sn, .framer-1r4ux0k {
+			top: 0px;
+		}
+		
+	}
+
+	@media only screen and (max-width: 489px) {
+		.multiexpimage {
+		width: 100%;
+	}
+	}
+</style>
+<div class="pitch" style="width:fit-content; margin: auto;">
+	<div class="framer-64f1t2" data-framer-name="Hero" name="Hero" style="width: 100%;">
+		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: block; width: fit-content; margin: auto;">
+			<div class="framer-l4fk58" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; postition: relative; top: 100px;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/WTe1RB61eECaaPFpZaMd1jfyViA.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+				</div>
+			</div>
+			<div class="framer-19un3sn" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; position: relative; display: inline-block;">
+				<div class="framer-1tbkhbu" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Speak Up, Cash In</h3>
+				</div>
+				<div class="framer-1qrt7fe" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: 'Manrope, sans-serif'; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">
+				Unleash your inner linguist and earn rewards by speaking the right words in the right spaces. Be the conversation commander you know you can be.</h3>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1zv4rq" data-framer-name="Wrapper" name="Wrapper" style="display: inline-block;align-items: center;">
+		<div class="framer-1r4ux0k" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; display: inline-block; position: relative;">
+			<div class="framer-1nup74" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector:R0Y7RWxzaWUtcmVndWxhcg==;font-family:&quot;Elsie&quot;, sans-serif;font-size:32px;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Open Source Trust</h3>
+			</div>
+			<div class="framer-1t0s49y" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: &quot;Manrope&quot;, sans-serif; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Safeguard your space. Our open-source foundation ensures full transparency so you always know what’s behind closed doors.</h3>
+			</div>
+		</div>
+		<div class="framer-ffcig2" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+			<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+				<img src="https://framerusercontent.com/images/NuQtJKBat8tTdmR3Rm22AHCrcY.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="framer-64f1t2" data-framer-name="Hero" name="Hero" style="width: 100%;">
+		<div class="framer-1nj27gv" data-framer-name="Content" name="Content" style="align-items: center; display: block;width: fit-content; margin: auto;">
+			<div class="framer-l4fk58" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; postition: relative; top: 100px;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img class="multiexpimage" src="{% static '1-4036681.jpg' %}" alt="" srcset="" style="display:block;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+				</div>
+			</div>
+			<div class="framer-19un3sn" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; position: relative; display: inline-block;">
+				<div class="framer-1tbkhbu" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Multi-Exponential Growth</h3>
+				</div>
+				<div class="framer-1qrt7fe" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: 'Manrope, sans-serif'; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">
+				Dictionaries that require dictionaries, of words made of words that can be sponsored for increasing rates as the dictionaries get more expensive. Lift global incomes from the impact of worded texts.</h3>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1zv4rq" data-framer-name="Wrapper" name="Wrapper" style="display: inline-block;align-items: center;">
+		<div class="framer-1r4ux0k" data-framer-name="Left" name="Left" style="margin: 20px;width: 25em; display: inline-block; position: relative;">
+			<div class="framer-1nup74" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector:R0Y7RWxzaWUtcmVndWxhcg==;font-family:&quot;Elsie&quot;, sans-serif;font-size:32px;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Unique Word Enforcements</h3>
+			</div>
+			<div class="framer-1t0s49y" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+				<h3 style="--font-selector: R0Y7TWFucm9wZS01MDA=; font-family: &quot;Manrope&quot;, sans-serif; font-weight: 500; line-height: 1.5em; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Definitions are attributed, not enforced, what you hold in your mind is what you see in the world. Synonyms, homonyms, and antonyms, are not essential, but are tied to the definition, not the word. Words can have many definitions, definitions can have many words. ie: The game and language is not set, while the mind and architecture is.</h3>
+			</div>
+		</div>
+		<div class="framer-ffcig2" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+			<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+				<img src="{% static 'giphy-16.gif' %}" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="framer-zybhmo" data-framer-name="Projects" name="Projects" style="margin: auto; width: fit-content; display: block;">
+	<div class="framer-1hyd9uh" style="margin: auto; width: fit-content;">
+		<div class="framer-15rjjqi" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-1vlwnvl" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-tyc339" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="font-family: 'Noto Emoji, Noto Emoji Placeholder, sans-serif'; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">📣</p>
+				</div>
+			</div>
+			<div class="framer-1yupkhd">
+				<div class="framer-al61wt" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Engaging Spaces</p>
+				</div>
+				<div class="framer-wp1t57" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="font-family:'Manrope, sans-serif';font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Custom language sets</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-mivbdw">
+				
+			</div>
+		</div>
+		<div class="framer-at4g3k" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-rrvk0q" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-tkyy96" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector: R0Y7Tm90byBFbW9qaS1yZWd1bGFy; font-family: &quot;Noto Emoji&quot;, &quot;Noto Emoji Placeholder&quot;, sans-serif; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">🔒</p>
+				</div>
+			</div>
+			<div class="framer-1tu0zaf">
+				<div class="framer-1prbstp" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Free Market Moderation</p>
+				</div>
+				<div class="framer-5i29wh" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Curate with confidence</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-14zy0j6">
+				
+			</div>
+		</div>
+		<div class="framer-1deklpz" data-framer-name="Card" name="Card" style="width: fit-content;">
+			<div class="framer-9x6xyw" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div class="framer-1s02t7c" style="outline:none;display:block; width: fit-content; flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7Tm90byBFbW9qaS1yZWd1bGFy; font-family: &quot;Noto Emoji&quot;, &quot;Noto Emoji Placeholder&quot;, sans-serif; font-size: 40px; text-alignment: center; text-color: rgb(8, 7, 8);" class="framer-text">💰</p>
+				</div>
+			</div>
+			<div class="framer-1ksengx">
+				<div class="framer-zlxcvs" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer"><p style="--font-selector: R0Y7TWFucm9wZS03MDA=; font-family: &quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif; font-weight: 700; line-height: 1.5em; text-alignment: center; text-color: rgb(255, 255, 255); font-size: 20px; letter-spacing: -0.025em;" class="framer-text">Rewards Galore</p>
+				</div>
+				<div class="framer-a7ix8g" style="outline:none;display:block;width: fit-content;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<p style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:14px;font-weight:500;line-height:1.5em;text-alignment:center;text-color:rgb(255, 255, 255)" class="framer-text">Earn from your words</p>
+				</div>
+			</div>
+			<div data-framer-component-type="SVG" data-framer-name="Caret" name="Caret" style="image-rendering: pixelated; flex-shrink: 0; background-size: 100% 100%; background-image: url(&quot;data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M%2022.707%2016.707%20L%2012.707%2026.707%20C%2012.317%2027.098%2011.683%2027.098%2011.293%2026.707%20C%2010.902%2026.317%2010.902%2025.683%2011.293%2025.293%20L%2020.586%2016%20L%2011.293%206.707%20C%2010.902%206.317%2010.902%205.683%2011.293%205.293%20C%2011.683%204.902%2012.317%204.902%2012.707%205.292%20L%2022.707%2015.293%20C%2022.895%2015.48%2023.001%2015.735%2023.001%2016%20C%2023.001%2016.265%2022.895%2016.52%2022.707%2016.707%20Z%22%20fill%3D%22%23FFFFFF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E&quot;);" class="framer-zb8026"></div>
+		</div>
+	</div>
+</div>
+<div class="framer-ifoed5" data-framer-name="Gallery" name="Gallery">
+	<div class="framer-h1r706" data-framer-name="Grid" name="Grid" style="display: inline-block; text-align: center;">
+		<div class="framer-2wtj6u" data-framer-name="Item" name="Item" style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-f95jnu" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/R8ntaayRmFwu0FllRJClXsiLg.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy">
+				</div>
+			</div>
+			<div class="framer-ufpk7g" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+				<div class="framer-267wp7" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Urban Chats</h2>
+				</div>
+				<div class="framer-zp2z5z" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Remix street slang in an urban haven fueled by custom language sets and rewards.</h3>
+				</div>
+			</div>
+		</div>
+		<div class="framer-1n6g3v9" data-framer-name="Item" name="Item"  style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-195xxgr" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/YBgm1PtGXbMhbqVSNNjBAXQuCkM.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy">
+				</div>
+			</div>
+			<div class="framer-1bdvr9z" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+				<div class="framer-1vjx485" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Eco Talks</h2>
+				</div>
+				<div class="framer-1nscgzm" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Venture into our eco-friendly spaces, promoting green thinking and rewarding sustainability speak.</h3>
+				</div>
+			</div>
+		</div>
+		<div class="framer-m8tyzb" data-framer-name="Item" name="Item"  style="width: fit-content; display: inline-block; vertical-align: middle;">
+			<div class="framer-h9016g" data-framer-name="Image" name="Image" style="border-radius: 25px; width: fit-content; display: inline-block; vertical-align:middle;">
+				<div style="position:relative;border-radius:inherit;top:0;right:0;bottom:0;left:0" data-framer-background-image-wrapper="true">
+					<img src="https://framerusercontent.com/images/hirUh0JklDDJkavlroxsGh4FUo.jpg?scale-down-to=512" alt="" style="display:block;width:100%;height:100%;border-radius:inherit;object-position:center;object-fit:cover;image-rendering:auto" loading="lazy"></div>
+				</div>
+				<div class="framer-b5qmn" data-framer-name="Content" name="Content" style="align-items: center; display: inline-block; width: 25em;">
+					<div class="framer-1entnio" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+						<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left" class="framer-text">Market Buzz</h2>
+					</div>
+					<div class="framer-t4zdlh" style="outline:none;display:inline-block;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+						<h3 style="margin:10px;--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-size:20px;font-weight:500;line-height:1.4em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Master the art of selling by mingling with other savvy sellers in a vibrant marketplace.</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="framer-1r1w4uy" data-framer-name="FAQ" name="FAQ">
+		<div class="framer-19nucb6" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+			<h2 style="--font-selector: R0Y7RWxzaWUtcmVndWxhcg==; font-family: &quot;Elsie&quot;, sans-serif; font-size: 32px; text-alignment: left; text-color: rgb(255, 255, 255);" class="framer-text">Questions &amp; Answers</h2>
+		</div>
+		<div class="framer-1q8t9l3" data-framer-name="Questions Row" name="Questions Row">
+			<div class="framer-1mxj24x" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-p83ya4" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How do moderators keep spaces safe?</h2>
+				</div>
+				<div class="framer-1wobjtd" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Moderators curate and enforce custom language sets, ensuring spaces are always a safe environment for users.</h2>
+				</div>
+			</div>
+			<div class="framer-dkznyp" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-wxq8xy" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How does the reward system work?</h2>
+				</div>
+				<div class="framer-173hvwj" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Users earn rewards based on the words they use and their ability to sell products within spaces.</h2>
+				</div>
+			</div>
+		</div>
+		<div class="framer-f91l8i" data-framer-name="Questions Row" name="Questions Row">
+			<div class="framer-xj9qo5" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-kkursp" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">What makes this platform stand out?</h2>
+				</div>
+				<div class="framer-1w80bj" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Our platform combines the best of Urban Dictionary and Reddit, creating a unique, open-source, and rewarding ecosystem.</h2>
+				</div>
+			</div>
+			<div class="framer-trcyb" data-framer-name="Q&amp;A" name="Q&amp;A">
+				<div class="framer-1oz3ylt" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS03MDA=;font-family:&quot;Manrope&quot;, &quot;Manrope Placeholder&quot;, sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">How can I create my own space?</h2>
+				</div>
+				<div class="framer-ic6tqt" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer">
+					<h2 style="--font-selector:R0Y7TWFucm9wZS01MDA=;font-family:&quot;Manrope&quot;, sans-serif;font-weight:500;line-height:1.5em;text-alignment:left;text-color:rgb(255, 255, 255)" class="framer-text">Sign up, choose your desired language set, and get started on creating and moderating your very own space.</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="framer-17nrxuq" data-framer-name="Footer" name="Footer">
+		<svg class="framer-dv1347" style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;transform:none" data-framer-component-type="RichTextContainer" viewBox="0 0 291 40">
+			<foreignObject width="100%" height="100%" transform="scale(1)" style="overflow:visible;transform-origin:center center"></foreignObject>
+		</svg>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		
+		function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function openCommentThread(starter, com) {
+			var element = document.getElementById(starter).getElementById(com);
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function comCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		function nodeCollapse(node) {
+			var element = document.getElementById(node)
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+		/* Needs to be step-counted for the DAHS of each Attribute
+		function wordsAttributesAddMore() {
+				var form_idx = $('#id_wa-TOTAL_FORMS').value;
+				var copy = $('#waef').html().replace(/__prefix__/g, form_idx);
+				$('#wafs').append(copy);
+				$('#id_wa-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+			}
+		*/
+		$(document).on('click', 'button.Delete', function() {
+			var target = '#id_' + $(this).val() + '-DELETE';
+			$(target).prop('checked', true);
+			$(this).closest('tr').hide();
+		});
+	</script>
+{% endblock %}

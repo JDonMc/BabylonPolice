@@ -161,23 +161,19 @@ def word_up(value, dictionaries):
 @register.filter(is_safe=True)
 def prereq_dics_word_up(value, dictionaries):
 	for dic in dictionaries:
-		if '/'+dic.the_dictionary_itself+'/' in value:
-			print(dic.the_dictionary_itself)
-			for prerequisite in dic.prerequisite_dics.all():
-				if '/'+dic.the_dictionary_itself+'/'+prerequisite.the_dictionary_itself+'/' in value:
-					for word in prerequisite.to_full().words.all():
-						if '/'+dic.the_dictionary_itself+'/'+prerequisite.the_dictionary_itself+'/'+word.the_word_itself in value:
-							value.replace('/{}/{}/{}'.format(dic.the_dictionary_itself, prerequisite.the_dictionary_itself, word.the_word_itself), '<a class=plain href="{}">{}</a>'.format(reverse('Bable:tob_users_dic_word_count', kwargs={'user':prerequisite.author.username, 'dictionary':prerequisite.the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself))
+		for prerequisite in dic.prerequisite_dics.all():
+			for word in prerequisite.to_full().words.all():
+				if '/'+dic.the_dictionary_itself+'/'+prerequisite.the_dictionary_itself+'/'+word.the_word_itself in value.split(" "):
+					value.replace('/{}/{}/{}'.format(dic.the_dictionary_itself, prerequisite.the_dictionary_itself, word.the_word_itself), '<a class=plain href="{}">{}</a>'.format(reverse('Bable:tob_users_dic_word_count', kwargs={'user':prerequisite.author.username, 'dictionary':prerequisite.the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself))
 	return value
 
 
 @register.filter(is_safe=True)
 def dics_word(value, dictionaries):
 	for dic in dictionaries:
-		if '/'+dic.the_dictionary_itself+'/' in value:
-			for word in dic.words.all():
-				if '/'+dic.the_dictionary_itself+'/'+word.the_word_itself in value:
-					value.replace('/{}/{}'.format(dic.the_dictionary_itself, word.the_word_itself), '<a class=plain href="{}">{}</a>'.format(reverse('Bable:tob_users_dic_word_count', kwargs={'user':dic.author.username, 'dictionary':dic.the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself))
+		for word in dic.words.all():
+			if '/'+dic.the_dictionary_itself+'/'+word.the_word_itself in value.split(" "):
+				value.replace('/{}/{}'.format(dic.the_dictionary_itself, word.the_word_itself), '<a class=plain href="{}">{}</a>'.format(reverse('Bable:tob_users_dic_word_count', kwargs={'user':dic.author.username, 'dictionary':dic.the_dictionary_itself, 'word':word.the_word_itself, 'count':0}), word.the_word_itself))
 	
 	return value
 
@@ -189,7 +185,7 @@ from django.utils.safestring import mark_safe
 def fontypes(value, words):
 	wordlen = -1
 	for word in words:
-		if word.the_word_itself in value:
+		if word.the_word_itself in value.split(" "):
 			wordlen += 1
 			wordsponsor = word.sponsors.order_by('-price_limit').first()
 			wordsponsordiv = ''
