@@ -1401,7 +1401,7 @@ class ServerHistory(models.Model):
 	server_log_in_date = models.DateTimeField(default=timezone.now)
 	server_users = models.ManyToManyField(ServerUser, default=None)
 
-class Player(models.Model)
+class Player(models.Model):
 	player_name = models.CharField(max_length=140, default='')
 	last_logged_in = models.DateTimeField(default=timezone.now)
 	server_history = models.ManyToManyField(ServerHistory, default=None)
@@ -1432,6 +1432,7 @@ class MinecraftServer(models.Model):
 	about = models.TextField(default='', max_length=4000)
 	website = models.URLField(default='', max_length=400)
 	game_modes = models.ManyToManyField(GameMode, default=None)
+	sponsor = models.ManyToManyField(Sponsor, default=None)
 
 
 class Space(models.Model):
