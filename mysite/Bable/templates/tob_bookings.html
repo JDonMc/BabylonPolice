@@ -1,0 +1,688 @@
+{% extends 'base_storefront.html' %}
+{% load user_referencing %}
+{% load vote_screen %}
+{% load humanize %}
+{% load mptt_tags %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{{ users_post.title }} - {{ request.META.HTTP_HOST|stripwww }}
+{% endblock %}
+
+
+{% block inserts %}
+<meta name="viewport" content="width=device-width">
+<meta property="og:description" content="{{ users_post.title }} - Babylon Police">
+<meta property="og:image" content="{% static 'babylonpolice.jpg' %}">
+{% endblock %}
+
+
+{% block header_inner %}
+<div class="header-inner">
+	<div id="siteTitleWrapper">
+		<h1 id="siteTitle" class="site-title" width=20%>
+			{{ user_storefront.logo|dics_word:user_dic}} {{ user_storefront.title }}
+			
+		</h1>
+	</div>
+	<div class="bar">
+		{% if request.user.is_authenticated %}
+		<div class="login-bar" onclick="showhidelogin()">
+			<img src="{% static 'key.png' %}" style="height: 1em; width: 1em; border: solid; border-color: #e3dac9;" alt="Logout">
+		</div>
+		{% else %}
+		<div class="login-bar" onclick="showregister()">
+			<img src="{% static 'key.png' %}" style="height: 1em; width: 1em; border: solid; border-color: #e3dac9;" alt="Login">
+		</div>
+		{% endif %}
+
+		<div class="search-bar" onclick="showhidesearch()">
+			<img src="{% static 'search.png' %}" style="height: 1em; width: 1em; border: solid; border-color: #e3dac9;" alt="Search">
+		</div>
+		{% if request.user.is_authenticated %}
+		{% else %}
+		<div class="landingpage" style="display: inline-block; margin-left:1em;">
+			<a href="{% url 'Bable:landingpage' %}">Landing Page</a>
+		</div>
+		{% endif %}
+		{% if request.user.is_authenticated %}
+			<div class="account" style="position: relative; top: -6px;">
+				<a href="{% url 'Bable:tob_user_view_count' request.user.username 0 %}">/u/</a>
+			</div>
+			<div id="headerNav3">
+				<div id="top_apply" style="color: #e3dac9;" ontouchstart="$('.dropdown-content3')[0].display = 'block';">
+					A
+				</div>
+				<div class="dropdown-content3">
+					<div class="apply_votes" onclick="showhideapplyvotes()">
+						<p> Create Votes </p>
+					</div>
+					<div class="exclude_votes" onclick="showhideexcludevotes()">
+						<p> Exclude Votes </p>
+					</div>
+					<div class="apply_dic" onclick="showhideapplydic()">
+						<p> Apply Dic </p>
+					</div>
+					<div class="exclude_dic" onclick="showhideexcludedic()">
+						<p> Exclude Dic </p>
+					</div>
+					<div class="apply_votestyle" onclick="showhideapplyvotestyle()">
+						<p> Apply Votestyle </p>
+					</div>
+					<div class="upload_file" onclick="showhideuploadfile()">
+						<p> Upload File </p>
+					</div>
+				</div>
+			</div>
+			<div id="headerNav2">
+				<div id="top_create" style="color: #e3dac9;" ontouchstart="$('.dropdown-content2')[0].display = 'block';">+</div>
+				<div class="dropdown-content2">
+					<div class="create_dic" onclick="showhidedic()">
+						<p> Grow A Dic </p>
+					</div>
+					<div class="word-bar" onclick="showhideword()">
+						<p> Define A Word </p>
+					</div>
+					<div class="space-bar" onclick="showhidespace()">
+						<p> Make Space </p>
+					</div>
+					<div class="post-bar" onclick="showhidesubmit()">
+						<p> Mark Post </p>
+					</div>
+					<div class="task-bar" onclick="showhidetask()">
+						<p> Set Task </p>
+					</div>
+				</div>
+			</div>
+			<div id="notifications">
+				<div id="notification-count"></div>
+				<div class="notification-dropdown">
+				</div>
+			</div>
+		{% endif %}
+
+	<div id="headerNav1" ontouchstart="$('.dropdown-content1')[0].display = 'block';">
+		<div id="top"></div>
+		<div id="middle"></div>
+		<div id="bottom"></div>
+		<div class="dropdown-content1">
+			<div class="space_view">
+				<a href="{% url 'Bable:tob_view_spaces' %}">Spaces</a>
+			</div>
+			<div class="user_view">
+				<a href="{% url 'Bable:tob_view_users' %}">Users</a>
+			</div>
+			<div class="word_attributes">
+				<a href="/B/word_attributes/">Word Attributes</a>
+			</div>
+			<div class="universal_pronunciation">
+				<a href="/B/universal_pronunciation/">Universal Pronunciation</a>
+			</div>
+			<div class="mutawords">
+				<a href="/B/mutawords/">Mutawords</a>
+			</div>
+			<div class="dictionaries">
+				<a href="/B/dictionary/">Dictionaries</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block authenticatedposts %}
+<div class=userspost>
+	{% if users_post %}
+		<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+			</h3>
+		</div>
+		<style>
+			.block {
+			position:relative;
+			}
+
+			.block .overlay {
+			position:absolute;
+			left:0; top:0; bottom:0; right:0;
+			}
+
+			.block .inner {
+			
+			position:relative;
+			pointer-events: none;
+			z-index: 1;
+			}
+
+			.yellow {
+				color: yellow !important;
+			}
+
+			.yellow:hover {
+				color: green !important;
+			}
+
+			.inner {
+				color: yellow;
+			}
+
+			.inner:hover {
+				color: green;
+			}
+
+			.block .inner a {
+			pointer-events: all;
+			}
+
+			.dropdown-menu {
+				position: absolute;
+				left: 0;
+				top: calc(100% + .25rem);
+				background-color: #fff;
+				padding: .75rem;
+				border-radius: .25rem;
+				box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.6);
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 150ms ease, transform 150ms ease;
+				transform: translateY(-10px);
+			}
+			
+		</style>
+		<div>
+        	{% if users_post.img %}
+        	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
+			{% endif %}
+        </div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
+			<div id=flashpostbody style="display:none;">
+				{{ users_post.body|safety_check }}
+			</div>
+			<p id=flashreadword>Click here to flash read.</p>
+			<div>
+			</div>
+			<script>
+				$("#flashreadbody").click(async () => {
+				  var posttext = $("#flashpostbody").text();
+				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
+				  for (var i = 0; i < postwords.length; i++) {
+				    console.log(postwords);
+				    await new Promise((r) => setTimeout(r, 100));
+				    $("#flashreadword").text(postwords[i]);
+				  }
+				  $("#flashreadword").text("ALL WORDS COMPLETED");
+				});
+			</script>
+		</div>
+		{% if users_post.dictionaries.count %}
+		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
+			{{ users_post.body|safety_check|prereq_dics_word_up:users_post.dictionaries.all|dics_word:users_post.dictionaries.all|fontypes:users_post.words.all|usernames|spaces|linebreaks }}
+		</div>
+		{% else %}
+		<div id=postbody class=postbody style="width: fit-content; margin: auto;">
+			{{ users_post.body|safety_check|usernames|spaces|linebreaks }}
+		</div>
+		{% endif %}
+		<div id=speakpostbody style="cursor: pointer;">
+			Click here to read this post out
+			
+			<script type="text/javascript">
+
+				window.onload = () => {
+		        const button = document.getElementById('speakpostbody');
+		        const content = document.getElementById('flashpostbody');
+		        content.setAttribute('allow', 'fullscreen'); // must be 1st
+				content.setAttribute('allowFullScreen', '');
+				var msg = new SpeechSynthesisUtterance(content.innerText);
+				msg.lang = 'en-US';
+				msg.volume = 1;
+				var speech = window.speechSynthesis;
+				
+		        
+		        button.addEventListener('click', () => {
+		          if (button.style['animation-name'] === 'flash') {
+		            button.style['animation-name'] = 'none';
+		            button.innerText = 'Press to Start';
+		            speech.pause();
+		          } else {
+		          	speech.speak(msg);
+		            button.style['animation-name'] = 'flash';
+		            button.innerText = 'Press to Stop';
+		          }
+		        });
+
+		        
+		      };
+			</script>
+		</div>
+		<div class=postviewers>
+			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
+		</div>
+		<div class=postvoters>
+			Unique Voters: {{ users_post.has_voted.count }}
+		</div>
+		<div class=postcount>
+			<a href="{% url 'Bable:votewvotestyle' 'post' users_post.id %}">
+				Total Votes: {{ users_post.votes.count }}
+			</a>
+		</div>
+		<div class=postvotes>
+			Votes:
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+			{% endfor %}
+			
+		</div>
+		<div class=postchange>
+			Latest Change: {{ users_post.latest_change_date }}
+			Changes: {{ users_post.changes }}
+		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
+		</div>
+		<div class=postdictionaries>
+			Dictionaries: 
+			{% if users_post.dictionaries.count %}
+				{% for dic in users_post.dictionaries.all %}
+					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postwords>
+			Words: 
+			{% if users_post.words.count %}
+				{% for word in users_post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postspaces>
+			Spaces:
+			{% if users_post.spaces.count %}
+				{% for space in users_post.spaces.all %}
+					<a class=yellow href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postviews>
+			Views: {{ users_post.viewcount }}
+		</div>
+		<div class=postcc>
+			CC:
+			<br/>
+			{% if users_post.cc %}
+			{{ users_post.cc|safe }}
+			{% else %}
+				No creative common's license
+			{% endif %}
+		</div>
+		<div class=postcomments>
+			Comments: {{ users_post.comments.count }}
+			<div class=comsubmit>
+				<div id=postcomlist onclick="openComment('postcomlist')" style="cursor: pointer;">
+					Newcom
+				</div>
+				<form id=postcomlistform class=starter action="{% url 'Bable:create_comment' 'post' users_post.id 0 %}" method=post>
+					{% csrf_token %}
+					{{ comment_form }}
+					<button type=submit>what've I got to lose?</button>
+				</form>
+			</div>
+			{% if users_post.comments.count %}
+				{% recursetree users_post.comments.all %}
+				<div class=postcoms>
+					<div class=comclose onclick="comCollapse('{{node.id}}')">
+						-:
+					</div>
+					<div id={{node.id}}>
+						<div class=postcomsbody>
+							{% if not node.votes.all.count %}
+								{{ node.body|safe }}
+							{% elif node.votes.all|subset:loggedinanon.applied_votestyles.to_source %}
+								{{ node.body|safe }}
+
+							{% else %}
+								<p style="color: red;">Remains a secret until you apply the right votestyles</p>
+							{% endif %}
+						</div>
+						<div class=postcomsbodyad>
+							{% if node.dictionaries.all.sponsors.count %}
+							<a href="{% url 'Bable:clickthrough' node.author.username node.dictionaries.max_sponsor.id %}"><img src="{{ post.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
+								<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+								</div>
+
+							</a>
+							{% else %}
+								<a href="https://www.jackdonmclovin.com/"><img src="{% static 'jackdonmclovin.svg' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+							{% endif %}
+						</div>
+						<div class=postcomsvotes>
+							<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
+						</div>
+						<div class=postcomsvotess>Votess:
+							{% for vote in node.votes.all %}
+								{% if vote in loggedinanon.applied_votestyles.to_source %}
+								<div class=postcomsvotesss>
+									<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: <a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_name.the_word_itself %}">{{ vote.the_vote_itself }}</a>
+								</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+						{% if request.user.username == user_authore.username or request.user.username == node.author.username %}
+						<div class=comdelete>
+							<a href="{% url 'Bable:delete_own_com' node.id 'full' %}">X</a>
+						</div>
+						{% endif %}
+						<div class=postcomsdics>Dics:
+								{% for dic in node.dictionaries.all %}
+									{% if dic in loggedinanon.applied_dictionaries.all %}
+										<div class=postcomsdicss>
+											<a href="{% url 'Bable:tob_user_view_count' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<div class=postcomswords>Words:
+								{% for word in node.words.all|slice:"10" %}
+									<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+								{% endfor %}
+							</div>
+						<div class=postcomsauthor>
+							<a href="{% url 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+						</div>
+						<div class=comsubmit>
+							<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
+								Reply
+							</div>
+							<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+								{% csrf_token %}
+								{{ comment_form }}
+								<button type=submit>what've I got to lose?</button>
+							</form>
+						</div>
+						{% if not node.is_leaf_node %}
+							{{ children }}
+						{% endif %}
+					</div>
+				</div>
+				{% endrecursetree %}
+			{% endif %}
+		</div>
+	{% else %}
+		This post is concealed by private dictionaries.
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block unauthenticated_posts %}
+<div class=userspost>
+	<div class=post>
+		{% if users_post %}
+		<div class=posttitle style="display: block;">
+			<h3 style="display: block;">
+				<a href="{{ users_post.url2 }}" style="margin: auto; display: block; width: fit-content;">{{ users_post.title }}</a>
+			</h3>
+		</div>
+		<div>
+			{% if users_post.img %}
+        	<img src="{{ users_post.img }}" style="height: 16em; width: 16em;">
+			{% endif %}
+        </div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<div id=flashreadbody style="text-align: center; cursor: pointer;">
+			<p id=flashreadword>Click here to flash read.</p>
+			<div id=flashpostbody style="display: none;">
+				{{ users_post.body|safety_check|safe|linebreaks }}
+			</div>
+			<script>
+				$("#flashreadbody").click(async () => {
+				  var posttext = $("#flashpostbody").text();
+				  var postwords = posttext.split(" ").filter((x) => /[aA-zZ]|[0-9]/.test(x));
+				  for (var i = 0; i < postwords.length; i++) {
+				    console.log(postwords);
+				    await new Promise((r) => setTimeout(r, 100));
+				    $("#flashreadword").text(postwords[i]);
+				  }
+				  $("#flashreadword").text("ALL WORDS COMPLETED");
+				});
+			</script>
+		</div>
+		<div id=postbody class=postbody>
+			{{ users_post.body|fontypes:users_post.words.all|safety_check|safe|linebreaks }}
+		</div>
+		<div id=speakpostbody style="cursor: pointer;">
+			Click here to read this post out
+			
+			<script type="text/javascript">
+
+				window.onload = () => {
+		        const button = document.getElementById('speakpostbody');
+		        const content = document.getElementById('flashpostbody');
+		        content.setAttribute('allow', 'fullscreen'); // must be 1st
+				content.setAttribute('allowFullScreen', '');
+				var msg = new SpeechSynthesisUtterance(content.innerText);
+				msg.lang = 'en-US';
+				msg.volume = 1;
+				var speech = window.speechSynthesis;
+				
+		        
+		        button.addEventListener('click', () => {
+		          if (button.style['animation-name'] === 'flash') {
+		            button.style['animation-name'] = 'none';
+		            button.innerText = 'Press to Start';
+		            speech.pause();
+		          } else {
+		          	speech.speak(msg);
+		            button.style['animation-name'] = 'flash';
+		            button.innerText = 'Press to Stop';
+		          }
+		        });
+
+		        
+		      };
+			</script>
+		</div>
+		<div class=postviewers>
+			ID: {{ users_post.id }}; Unique Viewers: {{ users_post.has_viewed.count }}
+		</div>
+		<div class=postvoters>
+			Unique Voters: {{ users_post.has_voted.count }}
+		</div>
+		<div class=postcount>
+			Total Votes: {{ users_post.votes.count }}
+		</div>
+		<div class=postvotes>
+			Votes:
+			{% for vote in users_post.votes.all %}
+				<a href="{% url 'Bable:vote' vote.id %}">{{ vote.votes }}</a>: 
+				{% if vote.url2 %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{{ vote.url2 }}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% else %}
+					<a href="{% url 'Bable:tob_users_vote' vote.author.username vote.id %}">
+						<img src="{% static 'babylonpolice.com.gif' %}" style="z-index: 1; height: 1em; width: 1em;">
+					</a>
+				{% endif %}
+				<a href="{% url 'Bable:tob_users_space' vote.author.username vote.the_vote_style.the_space_itself.the_word_itself 0 %}">{{ vote.the_vote_name }}</a>
+			{% endfor %}
+			
+		</div>
+		<div class=postchange>
+			Latest Change: {{ users_post.latest_change_date }}
+			Changes: {{ users_post.changes }}
+		</div>
+		<div class=postauthor>
+			{% if users_post.author.username %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="{% url 'Bable:tob_user_view_count' users_post.author.username 0 %}">/u/{{ users_post.author.username }}</a>
+			</div>
+			{% else %}
+			<div class=postauthor style="font-size: 1em;">
+				<a href="">/u/anonymous</a>
+			</div>
+			{% endif %}
+		</div>
+		<div class=postdictionaries>
+			Dictionaries: 
+			{% if users_post.dictionaries.count %}
+				{% for dic in users_post.dictionaries.all %}
+					<a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself 0 %}">{{ dic.the_dictionary_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postwords>
+			Words: 
+			{% if users_post.words.count %}
+				{% for word in users_post.words.all %}
+					<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postspaces>
+			Spaces:
+			{% if users_post.spaces.count %}
+				{% for space in users_post.spaces.all %}
+					<a class=yellow href="{% url 'Bable:tob_users_space' space.author.username space.id 0 %}">{{ space.the_space_itself.the_word_itself }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class=postviews>
+			Views: {{ users_post.viewcount }}
+		</div>
+		<div class=postcc>
+			CC:
+			<br/>
+			{% if users_post.cc %}
+			{{ users_post.cc|safe }}
+			{% else %}
+				No creative common's license
+			{% endif %}
+		</div>
+		<div class=postcomments>
+			Comments:
+			<div class=comsubmit>
+				<div id=postcomlist style="cursor: pointer;">
+					<button type=submit>Sign in/up to comment</button>
+				</div>
+			</div>
+			{% if users_post.comments.count %}
+				{% recursetree users_post.comments.all %}
+				<div class=postcoms>
+					<div class=comclose onclick="comCollapse('{{node.id}}')">
+						-:
+					</div>
+					<div id={{node.id}}>
+						<div class=postcomsbody>
+							{% if node.votes.all|subset:loggedinanon.applied_votestyles.to_source %}
+								{{ node.body }}
+							{% else %}
+								Remains a secret until you apply the right votestyles
+								<style>
+									#{{node.id}} {
+										display: none;
+									}
+								</style>
+							{% endif %}
+						</div>
+						<div class=postcomsbodyad>
+							{% if node.dictionaries.all.sponsors.count %}
+								<a href="{% url 'Bable:clickthrough' node.author.username node.max_sponsor.id %}"><img src="{{ node.max_sponsor.img }}" style="z-index: 1; height: 6em; width: 6em;">
+									<div style="position: relative; top: -2em; color: blue; background-color: white;">Ad
+									</div>
+
+								</a>
+							{% else %}
+								<a href="https://www.jackdonmclovin.com/"><img src="{% static 'jackdonmclovin.svg' %}" style="z-index: 1; height: 6em; width: 6em;"></a>
+							{% endif %}
+						</div>
+						<div class=postcomsvotes>
+							Votes: {{ node.votes_count }}
+						</div>
+						<div class=postcomswords>Words:
+							{% for word in node.words.all|slice:"10" %}
+								<a href="{% url 'Bable:tob_users_dic_word_count' word.author.username word.home_dictionary.the_dictionary_itself word.the_word_itself 0 %}">{{ word.the_word_itself }}</a>
+							{% endfor %}
+						</div>
+						<div class=postcomsauthor>
+							<a href="{% url 'Bable:tob_user_view_count' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+						</div>
+						<div class=comsubmit>
+							<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
+								Reply
+							</div>
+							<form id='{{node.id}}form' class=threaded action="{% url 'Bable:create_comment' 'post' users_post.id node.id %}" method=post>
+								{% csrf_token %}
+								{{ comment_form }}
+								<button type=submit>what've I got to lose?</button>
+							</form>
+						</div>
+						{% if not node.is_leaf_node %}
+							{{ children }}
+						{% endif %}
+					</div>
+				</div>
+				{% endrecursetree %}
+			{% endif %}
+		</div>
+		{% else %}
+			<div class=post>
+				This post is concealed by private dictionaries.
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	function openComment(starter) {
+			var element = document.getElementById(starter + "form");
+			if (element.style.display === "inline-block") {
+				element.style.display = "none";
+			} else {
+				element.style.display = "inline-block";
+			}
+		}
+
+	function openCommentThread(starter, com) {
+		var element = document.getElementById(starter).getElementById(com);
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+
+	function comCollapse(node) {
+		var element = document.getElementById(node)
+		if (element.style.display === "inline-block") {
+			element.style.display = "none";
+		} else {
+			element.style.display = "inline-block";
+		}
+	}
+</script>
+{% endblock %}

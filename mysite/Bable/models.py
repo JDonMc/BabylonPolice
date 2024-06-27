@@ -44,10 +44,13 @@ class File(models.Model):
 
 class Notification(models.Model):
 	text = models.CharField(max_length=200)
+	link = models.URLField(max_length=2000, default='')
 	username = models.CharField(max_length=150, default='', unique=True)
 	sent = models.BooleanField(default=False)
 	new = models.BooleanField(default=True)
 	creation_date = models.DateTimeField(default=timezone.now)
+	read_date = models.DateTimeField(default=timezone.now)
+	click_date = models.DateTimeField(default=timezone.now)
 
 
 # trying to save every change within the new saves, but not need a mirage of every other class.
@@ -777,10 +780,10 @@ class Price(models.Model):
 
     sponsors = models.ManyToManyField(Sponsor, default=None)
 
-    #location_of_product = models.CharField(max_length=200, default='Remote')
+    location_of_product = models.CharField(max_length=200, default='Remote')
     point_of_sale = models.ManyToManyField(Sale, default=None)
 
-    #product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
+    product_type = models.CharField(choices=PRODUCT_CHOICES, max_length=200, default='unspecified')
     
     def author(self):
     	return Author.objects.get(username=Anon.objects.get(id=anon_user_id).username.username)
@@ -1354,6 +1357,7 @@ class Terms(models.Model):
 	condition_edits = models.ManyToManyField(ConditionEdit, default=None) # changed by conditioners, judged by primation reference, written by precessive council members
 	accostings = models.TextField(max_length=6660000, default="You've been accounted for as for the following") # written by terms council members
 	primation_fee = models.IntegerField(default=1000) # price up for grabs if you violate certain conditions as punishment (how much you have to keep in your account to pay if you lose your job)
+	
 	delete = models.BooleanField(default=False)
 	primation_reference = models.ManyToManyField(Author, default=None, related_name="reference") # who judges the paying of the primation fee, who you have to impress to keep your balance / job. # I'll put 10k on the line to prove to you that I can sell his product. Etc.
 
@@ -1379,13 +1383,66 @@ class MemberVotes(models.Model):
 	vote_type = models.CharField(max_length=144, choices=MEMBER_VOTE_TYPE_CHAR, default="legislative")
 	vote_member = models.OneToOneField(Author, on_delete=models.PROTECT, default=None, related_name="vote_member")
 
+class TaxIncentive(models.Model):
+	words = models.ManyToManyField(Word, default=None)
+	tax = models.IntegerField(default=0)
+	bounty = models.IntegerField(default=0)
+	voters = models.ManyToManyField(Author, default=None, related_name="voters")
+	initiators = models.ManyToManyField(Author, default=None, related_name="initiators")
+	passers = models.ManyToManyField(Author, default=None, related_name="passers") # passes pass whether the bounty is due
+	bounty_description = models.TextField(max_length=14400, default="")
+
+class ServerUser(models.Model):
+	username = models.CharField(max_length=140, default='')
+	player_id = models.CharField(max_length=140, default="0")
+
+class ServerHistory(models.Model):
+	server_name = models.CharField(max_length=140, default='')
+	server_log_in_date = models.DateTimeField(default=timezone.now)
+	server_users = models.ManyToManyField(ServerUser, default=None)
+
+class Player(models.Model)
+	player_name = models.CharField(max_length=140, default='')
+	last_logged_in = models.DateTimeField(default=timezone.now)
+	server_history = models.ManyToManyField(ServerHistory, default=None)
+
+
+class PlayerCount(models.Model):
+	count = models.IntegerField(default=0)
+	max_size_of_server = models.IntegerField(default=12)
+	players = models.ManyToManyField(Player, default=None)
+	current_log_date = models.DateTimeField(default=timezone.now)
+
+
+class GameMode(models.Model):
+	game_mode_name = models.CharField(default='', max_length=140)
+
+class MinecraftServer(models.Model):
+	version = models.FloatField(default=0)
+	domain = models.TextField(max_length=140, default='')
+	port = models.IntegerField(default=1234)
+	player_count = models.ManyToManyField(PlayerCount, default=None)
+	online = models.BooleanField(default=False)
+	location = models.CharField(max_length=140, default='')
+	tags = models.ManyToManyField(Word, default=None)
+	registered_by = models.CharField(max_length=140, default='')
+	registered_since = models.DateTimeField(default=timezone.now)
+	last_update = models.DateTimeField(default=timezone.now)
+	theme = models.ManyToManyField(SpaceSource, default=None)
+	about = models.TextField(default='', max_length=4000)
+	website = models.URLField(default='', max_length=400)
+	game_modes = models.ManyToManyField(GameMode, default=None)
+
+
 class Space(models.Model):
+	tax_incentives = models.ManyToManyField(TaxIncentive, default=None)
 	the_space_itself = models.ForeignKey(Word, on_delete=models.CASCADE, default=00000) # check pre-requisite dictionary acquired
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	sidebar = models.TextField(max_length=1000, default='')
 	values = models.TextField(max_length=1000, default='Values')
 	vision = models.TextField(max_length=1000, default='Vision')
 	mission = models.TextField(max_length=1000, default='Mission')
+	minecraft_servers = models.ManyToManyField(MinecraftServer, default=None)
 
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='author', default=None)
 	viewcount = models.IntegerField(default=0)
@@ -1659,10 +1716,21 @@ class Loan(models.Model):
 
 
 
+class RQAnswers(models.Model):
+	answer = models.TextField(max_length=140)
+
+
+class RequestQuestion(models.Model):
+	question = models.TextField(max_length=140)
+	answers = models.ManyToManyField(RQAnswers, default=None)
+
+
 
 class Availability(models.Model):
 	concerning = models.TextField(max_length=140, default="All")
 	location = models.TextField(max_length=140, default="Zoom/Meets/Messenger/WhatsApp/Instagram/Discord")
+	request_questions = models.ManyToManyField(RequestQuestion, default=None, related_name="request_questions")
+	post_request_questions = models.ManyToManyField(RequestQuestion, default=None, related_name="post_request_questions")
 	words = models.ManyToManyField(Word, default=None) # for styling the block on the calendar
 	start_time = models.DateTimeField(timezone.now)
 	end_time = models.DateTimeField(timezone.now)
@@ -1791,6 +1859,7 @@ class Drawing(models.Model):
 	init = models.TextField(max_length=20000, default="<script>function rectangle() {var canvas = document.getElementById('canvas');var context = canvas.getContext('2d');}</script>")
 
 class Anon(models.Model):
+	minecraft_servers = models.ManyToManyField(MinecraftServer, default=None)
 	drawings = models.ManyToManyField(Drawing, default=None)
 	storefronts = models.ManyToManyField(Storefront, default=None)
 	saless = models.ManyToManyField(Sale, default=None)
