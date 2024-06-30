@@ -980,7 +980,7 @@ def tob_email(request, token_id, count=0):
 		else:
 			mcount = 0
 		count100 = count + 25
-		if token_id == "3456789") and (request.user.username == "test"):
+		if (token_id == "3456789") and (request.user.username == "test"):
 			user_test = Anon.objects.get(username__username='test')
 			user_test.false_wallet += 100000
 			user_test.save()
