@@ -1005,8 +1005,17 @@ class Anon(AbstractBaseUser):
 
 #class CommentManager(models.Manager):
 #	def filter_by_instance(self, instance):
+class AngelNumber(models.Model):
+	digits = models.IntegerField(default=1)
+	numbers = models.IntegerField(default=0)
+	description = models.TextField(max_length=14400)
+	sponsors = models.ManyToManyField(Sponsor, default=None)
+
+
+
 
 class Comment(MPTTModel):
+	angel_numbers = models.ManyToManyField(AngelNumber, default=None)
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
 	dictionaries = models.ManyToManyField(Dictionary, default=None)
 	sum_dictionaries = models.IntegerField(default=0)
@@ -1169,6 +1178,7 @@ class Barcode(models.Model):
 
 class Post(models.Model):
 	author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None, null=True)
+	angel_numbers = models.ManyToManyField(AngelNumber, default=None)
 	barcodes = models.ManyToManyField(Barcode, default=None)
 	edits = models.ManyToManyField(Edit, default=None)
 	products = models.ManyToManyField(Price, default=None)
@@ -1437,9 +1447,12 @@ class MinecraftServer(models.Model):
 	sponsor = models.ManyToManyField(Sponsor, default=None)
 
 
+
+
 class Space(models.Model):
 	tax_incentives = models.ManyToManyField(TaxIncentive, default=None)
 	the_space_itself = models.ForeignKey(Word, on_delete=models.CASCADE, default=00000) # check pre-requisite dictionary acquired
+	angel_numbers = models.ManyToManyField(AngelNumber, default=None)
 	latest_change_date = models.DateTimeField(default=timezone.now)
 	sidebar = models.TextField(max_length=1000, default='')
 	values = models.TextField(max_length=1000, default='Values')
@@ -1862,6 +1875,7 @@ class Drawing(models.Model):
 	init = models.TextField(max_length=20000, default="<script>function rectangle() {var canvas = document.getElementById('canvas');var context = canvas.getContext('2d');}</script>")
 
 class Anon(models.Model):
+	angel_numbers = models.ManyToManyField(AngelNumber, default=None)
 	minecraft_servers = models.ManyToManyField(MinecraftServer, default=None)
 	drawings = models.ManyToManyField(Drawing, default=None)
 	storefronts = models.ManyToManyField(Storefront, default=None)

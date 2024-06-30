@@ -10,6 +10,11 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from .models import *
 
+class AngelNumberSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = AngelNumber
+		fields = ('digits', 'numbers', 'description',)
+
 class AuthorSerializer(serializers.ModelSerializer):
 	
 	class Meta:
