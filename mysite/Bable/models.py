@@ -1005,12 +1005,13 @@ class Anon(AbstractBaseUser):
 
 #class CommentManager(models.Manager):
 #	def filter_by_instance(self, instance):
+
+
 class AngelNumber(models.Model):
 	digits = models.IntegerField(default=1)
 	numbers = models.IntegerField(default=0)
 	description = models.TextField(max_length=14400)
 	sponsors = models.ManyToManyField(Sponsor, default=None)
-
 
 
 
