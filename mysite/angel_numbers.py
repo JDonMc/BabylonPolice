@@ -53,7 +53,7 @@ for link in links:
 for number, content in angel_numbers.items():
     
 
-    r = requests.post('https://www.predictionary.us/B/angel_numbers/',data={'digits':len(str(number)), "numbers":number, "description": content})
+    r = requests.post('https://www.predictionary.us/B/angel_numbers/',data={'digits':len(str(number)), "numbers":int(number), "description": content})
         
 
 

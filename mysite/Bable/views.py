@@ -240,7 +240,7 @@ class ListCreateSponsorAPIView(ListCreateAPIView):
 
 class ListCreateAngelNumberAPIView(ListCreateAPIView):
     """This endpoint allows for creation of a Post"""
-    permission_classes = (IsAuthenticated,)#permission classes
+    permission_classes = (permissions.AllowAny,)#permission classes
     queryset = AngelNumber.objects.all()[:10]
     serializer_class = AngelNumberSerializer
 
