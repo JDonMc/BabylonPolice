@@ -249,9 +249,13 @@ def ShowAngelNumber(request, number):
 	if request.user.is_authenticated:
 		loggedinanon = Anon.objects.get(username=request.user)
 		loggedinauthor = Author.objects.get(username=request.user.username)
-		attribution = angel_number.attributions.filter(author=loggedinauthor).first()
+		if angel_number.attributions.filter(author=loggedinauthor).first():
+			attribution = angel_number.attributions.filter(author=loggedinauthor).first().words
+		else:
+			attribution = "Okay"
+			
 
-		return HttpResponse({'number': number, 'description': angel_number.description, 'display': attribution.words})
+		return HttpResponse({'number': number, 'description': angel_number.description, 'display': attribution})
 	return HttpResponse({'number': number, 'description': angel_number.description})
 
 
