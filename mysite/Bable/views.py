@@ -255,8 +255,8 @@ def ShowAngelNumber(request, number):
 			attribution = "Okay"
 			
 
-		return HttpResponse({'number': number, 'description': angel_number.description, 'display': attribution})
-	return HttpResponse({'number': number, 'description': angel_number.description})
+		return HttpResponse('number: '+number+', description: '+angel_number.description+', display: '+attribution)
+	return HttpResponse('number: '+number+', description: '+angel_number.description)
 
 
 
