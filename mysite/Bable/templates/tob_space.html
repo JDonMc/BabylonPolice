@@ -2249,7 +2249,7 @@
 										{% endif %}
 									</div>
 									<div class=space_source>
-										<a href="{% url 'Bable:tob_users_dic' space.to_full.the_space_itself.home_dictionary.author.username space.the_space_itself.home_dictionary 0 %}">{{ space.the_space_itself.home_dictionary }}</a>
+										<a href="{% url 'Bable:tob_users_dic' space.author.username space.the_space_itself.home_dictionary 0 %}">{{ space.the_space_itself.home_dictionary }}</a>
 									</div>
 									<div class=space_save>
 										<!-- if user isn't authenticated, open signup/login button -->
