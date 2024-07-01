@@ -4313,7 +4313,9 @@ def tob_view_spaces(request):
 	mcount = 0
 	registerform = UserCreationForm()
 
-	
+	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable_count")
+	page_views.views += 1
+	page_views.save()
 		
 	
 	loginform = AuthenticationForm()
@@ -4366,7 +4368,9 @@ def tob_view_spaces_count(request, count):
 	registerform = UserCreationForm()
 	
 		
-	
+	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable_count")
+	page_views.views += 1
+	page_views.save()
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
@@ -4413,7 +4417,9 @@ def tob_space_view(request, space):
 	registerform = UserCreationForm()
 	
 		
-	
+	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable_count")
+	page_views.views += 1
+	page_views.save()
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
@@ -4505,7 +4511,9 @@ def tob_space_view_count(request, space, count):
 	registerform = UserCreationForm()
 	
 		
-	
+	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable_count")
+	page_views.views += 1
+	page_views.save()
 	loginform = AuthenticationForm()
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
