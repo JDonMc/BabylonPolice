@@ -249,7 +249,7 @@ def ShowAngelNumber(request, number):
 	if request.user.is_authenticated:
 		loggedinanon = Anon.objects.get(username=request.user)
 		loggedinauthor = Author.objects.get(username=request.user.username)
-		attribution = angel_number.attributions.filter(author=loggedinauthor)
+		attribution = angel_number.attributions.filter(author=loggedinauthor).first()
 
 		return HttpResponse({'number': number, 'description': angel_number.description, 'display': attribution.words})
 	return HttpResponse({'number': number, 'description': angel_number.description})
@@ -258,7 +258,7 @@ def ShowAngelNumber(request, number):
 
 OPEN_AI_API_KEY = settings.OPEN_AI_API_KEY
 from openai import OpenAI
-
+import json
 def barcode_ai(request, numbers):
 	client = OpenAI(api_key=OPEN_AI_API_KEY)
 
@@ -279,6 +279,9 @@ def barcode_ai(request, numbers):
 			double_count += 1
 		it += 1
 	angel_numbers = []
+	if not AngelNumber.objects.first():
+		for a in range(10):
+			AngelNumber.objects.create(digits=1, numbers=a, description="This number"+str(a)+" means something special to do with how it sounds")
 	for d in double:
 		angel_numbers.append(AngelNumber.obejcts.get(numbers=numbers[d]))
 	for t in triple:
@@ -286,9 +289,15 @@ def barcode_ai(request, numbers):
 	for n in numbers:
 		print(n)
 		angel_numbers.append(AngelNumber.objects.get(numbers=n))
+	context = {}
+	json_data = json.dumps(context)
 	for a in angel_numbers:
-		context += {"role": "user","content": a.description,}
-	chat_completion = client.chat.completions.create(messages=[({"role": "user","content": "I have the following content about a given numerological number:",},context,{"role": "user","content": "Write me a single sentence that fits this number: "+numbers,})],model="gpt-3.5",)
+		print(json.loads(json_data))
+		json_data = json.dumps([json.loads(json_data),{"role":"user","content": a.description,}])
+	chat_completion = client.chat.completions.create(messages=[({"role": "user","content": "I have the following content about a given numerological number:",},context,{"role": "user","content": "Write me a single sentence that fits this number: "+numbers,})],model="gpt-3.5-turbo",)
+
+	return HttpResponse(chat_completion.choices[0].message.content)
+
 
 
 class ListCreateExampleAPIView(ListCreateAPIView):
