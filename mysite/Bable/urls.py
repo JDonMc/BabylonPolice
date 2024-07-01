@@ -31,6 +31,7 @@ urlpatterns = [
 	path('words/', views.ListCreateWordAPIView.as_view()),
 	path('sponsor/', views.ListCreateSponsorAPIView.as_view()),
 	path('angel_numbers/', views.ListCreateAngelNumberAPIView.as_view()),
+	path('angel_number/<number>/', views.ShowAngelNumber, name="show_angel_number"),
 	#path('author/retrieve_by_username/<username>\w+)', views.getByUsername, name='author_username'),
 	#path('docs/', include_docs_urls(title='Todo Api')),
 	#path('api/v1/todo/', include("todo.urls")),

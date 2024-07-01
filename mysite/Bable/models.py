@@ -1007,12 +1007,18 @@ class Anon(AbstractBaseUser):
 #	def filter_by_instance(self, instance):
 
 
+class Attribution(models.Model):
+	author = models.OneToOneField(Author, on_delete=models.PROTECT, default=None)
+	variable = models.FloatField(default=0)
+	words = models.TextField(max_length=50, default="I think this is Working") #search for sponsorship_phrase
+
+
 class AngelNumber(models.Model):
 	digits = models.IntegerField(default=1)
 	numbers = models.IntegerField(default=0)
 	description = models.TextField(max_length=14400)
 	sponsors = models.ManyToManyField(Sponsor, default=None)
-
+	attributions = models.ManyToManyField(Attribution, default=None)
 
 
 class Comment(MPTTModel):

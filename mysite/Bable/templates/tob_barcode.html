@@ -71,13 +71,25 @@ while(true) {
     // It's possible to compare X/Y coordinates to get the center-most one.
     // One can also do "preferred symbology" logic here.
     document.getElementById("barcode").innerText = barcodes[0].rawValue;
-    
+    var digit = barcodes[0].rawValue.toString().split("")
+    for (var i=0; i<digit.length; i++) {
+    var digit_url = "{% url 'Bable:show_angel_number' 0 %}".replace("0", digit[i])
+    $.ajax({
+        url: digit_url,
+        method: "GET",
+		dataType: "json",
+		error: function() {
+		  console.log("error");
+		},
+		success: function(data) {
+		  console.log(data);
+		}
+    });
+	}
 
 
 
 
-
-    
     // Notify user that a barcode has been found.
     navigator.vibrate(200);
 

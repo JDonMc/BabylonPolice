@@ -244,7 +244,15 @@ class ListCreateAngelNumberAPIView(ListCreateAPIView):
     queryset = AngelNumber.objects.all()[:10]
     serializer_class = AngelNumberSerializer
 
+def ShowAngelNumber(request, number):
+	angel_number = AngelNumber.objects.get(numbers=int(number))
+	if request.user.is_authenticated:
+		loggedinanon = Anon.objects.get(username=request.user)
+		loggedinauthor = Author.objects.get(username=request.user.username)
+		attribution = angel_number.attributions.filter(author=loggedinauthor)
 
+		return HttpResponse({'number': number, 'description': angel_number.description, 'display': attribution.words})
+	return HttpResponse({'number': number, 'description': angel_number.description})
 
 
 

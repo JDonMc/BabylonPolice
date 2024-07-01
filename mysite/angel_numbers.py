@@ -47,13 +47,7 @@ for link in links:
         # Extract the main content (modify as needed to target the right HTML element)
         content = number_soup.find('div', class_='post-body').get_text(separator='\n').strip()
         
-        angel_numbers[number] = content
-
-# Print or save the results
-for number, content in angel_numbers.items():
-    
-
-    r = requests.post('https://www.predictionary.us/B/angel_numbers/',data={'digits':len(str(number)), "numbers":int(number), "description": content})
+        r = requests.post('https://www.predictionary.us/B/angel_numbers/',data={'digits':len(str(number)), "numbers":int(number), "description": content})
         
 
 
