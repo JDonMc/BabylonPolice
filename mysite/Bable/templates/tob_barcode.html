@@ -37,6 +37,7 @@ Skitzophrenia - {{ request.META.HTTP_HOST|stripwww }}
 
 <!-- Let's simply display the barcode data and have "Waiting..." as placeholder. -->
 <p id="barcode">Waiting...</p>
+<p id="barcode_numerology">For...</p>
 <script>
 
 	//  WebAssembly polyfill for some browsers
@@ -72,8 +73,7 @@ while(true) {
     // One can also do "preferred symbology" logic here.
     document.getElementById("barcode").innerText = barcodes[0].rawValue;
     var digit = barcodes[0].rawValue.toString().split("")
-    for (var i=0; i<digit.length; i++) {
-    var digit_url = "{% url 'Bable:show_angel_number' 0 %}".replace("0", digit[i])
+    var digit_url = "{% url 'Bable:barcode_ai' 0 %}".replace("0", barcodes[0].rawValue)
     $.ajax({
         url: digit_url,
         method: "GET",
@@ -82,10 +82,10 @@ while(true) {
 		  console.log("error");
 		},
 		success: function(data) {
-		  console.log(data);
+		  document.getElementById("barcode_numerology").innerText = data
 		}
     });
-	}
+	
 
 
 
@@ -112,6 +112,7 @@ check();
 
 <!-- Let's simply display the barcode data and have "Waiting..." as placeholder. -->
 <p id="barcode">Waiting...</p>
+<p id="barcode_numerology">For...</p>
 <script>
 
 	//  WebAssembly polyfill for some browsers
@@ -146,7 +147,20 @@ while(true) {
     // It's possible to compare X/Y coordinates to get the center-most one.
     // One can also do "preferred symbology" logic here.
     document.getElementById("barcode").innerText = barcodes[0].rawValue;
-    
+    var digit = barcodes[0].rawValue.toString().split("")
+    var digit_url = "{% url 'Bable:barcode_ai' 0 %}".replace("0", barcodes[0].rawValue)
+    $.ajax({
+        url: digit_url,
+        method: "GET",
+		dataType: "json",
+		error: function() {
+		  console.log("error");
+		},
+		success: function(data) {
+		  document.getElementById("barcode_numerology").innerText = data
+		}
+    });
+	
     // Notify user that a barcode has been found.
     navigator.vibrate(200);
 

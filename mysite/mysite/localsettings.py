@@ -18,6 +18,7 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PROJECT_ROOT)
+OPEN_AI_API_KEY = env("OPEN_AI_API_KEY")
 
 STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')

@@ -256,6 +256,41 @@ def ShowAngelNumber(request, number):
 
 
 
+OPEN_AI_API_KEY = settings.OPEN_AI_API_KEY
+from openai import OpenAI
+
+def barcode_ai(request, numbers):
+	client = OpenAI(api_key=OPEN_AI_API_KEY)
+
+	it = 0
+	double_count = 0
+	triple_count = 0
+	double = []
+	triple = []
+	if numbers[it] == numbers[1]:
+		double[double_count] = it
+		double_count += 1
+	while it < len(numbers) - 2:
+		if numbers[it] == numbers[it+1] == numbers[it+2]:
+			triple[triple_count] = it
+			triple_count += 1
+		if numbers[it+1] == numbers[it+2]:
+			double[double_count] = it+1
+			double_count += 1
+		it += 1
+	angel_numbers = []
+	for d in double:
+		angel_numbers.append(AngelNumber.obejcts.get(numbers=numbers[d]))
+	for t in triple:
+		angel_numbers.append(AngelNumber.objects.get(numbers=numbers[t]))
+	for n in numbers:
+		print(n)
+		angel_numbers.append(AngelNumber.objects.get(numbers=n))
+	for a in angel_numbers:
+		context += {"role": "user","content": a.description,}
+	chat_completion = client.chat.completions.create(messages=[({"role": "user","content": "I have the following content about a given numerological number:",},context,{"role": "user","content": "Write me a single sentence that fits this number: "+numbers,})],model="gpt-3.5",)
+
+
 class ListCreateExampleAPIView(ListCreateAPIView):
     """This endpoint allows for creation of a Post"""
     permission_classes = (IsAuthenticated,)#permission classes
