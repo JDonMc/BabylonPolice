@@ -68,12 +68,8 @@ def sponsor(value, dictionaries):
 						top_sponsor = spon
 						contained_dic = dic
 	else:
-		for word in dictionaries.words.all():
-			for spon in word.sponsors.all():
-				if spon.price_limit > pricemax:
-					pricemax = spon.price_limit
-					top_sponsor = spon
-					contained_dic = dictionaries
+		top_sponsor = models.Sponsor.objects.order_by('-price_limit').first()
+	
 	if top_sponsor:
 		if not contained_dic:
 			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase), '<form action="{}" method=POST onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough'),'replacewclickthrough', top_sponsor.id), top_sponsor.id, top_sponsor.img, top_sponsor.id, top_sponsor.id, top_sponsor.the_sponsorship_phrase, top_sponsor.the_sponsorship_phrase)

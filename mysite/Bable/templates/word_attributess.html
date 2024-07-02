@@ -100,7 +100,7 @@ Babylon Police - Word Attributes'
 											id: {{node.id}}
 										</div>
 										<div class=defcomsbody>
-											{{ node.body|usernames|spaces|sponsor:"users_dic"|clickthrough:"node.author.username" }}
+											{{ node.body|usernames|spaces }}
 										</div>
 										<div class=defcomsvotes>
 											<a href="{% url 'Bable:votewvotestyle' 'com' node.id %}">Votes: {{ node.votes_count }}</a>
@@ -123,7 +123,7 @@ Babylon Police - Word Attributes'
 												{% for dic in node.dictionaries.all %}
 													{% if dic in loggedinanon.applied_dictionaries.all %}
 														<div class=defcomsdicss>
-															<a href="{% url 'Bable:tob_user_view' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+															<a href="{% url 'Bable:tob_user_view' dic.author.username %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
 														</div>
 													{% endif %}
 												{% endfor %}
@@ -134,7 +134,7 @@ Babylon Police - Word Attributes'
 												{% endfor %}
 											</div>
 										<div class=defcomsauthor>
-											<a href="{% url 'Bable:tob_user_view' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+											<a href="{% url 'Bable:tob_user_view' node.author.username %}">/u/{{ node.author.username }}</a>
 										</div>
 										<div class=comsubmit>
 											<div id='{{ node.id }}submit' onclick="openComment('{{ node.id }}')">
@@ -246,7 +246,7 @@ Babylon Police - Word Attributes'
 											{% for dic in node.dictionaries.all %}
 												{% if dic in loggedinanon.applied_dictionaries.all %}
 													<div class=syncomsdicss>
-														<a href="{% url 'Bable:tob_user_view' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+														<a href="{% url 'Bable:tob_user_view' dic.author.username %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
 													</div>
 												{% endif %}
 											{% endfor %}
@@ -257,7 +257,7 @@ Babylon Police - Word Attributes'
 											{% endfor %}
 										</div>
 										<div class=syncomsauthor>
-											<a href="{% url 'Bable:tob_user_view' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+											<a href="{% url 'Bable:tob_user_view' node.author.username %}">/u/{{ node.author.username }}</a>
 										</div>
 										<div class=comsubmit>
 											<div id={{node.id}}submit onclick="openComment('{{ node.id }}')">
@@ -360,7 +360,7 @@ Babylon Police - Word Attributes'
 												{% for dic in node.dictionaries.all %}
 													{% if dic in loggedinanon.applied_dictionaries.all %}
 														<div class=antcomsdicss>
-															<a href="{% url 'Bable:tob_user_view' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+															<a href="{% url 'Bable:tob_user_view' dic.author.username %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
 														</div>
 													{% endif %}
 												{% endfor %}
@@ -371,7 +371,7 @@ Babylon Police - Word Attributes'
 												{% endfor %}
 											</div>
 											<div class=antcomsauthor>
-												<a href="{% url 'Bable:tob_user_view' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+												<a href="{% url 'Bable:tob_user_view' node.author.username %}">/u/{{ node.author.username }}</a>
 											</div>
 											<div class=comsubmit>
 												<div id={{node.id}}submit onclick="openComment('{{ node.id }}')">
@@ -486,7 +486,7 @@ Babylon Police - Word Attributes'
 												{% for dic in node.dictionaries.all %}
 													{% if dic in loggedinanon.applied_dictionaries.all %}
 														<div class=homcomsdicss>
-															<a href="{% url 'Bable:tob_user_view' dic.author.username 0 %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
+															<a href="{% url 'Bable:tob_user_view' dic.author.username %}">/u/{{ dic.author.username }}</a>: <a href="{% url 'Bable:tob_users_dic' dic.author.username dic.the_dictionary_itself %}">{{ dic.the_dictionary_itself }}</a>
 														</div>
 													{% endif %}
 												{% endfor %}
@@ -497,7 +497,7 @@ Babylon Police - Word Attributes'
 												{% endfor %}
 											</div>
 											<div class=homcomsauthor>
-												<a href="{% url 'Bable:tob_user_view' node.author.username 0 %}">/u/{{ node.author.username }}</a>
+												<a href="{% url 'Bable:tob_user_view' node.author.username %}">/u/{{ node.author.username }}</a>
 											</div>
 											<div class=comsubmit>
 												<div id={{node.id}}submit onclick="openComment('{{ node.id }}')">
