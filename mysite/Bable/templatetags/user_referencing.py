@@ -69,10 +69,11 @@ def sponsor(value, dictionaries):
 						contained_dic = dic
 	else:
 		top_sponsor = models.Sponsor.objects.order_by('-price_limit').first()
-	
+
 	if top_sponsor:
 		if not contained_dic:
-			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase), '<form action="{}" method=POST onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough'),'replacewclickthrough', top_sponsor.id), top_sponsor.id, top_sponsor.img, top_sponsor.id, top_sponsor.id, top_sponsor.the_sponsorship_phrase, top_sponsor.the_sponsorship_phrase)
+			replacement = '<form action="{}" method=POST onmouseover="dropdown("{}");" onmouseout="dropdown("{}");"><input class=csrf type=text><input type=hidden value="{}" readonly><input type=hidden value="{}" readonly><button type=submit><img src="{}" style="height: 4em; width: 4em; float:right;"></button></form><img src="{}" style="height: 4em; width: 4em">{}</a><div class=dropdown data="{}"style="display: none;">"{}"</div>'.format(reverse('Bable:clickthrough'),'replacewclickthrough', top_sponsor.id),
+			value = value.replace('{}'.format(top_sponsor.the_sponsorship_phrase),  replacement)
 	return value
 
 @register.filter(is_safe=True)

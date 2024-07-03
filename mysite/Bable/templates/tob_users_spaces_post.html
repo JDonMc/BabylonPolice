@@ -64,7 +64,7 @@
 						{% endif %}
 					</div>
 					<div class=posttitle>
-						<a href="{% url 'Bable:tob_spaces_post' post.users_space.the_space_itself post.id 0 %}"><h4>{{ post.title }}</h4></a>
+						<a href="{% url 'Bable:tob_spaces_post' users_space.the_space_itself post.id 0 %}"><h4>{{ post.title }}</h4></a>
 					</div>
 					{% if post.author.username == user_anon.username.username %}
 					<div class=postdel>

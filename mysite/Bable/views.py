@@ -3814,7 +3814,9 @@ def search(request, count):
 				loggedinanon.search_urls.add(searcher)
 				return redirect('Bable:annotate_url', search_url_id=searcher.id)
 
-
+	page_views, created = Pageviews.objects.get_or_create(page="tower_of_bable")
+	page_views.views += 1
+	page_views.save()
 
 	if request.user.is_authenticated:
 		loggedinuser = User.objects.get(username=request.user.username)
@@ -4520,7 +4522,7 @@ def tob_space_view_count(request, space, count):
 		loggedinanon = Anon.objects.get(username=loggedinuser)
 		loggedinauthor = Author.objects.get(username=request.user.username)
 		previous_view = UserViews.objects.filter(anon=loggedinanon).order_by('view_date').first()
-		pages_view = UserViews.objects.create(page_view="tob_space_view_count__"+space+"__"+count, anon=loggedinanon)
+		pages_view = UserViews.objects.create(page_view="tob_space_view_count__"+str(space)+"__"+str(count), anon=loggedinanon)
 		page_views.user_views.add(pages_view)
 		if previous_view:
 			pages_view.previous_view_id = previous_view.id
