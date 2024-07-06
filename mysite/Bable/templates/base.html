@@ -75,7 +75,7 @@
 					{% endif %}
 					{% if request.user.is_authenticated %}
 						<div class="account" style="position: relative; top: -6px;">
-							<a href="{% url 'Bable:tob_user_view_count' request.user.id 0 %}">/u/</a>
+							<a href="{% url 'Bable:tob_user_view_count' request.user.username 0 %}">/u/</a>
 						</div>
 						<div id="headerNav3">
 							<div id="top_apply" style="color: #e3dac9;" ontouchstart="$('.dropdown-content3')[0].display = 'block';">
